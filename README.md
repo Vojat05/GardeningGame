@@ -1,1 +1,1 @@
-<h1 style="color:green;">Gardening Game</h1>
+<h1 style="color:blue;">Gardening Game</h1>
