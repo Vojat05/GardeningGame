@@ -11,7 +11,7 @@ public class Window {
         window.setSize(width, height); // 2K == 2560x1440 ; Full HD == 1920x1080 ;; Resolution is stored in Main class
         window.setTitle("Dad The Gardener");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setLocationRelativeTo(null);
+        window.setLocationRelativeTo(null); // Center the window on screen
         //window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         window.add(frame);
