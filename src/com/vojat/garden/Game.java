@@ -7,5 +7,7 @@ public class Game {
     public Game(int panelWidth, int panelHeight) {
         gamePanel = new GamePanel(panelWidth, panelHeight);
         gameWindow = new Window(gamePanel, panelWidth, panelHeight);
+
+        gamePanel.requestFocus();
     }
 }
