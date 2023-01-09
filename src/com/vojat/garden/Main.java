@@ -2,6 +2,9 @@ package com.vojat.garden;
 
 public class Main{
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        int windowWidth = 2560;
+        int windowHeight = 1440;
+
+        new Game(windowWidth, windowHeight);
     }
 }
