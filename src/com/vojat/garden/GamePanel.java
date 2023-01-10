@@ -27,6 +27,7 @@ public class GamePanel extends JPanel{
         g.fillRect((int) positionX, (int) positionY, 200, 150);
 
         // The FPS counter
+        // I should Repair this by some time
         frames++;
         if (System.currentTimeMillis() - lastCheck >= 1000) {
             lastCheck = System.currentTimeMillis();
@@ -46,18 +47,18 @@ public class GamePanel extends JPanel{
         positionX += directionX;
         if (positionX > 1720 || positionX < 0) {
             directionX *= -1;
-            color = GetRandColor();
+            color = getRandColor();
         }
 
         positionY += directionY;
         if (positionY > 930 || positionY < 0) {
             directionY *= -1;
-            color = GetRandColor();
+            color = getRandColor();
         }
     }
 
     // Generates random Color
-    private Color GetRandColor() {
+    private Color getRandColor() {
         short r = (short) rand.nextInt(255);
         short g = (short) rand.nextInt(255);
         short b = (short) rand.nextInt(255);
