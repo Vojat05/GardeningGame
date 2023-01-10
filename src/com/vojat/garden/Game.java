@@ -8,6 +8,6 @@ public class Game {
         gamePanel = new GamePanel(panelWidth, panelHeight);
         gameWindow = new Window(gamePanel, panelWidth, panelHeight);
 
-        gamePanel.requestFocus();
+        gamePanel.requestFocusInWindow();
     }
 }
