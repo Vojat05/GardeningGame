@@ -7,15 +7,20 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel{
-    private float positionX = 100f, positionY = 100f;
+    private int positionX = 100, positionY = 100;
     private byte frames = 0;
     private long lastCheck = 0;
     private float directionX = 0.15f, directionY = 0.15f;
     private Color color = new Color(0, 10, 0);
     private Random rand;
+    private int width;
+    private int height;
 
     public GamePanel(int width, int height) { // width == window width ; height == window height
         rand = new Random();
+
+        this.width = width;
+        this.height = height;
     }
 
     public void paintComponent(Graphics g) {
@@ -24,7 +29,7 @@ public class GamePanel extends JPanel{
         // Method to move the rectangle
         updatePosition();
         g.setColor(color);
-        g.fillRect((int) positionX, (int) positionY, 200, 150);
+        g.fillRect(positionX, positionY, 200, 150);
 
         // The FPS counter
         // I should Repair this by some time
@@ -45,13 +50,13 @@ public class GamePanel extends JPanel{
     // Change color on colision with a border
     private void updatePosition() {
         positionX += directionX;
-        if (positionX > 1720 || positionX < 0) {
+        if (positionX > width - 200 || positionX < 0) {
             directionX *= -1;
             color = getRandColor();
         }
 
         positionY += directionY;
-        if (positionY > 930 || positionY < 0) {
+        if (positionY > height - 150 || positionY < 0) {
             directionY *= -1;
             color = getRandColor();
         }
