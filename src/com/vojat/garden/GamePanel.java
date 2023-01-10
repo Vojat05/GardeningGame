@@ -2,10 +2,11 @@ package com.vojat.garden;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
 import java.util.Random;
 
 import javax.swing.JPanel;
+
+import com.vojat.inputs.KeyboardInput;
 
 public class GamePanel extends JPanel{
     private float positionX = 0f, positionY = 0f;
@@ -17,6 +18,8 @@ public class GamePanel extends JPanel{
 
     public GamePanel(int width, int height) { // width == window width ; height == window height
         rand = new Random();
+
+        addKeyListener(new KeyboardInput());
 
     }
 
