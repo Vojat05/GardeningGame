@@ -8,15 +8,20 @@ import javax.swing.JPanel;
 
 import com.vojat.inputs.KeyboardInput;
 
-public class GamePanel extends JPanel{
+public class GamePanel extends JPanel {
     private float positionX = 0f, positionY = 0f;
     private float directionX = 0.15f, directionY = 0.15f;
     private Color color = new Color(0, 0, 0);
     private Random rand;
     private long lastCheck = 0;
     private int fps = 0;
+    private int windowWidth;
+    private int windowHeight;
 
-    public GamePanel(int width, int height) { // width == window width ; height == window height
+    public GamePanel(int windowWidth, int windowHeight) { // width == window width ; height == window height
+        this.windowWidth = windowWidth;
+        this.windowHeight = windowHeight;
+
         rand = new Random();
 
         addKeyListener(new KeyboardInput());
@@ -39,7 +44,6 @@ public class GamePanel extends JPanel{
             fps = 0;
         }
 
-        // Repaint the scene
         super.repaint();
     }
 
@@ -48,13 +52,13 @@ public class GamePanel extends JPanel{
     // Change color on colision with a border
     private void updatePosition() {
         positionX += directionX;
-        if (positionX > 1920 - 200 || positionX < 0) {
+        if (positionX > windowWidth - 200 || positionX < 0) {
             directionX *= -1;
             color = getRandColor();
         }
 
         positionY += directionY;
-        if (positionY > 1080 - 150 || positionY < 0) {
+        if (positionY > windowHeight - 150 || positionY < 0) {
             directionY *= -1;
             color = getRandColor();
         }
