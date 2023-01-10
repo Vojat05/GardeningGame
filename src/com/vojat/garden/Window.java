@@ -12,7 +12,7 @@ public class Window {
         window.setTitle("Dad The Gardener");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLocationRelativeTo(null); // Center the window on screen
-        window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         window.add(gamePanel);
         window.setVisible(true);

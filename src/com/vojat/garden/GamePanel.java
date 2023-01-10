@@ -2,25 +2,22 @@ package com.vojat.garden;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
 import java.util.Random;
 
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel{
-    private int positionX = 100, positionY = 100;
-    private byte frames = 0;
-    private long lastCheck = 0;
+    private float positionX = 0f, positionY = 0f;
     private float directionX = 0.15f, directionY = 0.15f;
-    private Color color = new Color(0, 10, 0);
+    private Color color = new Color(0, 0, 0);
     private Random rand;
-    private int width;
-    private int height;
+    private long lastCheck = 0;
+    private int fps = 0;
 
     public GamePanel(int width, int height) { // width == window width ; height == window height
         rand = new Random();
 
-        this.width = width;
-        this.height = height;
     }
 
     public void paintComponent(Graphics g) {
@@ -29,20 +26,18 @@ public class GamePanel extends JPanel{
         // Method to move the rectangle
         updatePosition();
         g.setColor(color);
-        g.fillRect(positionX, positionY, 200, 150);
+        g.fillRect((int) positionX, (int) positionY, 200, 150);
 
         // The FPS counter
-        // I should Repair this by some time
-        frames++;
+        fps++;
         if (System.currentTimeMillis() - lastCheck >= 1000) {
             lastCheck = System.currentTimeMillis();
-            if (frames < 0) {frames *= -1;} // Makes every FPS positive number, for some reason I had negative FPS
-            System.out.println("FPS: " + frames);
-            frames = 0;
+            System.out.println("FPS: " + fps);
+            fps = 0;
         }
 
         // Repaint the scene
-        repaint();
+        super.repaint();
     }
 
     // This makes the rectangle go Brrr
@@ -50,13 +45,13 @@ public class GamePanel extends JPanel{
     // Change color on colision with a border
     private void updatePosition() {
         positionX += directionX;
-        if (positionX > width - 200 || positionX < 0) {
+        if (positionX > 1920 - 200 || positionX < 0) {
             directionX *= -1;
             color = getRandColor();
         }
 
         positionY += directionY;
-        if (positionY > height - 150 || positionY < 0) {
+        if (positionY > 1080 - 150 || positionY < 0) {
             directionY *= -1;
             color = getRandColor();
         }
