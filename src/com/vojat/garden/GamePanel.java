@@ -35,7 +35,7 @@ public class GamePanel extends JPanel {
         g.setColor(color);
         g.fillRect((int) positionX, (int) positionY, 200, 150);
 
-        
+
         // The FPS counter
         fps++;
         if (System.currentTimeMillis() - lastCheck >= 1000) {
@@ -53,17 +53,17 @@ public class GamePanel extends JPanel {
      * Change color on colision with a border
      */
     private void updatePosition() {
-        positionX += directionX;
         if (positionX > windowWidth - 200 || positionX < 0) {
             directionX *= -1;
             color = getRandColor();
         }
+        positionX += directionX;
 
-        positionY += directionY;
         if (positionY > windowHeight - 150 || positionY < 0) {
             directionY *= -1;
             color = getRandColor();
         }
+        positionY += directionY;
     }
 
     // Generates random Color
