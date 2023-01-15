@@ -31,11 +31,11 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Method to move the rectangle
         updatePosition();
         g.setColor(color);
         g.fillRect((int) positionX, (int) positionY, 200, 150);
 
+        
         // The FPS counter
         fps++;
         if (System.currentTimeMillis() - lastCheck >= 1000) {
@@ -47,9 +47,11 @@ public class GamePanel extends JPanel {
         super.repaint();
     }
 
-    // This makes the rectangle go Brrr
-    // It also reverses it's direction on a certian axis if it gets to the end of the screen
-    // Change color on colision with a border
+    /*
+     * This makes the rectangle go Brrr
+     * It also reverses it's direction on a certian axis if it gets to the end of the screen
+     * Change color on colision with a border
+     */
     private void updatePosition() {
         positionX += directionX;
         if (positionX > windowWidth - 200 || positionX < 0) {
