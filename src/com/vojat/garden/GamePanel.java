@@ -31,7 +31,7 @@ public class GamePanel extends JPanel{
 
     private void importImages() {
         try {
-            playerTexture = ImageIO.read(new FileInputStream("src/com/vojat/res/Dad_Texture.png"));
+            playerTexture = ImageIO.read(new FileInputStream("res/Dad_Texture.png"));
         } catch (IOException ioe) {
             System.err.println("IOException has occured");
             ioe.printStackTrace();
