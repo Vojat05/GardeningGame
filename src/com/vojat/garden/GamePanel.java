@@ -64,8 +64,6 @@ public class GamePanel extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // moveX(2f);
-        // moveY(1f);
-        g.drawImage(playerTexture, (int) positionX, (int) positionY, 128, 128, null);
+        g.drawImage(playerTexture, (int) positionX, (int) positionY, 128, 128, null);       // The Dad Image has a resolution of 32 x 32 pixels
     }
 }
