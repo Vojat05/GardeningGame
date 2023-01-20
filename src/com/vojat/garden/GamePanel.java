@@ -20,6 +20,7 @@ public class GamePanel extends JPanel{
     public GamePanel(int windowWidth, int windowHeight) { // width == window width ; height == window height
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
+        setFocusable(true);
 
         // Passing information for the game window, visible by the pack method
         importImages();
@@ -35,9 +36,6 @@ public class GamePanel extends JPanel{
         } catch (IOException ioe) {
             System.err.println("IOException has occured");
             ioe.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("An error has occured");
-            e.printStackTrace();
         }
     }
 
@@ -50,16 +48,23 @@ public class GamePanel extends JPanel{
         setBackground(new Color(147, 225, 41));
     }
 
-    // Method to move stuff
-    // Currently moves the rectangle
+    // Moving the player
     public void moveY(float speed) {
-        if (positionY <= windowHeight-128) {
+        if (positionY > windowHeight-128) {
+            positionY = windowHeight-128;
+        } else if (positionY < 0) {
+            positionY = 0;
+        } else {
             positionY += speed;
         }
     }
 
     public void moveX(float speed) {
-        if (positionX <= windowWidth-128) {
+        if (positionX > windowWidth-128) {
+            positionX = windowWidth-128;
+        } else if (positionX < 0) {
+            positionX = 0;
+        } else {
             positionX += speed;
         }
     }
