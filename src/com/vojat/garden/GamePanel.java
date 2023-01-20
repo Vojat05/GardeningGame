@@ -35,6 +35,9 @@ public class GamePanel extends JPanel{
         } catch (IOException ioe) {
             System.err.println("IOException has occured");
             ioe.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("An error has occured");
+            e.printStackTrace();
         }
     }
 
@@ -67,3 +70,9 @@ public class GamePanel extends JPanel{
         g.drawImage(playerTexture, (int) positionX, (int) positionY, 128, 128, null);       // The Dad Image has a resolution of 32 x 32 pixels
     }
 }
+
+/*
+ * 20/1/2023
+ * Adding and setting up the Dad character and his texture
+ * 
+ */
