@@ -35,8 +35,8 @@ public class GamePanel extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        //moveX(5f);
-        //moveY(5f);
+        moveX(2f);
+        moveY(1f);
         g.setColor(new Color(0, 0, 0));
         g.fillRect((int) positionX, (int) positionY, 200, 150);
     }
