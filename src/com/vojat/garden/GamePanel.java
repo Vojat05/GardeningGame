@@ -23,20 +23,22 @@ public class GamePanel extends JPanel{
         setFocusable(true);
 
         // Passing information for the game window, visible by the pack method
-        importImages();
+        playerTexture = importImages("res/Dad_Texture.png");
         setPanelSize();
         setBackgroundColor();
 
         addKeyListener(new KeyboardInput(this));
     }
 
-    private void importImages() {
+    private BufferedImage importImages(String path) {
+
         try {
-            playerTexture = ImageIO.read(new FileInputStream("res/Dad_Texture.png"));
+            playerTexture = ImageIO.read(new FileInputStream(path));
         } catch (IOException ioe) {
             System.err.println("IOException has occured");
             ioe.printStackTrace();
         }
+        return playerTexture;
     }
 
     private void setPanelSize() {
