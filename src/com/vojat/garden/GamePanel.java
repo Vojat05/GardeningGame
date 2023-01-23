@@ -23,17 +23,18 @@ public class GamePanel extends JPanel{
         setFocusable(true);
 
         // Passing information for the game window, visible by the pack method
-        playerTexture = importImages("res/Dad_Texture.png");
+        playerTexture = importImages("res/Dad_Texture_F.png");
         setPanelSize();
         setBackgroundColor();
 
         addKeyListener(new KeyboardInput(this));
     }
 
-    private BufferedImage importImages(String path) {
+    public BufferedImage importImages(String path) {
 
         try {
             playerTexture = ImageIO.read(new FileInputStream(path));
+            System.out.println("I Draw !!");
         } catch (IOException ioe) {
             System.err.println("IOException has occured");
             ioe.printStackTrace();
@@ -47,7 +48,7 @@ public class GamePanel extends JPanel{
     }
 
     private void setBackgroundColor() {
-        setBackground(new Color(147, 225, 41));
+        setBackground(new Color(84, 194, 4));
     }
 
     // Moving the player
@@ -81,5 +82,8 @@ public class GamePanel extends JPanel{
 /*
  * 20/1/2023
  * Adding and setting up the Dad character and his texture
+ * 
+ * 23/1/2023
+ * Making the Get image from path to BufferedImage format method usable for multiple images
  * 
  */
