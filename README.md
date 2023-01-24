@@ -1,7 +1,7 @@
 # Gardening Game
-+ == New feature
-- == Removed feature
-* == Modified feature
+<b>+</b> == New feature
+<b>-</b> == Removed feature
+<b>*</b> == Modified feature
 ## 20/1/2023
 <ul>
     <li> + method to stop the game loop</li>
