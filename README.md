@@ -1,16 +1,16 @@
 ## Gardening Game
 # 20/1/2023
-<ol>
+<ul>
     <li> + method to stop the game loop</li>
     <li> + player and textures for player</li>
-</ol>
+</ul>
 
 # 23/1/2023
-<ol>
+<ul>
     <li> * method for setting the texture image was made useful for multiple objects</li>
-</ol>
+</ul>
 
 # 24/1/2023
-<ol>
+<ul>
     <li> * finished the change of textures for each side of the player</li>
-</ol>
+</ul>
