@@ -23,18 +23,17 @@ public class GamePanel extends JPanel{
         setFocusable(true);
 
         // Passing information for the game window, visible by the pack method
-        playerTexture = importImages("res/Dad_Texture_F.png");
+        playerTexture = setTextures("res/Dad_Texture_F.png");
         setPanelSize();
         setBackgroundColor();
 
         addKeyListener(new KeyboardInput(this));
     }
 
-    public BufferedImage importImages(String path) {
+    public BufferedImage setTextures(String path) {
 
         try {
             playerTexture = ImageIO.read(new FileInputStream(path));
-            System.out.println("I Draw !!");
         } catch (IOException ioe) {
             System.err.println("IOException has occured");
             ioe.printStackTrace();

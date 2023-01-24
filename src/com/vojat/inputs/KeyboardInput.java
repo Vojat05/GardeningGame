@@ -29,7 +29,7 @@ public class KeyboardInput implements KeyListener{
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 if (up) {
-                    gamePanel.importImages("res/Dad_Texture_B.png");
+                    gamePanel.setTextures("res/Dad_Texture_B.png");
                     up = false;
                 }
                 gamePanel.moveY(-6);
@@ -37,17 +37,25 @@ public class KeyboardInput implements KeyListener{
             
             case KeyEvent.VK_DOWN:
                 if (down) {
-                    gamePanel.importImages("res/Dad_texture_F.png");
+                    gamePanel.setTextures("res/Dad_texture_F.png");
                     down = false;
                 }
                 gamePanel.moveY(6);
                 break;
             
             case KeyEvent.VK_LEFT:
+                if (left) {
+                    gamePanel.setTextures("res/Dad_Texture_L.png");
+                    left = false;
+                }
                 gamePanel.moveX(-6);
                 break;
 
             case KeyEvent.VK_RIGHT:
+                if (right) {
+                    gamePanel.setTextures("res/Dad_Texture_R.png");
+                    right = false;
+                }
                 gamePanel.moveX(6);
                 break;
         }
