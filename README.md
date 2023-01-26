@@ -4,16 +4,21 @@
 <b>*</b> == Modified feature<br>
 ## 20/1/2023
 <ul>
-    <li> + method to stop the game loop</li>
-    <li> + player and textures for player</li>
+    <li> + Method to stop the game loop</li>
+    <li> + Player and textures for player</li>
 </ul>
 
 ## 23/1/2023
 <ul>
-    <li> * method for setting the texture image was made useful for multiple objects</li>
+    <li> * Method for setting the texture image was made useful for multiple objects</li>
 </ul>
 
 ## 24/1/2023
 <ul>
-    <li> * finished the change of textures for each side of the player</li>
+    <li> * Finished the change of textures for each side of the player</li>
+</ul>
+
+## 26/1/2023
+<ul>
+    <li> + Added the player class for better readability</li>
 </ul>
