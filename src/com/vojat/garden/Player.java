@@ -9,22 +9,24 @@ import javax.imageio.ImageIO;
 public class Player {
     private int WINDOW_LIMIT_X, WINDOW_LIMIT_Y;
     public int LOCATION_X = 0, LOCATION_Y = 0;
-    public BufferedImage currentTexture = setPlayerTexture("res/Dad_Texture_F.png");
+    public BufferedImage currentTexture;
 
     public Player() {;}
 
     protected void setLimit(int limitX, int limitY) {
         WINDOW_LIMIT_X = limitX;
         WINDOW_LIMIT_Y = limitY;
+
+        setPlayerTexture("res/Dad_Texture_F.png");      // Sets the default player texture on startup to look forward
     }
 
-    public BufferedImage setPlayerTexture(String path) {
+    public void setPlayerTexture(String path) {
         try {
-            return ImageIO.read(new FileInputStream(path));
+            currentTexture = ImageIO.read(new FileInputStream(path));
         } catch (IOException ioe) {
             System.err.println("IOException has occured");
             ioe.printStackTrace();
-            return null;
+            currentTexture = null;
         }
     }
 
