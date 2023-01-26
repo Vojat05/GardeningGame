@@ -3,7 +3,7 @@ package com.vojat.inputs;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
-import com.vojat.garden.GamePanel;
+import com.vojat.garden.Player;
 
 
 /*
@@ -13,50 +13,46 @@ import com.vojat.garden.GamePanel;
  */
 public class KeyboardInput implements KeyListener{
 
-    private GamePanel gamePanel;
+    private Player dad;
+    private boolean up = true, down = true, left = true, right = true;
 
-    public KeyboardInput (GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public KeyboardInput (Player dad) {
+        this.dad = dad;
     }
 
-    boolean up = true;
-    boolean down = true;
-    boolean left = true;
-    boolean right = true;
-    
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 if (up) {
-                    gamePanel.setTextures("res/Dad_Texture_B.png");
+                    dad.setPlayerTexture("res/Dad_Texture_B.png");
                     up = false;
                 }
-                gamePanel.moveY(-6);
+                dad.moveUP(-6);
                 break;
             
             case KeyEvent.VK_DOWN:
                 if (down) {
-                    gamePanel.setTextures("res/Dad_texture_F.png");
+                    dad.setPlayerTexture("res/Dad_Texture_F.png");
                     down = false;
                 }
-                gamePanel.moveY(6);
+                dad.moveUP(6);
                 break;
             
             case KeyEvent.VK_LEFT:
                 if (left) {
-                    gamePanel.setTextures("res/Dad_Texture_L.png");
+                    dad.setPlayerTexture("res/Dad_Texture_L.png");
                     left = false;
                 }
-                gamePanel.moveX(-6);
+                dad.moveSIDE(-6);
                 break;
 
             case KeyEvent.VK_RIGHT:
                 if (right) {
-                    gamePanel.setTextures("res/Dad_Texture_R.png");
+                    dad.setPlayerTexture("res/Dad_Texture_R.png");
                     right = false;
                 }
-                gamePanel.moveX(6);
+                dad.moveSIDE(6);
                 break;
         }
     }

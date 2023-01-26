@@ -6,6 +6,7 @@ public class Game implements Runnable{
     private Thread gameLoop;
     public final int FPS_SET = 120;
     private volatile boolean stopGame = false;
+    protected byte[][] map = new byte[40][40];
 
     public Game(int panelWidth, int panelHeight) {
         gamePanel = new GamePanel(panelWidth, panelHeight);

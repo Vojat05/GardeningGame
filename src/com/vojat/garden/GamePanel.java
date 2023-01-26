@@ -2,43 +2,27 @@ package com.vojat.garden;
 
 import java.awt.Graphics;
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 import java.awt.Color;
-import java.io.FileInputStream;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.vojat.inputs.KeyboardInput;
 
 public class GamePanel extends JPanel{
     private int windowWidth, windowHeight;
-    private float positionX = 10f, positionY = 10f;
-    private BufferedImage playerTexture;
+    Player dad = new Player();
 
     public GamePanel(int windowWidth, int windowHeight) { // width == window width ; height == window height
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
+        dad.setLimit(windowWidth, windowHeight);
         setFocusable(true);
 
         // Passing information for the game window, visible by the pack method
-        playerTexture = setTextures("res/Dad_Texture_F.png");
         setPanelSize();
         setBackgroundColor();
 
-        addKeyListener(new KeyboardInput(this));
-    }
-
-    public BufferedImage setTextures(String path) {
-
-        try {
-            playerTexture = ImageIO.read(new FileInputStream(path));
-        } catch (IOException ioe) {
-            System.err.println("IOException has occured");
-            ioe.printStackTrace();
-        }
-        return playerTexture;
+        addKeyListener(new KeyboardInput(dad));
     }
 
     private void setPanelSize() {
@@ -50,31 +34,10 @@ public class GamePanel extends JPanel{
         setBackground(new Color(84, 194, 4));
     }
 
-    // Moving the player
-    public void moveY(float speed) {
-        if (positionY > windowHeight-128) {
-            positionY = windowHeight-128;
-        } else if (positionY < 0) {
-            positionY = 0;
-        } else {
-            positionY += speed;
-        }
-    }
-
-    public void moveX(float speed) {
-        if (positionX > windowWidth-128) {
-            positionX = windowWidth-128;
-        } else if (positionX < 0) {
-            positionX = 0;
-        } else {
-            positionX += speed;
-        }
-    }
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.drawImage(playerTexture, (int) positionX, (int) positionY, 128, 128, null);       // The Dad Image has a resolution of 32 x 32 pixels
+        g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null);       // The Dad Image has a resolution of 32 x 32 pixels
     }
 }
 
