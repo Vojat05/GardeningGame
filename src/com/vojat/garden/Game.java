@@ -55,9 +55,3 @@ public class Game implements Runnable{
         stopGame = true;
     }
 }
-
-/*
- * 20/1/2023
- * Adding a main game loop stop method by controling the loop variable
- * 
- */
