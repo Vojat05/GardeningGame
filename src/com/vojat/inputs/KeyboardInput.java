@@ -25,7 +25,7 @@ public class KeyboardInput implements KeyListener{
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 if (up) {
-                    dad.setPlayerTexture("res/Dad_Texture_B.png");
+                    dad.setTexture("res/Dad_Texture_B.png");
                     up = false;
                 }
                 dad.moveUP(-6);
@@ -33,7 +33,7 @@ public class KeyboardInput implements KeyListener{
             
             case KeyEvent.VK_DOWN:
                 if (down) {
-                    dad.setPlayerTexture("res/Dad_Texture_F.png");
+                    dad.setTexture("res/Dad_Texture_F.png");
                     down = false;
                 }
                 dad.moveUP(6);
@@ -41,7 +41,7 @@ public class KeyboardInput implements KeyListener{
             
             case KeyEvent.VK_LEFT:
                 if (left) {
-                    dad.setPlayerTexture("res/Dad_Texture_L.png");
+                    dad.setTexture("res/Dad_Texture_L.png");
                     left = false;
                 }
                 dad.moveSIDE(-6);
@@ -49,7 +49,7 @@ public class KeyboardInput implements KeyListener{
 
             case KeyEvent.VK_RIGHT:
                 if (right) {
-                    dad.setPlayerTexture("res/Dad_Texture_R.png");
+                    dad.setTexture("res/Dad_Texture_R.png");
                     right = false;
                 }
                 dad.moveSIDE(6);
