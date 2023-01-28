@@ -11,8 +11,6 @@ public class Player {
     public int LOCATION_X = 0, LOCATION_Y = 0;
     public BufferedImage currentTexture;
 
-    public Player() {;}
-
     protected void setLimit(int limitX, int limitY) {
         WINDOW_LIMIT_X = limitX;
         WINDOW_LIMIT_Y = limitY;

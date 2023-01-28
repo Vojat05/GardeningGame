@@ -1,7 +1,6 @@
 package com.vojat.garden;
 
 public class Game implements Runnable{
-    private Window gameWindow;
     private GamePanel gamePanel;
     private Thread gameLoop;
     public final int FPS_SET = 120;
@@ -10,7 +9,7 @@ public class Game implements Runnable{
 
     public Game(int panelWidth, int panelHeight) {
         gamePanel = new GamePanel(panelWidth, panelHeight);
-        gameWindow = new Window(gamePanel);
+        new Window(gamePanel);
 
         startGameLoop();
         gamePanel.requestFocusInWindow();
