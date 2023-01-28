@@ -3,7 +3,7 @@ package com.vojat.inputs;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
-import com.vojat.garden.GamePanel;
+import com.vojat.garden.Player;
 
 
 /*
@@ -13,35 +13,70 @@ import com.vojat.garden.GamePanel;
  */
 public class KeyboardInput implements KeyListener{
 
-    private GamePanel gamePanel;
+    private Player dad;
+    private boolean up = true, down = true, left = true, right = true;
 
-    public KeyboardInput (GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public KeyboardInput (Player dad) {
+        this.dad = dad;
     }
-    
+
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                gamePanel.moveY(-5);
+            case KeyEvent.VK_UP:
+                if (up) {
+                    dad.setPlayerTexture("res/Dad_Texture_B.png");
+                    up = false;
+                }
+                dad.moveUP(-6);
                 break;
             
-            case KeyEvent.VK_S:
-                gamePanel.moveY(5);
+            case KeyEvent.VK_DOWN:
+                if (down) {
+                    dad.setPlayerTexture("res/Dad_Texture_F.png");
+                    down = false;
+                }
+                dad.moveUP(6);
                 break;
             
-            case KeyEvent.VK_A:
-                gamePanel.moveX(-5);
+            case KeyEvent.VK_LEFT:
+                if (left) {
+                    dad.setPlayerTexture("res/Dad_Texture_L.png");
+                    left = false;
+                }
+                dad.moveSIDE(-6);
                 break;
 
-            case KeyEvent.VK_D:
-                gamePanel.moveX(5);
+            case KeyEvent.VK_RIGHT:
+                if (right) {
+                    dad.setPlayerTexture("res/Dad_Texture_R.png");
+                    right = false;
+                }
+                dad.moveSIDE(6);
                 break;
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {;}
+    public void keyReleased(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                up = true;
+                break;
+            
+            case KeyEvent.VK_DOWN:
+                down = true;
+                break;
+            
+            case KeyEvent.VK_LEFT:
+                left = true;
+                break;
+
+            case KeyEvent.VK_RIGHT:
+                right = true;
+                break;
+        }
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {;}

@@ -1,14 +1,15 @@
 package com.vojat.garden;
 
 public class Game implements Runnable{
-    private Window gameWindow;
     private GamePanel gamePanel;
     private Thread gameLoop;
     public final int FPS_SET = 120;
+    private volatile boolean stopGame = false;
+    protected byte[][] map = new byte[40][40];
 
     public Game(int panelWidth, int panelHeight) {
         gamePanel = new GamePanel(panelWidth, panelHeight);
-        gameWindow = new Window(gamePanel, panelWidth, panelHeight);
+        new Window(gamePanel);
 
         startGameLoop();
         gamePanel.requestFocusInWindow();
@@ -31,7 +32,7 @@ public class Game implements Runnable{
         long lastCheck = System.currentTimeMillis();
 
         // While this loop runs, the game updates
-        while (true) {
+        while (!stopGame) {
             now = System.nanoTime();
 
             // Repaints every 120 frames
@@ -49,4 +50,14 @@ public class Game implements Runnable{
             }
         }
     }
+
+    public void stopGameLoop() {        // This method stops the game loop
+        stopGame = true;
+    }
 }
+
+/*
+ * 20/1/2023
+ * Adding a main game loop stop method by controling the loop variable
+ * 
+ */
