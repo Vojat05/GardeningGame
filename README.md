@@ -21,5 +21,10 @@ Only major changes are documented here<br>
 
 ## 26/1/2023
 <ul>
-    <li> + Added the player class for better readability</li>
+    <li> + Added the Player class for better readability</li>
+</ul>
+
+## 28/1/2023
+<ul>
+    <li> + Added the Flower class to make each flower an object with specific values</li>
 </ul>
