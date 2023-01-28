@@ -40,12 +40,3 @@ public class GamePanel extends JPanel{
         g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null);       // The Dad Image has a resolution of 32 x 32 pixels
     }
 }
-
-/*
- * 20/1/2023
- * Adding and setting up the Dad character and his texture
- * 
- * 23/1/2023
- * Making the Get image from path to BufferedImage format method usable for multiple images
- * 
- */
