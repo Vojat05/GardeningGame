@@ -47,4 +47,6 @@ public class Player {
             LOCATION_X += speed;
         }
     }
+
+    public void plant() {;}
 }
