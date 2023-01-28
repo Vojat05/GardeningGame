@@ -15,10 +15,10 @@ public class Player {
         WINDOW_LIMIT_X = limitX;
         WINDOW_LIMIT_Y = limitY;
 
-        setPlayerTexture("res/Dad_Texture_F.png");      // Sets the default player texture on startup to look forward
+        setTexture("res/Dad_Texture_F.png");      // Sets the default player texture on startup to look forward
     }
 
-    public void setPlayerTexture(String path) {
+    public void setTexture(String path) {
         try {
             currentTexture = ImageIO.read(new FileInputStream(path));
         } catch (IOException ioe) {
