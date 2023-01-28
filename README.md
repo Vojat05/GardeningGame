@@ -1,5 +1,5 @@
 # Gardening Game
-Only major changes are documented here
+Only major changes are documented here<br>
 <b>+</b> == New feature<br>
 <b>-</b> == Removed feature<br>
 <b>*</b> == Modified feature<br>
