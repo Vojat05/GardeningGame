@@ -25,8 +25,8 @@ public class Flower {
         this.FLOWER_TYPE = "fialka";
         this.STATUS = "alive";
         this.PICTURE_PATH = "res/Red_Tulip.png";
-        this.LOCATION_X = 200;
-        this.LOCATION_Y = 0;
+        this.LOCATION_X = 256;
+        this.LOCATION_Y = 64;
         setTexture(PICTURE_PATH);
     }
 
