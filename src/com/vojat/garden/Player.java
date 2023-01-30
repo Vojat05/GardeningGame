@@ -10,13 +10,20 @@ import com.vojat.Errors.ErrorList;
 import javax.imageio.ImageIO;
 
 public class Player {
-    private int WINDOW_LIMIT_X, WINDOW_LIMIT_Y;
+    private GamePanel gamePanel;
+    public int windowLimitX, windowLimitY;
     public int LOCATION_X = 0, LOCATION_Y = 0;
     public BufferedImage currentTexture;
 
+    public Player(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
+
+    public Player() {;}     // With this constructor, the player doesn't have the access to his plant ability
+
     protected void setLimit(int limitX, int limitY) {
-        WINDOW_LIMIT_X = limitX;
-        WINDOW_LIMIT_Y = limitY;
+        windowLimitX = limitX;
+        windowLimitY = limitY;
 
         setTexture("res/Dad_Texture_F.png");      // Sets the default player texture on startup to look forward
     }
@@ -34,7 +41,7 @@ public class Player {
     public void moveUP(int speed) {     // Moves the player on the Y line
         if (LOCATION_Y < 0) {
             LOCATION_Y += 1;
-        } else if (LOCATION_Y > WINDOW_LIMIT_Y-128) {
+        } else if (LOCATION_Y > windowLimitY-160) {
             LOCATION_Y -= 1;
         } else {
             LOCATION_Y += speed;
@@ -44,12 +51,14 @@ public class Player {
     public void moveSIDE(int speed) {       // Moves the player on the X line
         if (LOCATION_X < 0) {
             LOCATION_X += 1;
-        } else if (LOCATION_X > WINDOW_LIMIT_X-128) {
+        } else if (LOCATION_X > windowLimitX-128) {
             LOCATION_X -= 1;
         } else {
             LOCATION_X += speed;
         }
     }
 
-    public void plant() {;}
+    public void plant(Flower flower) {
+        gamePanel.summonFlower(flower);
+    }
 }

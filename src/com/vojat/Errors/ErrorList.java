@@ -3,7 +3,7 @@ package com.vojat.Errors;
 public enum ErrorList {
     ERR_404("The file you're looking for wasn't found"),
     ERR_IO("Index is out of bounds"),
-    ERR_NPE("Required variable is equal to null")
+    ERR_NPE("Some required variable is equal to null")
     ;
 
     public final String message;

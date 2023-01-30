@@ -4,19 +4,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import com.vojat.garden.Flower;
-import com.vojat.garden.GamePanel;
+import com.vojat.garden.Player;
 
 public class MouseInput implements MouseListener{
-    private GamePanel gamePanel;
+    private Player dad;
 
-    public MouseInput(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public MouseInput(Player player) {
+        this.dad = player;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         Flower flower = new Flower("res/Red_Tulip.png", "fialka", e.getX() - 32, e.getY() - 32, "Alive");
-        gamePanel.summonFlower(flower);
+        dad.plant(flower);
     }
 
     @Override
