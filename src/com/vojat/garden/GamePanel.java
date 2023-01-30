@@ -7,6 +7,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 import com.vojat.inputs.KeyboardInput;
+import com.vojat.inputs.MouseInput;
 
 public class GamePanel extends JPanel{
     private int windowWidth, windowHeight;
@@ -18,13 +19,17 @@ public class GamePanel extends JPanel{
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
         dad.setLimit(windowWidth, windowHeight);
-        setFocusable(true);
+        setFocusable(true);     // Sets the JPanel focusable, it is later packed into the JFrame
 
-        // Passing information for the game window, visible by the pack method
-        setPanelSize();
-        setBackgroundColor();
+        {       // Passing information for the game window, visible by the pack method
+            setPanelSize();
+            setBackgroundColor();
+        }
 
-        addKeyListener(new KeyboardInput(dad));
+        {       // Adding the listeners
+            addKeyListener(new KeyboardInput(dad));
+            addMouseListener(new MouseInput(this));
+        }
     }
 
     private void setPanelSize() {
@@ -39,7 +44,7 @@ public class GamePanel extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.drawImage(testFlower.CURRENT_TEXTURE, testFlower.LOCATION_X, testFlower.LOCATION_Y, 64, 64, null);      // The test flower image
+        g.drawImage(testFlower.CURRENT_TEXTURE, testFlower.LOCATION_X, testFlower.LOCATION_Y, 64, 64, null);      // The test flower image -> Data is inputed correctly, just the object is not for now
         g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null);       // The Dad Image has a resolution of 32 x 32 pixels
     }
 }

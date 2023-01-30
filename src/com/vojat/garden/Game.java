@@ -7,6 +7,7 @@ public class Game implements Runnable{
     private Thread gameLoop;
     public final int FPS_SET = 120;
     private volatile boolean stopGame = false;
+    
     protected byte[][] map = new byte[40][40];      // [Y][X] coords
     private HashMap<Integer, String> decoder = new HashMap<Integer, String>();
 
@@ -34,7 +35,7 @@ public class Game implements Runnable{
     public void run() {
 
         double timePerFrame = 1000000000.0 / FPS_SET;
-        long now = System.nanoTime();
+        long now;
         long previousTime = System.nanoTime();
         short fps = 0;
         long lastCheck = System.currentTimeMillis();
