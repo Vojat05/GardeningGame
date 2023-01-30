@@ -1,8 +1,11 @@
 package com.vojat.garden;
 
 import java.awt.image.BufferedImage;
+
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import com.vojat.Errors.ErrorList;
 
 import javax.imageio.ImageIO;
 
@@ -22,7 +25,7 @@ public class Player {
         try {
             currentTexture = ImageIO.read(new FileInputStream(path));
         } catch (IOException ioe) {
-            System.err.println("IOException has occured");
+            System.err.println(ErrorList.ERR_404.message);
             ioe.printStackTrace();
             currentTexture = null;
         }

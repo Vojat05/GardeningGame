@@ -1,13 +1,13 @@
 package com.vojat.inputs;
 
-import com.vojat.garden.GamePanel;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class MouseInput implements MouseListener{
+import com.vojat.garden.Flower;
+import com.vojat.garden.GamePanel;
 
-    protected GamePanel gamePanel;
+public class MouseInput implements MouseListener{
+    private GamePanel gamePanel;
 
     public MouseInput(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -15,7 +15,8 @@ public class MouseInput implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("X: " + e.getX() + " | Y: " + e.getY());     // Test the clicking location
+        Flower flower = new Flower("res/Red_Tulip.png", "fialka", e.getX() - 32, e.getY() - 32, "Alive");
+        gamePanel.summonFlower(flower);
     }
 
     @Override

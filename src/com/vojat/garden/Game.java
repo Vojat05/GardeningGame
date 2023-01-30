@@ -1,15 +1,17 @@
 package com.vojat.garden;
 
-import java.util.HashMap;
+//import java.util.HashMap;
 
 public class Game implements Runnable{
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_RESET = "\u001B[0m";
     private GamePanel gamePanel;
     private Thread gameLoop;
     public final int FPS_SET = 120;
     private volatile boolean stopGame = false;
-    
-    protected byte[][] map = new byte[40][40];      // [Y][X] coords
-    private HashMap<Integer, String> decoder = new HashMap<Integer, String>();
+
+    protected byte[][] map = new byte[16][30];      // [Y][X] coords  -> Now it's a total of 480 spots to place a flower
+    // private HashMap<Integer, String> decoder = new HashMap<Integer, String>();
 
     public Game(int panelWidth, int panelHeight) {
         gamePanel = new GamePanel(panelWidth, panelHeight);
@@ -19,9 +21,9 @@ public class Game implements Runnable{
         gamePanel.requestFocusInWindow();
 
         // Filling the decoder for the map area
-        decoder.put(0, null);
-        decoder.put(1, "Flower");
-        decoder.put(2, "Player");
+        // decoder.put(0, null);
+        // decoder.put(1, "Flower");
+        // decoder.put(2, "Player");
     }
 
     // Method to start the Game Loop
@@ -58,7 +60,7 @@ public class Game implements Runnable{
             // The FPS counter
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + fps);
+                System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
                 fps = 0;
             }
         }
