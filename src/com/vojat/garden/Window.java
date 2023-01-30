@@ -8,7 +8,7 @@ public class Window extends JFrame {
 
         setTitle("Dad The Gardener");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
         
         add(gamePanel);
         pack();     // Create a window that fits the JPanel passed in this constructor

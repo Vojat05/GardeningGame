@@ -28,3 +28,9 @@ Only major changes are documented here<br>
 <ul>
     <li> + Added the Flower class to make each flower an object with specific values</li>
 </ul>
+
+## 30/1/2023
+<ul>
+    <li> + Added the mouse listener for placing the flowers</li>
+    <li> + Added an error list enum for errors</li>
+</ul>
