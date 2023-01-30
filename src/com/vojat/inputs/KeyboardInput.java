@@ -15,6 +15,7 @@ public class KeyboardInput implements KeyListener{
 
     private Player dad;
     private boolean up = true, down = true, left = true, right = true;
+    private int speed = 6;
 
     public KeyboardInput (Player dad) {
         this.dad = dad;
@@ -28,7 +29,7 @@ public class KeyboardInput implements KeyListener{
                     dad.setTexture("res/Dad_Texture_B.png");
                     up = false;
                 }
-                dad.moveUP(-6);
+                dad.moveUP(-speed);
                 break;
             
             case KeyEvent.VK_DOWN:
@@ -36,7 +37,7 @@ public class KeyboardInput implements KeyListener{
                     dad.setTexture("res/Dad_Texture_F.png");
                     down = false;
                 }
-                dad.moveUP(6);
+                dad.moveUP(speed);
                 break;
             
             case KeyEvent.VK_LEFT:
@@ -44,7 +45,7 @@ public class KeyboardInput implements KeyListener{
                     dad.setTexture("res/Dad_Texture_L.png");
                     left = false;
                 }
-                dad.moveSIDE(-6);
+                dad.moveSIDE(-speed);
                 break;
 
             case KeyEvent.VK_RIGHT:
@@ -52,7 +53,7 @@ public class KeyboardInput implements KeyListener{
                     dad.setTexture("res/Dad_Texture_R.png");
                     right = false;
                 }
-                dad.moveSIDE(6);
+                dad.moveSIDE(speed);
                 break;
         }
     }

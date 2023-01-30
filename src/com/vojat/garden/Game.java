@@ -5,7 +5,7 @@ package com.vojat.garden;
 public class Game implements Runnable{
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_RESET = "\u001B[0m";
-    private GamePanel gamePanel;
+    protected GamePanel gamePanel;
     private Thread gameLoop;
     public final int FPS_SET = 120;
     private volatile boolean stopGame = false;
@@ -15,7 +15,7 @@ public class Game implements Runnable{
 
     public Game(int panelWidth, int panelHeight) {
         gamePanel = new GamePanel(panelWidth, panelHeight);
-        new Window(gamePanel);
+        new Window(gamePanel, gamePanel.dad);
 
         startGameLoop();
         gamePanel.requestFocusInWindow();
@@ -26,15 +26,13 @@ public class Game implements Runnable{
         // decoder.put(2, "Player");
     }
 
-    // Method to start the Game Loop
-    public void startGameLoop() {
+    public void startGameLoop() {       // Method to start the Game Loop
         gameLoop = new Thread(this);
         gameLoop.start();
     }
 
-    // Game Loop
     @Override
-    public void run() {
+    public void run() {     // Game Loop
 
         double timePerFrame = 1000000000.0 / FPS_SET;
         long now;
@@ -43,22 +41,19 @@ public class Game implements Runnable{
         long lastCheck = System.currentTimeMillis();
         double deltaF = 0;
 
-        // While this loop runs, the game updates
-        while (!stopGame) {
+        while (!stopGame) {     // While this loop runs, the game updates
             now = System.nanoTime();
             
             deltaF += (now - previousTime) / timePerFrame;
             previousTime = now;
 
-            // Repaints every 120 frames
-            if (deltaF >= 1) {
+            if (deltaF >= 1) {      // Repaints every 120 frames
                 gamePanel.repaint();
                 fps++;
                 deltaF--;
             }
 
-            // The FPS counter
-            if (System.currentTimeMillis() - lastCheck >= 1000) {
+            if (System.currentTimeMillis() - lastCheck >= 1000) {       // The FPS counter
                 lastCheck = System.currentTimeMillis();
                 System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
                 fps = 0;
