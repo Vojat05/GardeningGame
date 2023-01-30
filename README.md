@@ -33,4 +33,5 @@ Only major changes are documented here<br>
 <ul>
     <li> + Added the mouse listener for placing the flowers</li>
     <li> + Added an error list enum for errors</li>
+    <li> + Added the method for summoning flowers on mouse click</li>
 </ul>
