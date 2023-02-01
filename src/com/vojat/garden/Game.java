@@ -5,12 +5,15 @@ package com.vojat.garden;
 public class Game implements Runnable{
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_RESET = "\u001B[0m";
-    protected GamePanel gamePanel;
+    private GamePanel gamePanel;
     private Thread gameLoop;
-    public final int FPS_SET = 120;
+    private final int FPS_SET = 120;
     private volatile boolean stopGame = false;
 
-    protected byte[][] map = new byte[16][30];      // [Y][X] coords  -> Now it's a total of 480 spots to place a flower
+    protected byte[][] quadral1 = new byte[8][15];
+    protected byte[][] quadral2 = new byte[8][15];
+    protected byte[][] quadral3 = new byte[8][15];
+    protected byte[][] quadral4 = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 480 spots to place a flower
     // private HashMap<Integer, String> decoder = new HashMap<Integer, String>();
 
     public Game(int panelWidth, int panelHeight) {

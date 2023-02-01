@@ -21,7 +21,7 @@ public class GamePanel extends JPanel{
 
         {       // Passing information for the game window, visible by the pack method
             setPanelSize(windowWidth, windowHeight);
-            setBackgroundColor();
+            setBackground();
         }
 
         {       // Adding the listeners
@@ -35,7 +35,7 @@ public class GamePanel extends JPanel{
         setPreferredSize(dimension);
     }
 
-    private void setBackgroundColor() {
+    private void setBackground() {
         setBackground(new Color(84, 194, 4));
     }
 
@@ -47,13 +47,13 @@ public class GamePanel extends JPanel{
         super.paintComponent(g);
 
         try{
-            for (Flower plant : flowers) {
-                g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 64, 64, null);
+            for (Flower plant : flowers) {      // Drawing all the placed plants
+                g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 128, 128, null);
             }
 
             g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null);       // The Dad Image has a resolution of 32 x 32 pixels
         } catch(NullPointerException npe) {
-            System.out.println(ErrorList.ERR_NPE.message);
+            System.err.println(ErrorList.ERR_NPE.message);
         }
     }
 }

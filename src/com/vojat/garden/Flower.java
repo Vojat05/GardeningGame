@@ -27,7 +27,7 @@ public class Flower {
     }
 
     public Flower() {       // The base example
-        this.FLOWER_TYPE = "fialka";
+        this.FLOWER_TYPE = "tulip";
         this.STATUS = "Alive";
         this.PICTURE_PATH = "res/Red_Tulip.png";
         this.LOCATION_X = 256;
@@ -40,7 +40,6 @@ public class Flower {
             CURRENT_TEXTURE = ImageIO.read(new FileInputStream(path));
         } catch (IOException ioe) {
             System.err.println(ErrorList.ERR_404.message);
-            ioe.printStackTrace();
             CURRENT_TEXTURE = null;
         }
     }
