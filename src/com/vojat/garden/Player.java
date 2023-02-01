@@ -15,8 +15,10 @@ public class Player {
     public int LOCATION_X = 0, LOCATION_Y = 0;
     public BufferedImage currentTexture;
 
-    public Player(GamePanel gamePanel) {
+    public Player(GamePanel gamePanel, int positionX, int positionY) {
         this.gamePanel = gamePanel;
+        this.LOCATION_X = positionX;
+        this.LOCATION_Y = positionY;
     }
 
     public Player() {;}     // With this constructor, the player doesn't have the access to his plant ability

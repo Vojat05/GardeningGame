@@ -13,7 +13,7 @@ import com.vojat.Errors.ErrorList;
 
 public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
-    Player dad = new Player(this);
+    Player dad = new Player(this, 200, 200);
 
     public GamePanel(int windowWidth, int windowHeight) { // width == window width ; height == window height
         dad.setLimit(windowWidth, windowHeight);

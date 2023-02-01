@@ -10,10 +10,7 @@ public class Game implements Runnable{
     private final int FPS_SET = 120;
     private volatile boolean stopGame = false;
 
-    protected byte[][] quadral1 = new byte[8][15];
-    protected byte[][] quadral2 = new byte[8][15];
-    protected byte[][] quadral3 = new byte[8][15];
-    protected byte[][] quadral4 = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 480 spots to place a flower
+    protected byte[][] quadrant = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
     // private HashMap<Integer, String> decoder = new HashMap<Integer, String>();
 
     public Game(int panelWidth, int panelHeight) {
