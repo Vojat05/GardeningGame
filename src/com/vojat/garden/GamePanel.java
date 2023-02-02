@@ -14,6 +14,7 @@ import com.vojat.Errors.ErrorList;
 public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
     Player dad = new Player(this, 200, 200);
+    public byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
 
     public GamePanel(int windowWidth, int windowHeight) { // width == window width ; height == window height
         dad.setLimit(windowWidth, windowHeight);
@@ -26,7 +27,7 @@ public class GamePanel extends JPanel{
 
         {       // Adding the listeners
             addKeyListener(new KeyboardInput(dad));
-            addMouseListener(new MouseInput(dad));
+            addMouseListener(new MouseInput(dad, this));
         }
     }
 
