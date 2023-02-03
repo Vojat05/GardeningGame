@@ -13,6 +13,8 @@ public class MouseInput implements MouseListener{
     private GamePanel gamePanel;
     private int controlVariableX;
     private int controlVariableY;
+    private int assignNumberToPlant = 0;
+    private Flower flower;
 
     public MouseInput(Player player, GamePanel gamePanel) {
         this.dad = player;
@@ -25,12 +27,14 @@ public class MouseInput implements MouseListener{
             case MouseEvent.BUTTON1:
                 gardenerX(e);
                 gardenerY(e);
-                if (gamePanel.map[controlVariableY][controlVariableX] == 1) {
+                if (gamePanel.map[controlVariableY][controlVariableX] > 1) {
                     System.err.println(ErrorList.ERR_CANTPLANT.message);
                 } else {
-                    Flower flower = new Flower("res/Red_Tulip.png", "fialka", gardenerX(e), gardenerY(e), "Alive");
+                    flower = new Flower("res/Red_Tulip.png", "fialka", gardenerX(e), gardenerY(e), "Alive", assignNumberToPlant, controlVariableX, controlVariableY);
                     dad.plant(flower);
+                    // flower.start();
                     wirteIntoMap(controlVariableY, controlVariableX, 1);
+                    assignNumberToPlant++;
                 }
                 break;
             

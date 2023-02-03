@@ -35,3 +35,10 @@ Only major changes are documented here<br>
     <li> + Added an error list enum for errors</li>
     <li> + Added the method for summoning flowers on mouse click</li>
 </ul>
+
+## 3/2/2023
+<ul>
+    <li> + Added the flower dying mechanism</li>
+    <li> + Added a 2 dimensional map for writing the positions and types of flowers into</li>
+    <li> + Added a HashMap decoder for the map</li>
+</ul>

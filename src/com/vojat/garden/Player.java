@@ -63,4 +63,6 @@ public class Player {
     public void plant(Flower flower) {
         gamePanel.summonFlower(flower);
     }
+
+    public void water(Flower flower) {;}
 }
