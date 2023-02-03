@@ -3,6 +3,7 @@ package com.vojat.inputs;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import com.vojat.Errors.ErrorList;
 import com.vojat.garden.Flower;
 import com.vojat.garden.GamePanel;
 import com.vojat.garden.Player;
@@ -10,8 +11,8 @@ import com.vojat.garden.Player;
 public class MouseInput implements MouseListener{
     private Player dad;
     private GamePanel gamePanel;
-    private byte controlVariableX;
-    private byte controlVariableY;
+    private int controlVariableX;
+    private int controlVariableY;
 
     public MouseInput(Player player, GamePanel gamePanel) {
         this.dad = player;
@@ -20,10 +21,23 @@ public class MouseInput implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        Flower flower = new Flower("res/Red_Tulip.png", "fialka", gardenerX(e), gardenerY(e), "Alive");
-        dad.plant(flower);
-        wirteIntoMap(controlVariableY, controlVariableX, 1);
-        getMapPrint();
+        switch (e.getButton()) {
+            case MouseEvent.BUTTON1:
+                gardenerX(e);
+                gardenerY(e);
+                if (gamePanel.map[controlVariableY][controlVariableX] == 1) {
+                    System.err.println(ErrorList.ERR_CANTPLANT.message);
+                } else {
+                    Flower flower = new Flower("res/Red_Tulip.png", "fialka", gardenerX(e), gardenerY(e), "Alive");
+                    dad.plant(flower);
+                    wirteIntoMap(controlVariableY, controlVariableX, 1);
+                }
+                break;
+            
+            case MouseEvent.BUTTON3:
+                getMapData();
+                break;
+        }
     }
 
     @Override
@@ -119,7 +133,7 @@ public class MouseInput implements MouseListener{
         gamePanel.map[i][j] = (byte) value;
     }
 
-    private void getMapPrint() {
+    private void getMapData() {
         for (int i=0; i<gamePanel.map.length; i++) {
             for (int j=0; j<gamePanel.map[0].length; j++) {
                 System.out.print(" | " + gamePanel.map[i][j] + " | ");

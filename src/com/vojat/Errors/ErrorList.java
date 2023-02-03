@@ -4,7 +4,8 @@ public enum ErrorList {
     ERR_404("The file you're looking for wasn't found"),
     ERR_IO("Index is out of bounds"),
     ERR_NPE("Required variable is equal to null"),
-    ERR_INTERRUPT("The code has been interrupted")
+    ERR_INTERRUPT("The code has been interrupted"),
+    ERR_CANTPLANT("You already planted a plant here")
     ;
 
     public final String message;

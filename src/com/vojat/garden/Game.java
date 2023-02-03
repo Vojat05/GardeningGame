@@ -10,19 +10,12 @@ public class Game implements Runnable{
     private final int FPS_SET = 120;
     private volatile boolean stopGame = false;
 
-    // private HashMap<Integer, String> decoder = new HashMap<Integer, String>();
-
     public Game(int panelWidth, int panelHeight) {
         gamePanel = new GamePanel(panelWidth, panelHeight);
         new Window(gamePanel, gamePanel.dad);
 
         startGameLoop();
         gamePanel.requestFocusInWindow();
-
-        // Filling the decoder for the map area
-        // decoder.put(0, null);
-        // decoder.put(1, "Flower");
-        // decoder.put(2, "Player");
     }
 
     public void startGameLoop() {       // Method to start the Game Loop
