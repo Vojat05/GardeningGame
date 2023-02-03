@@ -8,7 +8,6 @@ public class Game implements Runnable{
     private GamePanel gamePanel;
     private Thread gameLoop;
     private final int FPS_SET = 120;
-    private volatile boolean stopGame = false;
 
     public Game(int panelWidth, int panelHeight) {
         gamePanel = new GamePanel(panelWidth, panelHeight);
@@ -33,7 +32,7 @@ public class Game implements Runnable{
         long lastCheck = System.currentTimeMillis();
         double deltaF = 0;
 
-        while (!stopGame) {     // While this loop runs, the game updates
+        while (true) {     // While this loop runs, the game updates
             now = System.nanoTime();
             
             deltaF += (now - previousTime) / timePerFrame;
@@ -51,9 +50,5 @@ public class Game implements Runnable{
                 fps = 0;
             }
         }
-    }
-
-    public void stopGameLoop() {        // This method stops the game loop
-        stopGame = true;
     }
 }

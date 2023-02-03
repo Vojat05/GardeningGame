@@ -56,8 +56,18 @@ public class GamePanel extends JPanel{
         super.paintComponent(g);
 
         try{
-            for (Flower plant : flowers) {      // Drawing all the placed plants
-                g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 128, 128, null);
+            for (int i=0; i<flowers.size(); i++) {      // Drawing all the placed plants the old school way
+                Flower plant = flowers.get(i);
+                if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
+                    if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
+                        plant.CURRENT_TEXTURE = plant.setTexture("res/Cat_Texture_F.png");
+                        plant.STATUS = "Dead";
+                    }
+                    g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 128, 128, null);
+                } else {
+                    flowers.remove(plant);
+                    map[plant.IN_MAP_Y][plant.IN_MAP_X] = 0;
+                }
             }
 
             g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null);       // The Dad Image has a resolution of 32 x 32 pixels

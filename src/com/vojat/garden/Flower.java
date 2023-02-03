@@ -9,38 +9,45 @@ import com.vojat.Errors.ErrorList;
 
 import javax.imageio.ImageIO;
 
-public class Flower {
-    private String PICTURE_PATH;
+public class Flower{
     public BufferedImage CURRENT_TEXTURE;
     public String FLOWER_TYPE;
     public String STATUS;
     public int LOCATION_X;
     public int LOCATION_Y;
+    public int PLANT_NUMBER;
+    public long TIME_TO_DIE;
+    public long TIME_TO_DISSAPEAR;
+    public int IN_MAP_X;
+    public int IN_MAP_Y;
     
-    public Flower(String path, String type, int locationX, int locationY, String status) {
-        this.PICTURE_PATH = path;
+    public Flower(String path, String type, int locationX, int locationY, String status, int number, int controlX, int controlY) {
         this.FLOWER_TYPE = type;
         this.LOCATION_X = locationX;
         this.LOCATION_Y = locationY;
         this.STATUS = status;
-        setTexture(path);
+        this.PLANT_NUMBER = number;
+        this.TIME_TO_DIE = System.currentTimeMillis() + 10000;     // 600000  Production value
+        this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + 15000;       // 840000  Production value
+        this.CURRENT_TEXTURE = setTexture(path);
+        this.IN_MAP_X = controlX;
+        this.IN_MAP_Y = controlY;
     }
 
     public Flower() {       // The base example
         this.FLOWER_TYPE = "tulip";
         this.STATUS = "Alive";
-        this.PICTURE_PATH = "res/Red_Tulip.png";
         this.LOCATION_X = 256;
         this.LOCATION_Y = 64;
-        setTexture(PICTURE_PATH);
+        setTexture("res/Red_Tulip.png");
     }
 
-    public void setTexture(String path) {
+    public BufferedImage setTexture(String path) {
         try {
-            CURRENT_TEXTURE = ImageIO.read(new FileInputStream(path));
+            return ImageIO.read(new FileInputStream(path));
         } catch (IOException ioe) {
             System.err.println(ErrorList.ERR_404.message);
-            CURRENT_TEXTURE = null;
+            return null;
         }
     }
 }
