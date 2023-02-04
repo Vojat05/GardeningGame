@@ -16,15 +16,9 @@ public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
     Player dad = new Player(this, 200, 200);
     public byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
-    public HashMap<Integer, String> decoder = new HashMap<Integer, String>();
     public String[] textures = {"res/Red_Tulip.png", "res/Red_Tulip.png"};      // Array of texture paths, mush be the same ammount as flowers
 
     public GamePanel(int windowWidth, int windowHeight) { // width == window width ; height == window height
-
-        {       // Filling up the decoder info
-            decoder.put(0, null);
-            decoder.put(1, "Flower");
-        }
 
         dad.setLimit(windowWidth, windowHeight);
         setFocusable(true);     // Sets the JPanel focusable, it is later packed into the JFrame
