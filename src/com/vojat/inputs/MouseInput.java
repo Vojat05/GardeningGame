@@ -27,18 +27,27 @@ public class MouseInput implements MouseListener{
             case MouseEvent.BUTTON1:
                 gardenerX(e);
                 gardenerY(e);
-                if (gamePanel.map[controlVariableY][controlVariableX] > 1) {
+                if (gamePanel.map[controlVariableY][controlVariableX] >= 1) {       // Checks if the desired area is occupied or not
                     System.err.println(ErrorList.ERR_CANTPLANT.message);
-                } else {
+                } else {        // If not, creates another Flower object to place here
                     flower = new Flower("res/Red_Tulip.png", "fialka", gardenerX(e), gardenerY(e), "Alive", assignNumberToPlant, controlVariableX, controlVariableY);
                     dad.plant(flower);
-                    // flower.start();
-                    wirteIntoMap(controlVariableY, controlVariableX, 1);
-                    assignNumberToPlant++;
+                    wirteIntoMap(controlVariableY, controlVariableX, 1);        // Writes it's value into map
+                    assignNumberToPlant++;      // Assigns the plant index
                 }
                 break;
             
             case MouseEvent.BUTTON3:
+            gardenerX(e);
+            gardenerY(e);
+                if (gamePanel.map[controlVariableY][controlVariableX] == 0) {
+                    System.err.println(ErrorList.ERR_NOPLANT.message);
+                } else {
+                    dad.water(flower, controlVariableX, controlVariableY);
+                }
+                break;
+            
+            case MouseEvent.BUTTON2:
                 getMapData();
                 break;
         }
