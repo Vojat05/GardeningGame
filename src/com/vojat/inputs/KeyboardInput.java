@@ -76,6 +76,26 @@ public class KeyboardInput implements KeyListener{
             case KeyEvent.VK_RIGHT:
                 right = true;
                 break;
+            
+            case KeyEvent.VK_E:
+                if (dad.selectedItem+1 < dad.inventory.length) {
+                    dad.selectedItem++;
+                } else {
+                    dad.selectedItem = 0;
+                }
+                break;
+
+            case KeyEvent.VK_Q:
+                if (dad.selectedItem > 0) {
+                    dad.selectedItem--;
+                } else {
+                    dad.selectedItem = 0;
+                }
+                break;
+
+            case KeyEvent.VK_T:
+                System.out.println("Selected item: " + dad.inventory[dad.selectedItem]);
+                break;
         }
     }
 

@@ -23,27 +23,25 @@ public class MouseInput implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        gardenerX(e);
+        gardenerY(e);
         switch (e.getButton()) {
             case MouseEvent.BUTTON1:
-                gardenerX(e);
-                gardenerY(e);
-                if (gamePanel.map[controlVariableY][controlVariableX] >= 1) {       // Checks if the desired area is occupied or not
-                    System.err.println(ErrorList.ERR_CANTPLANT.message);
-                } else {        // If not, creates another Flower object to place here
-                    flower = new Flower("res/Red_Tulip.png", "fialka", gardenerX(e), gardenerY(e), "Alive", assignNumberToPlant, controlVariableX, controlVariableY);
-                    dad.plant(flower);
-                    wirteIntoMap(controlVariableY, controlVariableX, 1);        // Writes it's value into map
-                    assignNumberToPlant++;      // Assigns the plant index
-                }
-                break;
-            
-            case MouseEvent.BUTTON3:
-            gardenerX(e);
-            gardenerY(e);
-                if (gamePanel.map[controlVariableY][controlVariableX] == 0) {
-                    System.err.println(ErrorList.ERR_NOPLANT.message);
-                } else {
-                    dad.water(flower, controlVariableX, controlVariableY);
+                if (dad.selectedItem > 0) {
+                    if (gamePanel.map[controlVariableY][controlVariableX] >= 1) {       // Checks if the desired area is occupied or not
+                        System.err.println(ErrorList.ERR_CANTPLANT.message);
+                    } else {        // If not, creates another Flower object to place here
+                        flower = new Flower(gamePanel.textures[dad.selectedItem-1], dad.inventory[dad.selectedItem], gardenerX(e), gardenerY(e), "Alive", assignNumberToPlant, controlVariableX, controlVariableY);
+                        dad.plant(flower);
+                        wirteIntoMap(controlVariableY, controlVariableX, 1);        // Writes it's value into map
+                        assignNumberToPlant++;      // Assigns the plant index
+                    }
+                } else if(dad.selectedItem == 0) {
+                    if (gamePanel.map[controlVariableY][controlVariableX] == 0) {
+                        System.err.println(ErrorList.ERR_NOPLANT.message);
+                    } else {
+                        dad.water(flower, controlVariableX, controlVariableY);
+                    }
                 }
                 break;
             
