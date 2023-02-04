@@ -8,9 +8,9 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
+import com.vojat.Enums.*;
 import com.vojat.inputs.KeyboardInput;
 import com.vojat.inputs.MouseInput;
-import com.vojat.Errors.ErrorList;
 
 public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
@@ -56,8 +56,9 @@ public class GamePanel extends JPanel{
         for (Flower plant : flowers) {
             if (plant.IN_MAP_X == positionX && plant.IN_MAP_Y == positionY) {
                 if (plant.STATUS.equals("Alive")) {
-                    plant.TIME_TO_DIE = System.currentTimeMillis() + 10000;
-                    plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + 15000;
+                    plant.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE.value;
+                    plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR.value;
+                    plant.CURRENT_TEXTURE = plant.setTexture("res/Red_Tulip.png");
                 }
             }
         }
@@ -73,6 +74,8 @@ public class GamePanel extends JPanel{
                     if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
                         plant.CURRENT_TEXTURE = plant.setTexture("res/Cat_Texture_F.png");
                         plant.STATUS = "Dead";
+                    } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE.value) {
+                        plant.CURRENT_TEXTURE = plant.setTexture("res/Land.png");
                     }
                     g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 128, 128, null);
                 } else {
