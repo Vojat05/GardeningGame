@@ -52,6 +52,17 @@ public class GamePanel extends JPanel{
         flowers.add(flower);
     }
 
+    public void waterFlower(Flower flower, int positionX, int positionY) {
+        for (Flower plant : flowers) {
+            if (plant.IN_MAP_X == positionX && plant.IN_MAP_Y == positionY) {
+                if (plant.STATUS.equals("Alive")) {
+                    plant.TIME_TO_DIE = System.currentTimeMillis() + 10000;
+                    plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + 15000;
+                }
+            }
+        }
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 

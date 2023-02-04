@@ -60,9 +60,11 @@ public class Player {
         }
     }
 
-    public void plant(Flower flower) {
+    public void plant(Flower flower) {      // Plants the passed flower
         gamePanel.summonFlower(flower);
     }
 
-    public void water(Flower flower) {;}
+    public void water(Flower flower, int positionX, int positionY) {
+        gamePanel.waterFlower(flower, positionX, positionY);
+    }
 }

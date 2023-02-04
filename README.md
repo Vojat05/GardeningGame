@@ -42,3 +42,8 @@ Only major changes are documented here<br>
     <li> + Added a 2 dimensional map for writing the positions and types of flowers into</li>
     <li> + Added a HashMap decoder for the map</li>
 </ul>
+
+## 4/2/2023
+<ul>
+    <li> + Added a way to keep plants alive by watering them</li>
+</ul>
