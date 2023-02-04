@@ -5,7 +5,7 @@ public class Main{
         int windowWidth;
         int windowHeight;
 
-        windowWidth = 1920;     // Testing values
+        windowWidth = 1920;     // This game is currently designed to be run in FullHD window
         windowHeight = 1080;
 
         new Game(windowWidth, windowHeight);

@@ -17,6 +17,7 @@ public class GamePanel extends JPanel{
     Player dad = new Player(this, 200, 200);
     public byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
     public HashMap<Integer, String> decoder = new HashMap<Integer, String>();
+    public String[] textures = {"res/Red_Tulip.png", "res/Red_Tulip.png"};      // Array of texture paths, mush be the same ammount as flowers
 
     public GamePanel(int windowWidth, int windowHeight) { // width == window width ; height == window height
 

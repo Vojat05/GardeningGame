@@ -47,3 +47,8 @@ Only major changes are documented here<br>
 <ul>
     <li> + Added a way to keep plants alive by watering them</li>
 </ul>
+
+## 5/2/2023
+<ul>
+    <li> + Added the player inventory with 2 flowers and a watering can</li>
+</ul>
