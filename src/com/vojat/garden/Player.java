@@ -5,9 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import com.vojat.Errors.ErrorList;
-
 import javax.imageio.ImageIO;
+
+import com.vojat.Enums.ErrorList;
 
 public class Player {
     private GamePanel gamePanel;

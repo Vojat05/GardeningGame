@@ -1,4 +1,4 @@
-package com.vojat.Errors;
+package com.vojat.Enums;
 
 public enum ErrorList {
     ERR_404("The file you're looking for wasn't found"),
@@ -6,14 +6,14 @@ public enum ErrorList {
     ERR_NPE("Required variable is equal to null"),
     ERR_INTERRUPT("The code has been interrupted"),
     ERR_CANTPLANT("You already planted a plant here"),
-    ERR_NOPLANT("There is no plant located")
+    ERR_NOPLANT("There is not a plant")
     ;
 
     public final String message;
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_RESET = "\u001B[0m";
 
-    ErrorList (String mesage) {
+    ErrorList(String mesage) {
         this.message = ANSI_RED + mesage + ANSI_RESET;
     }
 }

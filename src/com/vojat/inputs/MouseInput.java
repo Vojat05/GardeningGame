@@ -3,7 +3,7 @@ package com.vojat.inputs;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import com.vojat.Errors.ErrorList;
+import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Flower;
 import com.vojat.garden.GamePanel;
 import com.vojat.garden.Player;
