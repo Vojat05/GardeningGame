@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Color;
 
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import com.vojat.Enums.*;
 import com.vojat.inputs.KeyboardInput;
@@ -19,13 +20,14 @@ public class GamePanel extends JPanel{
     public String[] textures = {"res/Red_Tulip.png", "res/Red_Tulip.png"};      // Array of texture paths, mush be the same ammount as flowers
 
     public GamePanel(int windowWidth, int windowHeight) { // width == window width ; height == window height
-
+        
         dad.setLimit(windowWidth, windowHeight);
         setFocusable(true);     // Sets the JPanel focusable, it is later packed into the JFrame
 
         {       // Passing information for the game window, visible by the pack method
-            setPanelSize(windowWidth, windowHeight);
+            setPanelSize(windowWidth, windowHeight-50);
             setBackground();
+            setBorder(new LineBorder(Color.BLACK));
         }
 
         {       // Adding the listeners
@@ -35,8 +37,7 @@ public class GamePanel extends JPanel{
     }
 
     protected void setPanelSize(int width, int height) {
-        Dimension dimension = new Dimension(width, height);
-        setPreferredSize(dimension);
+        setPreferredSize(new Dimension(width, height));
     }
 
     private void setBackground() {
@@ -85,7 +86,7 @@ public class GamePanel extends JPanel{
         }
     }
 
-    public void saveProgress() {;}
+    public void saveGame() {;}
 
-    public void loadProgress(byte[][] map, HashMap<Integer, String> decoder) {;}
+    public void loadGame(byte[][] map, HashMap<Integer, String> decoder) {;}
 }
