@@ -11,7 +11,9 @@ public class Game implements Runnable{
 
     public Game(int panelWidth, int panelHeight) {
         gamePanel = new GamePanel(panelWidth, panelHeight);
-        new Window(gamePanel, gamePanel.dad);
+        InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight);
+        MainPanel mainPanel = new MainPanel(gamePanel, inventoryPanel);
+        new Window(mainPanel, gamePanel.dad);
 
         startGameLoop();
         gamePanel.requestFocusInWindow();

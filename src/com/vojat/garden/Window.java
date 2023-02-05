@@ -3,11 +3,11 @@ package com.vojat.garden;
 import javax.swing.JFrame;
 
 public class Window extends JFrame {
-    private GamePanel gamePanel;
+    private MainPanel mainPanel;
     private Player dad;
 
-    public Window(GamePanel gamePanel, Player dad) {
-        this.gamePanel = gamePanel;
+    public Window(MainPanel mainPanel, Player dad) {
+        this.mainPanel = mainPanel;
         this.dad = dad;
 
         setTitle("Dad The Gardener");
@@ -15,8 +15,8 @@ public class Window extends JFrame {
         setResizable(true);
         // setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        add(gamePanel);
-        pack();     // Create a window that fits the JPanel passed in here
+        add(mainPanel);
+        pack();     // Create a window that fits the all stuff the needs to fit
         validate();
         setVisible(true);
     }
@@ -24,7 +24,7 @@ public class Window extends JFrame {
     public void validate() {
         super.validate();
 
-        gamePanel.setPanelSize(getSize().width, getSize().height);
+        mainPanel.setPanelSize(getSize().width, getSize().height);
         dad.setLimit(getSize().width, getSize().height);
 
         if (dad.LOCATION_X > dad.windowLimitX-120) {
