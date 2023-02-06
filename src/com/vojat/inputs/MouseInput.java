@@ -31,7 +31,7 @@ public class MouseInput implements MouseListener{
                     if (gamePanel.map[controlVariableY][controlVariableX] >= 1) {       // Checks if the desired area is occupied or not
                         System.err.println(ErrorList.ERR_CANTPLANT.message);
                     } else {        // If not, creates another Flower object to place here
-                        flower = new Flower(gamePanel.textures[dad.selectedItem-1], dad.inventory[dad.selectedItem], gardenerX(e), gardenerY(e), "Alive", assignNumberToPlant, controlVariableX, controlVariableY);
+                        flower = new Flower(gamePanel.textures[dad.selectedItem], dad.inventory[dad.selectedItem], gardenerX(e), gardenerY(e), "Alive", assignNumberToPlant, controlVariableX, controlVariableY, dad.selectedItem);
                         dad.plant(flower);
                         wirteIntoMap(controlVariableY, controlVariableX, 1);        // Writes it's value into map
                         assignNumberToPlant++;      // Assigns the plant index
