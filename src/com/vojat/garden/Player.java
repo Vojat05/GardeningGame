@@ -37,7 +37,6 @@ public class Player {
             currentTexture = ImageIO.read(new FileInputStream(path));
         } catch (IOException ioe) {
             System.err.println(ErrorList.ERR_404.message);
-            ioe.printStackTrace();
             currentTexture = null;
         }
     }
