@@ -20,8 +20,9 @@ public class Flower{
     public long TIME_TO_DISSAPEAR;
     public int IN_MAP_X;
     public int IN_MAP_Y;
+    public int FLOWER_TEXTURE_NUMBER;
     
-    public Flower(String path, String type, int locationX, int locationY, String status, int number, int controlX, int controlY) {
+    public Flower(String path, String type, int locationX, int locationY, String status, int number, int controlX, int controlY, int flowerNum) {
         this.FLOWER_TYPE = type;
         this.LOCATION_X = locationX;
         this.LOCATION_Y = locationY;
@@ -32,6 +33,7 @@ public class Flower{
         this.CURRENT_TEXTURE = setTexture(path);
         this.IN_MAP_X = controlX;
         this.IN_MAP_Y = controlY;
+        this.FLOWER_TEXTURE_NUMBER = flowerNum;
     }
 
     public Flower() {       // The base example

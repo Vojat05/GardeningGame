@@ -17,7 +17,8 @@ public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
     Player dad = new Player(this, 200, 200);
     public byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
-    public String[] textures = {"res/Red_Tulip.png", "res/Red_Tulip.png"};      // Array of texture paths, mush be the same ammount as flowers
+    public String[] textures = {"res/Water.png", "res/Red_Tulip.png", "res/Blue_Rose.png"};      // Array of texture paths, mush be bigger by one then number of flowers
+    public InventoryPanel inventoryPanel;
 
     public GamePanel(int windowWidth, int windowHeight) { // width == window width ; height == window height
         
@@ -31,9 +32,13 @@ public class GamePanel extends JPanel{
         }
 
         {       // Adding the listeners
-            addKeyListener(new KeyboardInput(dad));
+            addKeyListener(new KeyboardInput(this, dad));
             addMouseListener(new MouseInput(dad, this));
         }
+    }
+
+    protected void setIPanel(InventoryPanel iPanel) {       // Sets the inventory panel field (just for the repaint method to be functional in the listener)
+        this.inventoryPanel = iPanel;
     }
 
     protected void setPanelSize(int width, int height) {
@@ -54,7 +59,7 @@ public class GamePanel extends JPanel{
                 if (plant.STATUS.equals("Alive")) {
                     plant.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE.value;
                     plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR.value;
-                    plant.CURRENT_TEXTURE = plant.setTexture("res/Red_Tulip.png");
+                    plant.CURRENT_TEXTURE = plant.setTexture(textures[plant.FLOWER_TEXTURE_NUMBER]);
                 }
             }
         }

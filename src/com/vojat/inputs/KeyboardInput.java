@@ -3,6 +3,7 @@ package com.vojat.inputs;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
+import com.vojat.garden.GamePanel;
 import com.vojat.garden.Player;
 
 
@@ -14,10 +15,12 @@ import com.vojat.garden.Player;
 public class KeyboardInput implements KeyListener{
 
     private Player dad;
+    private GamePanel gamePanel;
     private boolean up = true, down = true, left = true, right = true;
     private int speed = 6;
 
-    public KeyboardInput (Player dad) {
+    public KeyboardInput (GamePanel gamePanel, Player dad) {
+        this.gamePanel = gamePanel;
         this.dad = dad;
     }
 
@@ -83,14 +86,16 @@ public class KeyboardInput implements KeyListener{
                 } else {
                     dad.selectedItem = 0;
                 }
+                gamePanel.inventoryPanel.repaintItem(gamePanel, dad);
                 break;
 
             case KeyEvent.VK_Q:
                 if (dad.selectedItem > 0) {
                     dad.selectedItem--;
                 } else {
-                    dad.selectedItem = 0;
+                    dad.selectedItem = (byte) (dad.inventory.length - 1);
                 }
+                gamePanel.inventoryPanel.repaintItem(gamePanel, dad);
                 break;
 
             case KeyEvent.VK_T:
