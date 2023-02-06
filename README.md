@@ -1,5 +1,5 @@
 # Gardening Game
-DO NOT MOVE THE JAR FILE!! Otherwise it won't load the images<br>
+<b>DO NOT MOVE THE JAR FILE!!</b> Otherwise it won't load the images<br>
 Only major changes are documented here<br><br>
 <b>+</b> == New feature<br>
 <b>-</b> == Removed feature<br>
