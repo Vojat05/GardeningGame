@@ -14,7 +14,7 @@ public class Player {
     public static int windowLimitX, windowLimitY;
     public int LOCATION_X = 0, LOCATION_Y = 0;
     public BufferedImage currentTexture;
-    public String[] inventory = {"water", "tulip", "rose"};        // This is a set of items the player has (inventory)
+    public String[] inventory = {"water", "tulip", "rose"};                                                 // This is a set of items the player has (inventory)
     public byte selectedItem = 0;
 
     public Player(GamePanel gamePanel, int positionX, int positionY) {
@@ -23,13 +23,13 @@ public class Player {
         this.LOCATION_Y = positionY;
     }
 
-    public Player() {;}     // With this constructor, the player doesn't have the access to his plant ability
+    public Player() {;}                                                                                     // With this constructor, the player doesn't have the access to his abilities
 
     protected void setLimit(int limitX, int limitY) {
         windowLimitX = limitX;
         windowLimitY = limitY;
 
-        setTexture("res/Dad_Texture_F.png");      // Sets the default player texture on startup to look forward
+        setTexture("res/Dad_Texture_F.png");                                                          // Sets the default player texture on startup to look forward
     }
 
     public void setTexture(String path) {
@@ -41,7 +41,7 @@ public class Player {
         }
     }
 
-    public void moveUP(int speed) {     // Moves the player on the Y line
+    public void moveUP(int speed) {                                                                         // Moves the player on the Y line
         if (LOCATION_Y < 0) {
             LOCATION_Y += 1;
         } else if (LOCATION_Y > windowLimitY-230) {
@@ -51,7 +51,7 @@ public class Player {
         }
     }
 
-    public void moveSIDE(int speed) {       // Moves the player on the X line
+    public void moveSIDE(int speed) {                                                                       // Moves the player on the X line
         if (LOCATION_X < 0) {
             LOCATION_X += 1;
         } else if (LOCATION_X > windowLimitX-128) {
@@ -61,7 +61,7 @@ public class Player {
         }
     }
 
-    public void plant(Flower flower) {      // Plants the passed flower
+    public void plant(Flower flower) {                                                                      // Plants the passed flower
         gamePanel.summonFlower(flower);
     }
 

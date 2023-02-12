@@ -26,13 +26,13 @@ public class MouseInput implements MouseListener{
         switch (e.getButton()) {
             case MouseEvent.BUTTON1:
                 if (dad.selectedItem > 0) {
-                    if (GamePanel.map[controlVariableY][controlVariableX] >= 1) {       // Checks if the desired area is occupied or not
+                    if (GamePanel.map[controlVariableY][controlVariableX] >= 1) {                       // Checks if the desired area is occupied or not
                         System.err.println(ErrorList.ERR_CANTPLANT.message);
-                    } else {        // If not, creates another Flower object to place here
+                    } else {                                                                            // If not, creates another Flower object to place here
                         flower = new Flower(GamePanel.textures[dad.selectedItem], dad.inventory[dad.selectedItem], gardenerX(e), gardenerY(e), "Alive", assignNumberToPlant, controlVariableX, controlVariableY, dad.selectedItem);
                         dad.plant(flower);
-                        wirteIntoMap(controlVariableY, controlVariableX, 1);        // Writes it's value into map
-                        assignNumberToPlant++;      // Assigns the plant index
+                        wirteIntoMap(controlVariableY, controlVariableX, 1);                      // Writes it's value into map
+                        assignNumberToPlant++;                                                          // Assigns the plant index
                     }
                 } else if(dad.selectedItem == 0) {
                     if (GamePanel.map[controlVariableY][controlVariableX] == 0) {
@@ -61,7 +61,7 @@ public class MouseInput implements MouseListener{
     @Override
     public void mouseExited(MouseEvent e) {;}    
 
-    private int gardenerX(MouseEvent e) {       // Center the click into a grid place for X
+    private int gardenerX(MouseEvent e) {                                                               // Center the click into a grid place for X
         if (e.getX() <= 128) {
             controlVariableX = 0;
             return 0;
@@ -110,7 +110,7 @@ public class MouseInput implements MouseListener{
         }
     }
 
-    private int gardenerY(MouseEvent e) {       // Center the click into a grid place for Y
+    private int gardenerY(MouseEvent e) {                                                                 // Center the click into a grid place for Y
         if (e.getY() <= 128) {
             controlVariableY = 0;
             return 0;
@@ -138,11 +138,11 @@ public class MouseInput implements MouseListener{
         }
     }
 
-    private void wirteIntoMap(int i, int j, int value) {
+    private void wirteIntoMap(int i, int j, int value) {                                                    // Writes data into map at specified location
         GamePanel.map[i][j] = (byte) value;
     }
 
-    private void getMapData() {
+    private void getMapData() {                                                                             // Retrieves all data from map and prints it
         for (int i=0; i<GamePanel.map.length; i++) {
             for (int j=0; j<GamePanel.map[0].length; j++) {
                 System.out.print(" | " + GamePanel.map[i][j] + " | ");

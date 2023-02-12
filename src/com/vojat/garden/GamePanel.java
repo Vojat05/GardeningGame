@@ -16,28 +16,28 @@ import com.vojat.inputs.MouseInput;
 public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
     Player dad = new Player(this, 200, 200);
-    public static byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
-    public static String[] textures = {"res/Water.png", "res/Red_Tulip.png", "res/Blue_Rose.png"};      // Array of texture paths, mush be bigger by one then number of flowers
+    public static byte[][] map = new byte[8][15];                                                                   // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
+    public static String[] textures = {"res/Water.png", "res/Red_Tulip.png", "res/Blue_Rose.png"};                  // Array of texture paths, mush be bigger by one then number of flowers and in the same order as player inventory
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
 
-    public GamePanel(int windowWidth, int windowHeight) { // width == window width ; height == window height
+    public GamePanel(int windowWidth, int windowHeight) {                                                           // width == window width ; height == window height
         dad.setLimit(windowWidth, windowHeight);
-        setFocusable(true);     // Sets the JPanel focusable, it is later packed into the JFrame
+        setFocusable(true);                                                                               // Sets the JPanel focusable, it is later packed into the JFrame
 
-        {       // Passing information for the game window, visible by the pack method
-            setPanelSize(windowWidth, windowHeight-50);
+        {                                                                                                           // Passing information for the game window, visible by the pack method
+            setPreferredSize(new Dimension(windowWidth, windowHeight-50));
             setBackground();
             setBorder(new LineBorder(Color.BLACK));
         }
 
-        {       // Adding the listeners
+        {                                                                                                           // Adding the listeners
             addKeyListener(new KeyboardInput(this, dad));
             addMouseListener(new MouseInput(dad));
         }
 
-        {       // Adding the inventory table
+        {                                                                                                           // Adding the inventory table
             fullInv.setBorder(new LineBorder(Color.BLACK));
             fullInv.setPreferredSize(new Dimension(windowWidth, 80));
             fullInv.setBackground(new Color(0, 0, 0, 50));
@@ -49,23 +49,19 @@ public class GamePanel extends JPanel{
 
 
 
-    protected void setIPanel(InventoryPanel iPanel) {       // Sets the inventory panel field (just for the repaint method to be functional in the listener)
+    protected void setIPanel(InventoryPanel iPanel) {                                                               // Sets the inventory panel field (just for the repaint method to be functional in the listener)
         this.inventoryPanel = iPanel;
     }
 
-    protected void setPanelSize(int width, int height) {        // Method for setting the panel size
-        setPreferredSize(new Dimension(width, height));
-    }
-
-    private void setBackground() {          // Method that sets the background to a desired thing
+    private void setBackground() {                                                                                  // Method that sets the background to a desired thing
         setBackground(new Color(84, 194, 4));
     }
 
-    public void summonFlower(Flower flower) {       // Adds a flower to flowers ArrayList
+    public void summonFlower(Flower flower) {                                                                       // Adds a flower to flowers ArrayList
         flowers.add(flower);
     }
 
-    public void changeVisibility(JPanel panel, boolean value) {         // Changes the visibility of an inventory table
+    public void changeVisibility(JPanel panel, boolean value) {                                                     // Changes the visibility of an inventory table
         panel.setVisible(value);
         if (inventoryVisible == true) {
             inventoryVisible = false;
@@ -74,7 +70,7 @@ public class GamePanel extends JPanel{
         }
     }
 
-    public void waterFlower(Flower flower, int positionX, int positionY) {          // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
+    public void waterFlower(Flower flower, int positionX, int positionY) {                                          // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
         for (Flower plant : flowers) {
             if (plant.IN_MAP_X == positionX && plant.IN_MAP_Y == positionY) {
                 if (plant.STATUS.equals("Alive")) {
@@ -94,7 +90,7 @@ public class GamePanel extends JPanel{
         super.paintComponent(g);
 
         try{
-            for (int i=0; i<flowers.size(); i++) {      // Drawing all the placed plants by for loop to edit the plants
+            for (int i=0; i<flowers.size(); i++) {                                                                  // Drawing all the placed plants by for loop to edit the plants
                 Flower plant = flowers.get(i);
                 if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
                     if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
@@ -110,7 +106,7 @@ public class GamePanel extends JPanel{
                 }
             }
 
-            g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null);       // The Dad Image has a resolution of 32 x 32 pixels
+            g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null); // The Dad Image has a resolution of 32 x 32 pixels
         } catch(NullPointerException npe) {
             System.err.println(ErrorList.ERR_NPE.message);
         }

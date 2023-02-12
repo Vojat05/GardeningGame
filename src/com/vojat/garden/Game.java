@@ -10,7 +10,7 @@ public class Game implements Runnable{
 
     public Game(int panelWidth, int panelHeight) {
         gamePanel = new GamePanel(panelWidth, panelHeight);
-        InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);
+        InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);                          // Creates a new InventoryPanel object to pass into the main panel
         MainPanel mainPanel = new MainPanel(gamePanel, inventoryPanel);
         new Window(mainPanel, gamePanel.dad);
 
@@ -19,13 +19,13 @@ public class Game implements Runnable{
         gamePanel.setIPanel(inventoryPanel);
     }
 
-    public void startGameLoop() {       // Method to start the Game Loop
+    public void startGameLoop() {                                                                                                       // Method to start the Game Loop
         gameLoop = new Thread(this);
         gameLoop.start();
     }
 
     @Override
-    public void run() {     // Game Loop
+    public void run() {                                                                                                                 // Game Loop
 
         double timePerFrame = 1000000000.0 / FPS_SET;
         long now;
@@ -34,19 +34,19 @@ public class Game implements Runnable{
         long lastCheck = System.currentTimeMillis();
         double deltaF = 0;
 
-        while (true) {     // While this loop runs, the game updates
+        while (true) {                                                                                                                  // While this loop runs, the game updates
             now = System.nanoTime();
             
             deltaF += (now - previousTime) / timePerFrame;
             previousTime = now;
 
-            if (deltaF >= 1) {      // Repaints every 120 frames
+            if (deltaF >= 1) {                                                                                                          // Repaints every 120 frames
                 gamePanel.repaint();
                 fps++;
                 deltaF--;
             }
 
-            if (System.currentTimeMillis() - lastCheck >= 1000) {       // The FPS counter
+            if (System.currentTimeMillis() - lastCheck >= 1000) {                                                                       // The FPS counter
                 lastCheck = System.currentTimeMillis();
                 System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
                 fps = 0;
