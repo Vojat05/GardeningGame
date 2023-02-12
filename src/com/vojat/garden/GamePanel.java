@@ -19,9 +19,10 @@ public class GamePanel extends JPanel{
     public byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
     public String[] textures = {"res/Water.png", "res/Red_Tulip.png", "res/Blue_Rose.png"};      // Array of texture paths, mush be bigger by one then number of flowers
     public InventoryPanel inventoryPanel;
+    public JPanel fullInv = new JPanel();
+    public boolean inventoryVisible = true;
 
     public GamePanel(int windowWidth, int windowHeight) { // width == window width ; height == window height
-        
         dad.setLimit(windowWidth, windowHeight);
         setFocusable(true);     // Sets the JPanel focusable, it is later packed into the JFrame
 
@@ -34,6 +35,14 @@ public class GamePanel extends JPanel{
         {       // Adding the listeners
             addKeyListener(new KeyboardInput(this, dad));
             addMouseListener(new MouseInput(dad, this));
+        }
+
+        {       // Adding the inventory table
+            fullInv.setBorder(new LineBorder(Color.BLACK));
+            fullInv.setPreferredSize(new Dimension(windowWidth, 80));
+            fullInv.setBackground(new Color(0, 0, 0, 50));
+            fullInv.setVisible(false);
+            add(fullInv);
         }
     }
 
@@ -51,6 +60,15 @@ public class GamePanel extends JPanel{
 
     public void summonFlower(Flower flower) {
         flowers.add(flower);
+    }
+
+    public void changeVisibility(JPanel panel, boolean value) {
+        panel.setVisible(value);
+        if (inventoryVisible == true) {
+            inventoryVisible = false;
+        } else {
+            inventoryVisible = true;
+        }
     }
 
     public void waterFlower(Flower flower, int positionX, int positionY) {
