@@ -46,6 +46,9 @@ public class GamePanel extends JPanel{
         }
     }
 
+
+
+
     protected void setIPanel(InventoryPanel iPanel) {       // Sets the inventory panel field (just for the repaint method to be functional in the listener)
         this.inventoryPanel = iPanel;
     }
@@ -82,6 +85,10 @@ public class GamePanel extends JPanel{
             }
         }
     }
+
+
+
+    
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

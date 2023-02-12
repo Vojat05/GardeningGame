@@ -99,7 +99,6 @@ public class KeyboardInput implements KeyListener{
                 break;
 
             case KeyEvent.VK_T:
-                System.out.println("Selected item: " + dad.inventory[dad.selectedItem]);
                 gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
                 break;
         }
