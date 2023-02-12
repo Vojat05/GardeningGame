@@ -50,19 +50,19 @@ public class GamePanel extends JPanel{
         this.inventoryPanel = iPanel;
     }
 
-    protected void setPanelSize(int width, int height) {
+    protected void setPanelSize(int width, int height) {        // Method for setting the panel size
         setPreferredSize(new Dimension(width, height));
     }
 
-    private void setBackground() {
+    private void setBackground() {          // Method that sets the background to a desired thing
         setBackground(new Color(84, 194, 4));
     }
 
-    public void summonFlower(Flower flower) {
+    public void summonFlower(Flower flower) {       // Adds a flower to flowers ArrayList
         flowers.add(flower);
     }
 
-    public void changeVisibility(JPanel panel, boolean value) {
+    public void changeVisibility(JPanel panel, boolean value) {         // Changes the visibility of an inventory table
         panel.setVisible(value);
         if (inventoryVisible == true) {
             inventoryVisible = false;
@@ -71,7 +71,7 @@ public class GamePanel extends JPanel{
         }
     }
 
-    public void waterFlower(Flower flower, int positionX, int positionY) {
+    public void waterFlower(Flower flower, int positionX, int positionY) {          // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
         for (Flower plant : flowers) {
             if (plant.IN_MAP_X == positionX && plant.IN_MAP_Y == positionY) {
                 if (plant.STATUS.equals("Alive")) {
@@ -87,7 +87,7 @@ public class GamePanel extends JPanel{
         super.paintComponent(g);
 
         try{
-            for (int i=0; i<flowers.size(); i++) {      // Drawing all the placed plants the old school way
+            for (int i=0; i<flowers.size(); i++) {      // Drawing all the placed plants by for loop to edit the plants
                 Flower plant = flowers.get(i);
                 if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
                     if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
