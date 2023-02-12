@@ -27,12 +27,12 @@ public class Window extends JFrame {
         mainPanel.setPanelSize(getSize().width, getSize().height);
         dad.setLimit(getSize().width, getSize().height);
 
-        if (dad.LOCATION_X > dad.windowLimitX-120) {
-            dad.LOCATION_X = dad.windowLimitX-130;
+        if (dad.LOCATION_X > Player.windowLimitX-120) {
+            dad.LOCATION_X = Player.windowLimitX-130;
         }
 
-        if (dad.LOCATION_Y > dad.windowLimitY-120) {
-            dad.LOCATION_Y = dad.windowLimitY-150;
+        if (dad.LOCATION_Y > Player.windowLimitY-120) {
+            dad.LOCATION_Y = Player.windowLimitY-150;
         }
     }
 }

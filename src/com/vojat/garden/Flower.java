@@ -28,20 +28,12 @@ public class Flower{
         this.LOCATION_Y = locationY;
         this.STATUS = status;
         this.PLANT_NUMBER = number;
-        this.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE.value;
-        this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR.value;
+        this.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;
+        this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_REDTULIP.value;
         this.CURRENT_TEXTURE = setTexture(path);
         this.IN_MAP_X = controlX;
         this.IN_MAP_Y = controlY;
         this.FLOWER_TEXTURE_NUMBER = flowerNum;
-    }
-
-    public Flower() {       // The base example
-        this.FLOWER_TYPE = "tulip";
-        this.STATUS = "Alive";
-        this.LOCATION_X = 256;
-        this.LOCATION_Y = 64;
-        setTexture("res/Red_Tulip.png");
     }
 
     public BufferedImage setTexture(String path) {

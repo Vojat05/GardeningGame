@@ -1,6 +1,5 @@
 package com.vojat.garden;
 
-//import java.util.HashMap;
 
 public class Game implements Runnable{
     private static final String ANSI_GREEN = "\u001B[32m";
