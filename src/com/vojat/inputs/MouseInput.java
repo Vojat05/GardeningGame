@@ -10,15 +10,13 @@ import com.vojat.garden.Player;
 
 public class MouseInput implements MouseListener{
     private Player dad;
-    private GamePanel gamePanel;
     private int controlVariableX;
     private int controlVariableY;
     private int assignNumberToPlant = 0;
     private Flower flower;
 
-    public MouseInput(Player player, GamePanel gamePanel) {
+    public MouseInput(Player player) {
         this.dad = player;
-        this.gamePanel = gamePanel;
     }
 
     @Override
@@ -28,16 +26,16 @@ public class MouseInput implements MouseListener{
         switch (e.getButton()) {
             case MouseEvent.BUTTON1:
                 if (dad.selectedItem > 0) {
-                    if (gamePanel.map[controlVariableY][controlVariableX] >= 1) {       // Checks if the desired area is occupied or not
+                    if (GamePanel.map[controlVariableY][controlVariableX] >= 1) {       // Checks if the desired area is occupied or not
                         System.err.println(ErrorList.ERR_CANTPLANT.message);
                     } else {        // If not, creates another Flower object to place here
-                        flower = new Flower(gamePanel.textures[dad.selectedItem], dad.inventory[dad.selectedItem], gardenerX(e), gardenerY(e), "Alive", assignNumberToPlant, controlVariableX, controlVariableY, dad.selectedItem);
+                        flower = new Flower(GamePanel.textures[dad.selectedItem], dad.inventory[dad.selectedItem], gardenerX(e), gardenerY(e), "Alive", assignNumberToPlant, controlVariableX, controlVariableY, dad.selectedItem);
                         dad.plant(flower);
                         wirteIntoMap(controlVariableY, controlVariableX, 1);        // Writes it's value into map
                         assignNumberToPlant++;      // Assigns the plant index
                     }
                 } else if(dad.selectedItem == 0) {
-                    if (gamePanel.map[controlVariableY][controlVariableX] == 0) {
+                    if (GamePanel.map[controlVariableY][controlVariableX] == 0) {
                         System.err.println(ErrorList.ERR_NOPLANT.message);
                     } else {
                         dad.water(flower, controlVariableX, controlVariableY);
@@ -141,13 +139,13 @@ public class MouseInput implements MouseListener{
     }
 
     private void wirteIntoMap(int i, int j, int value) {
-        gamePanel.map[i][j] = (byte) value;
+        GamePanel.map[i][j] = (byte) value;
     }
 
     private void getMapData() {
-        for (int i=0; i<gamePanel.map.length; i++) {
-            for (int j=0; j<gamePanel.map[0].length; j++) {
-                System.out.print(" | " + gamePanel.map[i][j] + " | ");
+        for (int i=0; i<GamePanel.map.length; i++) {
+            for (int j=0; j<GamePanel.map[0].length; j++) {
+                System.out.print(" | " + GamePanel.map[i][j] + " | ");
             }
             System.out.println("");
         }

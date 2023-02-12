@@ -16,8 +16,8 @@ import com.vojat.inputs.MouseInput;
 public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
     Player dad = new Player(this, 200, 200);
-    public byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
-    public String[] textures = {"res/Water.png", "res/Red_Tulip.png", "res/Blue_Rose.png"};      // Array of texture paths, mush be bigger by one then number of flowers
+    public static byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
+    public static String[] textures = {"res/Water.png", "res/Red_Tulip.png", "res/Blue_Rose.png"};      // Array of texture paths, mush be bigger by one then number of flowers
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
@@ -34,7 +34,7 @@ public class GamePanel extends JPanel{
 
         {       // Adding the listeners
             addKeyListener(new KeyboardInput(this, dad));
-            addMouseListener(new MouseInput(dad, this));
+            addMouseListener(new MouseInput(dad));
         }
 
         {       // Adding the inventory table
@@ -78,8 +78,8 @@ public class GamePanel extends JPanel{
         for (Flower plant : flowers) {
             if (plant.IN_MAP_X == positionX && plant.IN_MAP_Y == positionY) {
                 if (plant.STATUS.equals("Alive")) {
-                    plant.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE.value;
-                    plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR.value;
+                    plant.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;
+                    plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_REDTULIP.value;
                     plant.CURRENT_TEXTURE = plant.setTexture(textures[plant.FLOWER_TEXTURE_NUMBER]);
                 }
             }
@@ -100,7 +100,7 @@ public class GamePanel extends JPanel{
                     if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
                         plant.CURRENT_TEXTURE = plant.setTexture("res/Cat_Texture_F.png");
                         plant.STATUS = "Dead";
-                    } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE.value) {
+                    } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE_REDTULIP.value) {
                         plant.CURRENT_TEXTURE = plant.setTexture("res/Land.png");
                     }
                     g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 128, 128, null);
