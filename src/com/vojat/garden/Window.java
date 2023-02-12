@@ -13,10 +13,9 @@ public class Window extends JFrame {
         setTitle("Dad The Gardener");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
-        // setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         add(mainPanel);
-        pack();     // Create a window that fits the all stuff the needs to fit
+        pack();                                                                         // Create a window that fits the all stuff the needs to fit
         validate();
         setVisible(true);
     }

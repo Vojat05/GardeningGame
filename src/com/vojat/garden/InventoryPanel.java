@@ -22,7 +22,7 @@ public class InventoryPanel extends JPanel{
         repaintItem(gamePanel, dad);
     }
 
-    public void repaintItem(GamePanel gamePanel, Player dad) {      // Repaint the selected item
+    public void repaintItem(GamePanel gamePanel, Player dad) {                                                                  // Repaint the selected item
         ImageIcon image = new ImageIcon(GamePanel.textures[dad.selectedItem]);
         Image pic = image.getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH);
         image = new ImageIcon(pic);
