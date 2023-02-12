@@ -19,7 +19,7 @@ public class KeyboardInput implements KeyListener{
     private boolean up = true, down = true, left = true, right = true;
     private int speed = 6;
 
-    public KeyboardInput (GamePanel gamePanel, Player dad) {
+    public KeyboardInput(GamePanel gamePanel, Player dad) {
         this.gamePanel = gamePanel;
         this.dad = dad;
     }
@@ -100,6 +100,7 @@ public class KeyboardInput implements KeyListener{
 
             case KeyEvent.VK_T:
                 System.out.println("Selected item: " + dad.inventory[dad.selectedItem]);
+                gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
                 break;
         }
     }
