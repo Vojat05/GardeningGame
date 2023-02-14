@@ -86,7 +86,7 @@ public class KeyboardInput implements KeyListener{
                 } else {
                     dad.selectedItem = 0;
                 }
-                gamePanel.inventoryPanel.repaintItem(gamePanel, dad);
+                gamePanel.inventoryPanel.repaintItem(dad);
                 break;
 
             case KeyEvent.VK_Q:
@@ -95,7 +95,7 @@ public class KeyboardInput implements KeyListener{
                 } else {
                     dad.selectedItem = (byte) (dad.inventory.length - 1);
                 }
-                gamePanel.inventoryPanel.repaintItem(gamePanel, dad);
+                gamePanel.inventoryPanel.repaintItem(dad);
                 break;
 
             case KeyEvent.VK_T:

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.awt.Dimension;
 import java.awt.Color;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
@@ -39,8 +40,13 @@ public class GamePanel extends JPanel{
 
         {                                                                                                           // Adding the inventory table
             fullInv.setBorder(new LineBorder(Color.BLACK));
-            fullInv.setPreferredSize(new Dimension(windowWidth, 80));
+            fullInv.setPreferredSize(new Dimension(windowWidth - 20, 80));
             fullInv.setBackground(new Color(0, 0, 0, 50));
+            for (int i=0; i<dad.inventory.length; i++) {
+                JLabel item = new JLabel();
+                InventoryPanel.repaintItem(i, item);
+                fullInv.add(item);
+            }
             fullInv.setVisible(false);
             add(fullInv);
         }
