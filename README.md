@@ -54,3 +54,8 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> + Added the player inventory with 2 flowers and a watering can</li>
 </ul>
+
+## 14/2/2023
+<ul>
+    <li> + Added the inventory panel. To open visible inventory press T</li>
+</ul>
