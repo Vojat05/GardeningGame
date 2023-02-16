@@ -20,6 +20,7 @@ public class Window extends JFrame {
         setVisible(true);
     }
 
+    @Override
     public void validate() {
         super.validate();
 
