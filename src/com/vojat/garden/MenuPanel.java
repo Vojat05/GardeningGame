@@ -13,6 +13,11 @@ public class MenuPanel extends JPanel{
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(windowWidth, windowHeight));
 
+        JPanel spacer = new JPanel();
+        spacer.setPreferredSize(new Dimension(windowWidth-250, 100));
+        spacer.setBackground(null);
+
         add(buttonPanel);
+        add(spacer);
     }
 }

@@ -39,4 +39,10 @@ public class InventoryPanel extends JPanel{
         label.setBorder(new LineBorder(Color.BLACK, 2));
     }
 
+    public static void repaintItem(JLabel label, String fileAdress) {
+        ImageIcon image = new ImageIcon(fileAdress);
+        Image pic = image.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        image = new ImageIcon(pic);
+        label.setIcon(image);
+    }
 }
