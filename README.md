@@ -42,7 +42,6 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> + Added the flower dying mechanism</li>
     <li> + Added a 2 dimensional map for writing the positions and types of flowers into</li>
-    <li> + Added a HashMap decoder for the map</li>
 </ul>
 
 ## 4/2/2023
