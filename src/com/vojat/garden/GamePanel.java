@@ -92,6 +92,7 @@ public class GamePanel extends JPanel{
 
     
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -100,7 +101,7 @@ public class GamePanel extends JPanel{
                 Flower plant = flowers.get(i);
                 if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
                     if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
-                        plant.CURRENT_TEXTURE = plant.setTexture("res/Cat_Texture_F.png");
+                        plant.CURRENT_TEXTURE = plant.setTexture("res/MrUgly.png");
                         plant.STATUS = "Dead";
                     } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE_REDTULIP.value) {
                         plant.CURRENT_TEXTURE = plant.setTexture("res/Land.png");
