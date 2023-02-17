@@ -14,7 +14,7 @@ public class MainPanel extends JPanel{
         }
     }
 
-    protected void setPanelSize(int width, int height) {
+    public void setPanelSize(int width, int height) {
         setPreferredSize(new Dimension(width, height));
     }
 }
