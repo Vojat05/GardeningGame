@@ -55,7 +55,7 @@ public class GamePanel extends JPanel{
 
 
 
-    protected void setIPanel(InventoryPanel iPanel) {                                                               // Sets the inventory panel field (just for the repaint method to be functional in the listener)
+    public void setIPanel(InventoryPanel iPanel) {                                                               // Sets the inventory panel field (just for the repaint method to be functional in the listener)
         this.inventoryPanel = iPanel;
     }
 
