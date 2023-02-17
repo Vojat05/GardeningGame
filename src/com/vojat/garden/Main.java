@@ -1,62 +1,49 @@
 package com.vojat.garden;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Main{
     public static void main(String[] args) {
-        JFrame menuWindow = new JFrame();                                                                   // Create the menu window
+        JFrame menuWindow = new JFrame();                                                                       // Create the menu window
 
-        JButton start = new JButton("Start Game");                                                         // Create the start game button
+        JButton start = new JButton("New Game");                                                         // Create the start game button
         {
-            start.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    menuWindow.dispose();
-                    new Game(1920, 1080);
-                }
+            start.addActionListener((e) -> {
+                menuWindow.dispose();
+                new Game(1920, 1080);
             });
-            start.setPreferredSize(new Dimension(150, 40));
-            start.setFocusPainted(false);
+            buttonSetup(start, 150, 40);
         }
 
         JButton load = new JButton("Load Game");
         {
-            load.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Game load button presed");
-                }
-            });
-            load.setPreferredSize(new Dimension(150, 40));
-            load.setFocusPainted(false);
+            load.addActionListener((e) -> System.out.println("Load game button"));
+            buttonSetup(load, 150, 40);
         }
 
         JButton exit = new JButton("Quit");
         {
-            exit.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    menuWindow.dispose();
-                }
-            });
-            exit.setPreferredSize(new Dimension(150, 40));
-            exit.setFocusPainted(false);
+            exit.addActionListener((e) -> menuWindow.dispose());
+            buttonSetup(exit, 150, 40);
         }
 
 
         JPanel buttonPanel = new JPanel();                                                                  // Create the button panel
         {
-            buttonPanel.setPreferredSize(new Dimension(200, 600));
-            buttonPanel.setBackground(Color.CYAN);
+            JPanel spacer = new JPanel();
+            JLabel logo = new JLabel();
+            InventoryPanel.repaintItem(logo, "res/MrUgly.png");
+            spacer.setBackground(null);
+            spacer.add(logo);
+            buttonPanel.setPreferredSize(new Dimension(200, 1000));
+            buttonPanel.setBackground(null);
 
+            buttonPanel.add(spacer);
             buttonPanel.add(start);
             buttonPanel.add(load);
             buttonPanel.add(exit);
@@ -73,5 +60,10 @@ public class Main{
             menuWindow.pack();
             menuWindow.setVisible(true);
         }
+    }
+
+    private static void buttonSetup(JButton button, int sizeX, int sizeY) {
+        button.setPreferredSize(new Dimension(sizeX, sizeY));
+        button.setFocusPainted(false);
     }
 }

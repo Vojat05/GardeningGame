@@ -59,3 +59,8 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> + Added the inventory panel. To open visible inventory press T</li>
 </ul>
+
+## 17/2/2023
+<ul>
+    <li> + Added the game menu to select what you want before playing the actual game itself</li>
+</ul>
