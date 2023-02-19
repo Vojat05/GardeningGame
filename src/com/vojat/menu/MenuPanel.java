@@ -1,4 +1,4 @@
-package com.vojat.garden;
+package com.vojat.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
