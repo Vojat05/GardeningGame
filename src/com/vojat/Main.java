@@ -1,4 +1,4 @@
-package com.vojat.garden;
+package com.vojat;
 
 import java.awt.Dimension;
 
@@ -6,6 +6,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.vojat.garden.Game;
+import com.vojat.garden.InventoryPanel;
+import com.vojat.menu.MenuPanel;
 
 public class Main{
     public static void main(String[] args) {
