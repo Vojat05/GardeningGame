@@ -10,6 +10,7 @@ public class MenuPanel extends JPanel{
     public MenuPanel(int windowWidth, int windowHeight, JPanel buttonPanel) {
 
         setFocusable(true);
+        setOpaque(true);
         setBackground(Color.DARK_GRAY);
         setPreferredSize(new Dimension(windowWidth, windowHeight));
 
