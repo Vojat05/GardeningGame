@@ -27,7 +27,7 @@ public class KeyboardInput implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
                 if (up) {
                     dad.setTexture("res/Dad_Texture_B.png");
                     up = false;
@@ -35,7 +35,7 @@ public class KeyboardInput implements KeyListener{
                 dad.moveUP(-speed);
                 break;
             
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 if (down) {
                     dad.setTexture("res/Dad_Texture_F.png");
                     down = false;
@@ -43,7 +43,7 @@ public class KeyboardInput implements KeyListener{
                 dad.moveUP(speed);
                 break;
             
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
                 if (left) {
                     dad.setTexture("res/Dad_Texture_L.png");
                     left = false;
@@ -51,7 +51,7 @@ public class KeyboardInput implements KeyListener{
                 dad.moveSIDE(-speed);
                 break;
 
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 if (right) {
                     dad.setTexture("res/Dad_Texture_R.png");
                     right = false;
@@ -64,19 +64,19 @@ public class KeyboardInput implements KeyListener{
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
                 up = true;
                 break;
             
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 down = true;
                 break;
             
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
                 left = true;
                 break;
 
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 right = true;
                 break;
             
