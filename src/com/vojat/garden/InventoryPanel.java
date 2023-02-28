@@ -45,4 +45,9 @@ public class InventoryPanel extends JPanel{
         image = new ImageIcon(pic);
         label.setIcon(image);
     }
+
+    public static ImageIcon createIcon(String fileAdress, int sizeX, int sizeY) {
+        Image pic = new ImageIcon(fileAdress).getImage().getScaledInstance(sizeX, sizeY, java.awt.Image.SCALE_SMOOTH);
+        return new ImageIcon(pic);
+    }
 }
