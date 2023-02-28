@@ -30,7 +30,7 @@ public class Main{
             buttonSetup(load, 150, 40);
         }
 
-        JButton exit = new JButton("Quit");
+        JButton exit = new JButton("Exit");
         {
             exit.addActionListener((e) -> menuWindow.dispose());
             buttonSetup(exit, 150, 40);
