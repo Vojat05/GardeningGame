@@ -26,8 +26,14 @@ public class Main{
 
         JButton load = new JButton(InventoryPanel.createIcon("res/Load.png", 150, 40));
         {
-            load.addActionListener((e) -> System.out.println("Load game button"));
+            load.addActionListener((e) -> System.out.println("Open saves menu"));
             buttonSetup(load, 150, 40);
+        }
+
+        JButton options = new JButton(InventoryPanel.createIcon("res/Options.png", 150, 40));
+        {
+            options.addActionListener((e) -> System.out.println("Open setting menu"));
+            buttonSetup(options, 150, 40);
         }
 
         JButton exit = new JButton(InventoryPanel.createIcon("res/Exit.png", 150, 40));
@@ -54,6 +60,7 @@ public class Main{
             buttonPanel.add(spacer);
             buttonPanel.add(start);
             buttonPanel.add(load);
+            buttonPanel.add(options);
             buttonPanel.add(exit);
         }
 

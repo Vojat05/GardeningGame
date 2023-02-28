@@ -11,7 +11,7 @@ import com.vojat.Enums.*;
 
 public class Flower{
     public BufferedImage CURRENT_TEXTURE;
-    public String FLOWER_TYPE;
+    public String TYPE;
     public String STATUS;
     public int LOCATION_X;
     public int LOCATION_Y;
@@ -23,13 +23,22 @@ public class Flower{
     public int FLOWER_TEXTURE_NUMBER;
     
     public Flower(String path, String type, int locationX, int locationY, String status, int number, int controlX, int controlY, int flowerNum) {
-        this.FLOWER_TYPE = type;
+        switch (type) {
+            case "tulip":
+                this.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;
+                this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_REDTULIP.value;
+                break;
+            
+            case "rose":
+                this.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_ROSE.value;
+                this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_ROSE.value;
+        }
+
+        this.TYPE = type;
         this.LOCATION_X = locationX;
         this.LOCATION_Y = locationY;
         this.STATUS = status;
         this.PLANT_NUMBER = number;
-        this.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;
-        this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_REDTULIP.value;
         this.CURRENT_TEXTURE = setTexture(path);
         this.IN_MAP_X = controlX;
         this.IN_MAP_Y = controlY;
