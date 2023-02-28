@@ -18,14 +18,14 @@ public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
     Player dad = new Player(this, 200, 200);
     public static byte[][] map = new byte[8][15];                                                                   // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
-    public static String[] textures = {"res/Water_Can.png", "res/Red_Tulip.png", "res/Blue_Rose.png"};                  // Array of texture paths, mush be bigger by one then number of flowers and in the same order as player inventory
+    public static String[] textures = {"res/Water_Can.png", "res/Red_Tulip.png", "res/Blue_Rose.png"};              // Array of texture paths, mush be bigger by one then number of flowers and in the same order as player inventory
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
 
     public GamePanel(int windowWidth, int windowHeight) {                                                           // width == window width ; height == window height
         dad.setLimit(windowWidth, windowHeight);
-        setFocusable(true);                                                                               // Sets the JPanel focusable, it is later packed into the JFrame
+        setFocusable(true);                                                                              // Sets the JPanel focusable, it is later packed into the JFrame
 
         {                                                                                                           // Passing information for the game window, visible by the pack method
             setPreferredSize(new Dimension(windowWidth, windowHeight-50));
@@ -69,19 +69,24 @@ public class GamePanel extends JPanel{
 
     public void changeVisibility(JPanel panel, boolean value) {                                                     // Changes the visibility of an inventory table
         panel.setVisible(value);
-        if (inventoryVisible == true) {
-            inventoryVisible = false;
-        } else {
-            inventoryVisible = true;
-        }
+        inventoryVisible = inventoryVisible ? false : true;
     }
 
     public void waterFlower(Flower flower, int positionX, int positionY) {                                          // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
         for (Flower plant : flowers) {
             if (plant.IN_MAP_X == positionX && plant.IN_MAP_Y == positionY) {
                 if (plant.STATUS.equals("Alive")) {
-                    plant.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;
-                    plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_REDTULIP.value;
+                    switch(plant.TYPE) {
+                        case "tulip":
+                            plant.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;
+                            plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_REDTULIP.value;
+                            break;
+                        
+                        case "rose":
+                            plant.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_ROSE.value;
+                            plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_ROSE.value;
+                            break;
+                    }
                     plant.CURRENT_TEXTURE = plant.setTexture(textures[plant.FLOWER_TEXTURE_NUMBER]);
                 }
             }
@@ -103,7 +108,7 @@ public class GamePanel extends JPanel{
                     if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
                         plant.CURRENT_TEXTURE = plant.setTexture("res/MrUgly.png");
                         plant.STATUS = "Dead";
-                    } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE_REDTULIP.value) {
+                    } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE.value) {
                         plant.CURRENT_TEXTURE = plant.setTexture("res/Land.png");
                     }
                     g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 128, 128, null);
@@ -113,7 +118,7 @@ public class GamePanel extends JPanel{
                 }
             }
 
-            g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null); // The Dad Image has a resolution of 32 x 32 pixels
+            g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null); // Resize of the dad texture into 128 x 128 pixels
         } catch(NullPointerException npe) {
             System.err.println(ErrorList.ERR_NPE.message);
         }

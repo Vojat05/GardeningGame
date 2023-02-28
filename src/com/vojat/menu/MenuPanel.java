@@ -11,7 +11,7 @@ public class MenuPanel extends JPanel{
 
         setFocusable(true);
         setOpaque(true);
-        setBackground(Color.DARK_GRAY);
+        setBackground(Color.DARK_GRAY);                 // This is the entire main menu background
         setPreferredSize(new Dimension(windowWidth, windowHeight));
 
         JPanel spacer = new JPanel();
