@@ -63,3 +63,9 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> + Added the game menu to select what you want before playing the actual game itself</li>
 </ul>
+
+## 28/2/2023
+<ul>
+    <li> * Changed the button textures</li>
+    <li> * Changed the game logo in main menu</li>
+</ul>
