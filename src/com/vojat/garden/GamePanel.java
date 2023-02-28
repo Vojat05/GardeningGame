@@ -18,7 +18,7 @@ public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
     Player dad = new Player(this, 200, 200);
     public static byte[][] map = new byte[8][15];                                                                   // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
-    public static String[] textures = {"res/Water.png", "res/Red_Tulip.png", "res/Blue_Rose.png"};                  // Array of texture paths, mush be bigger by one then number of flowers and in the same order as player inventory
+    public static String[] textures = {"res/Water_Can.png", "res/Red_Tulip.png", "res/Blue_Rose.png"};                  // Array of texture paths, mush be bigger by one then number of flowers and in the same order as player inventory
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
