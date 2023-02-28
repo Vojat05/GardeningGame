@@ -15,7 +15,7 @@ public class Main{
     public static void main(String[] args) {
         JFrame menuWindow = new JFrame();                                                                       // Create the menu window
 
-        JButton start = new JButton("New Game");                                                         // Create the start game button
+        JButton start = new JButton(InventoryPanel.createIcon("res/New.png", 150, 40));                                                         // Create the start game button
         {
             start.addActionListener((e) -> {
                 menuWindow.dispose();
@@ -24,13 +24,13 @@ public class Main{
             buttonSetup(start, 150, 40);
         }
 
-        JButton load = new JButton("Load Game");
+        JButton load = new JButton(InventoryPanel.createIcon("res/Load.png", 150, 40));
         {
             load.addActionListener((e) -> System.out.println("Load game button"));
             buttonSetup(load, 150, 40);
         }
 
-        JButton exit = new JButton("Exit");
+        JButton exit = new JButton(InventoryPanel.createIcon("res/Exit.png", 150, 40));
         {
             exit.addActionListener((e) -> menuWindow.dispose());
             buttonSetup(exit, 150, 40);
@@ -40,13 +40,17 @@ public class Main{
         JPanel buttonPanel = new JPanel();                                                                  // Create the button panel
         {
             JPanel spacer = new JPanel();
+            JPanel spacer2 = new JPanel();
             JLabel logo = new JLabel();
-            InventoryPanel.repaintItem(logo, "res/MrUgly.png");
+            InventoryPanel.repaintItem(logo, "res/Game_Logo.png");
             spacer.setBackground(null);
+            spacer2.setBackground(null);
+            spacer2.setPreferredSize(new Dimension(200, 200));
             spacer.add(logo);
             buttonPanel.setPreferredSize(new Dimension(200, 1000));
             buttonPanel.setBackground(null);
 
+            buttonPanel.add(spacer2);
             buttonPanel.add(spacer);
             buttonPanel.add(start);
             buttonPanel.add(load);
@@ -69,5 +73,6 @@ public class Main{
     private static void buttonSetup(JButton button, int sizeX, int sizeY) {
         button.setPreferredSize(new Dimension(sizeX, sizeY));
         button.setFocusPainted(false);
+        button.setFocusable(false);
     }
 }
