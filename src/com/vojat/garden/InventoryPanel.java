@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -46,7 +47,7 @@ public class InventoryPanel extends JPanel{
         label.setIcon(image);
     }
 
-    public static ImageIcon createIcon(String fileAdress, int sizeX, int sizeY) {
+    public static Icon createIcon(String fileAdress, int sizeX, int sizeY) {
         Image pic = new ImageIcon(fileAdress).getImage().getScaledInstance(sizeX, sizeY, java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(pic);
     }
