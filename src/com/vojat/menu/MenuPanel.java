@@ -14,6 +14,15 @@ import com.vojat.garden.InventoryPanel;
 public class MenuPanel extends JPanel{
     
     public MenuPanel(int windowWidth, int windowHeight) {
+        setFocusable(true);
+        setOpaque(true);
+        setBackground(Color.DARK_GRAY);                 // This is the entire main menu background
+        setPreferredSize(new Dimension(windowWidth, windowHeight));
+
+
+
+
+        
         JFrame menuWindow = new JFrame();                                                                       // Create the menu window
         JPanel buttonPanel = new JPanel();
         JPanel spacer = new JPanel();
@@ -78,11 +87,6 @@ public class MenuPanel extends JPanel{
             menuWindow.pack();
             menuWindow.setVisible(true);
         }
-
-        setFocusable(true);
-        setOpaque(true);
-        setBackground(Color.DARK_GRAY);                 // This is the entire main menu background
-        setPreferredSize(new Dimension(windowWidth, windowHeight));
 
         add(buttonPanel);
         add(spacer);
