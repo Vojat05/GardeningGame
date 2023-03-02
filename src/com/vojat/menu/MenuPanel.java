@@ -40,11 +40,7 @@ public class MenuPanel extends JPanel{
 
         JButton options = new JButton(InventoryPanel.createIcon("res/Options.png", 150, 40));
         {
-            options.addActionListener((e) -> {
-                spacer.setVisible(false);
-                buttonPanel.setVisible(false);
-                settings.changeVisibility();
-            });
+            options.addActionListener((e) -> settings.changeVisibility(buttonPanel, spacer));
             buttonSetup(options, 150, 40);
         }
 

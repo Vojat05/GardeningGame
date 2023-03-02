@@ -17,17 +17,15 @@ public class Settings extends JPanel{
         JButton back = new JButton("Back");
         {
             MenuPanel.buttonSetup(back, 150, 40);
-            back.addActionListener((e) -> {
-                changeVisibility();
-                buttonPanel.setVisible(true);
-                spacer.setVisible(true);
-            });
+            back.addActionListener((e) -> changeVisibility(buttonPanel, spacer));
         }
         add(back);
     }
 
-    public void changeVisibility() {
+    public void changeVisibility(JPanel buttonPanel, JPanel spacer) {
         visible = visible ? false : true;
         setVisible(visible);
+        buttonPanel.setVisible(!visible);
+        spacer.setVisible(!visible);
     }
 }
