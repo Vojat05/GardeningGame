@@ -79,10 +79,9 @@ public class Settings extends JPanel{
         }
 
         for (int i=0; i<7; i++) {
-            JButton button = new JButton("Button " + i);
-            button.setBackground(Color.BLACK);
-            button.setForeground(Color.WHITE);
-            options.add(button);
+           JPanel block = new JPanel();
+            block.setBackground(new Color(i*5, i*15, i*30, 50));
+            options.add(block);
         }
     }
 
