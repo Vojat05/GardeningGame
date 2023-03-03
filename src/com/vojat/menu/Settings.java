@@ -3,9 +3,13 @@ package com.vojat.menu;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import com.vojat.Data.JSONEditor;
+import com.vojat.Enums.ErrorList;
 
 public class Settings extends JPanel{
     public static boolean visible = false;
@@ -44,7 +48,13 @@ public class Settings extends JPanel{
         JButton save = new JButton("Save");
         {
             MenuPanel.buttonSetup(save, 150, 40);
-            save.addActionListener((e) -> System.out.println("Save game settings into external file"));
+            save.addActionListener((e) -> {
+                try {
+                    new JSONEditor("src/com/vojat/Data/Controls.json");
+                } catch(FileNotFoundException fne) {
+                    System.err.println(ErrorList.ERR_404.message);
+                }
+            });
             save.setBackground(new Color(25, 25, 25));
             save.setForeground(Color.WHITE);
         }
