@@ -17,57 +17,65 @@ public class JSONEditor {
 
         FileReader reader = new FileReader(file);
         try {
-            int index = 0;
-            int objectIndex = 0;
-            boolean isWritingIntoObject = false;
-            String name = "";
+            String value = "";
             int data = reader.read();
-            boolean write = false;
-            while(data != -1) {
-                switch((char) data) {
-                    case '}':
-                        isWritingIntoObject = false;
-                        break;
-
-                    case '{':
-                        if (index == 0) {
-                            break;
-                        }
-                        isWritingIntoObject = true;
-                        JSONObjects.add(new JSONObject(name));
-                        name = "";
-                        objectIndex++;
-                        break;
-                    
-                    case '"':
-                        if (!isWritingIntoObject) {
-                            write = write ? false : true;
-                        }
-                        break;
-
-                    default:
-                        if (write) {
-                            name += (char) data;
-                        }
-                        break;
-                }
-                if (isWritingIntoObject) {
-                    ((JSONObject) JSONObjects.get(objectIndex-1)).add((char) data);
-                }
-                index++;
+            while(data != -1) {             // Saves the entire JSON file as a String variable
+                value += (char) data;
                 data = reader.read();
             }
             reader.close();
+            makeObject(value);              // Processes the Sting variable to make JSON Objects with name and content
             System.out.print("\033[H\033[2J");
             System.out.println("Object 0: " + ((JSONObject) JSONObjects.get(0)).NAME);
             System.out.println("Object 1: " + ((JSONObject) JSONObjects.get(1)).NAME);
+            System.out.println("Object 0: " + ((JSONObject) JSONObjects.get(0)).getValue());
+            System.out.println("Object 1: " + ((JSONObject) JSONObjects.get(1)).getValue());
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_IO.message);
             e.printStackTrace();
         }
     }
 
-    // public void put() {}
+    private void makeObject(String data) {
+        int objectIndex = 0;
+        boolean isWritingIntoObject = false;
+        String name = "";
+        boolean write = false;
+        for(int i=0; i<data.length(); i++) {
+            switch(data.charAt(i)) {
+                case '}':
+                    isWritingIntoObject = false;
+                    break;
 
-    // public String get() {}
+                case '{':
+                    if (i == 0) {
+                        break;
+                    }
+                    isWritingIntoObject = true;
+                    JSONObjects.add(new JSONObject(name));
+                    name = "";
+                    objectIndex++;
+                    break;
+                
+                case '"':
+                    if (!isWritingIntoObject) {
+                        write = write ? false : true;
+                    }
+                    break;
+
+                default:
+                    if (write) {
+                        name += data.charAt(i);
+                    }
+                    break;
+            }
+            if (isWritingIntoObject) {
+                ((JSONObject) JSONObjects.get(objectIndex-1)).add(data.charAt(i));
+            }
+        }
+    }
+
+    // public void write() {}
+
+    // public String read() {}
 }

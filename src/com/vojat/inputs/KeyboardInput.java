@@ -58,6 +58,10 @@ public class KeyboardInput implements KeyListener{
                 }
                 dad.moveSIDE(speed);
                 break;
+
+            case KeyEvent.VK_ESCAPE:
+                System.out.println("The Esc key was Pressed");
+                break;
         }
     }
 
