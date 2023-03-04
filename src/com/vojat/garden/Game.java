@@ -8,21 +8,28 @@ public class Game implements Runnable{
     private GamePanel gamePanel;
     private Thread gameLoop;
     private final int FPS_SET = 120;
+    private static boolean run = true;
 
     public Game(int panelWidth, int panelHeight) {
         gamePanel = new GamePanel(panelWidth, panelHeight);
         InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);                          // Creates a new InventoryPanel object to pass into the main panel
         MainPanel mainPanel = new MainPanel(gamePanel, inventoryPanel);
-        new Window(mainPanel, gamePanel.dad);
+        Window window = new Window(mainPanel, gamePanel.dad);
 
-        startGameLoop();
+        startGame();
         gamePanel.requestFocusInWindow();
         gamePanel.setIPanel(inventoryPanel);
+        gamePanel.keyInput.setWindow(window);
     }
 
-    public void startGameLoop() {                                                                                                       // Method to start the Game Loop
+    public void startGame() {                                                                                                       // Method to start the Game Loop
+        run = true;
         gameLoop = new Thread(this);
         gameLoop.start();
+    }
+
+    public static void stopGame() {
+        run = false;
     }
 
     @Override
@@ -35,7 +42,7 @@ public class Game implements Runnable{
         long lastCheck = System.currentTimeMillis();
         double deltaF = 0;
 
-        while (true) {                                                                                                                  // While this loop runs, the game updates
+        while (run) {                                                                                                                  // While this loop runs, the game updates
             now = System.nanoTime();
             
             deltaF += (now - previousTime) / timePerFrame;

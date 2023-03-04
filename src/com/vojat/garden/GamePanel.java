@@ -7,11 +7,7 @@ import java.util.ArrayList;
 import java.awt.Dimension;
 import java.awt.Color;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -26,6 +22,7 @@ public class GamePanel extends JPanel{
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
+    public KeyboardInput keyInput;
 
     public GamePanel(int windowWidth, int windowHeight) {                                                           // width == window width ; height == window height
         dad.setLimit(windowWidth, windowHeight);
@@ -38,7 +35,8 @@ public class GamePanel extends JPanel{
         }
 
         {                                                                                                           // Adding the listeners
-            addKeyListener(new KeyboardInput(this, dad));
+            keyInput = new KeyboardInput(this, dad);
+            addKeyListener(keyInput);
             addMouseListener(new MouseInput(dad));
         }
 
