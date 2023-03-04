@@ -32,9 +32,10 @@ public class MenuPanel extends JPanel{
         }
         Settings settings = new Settings(1920, 1080, buttonPanel, spacer);
         
-        JButton start = new JButton(InventoryPanel.createIcon("res/Pics/New.png", 150, 40));     // Create the start game button
+        JButton start = new JButton(InventoryPanel.createIcon("res/Pics/New.png", 150, 40));     // Create the start new game button
         {
             start.addActionListener((e) -> {
+                mapReset();
                 menuWindow.dispose();
                 new Game(1920, 1080);
             });
@@ -99,5 +100,13 @@ public class MenuPanel extends JPanel{
         button.setPreferredSize(new Dimension(sizeX, sizeY));
         button.setFocusPainted(false);
         button.setFocusable(false);
+    }
+
+    private void mapReset() {
+        for (int i=0; i<Game.map.length; i++) {
+            for (int j=0; j<Game.map[0].length; j++) {
+                Game.map[i][j] = 0;
+            }
+        }
     }
 }

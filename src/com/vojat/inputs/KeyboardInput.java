@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import com.vojat.garden.Game;
 import com.vojat.garden.GamePanel;
 import com.vojat.garden.Player;
+import com.vojat.garden.Window;
+import com.vojat.menu.MenuPanel;
 
 
 /*
@@ -19,10 +21,15 @@ public class KeyboardInput implements KeyListener{
     private GamePanel gamePanel;
     private boolean up = true, down = true, left = true, right = true;
     private int speed = 6;
+    private Window window;
 
     public KeyboardInput(GamePanel gamePanel, Player dad) {
         this.gamePanel = gamePanel;
         this.dad = dad;
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
     }
 
     @Override
@@ -63,7 +70,10 @@ public class KeyboardInput implements KeyListener{
             case KeyEvent.VK_ESCAPE:
                 Game.saveGame();
                 System.out.println("Game saved");
-                System.exit(0);
+                window.dispose();
+                Game.stopGame();
+                new MenuPanel(1920, 1080);
+                // System.exit(0);
                 break;
         }
     }
