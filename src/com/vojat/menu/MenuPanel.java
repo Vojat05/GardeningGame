@@ -32,7 +32,7 @@ public class MenuPanel extends JPanel{
         }
         Settings settings = new Settings(1920, 1080, buttonPanel, spacer);
         
-        JButton start = new JButton(InventoryPanel.createIcon("res/New.png", 150, 40));     // Create the start game button
+        JButton start = new JButton(InventoryPanel.createIcon("res/Pics/New.png", 150, 40));     // Create the start game button
         {
             start.addActionListener((e) -> {
                 menuWindow.dispose();
@@ -41,19 +41,19 @@ public class MenuPanel extends JPanel{
             buttonSetup(start, 150, 40);
         }
 
-        JButton load = new JButton(InventoryPanel.createIcon("res/Load.png", 150, 40));     // Create the load game button
+        JButton load = new JButton(InventoryPanel.createIcon("res/Pics/Load.png", 150, 40));     // Create the load game button
         {
             load.addActionListener((e) -> System.out.println("Open saves menu"));
             buttonSetup(load, 150, 40);
         }
 
-        JButton options = new JButton(InventoryPanel.createIcon("res/Options.png", 150, 40));       // Create the options button
+        JButton options = new JButton(InventoryPanel.createIcon("res/Pics/Options.png", 150, 40));       // Create the options button
         {
             options.addActionListener((e) -> settings.changeVisibility(buttonPanel, spacer));
             buttonSetup(options, 150, 40);
         }
 
-        JButton exit = new JButton(InventoryPanel.createIcon("res/Exit.png", 150, 40));     // Button for closing the game
+        JButton exit = new JButton(InventoryPanel.createIcon("res/Pics/Exit.png", 150, 40));     // Button for closing the game
         {
             exit.addActionListener((e) -> menuWindow.dispose());
             buttonSetup(exit, 150, 40);
@@ -63,7 +63,7 @@ public class MenuPanel extends JPanel{
             JPanel spacer1 = new JPanel();
             JPanel spacer2 = new JPanel();
             JLabel logo = new JLabel();
-            InventoryPanel.repaintItem(logo, "res/Game_Logo.png");
+            InventoryPanel.repaintItem(logo, "res/Pics/Game_Logo.png");
             spacer1.setBackground(null);
             spacer2.setBackground(null);
             spacer2.setPreferredSize(new Dimension(200, 200));

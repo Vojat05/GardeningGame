@@ -32,7 +32,6 @@ public class JSONEditor {
             System.out.println("Object 1: " + ((JSONObject) JSONObjects.get(1)).getValue());
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_IO.message);
-            e.printStackTrace();
         }
     }
 
