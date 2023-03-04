@@ -23,12 +23,9 @@ public class KeyboardInput implements KeyListener{
     private int speed = 6;
     private Window window;
 
-    public KeyboardInput(GamePanel gamePanel, Player dad) {
+    public KeyboardInput(GamePanel gamePanel, Player dad, Window window) {
         this.gamePanel = gamePanel;
         this.dad = dad;
-    }
-
-    public void setWindow(Window window) {
         this.window = window;
     }
 
@@ -70,10 +67,8 @@ public class KeyboardInput implements KeyListener{
             case KeyEvent.VK_ESCAPE:
                 Game.saveGame();
                 System.out.println("Game saved");
-                window.dispose();
+                window.setElements(new MenuPanel(1920, 1080, window));
                 Game.stopGame();
-                new MenuPanel(1920, 1080);
-                // System.exit(0);
                 break;
         }
     }

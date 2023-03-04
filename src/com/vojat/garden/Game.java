@@ -10,16 +10,15 @@ public class Game implements Runnable{
     private final int FPS_SET = 120;
     private static boolean run = true;
 
-    public Game(int panelWidth, int panelHeight) {
-        gamePanel = new GamePanel(panelWidth, panelHeight);
+    public Game(int panelWidth, int panelHeight, Window window) {
+        gamePanel = new GamePanel(panelWidth, panelHeight, window);
         InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);                          // Creates a new InventoryPanel object to pass into the main panel
         MainPanel mainPanel = new MainPanel(gamePanel, inventoryPanel);
-        Window window = new Window(mainPanel, gamePanel.dad);
+        window.setElements(mainPanel);
 
         startGame();
         gamePanel.requestFocusInWindow();
         gamePanel.setIPanel(inventoryPanel);
-        gamePanel.keyInput.setWindow(window);
     }
 
     public void startGame() {                                                                                                       // Method to start the Game Loop

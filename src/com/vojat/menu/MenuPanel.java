@@ -4,16 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.vojat.garden.Game;
 import com.vojat.garden.InventoryPanel;
+import com.vojat.garden.Window;
 
 public class MenuPanel extends JPanel{
     
-    public MenuPanel(int windowWidth, int windowHeight) {
+    public MenuPanel(int windowWidth, int windowHeight, Window window) {
         setFocusable(true);
         setOpaque(true);
         setBackground(Color.DARK_GRAY);                 // This is the entire main menu background
@@ -23,7 +23,6 @@ public class MenuPanel extends JPanel{
 
 
 
-        JFrame menuWindow = new JFrame();      // Create the menu window
         JPanel buttonPanel = new JPanel();
         JPanel spacer = new JPanel();
         {
@@ -36,8 +35,7 @@ public class MenuPanel extends JPanel{
         {
             start.addActionListener((e) -> {
                 mapReset();
-                menuWindow.dispose();
-                new Game(1920, 1080);
+                new Game(1920, 1080, window);
             });
             buttonSetup(start, 150, 40);
         }
@@ -56,7 +54,10 @@ public class MenuPanel extends JPanel{
 
         JButton exit = new JButton(InventoryPanel.createIcon("res/Pics/Exit.png", 150, 40));     // Button for closing the game
         {
-            exit.addActionListener((e) -> menuWindow.dispose());
+            exit.addActionListener((e) -> {
+                window.dispose();
+                System.exit(0);
+            });
             buttonSetup(exit, 150, 40);
         }
 
@@ -80,20 +81,11 @@ public class MenuPanel extends JPanel{
             buttonPanel.add(exit);
         }
 
-        {
-            menuWindow.setPreferredSize(new Dimension(1920, 1080));
-            menuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            menuWindow.setResizable(false);
-            menuWindow.setTitle("Dad The Gardener");
-
-            menuWindow.add(this);
-            menuWindow.pack();
-            menuWindow.setVisible(true);
-        }
-
         add(buttonPanel);
         add(spacer);
         add(settings);
+
+        window.setElements(this);
     }
 
     public static void buttonSetup(JButton button, int sizeX, int sizeY) {
