@@ -29,7 +29,7 @@ public class Player {
         windowLimitX = limitX;
         windowLimitY = limitY;
 
-        setTexture("res/Dad_Texture_F.png");                                                          // Sets the default player texture on startup to look forward
+        setTexture("res/Pics/Dad_Texture_F.png");                                                          // Sets the default player texture on startup to look forward
     }
 
     public void setTexture(String path) {

@@ -1,11 +1,18 @@
 package com.vojat.garden;
 
 import java.awt.Graphics;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.awt.Dimension;
 import java.awt.Color;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -18,7 +25,7 @@ public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
     Player dad = new Player(this, 200, 200);
     public static byte[][] map = new byte[8][15];                                                                   // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
-    public static String[] textures = {"res/Water_Can.png", "res/Red_Tulip.png", "res/Blue_Rose.png"};              // Array of texture paths, mush be bigger by one then number of flowers and in the same order as player inventory
+    public static String[] textures = {"res/Pics/Water_Can.png", "res/Pics/Red_Tulip.png", "res/Pics/Blue_Rose.png"};              // Array of texture paths, mush be bigger by one then number of flowers and in the same order as player inventory
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
@@ -106,10 +113,22 @@ public class GamePanel extends JPanel{
                 Flower plant = flowers.get(i);
                 if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
                     if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
-                        plant.CURRENT_TEXTURE = plant.setTexture("res/MrUgly.png");
-                        plant.STATUS = "Dead";
+                        if (plant.STATUS.equals("Alive")) {
+                            plant.CURRENT_TEXTURE = plant.setTexture("res/Pics/MrUgly.png");
+                            plant.STATUS = "Dead";
+
+                            try {
+                                AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("res/Audio/MagicSound.wav"));
+                                Clip clip = AudioSystem.getClip();
+                                clip.open(audioStream);
+                                clip.start();
+                            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                                System.err.println("Audio error has occured!");
+                                e.printStackTrace();
+                            }
+                        }
                     } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE.value) {
-                        plant.CURRENT_TEXTURE = plant.setTexture("res/Land.png");
+                        plant.CURRENT_TEXTURE = plant.setTexture("res/Pics/Land.png");
                     }
                     g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 128, 128, null);
                 } else {
