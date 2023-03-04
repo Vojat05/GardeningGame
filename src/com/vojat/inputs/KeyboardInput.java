@@ -3,6 +3,7 @@ package com.vojat.inputs;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
+import com.vojat.garden.Game;
 import com.vojat.garden.GamePanel;
 import com.vojat.garden.Player;
 
@@ -29,7 +30,7 @@ public class KeyboardInput implements KeyListener{
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 if (up) {
-                    dad.setTexture("res/Dad_Texture_B.png");
+                    dad.setTexture("res/Pics/Dad_Texture_B.png");
                     up = false;
                 }
                 dad.moveUP(-speed);
@@ -37,7 +38,7 @@ public class KeyboardInput implements KeyListener{
             
             case KeyEvent.VK_S:
                 if (down) {
-                    dad.setTexture("res/Dad_Texture_F.png");
+                    dad.setTexture("res/Pics/Dad_Texture_F.png");
                     down = false;
                 }
                 dad.moveUP(speed);
@@ -45,7 +46,7 @@ public class KeyboardInput implements KeyListener{
             
             case KeyEvent.VK_A:
                 if (left) {
-                    dad.setTexture("res/Dad_Texture_L.png");
+                    dad.setTexture("res/Pics/Dad_Texture_L.png");
                     left = false;
                 }
                 dad.moveSIDE(-speed);
@@ -53,14 +54,16 @@ public class KeyboardInput implements KeyListener{
 
             case KeyEvent.VK_D:
                 if (right) {
-                    dad.setTexture("res/Dad_Texture_R.png");
+                    dad.setTexture("res/Pics/Dad_Texture_R.png");
                     right = false;
                 }
                 dad.moveSIDE(speed);
                 break;
 
             case KeyEvent.VK_ESCAPE:
-                System.out.println("The Esc key was Pressed");
+                Game.saveGame();
+                System.out.println("Game saved");
+                System.exit(0);
                 break;
         }
     }
