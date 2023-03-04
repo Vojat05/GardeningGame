@@ -22,9 +22,8 @@ public class GamePanel extends JPanel{
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
-    public KeyboardInput keyInput;
 
-    public GamePanel(int windowWidth, int windowHeight) {                                                           // width == window width ; height == window height
+    public GamePanel(int windowWidth, int windowHeight, Window window) {                                                           // width == window width ; height == window height
         dad.setLimit(windowWidth, windowHeight);
         setFocusable(true);                                                                              // Sets the JPanel focusable, it is later packed into the JFrame
 
@@ -35,8 +34,7 @@ public class GamePanel extends JPanel{
         }
 
         {                                                                                                           // Adding the listeners
-            keyInput = new KeyboardInput(this, dad);
-            addKeyListener(keyInput);
+            addKeyListener(new KeyboardInput(this, dad, window));
             addMouseListener(new MouseInput(dad));
         }
 
