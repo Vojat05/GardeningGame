@@ -25,7 +25,7 @@ public class InventoryPanel extends JPanel{
     }
 
     public void repaintItem(Player dad) {                                                                  // Repaint the selected item
-        ImageIcon image = new ImageIcon(GamePanel.textures[dad.selectedItem]);
+        ImageIcon image = new ImageIcon(Game.textures[dad.selectedItem]);
         Image pic = image.getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH);
         image = new ImageIcon(pic);
         item.setIcon(image);
@@ -33,7 +33,7 @@ public class InventoryPanel extends JPanel{
     }
 
     public static void repaintItem(int index, JLabel label) {
-        ImageIcon image = new ImageIcon(GamePanel.textures[index]);
+        ImageIcon image = new ImageIcon(Game.textures[index]);
         Image pic = image.getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH);
         image = new ImageIcon(pic);
         label.setIcon(image);

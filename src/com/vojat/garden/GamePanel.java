@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.awt.Dimension;
 import java.awt.Color;
 
@@ -24,8 +23,6 @@ import com.vojat.inputs.MouseInput;
 public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
     Player dad = new Player(this, 200, 200);
-    public static byte[][] map = new byte[8][15];                                                                   // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
-    public static String[] textures = {"res/Pics/Water_Can.png", "res/Pics/Red_Tulip.png", "res/Pics/Blue_Rose.png"};              // Array of texture paths, mush be bigger by one then number of flowers and in the same order as player inventory
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
@@ -94,7 +91,7 @@ public class GamePanel extends JPanel{
                             plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_ROSE.value;
                             break;
                     }
-                    plant.CURRENT_TEXTURE = plant.setTexture(textures[plant.FLOWER_TEXTURE_NUMBER]);
+                    plant.CURRENT_TEXTURE = plant.setTexture(Game.textures[plant.FLOWER_TEXTURE_NUMBER]);
                 }
             }
         }
@@ -133,7 +130,7 @@ public class GamePanel extends JPanel{
                     g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 128, 128, null);
                 } else {
                     flowers.remove(plant);
-                    map[plant.IN_MAP_Y][plant.IN_MAP_X] = 0;
+                    Game.map[plant.IN_MAP_Y][plant.IN_MAP_X] = 0;
                 }
             }
 
@@ -142,8 +139,4 @@ public class GamePanel extends JPanel{
             System.err.println(ErrorList.ERR_NPE.message);
         }
     }
-
-    public void saveGame() {;}
-
-    public void loadGame(byte[][] map, HashMap<Integer, String> decoder) {;}
 }

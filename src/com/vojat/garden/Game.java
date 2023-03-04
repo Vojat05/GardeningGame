@@ -1,9 +1,10 @@
 package com.vojat.garden;
 
-
 public class Game implements Runnable{
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_RESET = "\u001B[0m";
+    public static byte[][] map = new byte[8][15];                                                                   // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
+    public static String[] textures = {"res/Pics/Water_Can.png", "res/Pics/Red_Tulip.png", "res/Pics/Blue_Rose.png"};              // Array of texture paths
     private GamePanel gamePanel;
     private Thread gameLoop;
     private final int FPS_SET = 120;
@@ -53,4 +54,8 @@ public class Game implements Runnable{
             }
         }
     }
+
+    public static void saveGame() {;}
+
+    public static void loadGame(byte[][] map) {;}
 }
