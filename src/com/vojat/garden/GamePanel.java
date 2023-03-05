@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import com.vojat.Enums.*;
-import com.vojat.inputs.KeyboardInput;
-import com.vojat.inputs.MouseInput;
+import com.vojat.inputs.*;
+import com.vojat.menu.Window;
 
 public class GamePanel extends JPanel{
     private ArrayList<Flower> flowers = new ArrayList<>();
@@ -115,6 +115,7 @@ public class GamePanel extends JPanel{
                                 Clip clip = AudioSystem.getClip();
                                 clip.open(audioStream);
                                 clip.start();
+                                System.gc();
                             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
                                 System.err.println("Audio error has occured!");
                                 e.printStackTrace();

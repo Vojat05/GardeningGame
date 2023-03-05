@@ -1,5 +1,7 @@
 package com.vojat.garden;
 
+import com.vojat.menu.Window;
+
 public class Game implements Runnable{
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_RESET = "\u001B[0m";

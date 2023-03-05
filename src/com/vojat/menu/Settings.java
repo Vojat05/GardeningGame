@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
+import com.vojat.inputs.KeyboardInput;
 
 public class Settings extends JPanel{
     public static boolean visible = false;
@@ -17,6 +18,7 @@ public class Settings extends JPanel{
     public Settings(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer) {
         setBackground(Color.DARK_GRAY);
         setVisible(visible);
+        setFocusable(true);
 
         JPanel buttons = new JPanel();          // Panel for the buttons on the left side
         {
@@ -78,11 +80,24 @@ public class Settings extends JPanel{
             add(options);
         }
 
-        for (int i=0; i<7; i++) {
-           JPanel block = new JPanel();
+        for (int i=0; i<7; i++) {  
+            JPanel block = new JPanel();
+            JButton button = new JButton("Press");
+            button.addActionListener((e) -> getKey(button));
             block.setBackground(new Color(i*5, i*15, i*30, 50));
+            block.add(button);
             options.add(block);
         }
+    }
+
+    private void getKey(JButton button) {
+        KeyboardInput in = new KeyboardInput(this, button);
+        button.addKeyListener(in);
+    }
+
+    public void pressed(char data, JButton button, KeyboardInput in) {
+        System.out.println(data);       // data is the char value of wanted key
+        button.removeKeyListener(in);
     }
 
     public void changeVisibility(JPanel buttonPanel, JPanel spacer) {
