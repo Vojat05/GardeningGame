@@ -1,9 +1,12 @@
-package com.vojat.garden;
+package com.vojat.menu;
 
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+
+import com.vojat.garden.MainPanel;
+import com.vojat.garden.Player;
 
 public class Window extends JFrame {
     private MainPanel mainPanel;

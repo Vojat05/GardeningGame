@@ -13,8 +13,8 @@ public class Flower{
     public BufferedImage CURRENT_TEXTURE;
     public String TYPE;
     public String STATUS;
-    public int LOCATION_X;
-    public int LOCATION_Y;
+    public short LOCATION_X;
+    public short LOCATION_Y;
     public int PLANT_NUMBER;
     public long TIME_TO_DIE;
     public long TIME_TO_DISSAPEAR;
@@ -22,7 +22,7 @@ public class Flower{
     public int IN_MAP_Y;
     public int FLOWER_TEXTURE_NUMBER;
     
-    public Flower(String path, String type, int locationX, int locationY, String status, int number, int controlX, int controlY, int flowerNum) {
+    public Flower(String path, String type, short locationX, short locationY, String status, int number, int controlX, int controlY, int flowerNum) {
         switch (type) {
             case "tulip":
                 this.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;

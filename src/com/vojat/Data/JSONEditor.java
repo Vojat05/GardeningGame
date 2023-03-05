@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.awt.event.KeyEvent;
 
 import com.vojat.Enums.ErrorList;
 
@@ -72,6 +73,14 @@ public class JSONEditor {
                 ((JSONObject) JSONObjects.get(objectIndex-1)).add(data.charAt(i));
             }
         }
+    }
+
+    public static int decode(char input) {
+        switch(input) {
+            case 'w':
+                return KeyEvent.VK_W;
+        }
+        return 0;
     }
 
     // public void write() {}

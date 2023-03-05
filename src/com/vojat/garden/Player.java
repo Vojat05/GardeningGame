@@ -25,7 +25,7 @@ public class Player {
 
     public Player() {;}                                                                                     // With this constructor, the player doesn't have the access to his abilities
 
-    protected void setLimit(int limitX, int limitY) {
+    public void setLimit(int limitX, int limitY) {
         windowLimitX = limitX;
         windowLimitY = limitY;
 

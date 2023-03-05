@@ -10,8 +10,8 @@ import com.vojat.garden.Player;
 
 public class MouseInput implements MouseListener{
     private Player dad;
-    private int controlVariableX;
-    private int controlVariableY;
+    private short controlVariableX;
+    private short controlVariableY;
     private int assignNumberToPlant = 0;
     private Flower flower;
 
@@ -29,7 +29,7 @@ public class MouseInput implements MouseListener{
                     if (Game.map[controlVariableY][controlVariableX] >= 1) {                            // Checks if the desired area is occupied or not
                         System.err.println(ErrorList.ERR_CANTPLANT.message);
                     } else {                                                                            // If not, creates another Flower object to place here
-                        flower = new Flower(Game.textures[dad.selectedItem], dad.inventory[dad.selectedItem], gardenerX(e), gardenerY(e), "Alive", assignNumberToPlant, controlVariableX, controlVariableY, dad.selectedItem);
+                        flower = new Flower(Game.textures[dad.selectedItem], dad.inventory[dad.selectedItem], (short) gardenerX(e), (short) gardenerY(e), "Alive", assignNumberToPlant, controlVariableX, controlVariableY, dad.selectedItem);
                         dad.plant(flower);
                         wirteIntoMap(controlVariableY, controlVariableX, 1);                      // Writes it's value into map
                         assignNumberToPlant++;                                                          // Assigns the plant index

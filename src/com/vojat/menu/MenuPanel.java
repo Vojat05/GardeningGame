@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 
 import com.vojat.garden.Game;
 import com.vojat.garden.InventoryPanel;
-import com.vojat.garden.Window;
 
 public class MenuPanel extends JPanel{
     
