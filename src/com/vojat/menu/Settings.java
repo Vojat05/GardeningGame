@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.vojat.Data.JSONEditor;
@@ -14,6 +15,7 @@ import com.vojat.inputs.KeyboardInput;
 
 public class Settings extends JPanel{
     public static boolean visible = false;
+    private static KeyboardInput in;
 
     public Settings(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer) {
         setBackground(Color.DARK_GRAY);
@@ -82,22 +84,43 @@ public class Settings extends JPanel{
 
         for (int i=0; i<7; i++) {  
             JPanel block = new JPanel();
+            JLabel name = new JLabel("&Name");
+            {
+                name.setBackground(Color.DARK_GRAY);
+                name.setForeground(Color.YELLOW);
+                name.setPreferredSize(new Dimension(500, 100));
+                name.setOpaque(true);
+            }
+            JLabel key = new JLabel("&Key");
+            {
+                key.setBackground(Color.DARK_GRAY);
+                key.setForeground(Color.CYAN);
+                key.setPreferredSize(new Dimension(100, 100));
+                key.setOpaque(true);
+            }
             JButton button = new JButton("Press");
-            button.addActionListener((e) -> getKey(button));
+            {
+                button.addActionListener((e) -> getKey(button, key));
+                button.setBackground(Color.LIGHT_GRAY);
+            }
+
             block.setBackground(new Color(i*5, i*15, i*30, 50));
             block.add(button);
+            block.add(name);
+            block.add(key);
+
             options.add(block);
         }
     }
 
-    private void getKey(JButton button) {
-        KeyboardInput in = new KeyboardInput(this, button);
+    private void getKey(JButton button, JLabel label) {
+        in = new KeyboardInput(this, button, label);
         button.addKeyListener(in);
     }
 
-    public void pressed(char data, JButton button, KeyboardInput in) {
-        System.out.println(data);       // data is the char value of wanted key
+    public void pressed(char data, JButton button, KeyboardInput in, JLabel label) {
         button.removeKeyListener(in);
+        label.setText(("" + data).toUpperCase());
     }
 
     public void changeVisibility(JPanel buttonPanel, JPanel spacer) {

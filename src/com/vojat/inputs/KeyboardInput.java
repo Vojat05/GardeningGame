@@ -3,6 +3,7 @@ package com.vojat.inputs;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 import java.awt.event.KeyEvent;
 
@@ -28,6 +29,7 @@ public class KeyboardInput implements KeyListener{
     private Window window;
     private Settings settings;
     private JButton button;
+    private JLabel label;
 
     public KeyboardInput(GamePanel gamePanel, Player dad, Window window) {
         this.gamePanel = gamePanel;
@@ -35,9 +37,10 @@ public class KeyboardInput implements KeyListener{
         this.window = window;
     }
 
-    public KeyboardInput(Settings settings, JButton button) {
+    public KeyboardInput(Settings settings, JButton button, JLabel label) {
         this.settings = settings;
         this.button = button;
+        this.label = label;
     }
 
     @Override
@@ -134,7 +137,7 @@ public class KeyboardInput implements KeyListener{
     @Override
     public void keyTyped(KeyEvent e) {
         if (settings != null) {
-            settings.pressed(e.getKeyChar(), button, this);
+            settings.pressed(e.getKeyChar(), button, this, label);
         }
     }
 }
