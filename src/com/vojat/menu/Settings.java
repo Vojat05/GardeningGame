@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
@@ -88,26 +89,35 @@ public class Settings extends JPanel{
             {
                 name.setBackground(Color.DARK_GRAY);
                 name.setForeground(Color.YELLOW);
-                name.setPreferredSize(new Dimension(500, 100));
+                name.setPreferredSize(new Dimension(500, 135));
                 name.setOpaque(true);
             }
             JLabel key = new JLabel("&Key");
             {
                 key.setBackground(Color.DARK_GRAY);
                 key.setForeground(Color.CYAN);
-                key.setPreferredSize(new Dimension(100, 100));
+                key.setPreferredSize(new Dimension(100, 135));
                 key.setOpaque(true);
             }
-            JButton button = new JButton("Press");
+            JButton button = new JButton("Change");
             {
                 button.addActionListener((e) -> getKey(button, key));
-                button.setBackground(Color.LIGHT_GRAY);
+                button.setFocusPainted(false);
+                button.setBorder(new LineBorder(new Color(255, 209, 0), 1));
+                button.setForeground(new Color(255, 209, 0));
+                button.setPreferredSize(new Dimension(100, 50));
             }
 
-            block.setBackground(new Color(i*5, i*15, i*30, 50));
-            block.add(button);
-            block.add(name);
+            if (i % 2 == 0) {
+                block.setBackground(new Color(50, 50, 50, 50));
+                button.setBackground(new Color(60, 60, 60));
+            } else {
+                block.setBackground(new Color(30, 30, 30, 50));
+                button.setBackground(new Color(56, 56, 56));
+            }
             block.add(key);
+            block.add(name);
+            block.add(button);
 
             options.add(block);
         }
