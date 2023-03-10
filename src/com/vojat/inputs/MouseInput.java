@@ -41,6 +41,7 @@ public class MouseInput implements MouseListener{
                         dad.water(flower, controlVariableX, controlVariableY);
                     }
                 }
+                System.gc();
                 break;
             
             case MouseEvent.BUTTON2:
