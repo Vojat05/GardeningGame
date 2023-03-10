@@ -1,12 +1,15 @@
 package com.vojat.inputs;
 
 import java.awt.event.KeyListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import java.awt.event.KeyEvent;
 
+import com.vojat.Data.JSONEditor;
+import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Game;
 import com.vojat.garden.GamePanel;
 import com.vojat.garden.Player;
@@ -30,11 +33,19 @@ public class KeyboardInput implements KeyListener{
     private Settings settings;
     private JButton button;
     private JLabel label;
+    private JSONEditor jEditor;
 
     public KeyboardInput(GamePanel gamePanel, Player dad, Window window) {
         this.gamePanel = gamePanel;
         this.dad = dad;
         this.window = window;
+        try {
+            jEditor = new JSONEditor("src/com/vojat/Data/Controls.json");
+            jEditor.read(jEditor.JSONObjects.get(1), "up");
+            jEditor.read(jEditor.JSONObjects.get(1), "down");
+        } catch (FileNotFoundException e) {
+            System.err.println(ErrorList.ERR_404.message);
+        }
     }
 
     public KeyboardInput(Settings settings, JButton button, JLabel label) {
@@ -46,45 +57,35 @@ public class KeyboardInput implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         if (dad != null) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
-                    if (up) {
-                        dad.setTexture("res/Pics/Dad_Texture_B.png");
-                        up = false;
-                    }
-                    dad.moveUP(-speed);
-                    break;
-                
-                case KeyEvent.VK_S:
-                    if (down) {
-                        dad.setTexture("res/Pics/Dad_Texture_F.png");
-                        down = false;
-                    }
-                    dad.moveUP(speed);
-                    break;
-                
-                case KeyEvent.VK_A:
-                    if (left) {
-                        dad.setTexture("res/Pics/Dad_Texture_L.png");
-                        left = false;
-                    }
-                    dad.moveSIDE(-speed);
-                    break;
-    
-                case KeyEvent.VK_D:
-                    if (right) {
-                        dad.setTexture("res/Pics/Dad_Texture_R.png");
-                        right = false;
-                    }
-                    dad.moveSIDE(speed);
-                    break;
-    
-                case KeyEvent.VK_ESCAPE:
-                    Game.saveGame();
-                    System.out.println("Game saved");
-                    window.setElements(new MenuPanel(1920, 1080, window));
-                    Game.stopGame();
-                    break;
+            if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "up"))) {
+                if (up) {
+                    dad.setTexture("res/Pics/Dad_Texture_B.png");
+                    up = false;
+                }
+                dad.moveUP(-speed);
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "down"))) {
+                if (down) {
+                    dad.setTexture("res/Pics/Dad_Texture_F.png");
+                    down = false;
+                }
+                dad.moveUP(speed);
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "left"))) {
+                if (left) {
+                    dad.setTexture("res/Pics/Dad_Texture_L.png");
+                    left = false;
+                }
+                dad.moveSIDE(-speed);
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "right"))) {
+                if (right) {
+                    dad.setTexture("res/Pics/Dad_Texture_R.png");
+                    right = false;
+                }
+                dad.moveSIDE(speed);
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(0), "exit"))) {
+                Game.saveGame();
+                System.out.println("Game saved");
+                window.setElements(new MenuPanel(1920, 1080, window));
+                Game.stopGame();
             }
         }
     }
@@ -92,45 +93,70 @@ public class KeyboardInput implements KeyListener{
     @Override
     public void keyReleased(KeyEvent e) {
         if (dad != null) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
-                    up = true;
-                    break;
-                
-                case KeyEvent.VK_S:
-                    down = true;
-                    break;
-                
-                case KeyEvent.VK_A:
-                    left = true;
-                    break;
-    
-                case KeyEvent.VK_D:
-                    right = true;
-                    break;
-                
-                case KeyEvent.VK_E:
-                    if (dad.selectedItem+1 < dad.inventory.length) {
-                        dad.selectedItem++;
-                    } else {
-                        dad.selectedItem = 0;
-                    }
-                    gamePanel.inventoryPanel.repaintItem(dad);
-                    break;
-    
-                case KeyEvent.VK_Q:
-                    if (dad.selectedItem > 0) {
-                        dad.selectedItem--;
-                    } else {
-                        dad.selectedItem = (byte) (dad.inventory.length - 1);
-                    }
-                    gamePanel.inventoryPanel.repaintItem(dad);
-                    break;
-    
-                case KeyEvent.VK_T:
-                    gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
-                    break;
+            if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "up"))) {
+                up = true;
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "down"))) {
+                down = true;
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "left"))) {
+                left = true;
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "right"))) {
+                right = true;
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(2), "next"))) {
+                if (dad.selectedItem+1 < dad.inventory.length) {
+                    dad.selectedItem++;
+                } else {
+                    dad.selectedItem = 0;
+                }
+                gamePanel.inventoryPanel.repaintItem(dad);
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(2), "previous"))) {
+                if (dad.selectedItem > 0) {
+                    dad.selectedItem--;
+                } else {
+                    dad.selectedItem = (byte) (dad.inventory.length - 1);
+                }
+                gamePanel.inventoryPanel.repaintItem(dad);
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(2), "open"))) {
+                gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
             }
+            // switch (e.getKeyCode()) {
+            //     case KeyEvent.VK_W:
+            //         up = true;
+            //         break;
+                
+            //     case KeyEvent.VK_S:
+            //         down = true;
+            //         break;
+                
+            //     case KeyEvent.VK_A:
+            //         left = true;
+            //         break;
+    
+            //     case KeyEvent.VK_D:
+            //         right = true;
+            //         break;
+                
+            //     case KeyEvent.VK_E:
+            //         if (dad.selectedItem+1 < dad.inventory.length) {
+            //             dad.selectedItem++;
+            //         } else {
+            //             dad.selectedItem = 0;
+            //         }
+            //         gamePanel.inventoryPanel.repaintItem(dad);
+            //         break;
+    
+            //     case KeyEvent.VK_Q:
+            //         if (dad.selectedItem > 0) {
+            //             dad.selectedItem--;
+            //         } else {
+            //             dad.selectedItem = (byte) (dad.inventory.length - 1);
+            //         }
+            //         gamePanel.inventoryPanel.repaintItem(dad);
+            //         break;
+    
+            //     case KeyEvent.VK_T:
+            //         gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
+            //         break;
+            // }
         }
     }
 

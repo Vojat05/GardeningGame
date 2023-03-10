@@ -5,13 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.awt.event.KeyEvent;
+import java.util.HashMap;
 
 import com.vojat.Enums.ErrorList;
 
 public class JSONEditor {
     private File file;
-    private ArrayList<JSONObject> JSONObjects = new ArrayList<JSONObject>();
+    public ArrayList<JSONObject> JSONObjects = new ArrayList<JSONObject>();
 
     public JSONEditor(String filePath) throws FileNotFoundException{
         this.file = new File(filePath);
@@ -26,11 +26,6 @@ public class JSONEditor {
             }
             reader.close();
             makeObject(value);              // Processes the Sting variable to make JSON Objects with name and content
-            System.out.print("\033[H\033[2J");
-            System.out.println("Object 0: " + ((JSONObject) JSONObjects.get(0)).NAME);
-            System.out.println("Object 1: " + ((JSONObject) JSONObjects.get(1)).NAME);
-            System.out.println("Object 0: " + ((JSONObject) JSONObjects.get(0)).getValue());
-            System.out.println("Object 1: " + ((JSONObject) JSONObjects.get(1)).getValue());
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_IO.message);
         }
@@ -38,12 +33,13 @@ public class JSONEditor {
 
     private void makeObject(String data) {
         int objectIndex = 0;
-        boolean isWritingIntoObject = false;
         String name = "";
+        boolean isWritingIntoObject = false;
         boolean write = false;
         for(int i=0; i<data.length(); i++) {
             switch(data.charAt(i)) {
                 case '}':
+                    ((JSONObject) JSONObjects.get(objectIndex-1)).add('}');
                     isWritingIntoObject = false;
                     break;
 
@@ -75,15 +71,43 @@ public class JSONEditor {
         }
     }
 
-    public static int decode(char input) {
-        switch(input) {
-            case 'w':
-                return KeyEvent.VK_W;
+    public String read(JSONObject object, String request) {
+        String key = "";
+        String data = "";
+        boolean writeData = false;
+        boolean write = false;
+        HashMap<String, String> map = new HashMap<>();
+
+        for (int i=0; i<object.VALUE.length(); i++) {
+            switch(object.VALUE.charAt(i)) {
+                case '"':
+                    write = write ? false : true;
+                    break;
+
+                case ':':
+                    writeData = true;
+                    data = "";
+                    break;
+                
+                case ',', '}':
+                    writeData = false;
+                    map.put(key, data);
+                    key = "";
+                    write = false;
+                    data = "";
+                    break;
+
+                default:
+                    if (write & !writeData) {
+                        key += object.VALUE.charAt(i);
+                    } else if (writeData) {
+                        data += object.VALUE.charAt(i);
+                    }
+                    break;
+            }
         }
-        return 0;
+        return map.get(request);
     }
 
-    // public void write() {}
-
-    // public String read() {}
+    // public String write() {}
 }

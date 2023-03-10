@@ -1,13 +1,13 @@
 {
+    "game":{
+        "exit":"Escape"},
     "movement":{
         "up":"W",
         "down":"S",
         "left":"A",
-        "right":"D"
-    },
+        "right":"D"},
     "inventory":{
         "open":"T",
         "next":"E",
-        "previous":"Q"
-    }
+        "previous":"Q"}
 }

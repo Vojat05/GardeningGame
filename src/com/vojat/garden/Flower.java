@@ -11,6 +11,9 @@ import com.vojat.Enums.*;
 
 public class Flower{
     public BufferedImage CURRENT_TEXTURE;
+    public String ALIVE_TEXTURE;
+    public String THIRSTY_TEXTURE;
+    public String DEAD_TEXTURE;
     public String TYPE;
     public String STATUS;
     public short LOCATION_X;
@@ -27,11 +30,19 @@ public class Flower{
             case "tulip":
                 this.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;
                 this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_REDTULIP.value;
+
+                this.ALIVE_TEXTURE = "res/Pics/Red_Tulip.png";
+                this.THIRSTY_TEXTURE = "res/Pics/Land.png";
+                this.DEAD_TEXTURE = "res/Pics/MrUgly.png";
                 break;
             
             case "rose":
                 this.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_ROSE.value;
                 this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_ROSE.value;
+
+                this.ALIVE_TEXTURE = "res/Pics/Blue_Rose.png";
+                this.THIRSTY_TEXTURE = "res/Pics/Land.png";
+                this.DEAD_TEXTURE = "res/Pics/MrUgly.png";
         }
 
         this.TYPE = type;
