@@ -118,45 +118,6 @@ public class KeyboardInput implements KeyListener{
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(2), "open"))) {
                 gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
             }
-            // switch (e.getKeyCode()) {
-            //     case KeyEvent.VK_W:
-            //         up = true;
-            //         break;
-                
-            //     case KeyEvent.VK_S:
-            //         down = true;
-            //         break;
-                
-            //     case KeyEvent.VK_A:
-            //         left = true;
-            //         break;
-    
-            //     case KeyEvent.VK_D:
-            //         right = true;
-            //         break;
-                
-            //     case KeyEvent.VK_E:
-            //         if (dad.selectedItem+1 < dad.inventory.length) {
-            //             dad.selectedItem++;
-            //         } else {
-            //             dad.selectedItem = 0;
-            //         }
-            //         gamePanel.inventoryPanel.repaintItem(dad);
-            //         break;
-    
-            //     case KeyEvent.VK_Q:
-            //         if (dad.selectedItem > 0) {
-            //             dad.selectedItem--;
-            //         } else {
-            //             dad.selectedItem = (byte) (dad.inventory.length - 1);
-            //         }
-            //         gamePanel.inventoryPanel.repaintItem(dad);
-            //         break;
-    
-            //     case KeyEvent.VK_T:
-            //         gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
-            //         break;
-            // }
         }
     }
 
