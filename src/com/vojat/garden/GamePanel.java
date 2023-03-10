@@ -107,7 +107,7 @@ public class GamePanel extends JPanel{
                 if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
                     if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
                         if (plant.STATUS.equals("Alive")) {
-                            plant.CURRENT_TEXTURE = plant.setTexture("res/Pics/MrUgly.png");
+                            plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
                             plant.STATUS = "Dead";
 
                             try {
@@ -122,7 +122,7 @@ public class GamePanel extends JPanel{
                             }
                         }
                     } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE.value) {
-                        plant.CURRENT_TEXTURE = plant.setTexture("res/Pics/Land.png");
+                        plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
                     }
                     g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 128, 128, null);
                 } else {
