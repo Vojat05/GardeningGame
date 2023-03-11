@@ -69,3 +69,8 @@ JAR file is made for every update documented here<br>
     <li> * Changed the button textures</li>
     <li> * Changed the game logo in main menu</li>
 </ul>
+
+## 11/3/2023
+<ul>
+    <li> + Added a functional settings menu</li>
+</ul>

@@ -1,13 +1,1 @@
-{
-    "movement":{
-        "up":"W",
-        "down":"S",
-        "left":"A",
-        "right":"D"
-    },
-    "inventory":{
-        "open":"T",
-        "next":"E",
-        "previous":"Q"
-    }
-}
+{"game":{"exit":"Escape"},"movement":{"up":"W","down":"S","left":"A","right":"D"},"inventory":{"open":"T","next":"E","previous":"Q"}}

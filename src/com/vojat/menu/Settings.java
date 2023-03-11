@@ -22,7 +22,9 @@ public class Settings extends JPanel{
     private static KeyboardInput in;
     private static JSONEditor jEditor;
     private static ArrayList<JPanel> blocks = new ArrayList<>();
+    private static ArrayList<JLabel> keys = new ArrayList<>();
     private static JPanel options = new JPanel();
+    private static String[][] inputs = {{"up", "Move Up"}, {"down", "Move Down"}, {"left", "Move Left"}, {"right", "Move Right"}, {"open", "Open inventory"}, {"next", "Select next inventory item"}, {"previous", "Select previous inventory item"}};
 
     public Settings(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer) {
         setBackground(Color.DARK_GRAY);
@@ -60,8 +62,11 @@ public class Settings extends JPanel{
             back.addActionListener((e) -> {
                 changeVisibility(buttonPanel, spacer);
                 for (int i=0; i<blocks.size(); i++) {
+                    blocks.get(i).remove(keys.get(i));
                     options.remove(blocks.get(i));
                 }
+                keys.clear();
+                blocks.clear();
             });
             back.setBackground(new Color(25, 25, 25));
             back.setForeground(Color.WHITE);
@@ -69,7 +74,11 @@ public class Settings extends JPanel{
         JButton save = new JButton("Save");
         {
             MenuPanel.buttonSetup(save, 150, 40);
-            save.addActionListener((e) -> System.out.println("Save button pressed"));
+            save.addActionListener((e) -> {
+                for (int i=0; i<keys.size(); i++) {
+                    jEditor.write(inputs[i][0], keys.get(i).getText());
+                }
+            });
             save.setBackground(new Color(25, 25, 25));
             save.setForeground(Color.WHITE);
         }
@@ -96,7 +105,7 @@ public class Settings extends JPanel{
 
     public void createBlocks() {
         int getter = 1;
-        String[][] inputs = {{"up", "Move Up"}, {"down", "Move Down"}, {"left", "Move Left"}, {"right", "Move Right"}, {"open", "Open inventory"}, {"next", "Select next inventory item"}, {"previous", "Select previous inventory item"}};
+        
         for (int i=0; i<7; i++) {
             if (i == 4) {
                 getter++;
@@ -141,6 +150,7 @@ public class Settings extends JPanel{
 
             options.add(block);
             blocks.add(block);
+            keys.add(key);
         }
     }
 
