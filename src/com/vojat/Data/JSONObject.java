@@ -8,7 +8,7 @@ public class JSONObject {
         this.NAME = name;
     }
 
-    public void add(char letter) {
+    public void addValue(char letter) {
         this.VALUE += letter;
     }
 

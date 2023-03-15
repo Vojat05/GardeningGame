@@ -41,19 +41,19 @@ public class JSONEditor {
         }
     }
 
-    private void makeObject(String data) {
+    private void makeObject(String data) {      // Goes through the entire file and creates the objects, which are then saved into memory for further usage
         int objectIndex = 0;
         String name = "";
         boolean isWritingIntoObject = false;
         boolean write = false;
         for(int i=0; i<data.length(); i++) {
             switch(data.charAt(i)) {
-                case '}':
-                    ((JSONObject) JSONObjects.get(objectIndex-1)).add('}');
+                case '}':       // Stops writing into a JSON object
+                    ((JSONObject) JSONObjects.get(objectIndex-1)).addValue('}');
                     isWritingIntoObject = false;
                     break;
 
-                case '{':
+                case '{':       // Starts writing into a JSON object
                     if (i == 0) {
                         break;
                     }
@@ -63,25 +63,25 @@ public class JSONEditor {
                     objectIndex++;
                     break;
                 
-                case '"':
+                case '"':       // if isn't writing into an object it changes the write permission
                     if (!isWritingIntoObject) {
                         write = write ? false : true;
                     }
                     break;
 
-                default:
+                default:        // If it has write permission, it writes the name of the object
                     if (write) {
                         name += data.charAt(i);
                     }
                     break;
             }
-            if (isWritingIntoObject) {
-                ((JSONObject) JSONObjects.get(objectIndex-1)).add(data.charAt(i));
+            if (isWritingIntoObject) {      // Writes adds the data to the JSON object
+                ((JSONObject) JSONObjects.get(objectIndex-1)).addValue(data.charAt(i));
             }
         }
     }
 
-    public String read(JSONObject object, String request) {
+    public String read(JSONObject object, String request) {         // Goes through the JSON object and stores every key and value into a HashMap for an easier access
         String key = "";
         String data = "";
         boolean writeData = false;
@@ -116,10 +116,14 @@ public class JSONEditor {
                     break;
             }
         }
-        return map.get(request);
+        if (map.containsKey(request)) {
+            return map.get(request);
+        } else {
+            return ErrorList.ERR_404.message;
+        }
     }
 
-    public void write(String key, String data) {
+    public void write(String key, String data) {        // Writes a passed data under a certian key, the key has to be present
         String name = "";
         String value = "";
         boolean writeName = false;
