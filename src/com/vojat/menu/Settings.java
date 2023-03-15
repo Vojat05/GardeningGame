@@ -62,16 +62,16 @@ public class Settings extends JPanel{
             back.addActionListener((e) -> {
                 changeVisibility(buttonPanel, spacer);
                 for (int i=0; i<blocks.size(); i++) {
-                    blocks.get(i).remove(keys.get(i));
-                    options.remove(blocks.get(i));
+                    blocks.get(i).remove(keys.get(i));      // Removes the key labels from each block
+                    options.remove(blocks.get(i));      // Removes each block from the options panel
                 }
-                keys.clear();
-                blocks.clear();
+                keys.clear();       // Clears the JLabel keys ArrayList
+                blocks.clear();     // Clears the JPanel blocks ArrayList
             });
             back.setBackground(new Color(25, 25, 25));
             back.setForeground(Color.WHITE);
         }
-        JButton save = new JButton("Save");
+        JButton save = new JButton("Save");         // Goes through each JLabel and writes it's value into the controls JSON file one at a time
         {
             MenuPanel.buttonSetup(save, 150, 40);
             save.addActionListener((e) -> {
@@ -103,7 +103,7 @@ public class Settings extends JPanel{
         }
     }
 
-    public void createBlocks() {
+    public void createBlocks() {        // Creates each block in the options for the text to be Re-rendered for each opening
         int getter = 1;
         
         for (int i=0; i<7; i++) {
@@ -119,14 +119,14 @@ public class Settings extends JPanel{
                 name.setPreferredSize(new Dimension(500, 135));
                 name.setOpaque(true);
             }
-            JLabel key = new JLabel(jEditor.read(jEditor.JSONObjects.get(getter), inputs[i][0]), SwingConstants.CENTER);
+            JLabel key = new JLabel(jEditor.read(jEditor.JSONObjects.get(getter), inputs[i][0]), SwingConstants.CENTER);        // Gets the current value from the controls JSON
             {
                 key.setFont(new Font("Calibri", Font.BOLD, 40));
                 key.setForeground(Color.CYAN);
                 key.setPreferredSize(new Dimension(100, 135));
                 key.setOpaque(true);
             }
-            JButton button = new JButton("Change");
+            JButton button = new JButton("Change");     // Changes the displayed key for the specific block (setting). It doesn't save it
             {
                 button.addActionListener((e) -> getKey(button, key));
                 button.setFocusPainted(false);
@@ -154,17 +154,17 @@ public class Settings extends JPanel{
         }
     }
 
-    private void getKey(JButton button, JLabel label) {
+    private void getKey(JButton button, JLabel label) {     // Creates the keypress listener for me tu listen for a pressed key
         in = new KeyboardInput(this, button, label);
         button.addKeyListener(in);
     }
 
-    public void pressed(char data, JButton button, KeyboardInput in, JLabel label) {
+    public void pressed(char data, JButton button, KeyboardInput in, JLabel label) {        // Is called when any key is pressed to signal that it's time to end the listening a change the label text
         button.removeKeyListener(in);
         label.setText(("" + data).toUpperCase());
     }
 
-    public void changeVisibility(JPanel buttonPanel, JPanel spacer) {
+    public void changeVisibility(JPanel buttonPanel, JPanel spacer) {           // Disables the options to see and interact with the options panel
         visible = visible ? false : true;
         setVisible(visible);
         buttonPanel.setVisible(!visible);
