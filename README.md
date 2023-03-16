@@ -74,3 +74,8 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> + Added a functional settings menu</li>
 </ul>
+
+## 17/3/2023
+<ul>
+    <li> * Made the "Restore Controls" button functional</li>
+</ul>
