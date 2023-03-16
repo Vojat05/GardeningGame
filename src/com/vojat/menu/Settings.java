@@ -85,7 +85,21 @@ public class Settings extends JPanel{
         JButton restore = new JButton("Restore Controls");
         {
             MenuPanel.buttonSetup(restore, 150, 40);
-            restore.addActionListener((e) -> System.out.println("Restore controls to default"));
+            restore.addActionListener((e) -> {
+                try {
+                    JSONEditor jEditor2 = new JSONEditor("src/com/vojat/Data/ControlsDefault.json");
+                    int picker = 0;
+                    for (int i=0; i<keys.size(); i++) {
+                        if (i == 0 || i == 4) {
+                            picker++;
+                        }
+                        jEditor.write(inputs[i][0], jEditor2.read(jEditor2.JSONObjects.get(picker), inputs[i][0]));
+                        keys.get(i).setText(jEditor2.read(jEditor2.JSONObjects.get(picker), inputs[i][0]));
+                    }
+                } catch (FileNotFoundException fe) {
+                    System.err.println(ErrorList.ERR_404.message);
+                }
+            });
             restore.setBackground(new Color(25, 25, 25));
             restore.setForeground(Color.WHITE);
         }
