@@ -27,7 +27,7 @@ public class Settings extends JPanel{
     private static String[][] inputs = {{"up", "Move Up"}, {"down", "Move Down"}, {"left", "Move Left"}, {"right", "Move Right"}, {"open", "Open inventory"}, {"next", "Select next inventory item"}, {"previous", "Select previous inventory item"}};
 
     public Settings(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer) {
-        setBackground(Color.DARK_GRAY);
+        setBackground(null);
         setVisible(visible);
         setFocusable(true);
 
@@ -93,8 +93,8 @@ public class Settings extends JPanel{
                         if (i == 0 || i == 4) {
                             picker++;
                         }
-                        jEditor.write(inputs[i][0], jEditor2.read(jEditor2.JSONObjects.get(picker), inputs[i][0]));
-                        keys.get(i).setText(jEditor2.read(jEditor2.JSONObjects.get(picker), inputs[i][0]));
+                        jEditor.write(inputs[i][0], jEditor2.readData(jEditor2.JSONObjects.get(picker), inputs[i][0]));
+                        keys.get(i).setText(jEditor2.readData(jEditor2.JSONObjects.get(picker), inputs[i][0]));
                     }
                 } catch (FileNotFoundException fe) {
                     System.err.println(ErrorList.ERR_404.message);
@@ -117,7 +117,7 @@ public class Settings extends JPanel{
         }
     }
 
-    public void createBlocks() {        // Creates each block in the options for the text to be Re-rendered for each opening
+    public void createDataBlocks() {        // Creates each block in the options for the text to be Re-rendered for each opening
         int getter = 1;
         
         for (int i=0; i<7; i++) {
@@ -133,7 +133,7 @@ public class Settings extends JPanel{
                 name.setPreferredSize(new Dimension(500, 135));
                 name.setOpaque(true);
             }
-            JLabel key = new JLabel(jEditor.read(jEditor.JSONObjects.get(getter), inputs[i][0]), SwingConstants.CENTER);        // Gets the current value from the controls JSON
+            JLabel key = new JLabel(jEditor.readData(jEditor.JSONObjects.get(getter), inputs[i][0]), SwingConstants.CENTER);        // Gets the current value from the controls JSON
             {
                 key.setFont(new Font("Calibri", Font.BOLD, 40));
                 key.setForeground(Color.CYAN);
@@ -149,7 +149,7 @@ public class Settings extends JPanel{
                 button.setPreferredSize(new Dimension(100, 50));
             }
 
-            if (i % 2 == 0) {
+            if (i % 2 == 0) {       // Checks if the number of a currently made block is divisable by 2 and makes it lighter or darker
                 block.setBackground(new Color(50, 50, 50, 50));
                 button.setBackground(new Color(60, 60, 60));
                 key.setBackground(new Color(60, 60, 60));
@@ -178,7 +178,7 @@ public class Settings extends JPanel{
         label.setText(("" + data).toUpperCase());
     }
 
-    public void changeVisibility(JPanel buttonPanel, JPanel spacer) {           // Disables the options to see and interact with the options panel
+    public void changeVisibility(JPanel buttonPanel, JPanel spacer) {           // If called, changes the option to see & interact with this panel
         visible = visible ? false : true;
         setVisible(visible);
         buttonPanel.setVisible(!visible);
