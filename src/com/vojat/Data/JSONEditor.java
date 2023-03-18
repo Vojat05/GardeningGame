@@ -81,7 +81,7 @@ public class JSONEditor {
         }
     }
 
-    public String read(JSONObject object, String request) {         // Goes through the JSON object and stores every key and value into a HashMap for an easier access
+    public String readData(JSONObject object, String request) {         // Goes through the JSON object and stores every key and value into a HashMap for an easier access
         String key = "";
         String data = "";
         boolean writeData = false;
@@ -175,5 +175,10 @@ public class JSONEditor {
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_IO.message);
         }
+    }
+
+    public static void createFile(String path) throws IOException{
+        File file = new File(path);
+        file.createNewFile();
     }
 }

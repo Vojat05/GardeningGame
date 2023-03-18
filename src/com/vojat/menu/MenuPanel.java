@@ -23,17 +23,18 @@ public class MenuPanel extends JPanel{
 
 
         JPanel buttonPanel = new JPanel();
-        JPanel spacer = new JPanel();
+        JPanel spacer = new JPanel();       // Creates a spacer used for the button panel offset
         {
             spacer.setPreferredSize(new Dimension(windowWidth-250, 100));
             spacer.setBackground(null);
         }
-        Settings settings = new Settings(1920, 1080, buttonPanel, spacer);
+        Settings settings = new Settings(windowWidth, windowHeight, buttonPanel, spacer);
+        Load loadMenu = new Load(windowWidth, windowHeight, buttonPanel, spacer);
         
         JButton start = new JButton(InventoryPanel.createIcon("res/Pics/New.png", 150, 40));     // Create the start new game button
         {
             start.addActionListener((e) -> {
-                mapReset();
+                mapClear();
                 new Game(1920, 1080, window);
             });
             buttonSetup(start, 150, 40);
@@ -41,7 +42,9 @@ public class MenuPanel extends JPanel{
 
         JButton load = new JButton(InventoryPanel.createIcon("res/Pics/Load.png", 150, 40));     // Create the load game button
         {
-            load.addActionListener((e) -> System.out.println("Open saves menu"));
+            load.addActionListener((e) -> {
+                loadMenu.changeVisibility(buttonPanel, spacer);
+            });
             buttonSetup(load, 150, 40);
         }
 
@@ -49,12 +52,12 @@ public class MenuPanel extends JPanel{
         {
             options.addActionListener((e) -> {
                 settings.changeVisibility(buttonPanel, spacer);
-                settings.createBlocks();
+                settings.createDataBlocks();
             });
             buttonSetup(options, 150, 40);
         }
 
-        JButton exit = new JButton(InventoryPanel.createIcon("res/Pics/Exit.png", 150, 40));     // Button for closing the game
+        JButton exit = new JButton(InventoryPanel.createIcon("res/Pics/Exit.png", 150, 40));     // Exit button
         {
             exit.addActionListener((e) -> {
                 window.dispose();
@@ -64,17 +67,20 @@ public class MenuPanel extends JPanel{
         }
 
         {
-            JPanel spacer1 = new JPanel();
-            JPanel spacer2 = new JPanel();
             JLabel logo = new JLabel();
             InventoryPanel.repaintItem(logo, "res/Pics/Game_Logo.png");
+
+            JPanel spacer1 = new JPanel();
             spacer1.setBackground(null);
+            spacer1.add(logo);
+
+            JPanel spacer2 = new JPanel();
             spacer2.setBackground(null);
             spacer2.setPreferredSize(new Dimension(200, 200));
-            spacer1.add(logo);
+
+
             buttonPanel.setPreferredSize(new Dimension(200, 1000));
             buttonPanel.setBackground(null);
-
             buttonPanel.add(spacer2);
             buttonPanel.add(spacer1);
             buttonPanel.add(start);
@@ -86,6 +92,7 @@ public class MenuPanel extends JPanel{
         add(buttonPanel);
         add(spacer);
         add(settings);
+        add(loadMenu);
 
         window.setElements(this);
     }
@@ -96,7 +103,7 @@ public class MenuPanel extends JPanel{
         button.setFocusable(false);
     }
 
-    private void mapReset() {
+    private void mapClear() {
         for (int i=0; i<Game.map.length; i++) {
             for (int j=0; j<Game.map[0].length; j++) {
                 Game.map[i][j] = 0;

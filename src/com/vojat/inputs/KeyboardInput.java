@@ -28,7 +28,7 @@ public class KeyboardInput implements KeyListener{
     private Player dad;
     private GamePanel gamePanel;
     private boolean up = true, down = true, left = true, right = true;
-    private int speed = 6;
+    private int speed = 4;
     private Window window;
     private Settings settings;
     private JButton button;
@@ -41,8 +41,8 @@ public class KeyboardInput implements KeyListener{
         this.window = window;
         try {
             jEditor = new JSONEditor("src/com/vojat/Data/Controls.json");
-            jEditor.read(jEditor.JSONObjects.get(1), "up");
-            jEditor.read(jEditor.JSONObjects.get(1), "down");
+            jEditor.readData(jEditor.JSONObjects.get(1), "up");
+            jEditor.readData(jEditor.JSONObjects.get(1), "down");
         } catch (FileNotFoundException e) {
             System.err.println(ErrorList.ERR_404.message);
         }
@@ -57,31 +57,31 @@ public class KeyboardInput implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         if (dad != null) {
-            if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "up"))) {
+            if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
                 if (up) {
                     dad.setTexture("res/Pics/Dad_Texture_B.png");
                     up = false;
                 }
                 dad.moveUP(-speed);
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "down"))) {
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
                 if (down) {
                     dad.setTexture("res/Pics/Dad_Texture_F.png");
                     down = false;
                 }
                 dad.moveUP(speed);
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "left"))) {
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
                 if (left) {
                     dad.setTexture("res/Pics/Dad_Texture_L.png");
                     left = false;
                 }
                 dad.moveSIDE(-speed);
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "right"))) {
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
                 if (right) {
                     dad.setTexture("res/Pics/Dad_Texture_R.png");
                     right = false;
                 }
                 dad.moveSIDE(speed);
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(0), "exit"))) {
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
                 Game.saveGame();
                 System.out.println("Game saved");
                 window.setElements(new MenuPanel(1920, 1080, window));
@@ -93,29 +93,29 @@ public class KeyboardInput implements KeyListener{
     @Override
     public void keyReleased(KeyEvent e) {
         if (dad != null) {
-            if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "up"))) {
+            if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
                 up = true;
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "down"))) {
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
                 down = true;
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "left"))) {
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
                 left = true;
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(1), "right"))) {
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
                 right = true;
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(2), "next"))) {
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "next"))) {
                 if (dad.selectedItem+1 < dad.inventory.length) {
                     dad.selectedItem++;
                 } else {
                     dad.selectedItem = 0;
                 }
                 gamePanel.inventoryPanel.repaintItem(dad);
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(2), "previous"))) {
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "previous"))) {
                 if (dad.selectedItem > 0) {
                     dad.selectedItem--;
                 } else {
                     dad.selectedItem = (byte) (dad.inventory.length - 1);
                 }
                 gamePanel.inventoryPanel.repaintItem(dad);
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.read(jEditor.JSONObjects.get(2), "open"))) {
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open"))) {
                 gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
             }
         }
