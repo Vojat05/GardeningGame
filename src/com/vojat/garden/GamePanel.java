@@ -1,13 +1,9 @@
 package com.vojat.garden;
 
 import java.awt.Graphics;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.awt.Dimension;
 import java.awt.Color;
 
-import javax.sound.sampled.*;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -17,13 +13,14 @@ import com.vojat.inputs.*;
 import com.vojat.menu.Window;
 
 public class GamePanel extends JPanel{
-    private ArrayList<Flower> flowers = new ArrayList<>();
     Player dad = new Player(this, 200, 200);
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
+    private Game game;
 
-    public GamePanel(int windowWidth, int windowHeight, Window window) {                                                           // width == window width ; height == window height
+    public GamePanel(int windowWidth, int windowHeight, Window window, Game game) {                                                           // width == window width ; height == window height
+        this.game = game;
         dad.setLimit(windowWidth, windowHeight);
         setFocusable(true);                                                                              // Sets the JPanel focusable, it is later packed into the JFrame
 
@@ -64,7 +61,7 @@ public class GamePanel extends JPanel{
     }
 
     public void summonFlower(Flower flower) {                                                                       // Adds a flower to flowers ArrayList
-        flowers.add(flower);
+        game.flowers.add(flower);
     }
 
     public void changeVisibility(JPanel panel, boolean value) {                                                     // Changes the visibility of an inventory table
@@ -73,7 +70,7 @@ public class GamePanel extends JPanel{
     }
 
     public void waterFlower(Flower flower, int positionX, int positionY) {                                          // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
-        for (Flower plant : flowers) {
+        for (Flower plant : game.flowers) {
             if (plant.IN_MAP_X == positionX && plant.IN_MAP_Y == positionY) {
                 if (plant.STATUS.equals("Alive")) {
                     switch(plant.TYPE) {
@@ -102,31 +99,21 @@ public class GamePanel extends JPanel{
         super.paintComponent(g);
 
         try{
-            for (int i=0; i<flowers.size(); i++) {                                                                  // Drawing all the placed plants by for loop to edit the plants
-                Flower plant = flowers.get(i);
+            for (int i=0; i<game.flowers.size(); i++) {                                                                  // Drawing all the placed plants by for loop to edit the plants
+                Flower plant = game.flowers.get(i);
                 if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
                     if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
                         if (plant.STATUS.equals("Alive")) {
                             plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
                             plant.STATUS = "Dead";
-
-                            try {
-                                AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("res/Audio/MagicSound.wav"));
-                                Clip clip = AudioSystem.getClip();
-                                clip.open(audioStream);
-                                clip.start();
-                                System.gc();
-                            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                                System.err.println("Audio error has occured!");
-                                e.printStackTrace();
-                            }
+                            Game.playMusic("res/Audio/MagicSound.wav");
                         }
                     } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE.value) {
                         plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
                     }
                     g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 128, 128, null);
                 } else {
-                    flowers.remove(plant);
+                    game.flowers.remove(plant);
                     Game.map[plant.IN_MAP_Y][plant.IN_MAP_X] = 0;
                 }
             }

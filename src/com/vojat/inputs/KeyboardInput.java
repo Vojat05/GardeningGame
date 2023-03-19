@@ -82,7 +82,6 @@ public class KeyboardInput implements KeyListener{
                 }
                 dad.moveSIDE(speed);
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
-                Game.saveGame();
                 System.out.println("Game saved");
                 window.setElements(new MenuPanel(1920, 1080, window));
                 Game.stopGame();

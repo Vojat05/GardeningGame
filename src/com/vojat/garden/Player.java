@@ -44,7 +44,7 @@ public class Player {
     public void moveUP(int speed) {                                                                         // Moves the player on the Y line
         if (LOCATION_Y < 0) {
             LOCATION_Y += 1;
-        } else if (LOCATION_Y > windowLimitY-230) {
+        } else if (LOCATION_Y > windowLimitY-170) {
             LOCATION_Y -= 1;
         } else {
             LOCATION_Y += speed;
@@ -54,7 +54,7 @@ public class Player {
     public void moveSIDE(int speed) {                                                                       // Moves the player on the X line
         if (LOCATION_X < 0) {
             LOCATION_X += 1;
-        } else if (LOCATION_X > windowLimitX-128) {
+        } else if (LOCATION_X > windowLimitX-100) {
             LOCATION_X -= 1;
         } else {
             LOCATION_X += speed;
