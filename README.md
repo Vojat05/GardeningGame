@@ -79,3 +79,8 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> * Made the "Restore Controls" button functional</li>
 </ul>
+
+## 19/3/2023
+<ul>
+    <li> + Added a background music while in-game</li>
+</ul>
