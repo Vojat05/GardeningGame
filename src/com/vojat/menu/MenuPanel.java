@@ -44,6 +44,7 @@ public class MenuPanel extends JPanel{
         {
             load.addActionListener((e) -> {
                 loadMenu.changeVisibility(buttonPanel, spacer);
+                loadMenu.createDataBlocks();
             });
             buttonSetup(load, 150, 40);
         }
