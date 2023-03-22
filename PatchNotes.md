@@ -3,7 +3,9 @@
 Only major changes are documented here<br><br>
 <b>+</b> == New feature<br>
 <b>-</b> == Removed feature<br>
-<b>*</b> == Modified feature<br>
+<b>*</b> == Modified feature<br><br>
+
+JAR file is made for every update documented here<br>
 
 ## 20/1/2023
 <ul>

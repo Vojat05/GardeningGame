@@ -1,3 +1,6 @@
 # Gardening Game
-<b>DO NOT MOVE THE JAR FILE!!</b> Otherwise it won't load the images<br>
-JAR file is made for every update documented here<br>
+<b>DO NOT MOVE THE JAR FILE!!</b> 
+Otherwise it won't load the images<br>
+
+This game is about a father watering plants.
+The objective of this game is to plant flowers and not let them die.
