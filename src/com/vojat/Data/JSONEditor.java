@@ -24,6 +24,10 @@ public class JSONEditor {
         this.file = new File(path);
     }
 
+    public File getFile() {
+        return this.file;
+    }
+
     private void readFile() throws FileNotFoundException {
         jsonData = "";
         JSONObjects.clear();
@@ -46,8 +50,8 @@ public class JSONEditor {
         String name = "";
         boolean isWritingIntoObject = false;
         boolean write = false;
-        for(int i=0; i<data.length(); i++) {
-            switch(data.charAt(i)) {
+        for (int i=0; i<data.length(); i++) {
+            switch (data.charAt(i)) {
                 case '}':       // Stops writing into a JSON object
                     ((JSONObject) JSONObjects.get(objectIndex-1)).addValue('}');
                     isWritingIntoObject = false;
@@ -89,7 +93,7 @@ public class JSONEditor {
         HashMap<String, String> map = new HashMap<>();
 
         for (int i=0; i<object.VALUE.length(); i++) {
-            switch(object.VALUE.charAt(i)) {
+            switch (object.VALUE.charAt(i)) {
                 case '"':
                     write = write ? false : true;
                     break;
@@ -132,7 +136,7 @@ public class JSONEditor {
         ArrayList<String> mapKeys = new ArrayList<>();
 
         for (int i=0; i<jsonData.length(); i++) {
-            switch(jsonData.charAt(i)) {
+            switch (jsonData.charAt(i)) {
                 case '"':
                     writeName = writeName ? false : true;
                     break;
@@ -167,8 +171,9 @@ public class JSONEditor {
         }
         map.put(key, data);
         value = "{\"game\":{\"" + mapKeys.get(0) + "\":\"" + map.get(mapKeys.get(0)) + "\"},\"movement\":{\"" + mapKeys.get(1) + "\":\"" + map.get(mapKeys.get(1)) + "\",\"" + mapKeys.get(2) + "\":\"" + map.get(mapKeys.get(2)) + "\",\"" + mapKeys.get(3) + "\":\"" + map.get(mapKeys.get(3)) + "\",\"" + mapKeys.get(4) + "\":\"" + map.get(mapKeys.get(4)) + "\"},\"inventory\":{\"" + mapKeys.get(5) + "\":\"" + map.get(mapKeys.get(5)) + "\",\"" + mapKeys.get(6) + "\":\"" + map.get(mapKeys.get(6)) + "\",\"" + mapKeys.get(7) + "\":\"" + map.get(mapKeys.get(7)) + "\"}}";
+        FileWriter fw;
         try {
-            FileWriter fw = new FileWriter(file);
+            fw = new FileWriter(file);
             fw.write(value);
             fw.close();
             readFile();
