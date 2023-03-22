@@ -73,7 +73,7 @@ public class GamePanel extends JPanel{
         for (Flower plant : game.flowers) {
             if (plant.IN_MAP_X == positionX && plant.IN_MAP_Y == positionY) {
                 if (plant.STATUS.equals("Alive")) {
-                    switch(plant.TYPE) {
+                    switch (plant.TYPE) {
                         case "tulip":
                             plant.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;
                             plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_REDTULIP.value;
@@ -98,7 +98,7 @@ public class GamePanel extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        try{
+        try {
             for (int i=0; i<game.flowers.size(); i++) {                                                                  // Drawing all the placed plants by for loop to edit the plants
                 Flower plant = game.flowers.get(i);
                 if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
