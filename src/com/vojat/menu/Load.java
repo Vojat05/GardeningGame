@@ -3,10 +3,14 @@ package com.vojat.menu;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import com.vojat.Data.JSONEditor;
+import com.vojat.Enums.ErrorList;
 
 public class Load extends JPanel{
     public static boolean visible = false;
@@ -85,7 +89,11 @@ public class Load extends JPanel{
     }
 
     private void buttonPress(JButton button) {
-        System.out.println("Load save number " + button.getText().charAt(button.getText().length()-1));
+        try {
+            JSONEditor.createFile("src/com/vojat/Data/Saves/Save" + button.getText().charAt(button.getText().length()-1) + ".json");
+        } catch (IOException e) {
+            System.err.println(ErrorList.ERR_404.message);
+        }
     }
 
     public void createButton(JPanel panel) {
