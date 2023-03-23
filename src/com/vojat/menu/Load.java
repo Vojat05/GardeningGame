@@ -3,14 +3,15 @@ package com.vojat.menu;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
+import com.vojat.garden.InventoryPanel;
 
 public class Load extends JPanel{
     public static boolean visible = false;
@@ -69,7 +70,7 @@ public class Load extends JPanel{
         add(saves);
     }
 
-    public void createDataBlocks() {
+    public void createDataBlocks() {        // Creates the 6 Save blocks
         for (int i=0; i<6; i++) {
             JPanel saveBlock = new JPanel();
             
@@ -80,25 +81,30 @@ public class Load extends JPanel{
                 createButton(saveBlock);
             }
 
-            if (saveBlock.getComponentCount() == 0) {
-                saveBlock.setBackground(new Color(30, 30, 30, 40));
-            } else {
+            if (saveBlock.getComponentCount() >= 1) {
                 saveBlock.setBackground(new Color(107, 252, 3, 60));
+            } else {
+                saveBlock.setBackground(new Color(30, 30, 30, 40));
             }
         }
     }
 
-    private void buttonPress(JButton button) {
+    private void buttonPress(JButton button, int saveNumber) {
         try {
-            JSONEditor.createFile("src/com/vojat/Data/Saves/Save" + button.getText().charAt(button.getText().length()-1) + ".json");
+            if (!new File("src/com/vojat/Data/Saves/Save" + saveNumber + ".json").isFile()) {
+                System.out.println("Creating File");
+                JSONEditor.createFile("src/com/vojat/Data/Saves/Save" + saveNumber + ".json");
+            }
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_404.message);
         }
     }
 
-    public void createButton(JPanel panel) {
-        JButton button = new JButton("Load save " + (blocks.indexOf(panel)+1));
-        button.addActionListener((e) -> buttonPress(button));
+    public void createButton(JPanel panel) {        // Creates a button to be passed to the block
+        JButton button = new JButton(InventoryPanel.createIcon("res/Pics/Load.png", 150, 40));
+        int saveNumber = blocks.indexOf(panel)+1;
+        button.addActionListener((e) -> buttonPress(button, saveNumber));
+        button.setPreferredSize(new Dimension(150, 40));
         button.setFocusPainted(false);
 
         panel.add(button);

@@ -105,5 +105,8 @@ public class Game implements Runnable{
 
     public static void saveGame(File saveFile) {;}
 
-    public static void loadGame(File saveFile) {;}
+    public static void loadGame(File saveFile) {
+        // ArrayList<Flower> flowers
+        // byte[][] map
+    }
 }
