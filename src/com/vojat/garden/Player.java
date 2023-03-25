@@ -27,8 +27,8 @@ public class Player {
     public Player() {;}                                                                                     // With this constructor, the player doesn't have the access to his abilities
 
     public void setLimit(int limitX, int limitY) {
-        windowLimitX = limitX;
-        windowLimitY = limitY;
+        windowLimitX = limitX-128;
+        windowLimitY = limitY-170;
 
         setTexture("res/Pics/Dad_Texture_F.png");                                                          // Sets the default player texture on startup to look forward
     }

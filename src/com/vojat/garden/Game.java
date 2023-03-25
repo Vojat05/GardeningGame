@@ -78,21 +78,30 @@ public class Game implements Runnable{
             e.printStackTrace();
         }
 
-        while (run) {                                                                                                                  // While this loop runs, the game updates
+        // While this loop runs, the game updates (game loop)
+        while (run) {
             now = System.nanoTime();
             
             deltaF += (now - previousTime) / timePerFrame;
             previousTime = now;
 
-            if (deltaF >= 1) {                                                                                                          // Repaints every 120 frames
-                gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
-                gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
+            // Repaints every 120 frames
+            if (deltaF >= 1) {
+                // Moves the player based on vectors + colision logic
+                if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY)) {
+                    gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
+                }
+                if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX)) {
+                    gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
+                }
+
                 gamePanel.repaint();
                 fps++;
                 deltaF--;
             }
 
-            if (System.currentTimeMillis() - lastCheck >= 1000) {                                                                       // The FPS counter
+            // The FPS counter
+            if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
                 System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
                 System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
