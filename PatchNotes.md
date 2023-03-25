@@ -86,3 +86,9 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> + Added a background music while in-game</li>
 </ul>
+
+## 25/3/2023
+<ul>
+    <li> * Changed the movement system to vector movement system</li>
+    <li> + Added the posibility for a player to walk diagonally</li>
+</ul>
