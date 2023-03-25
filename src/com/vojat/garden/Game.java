@@ -85,6 +85,8 @@ public class Game implements Runnable{
             previousTime = now;
 
             if (deltaF >= 1) {                                                                                                          // Repaints every 120 frames
+                gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
+                gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
                 gamePanel.repaint();
                 fps++;
                 deltaF--;
@@ -93,6 +95,7 @@ public class Game implements Runnable{
             if (System.currentTimeMillis() - lastCheck >= 1000) {                                                                       // The FPS counter
                 lastCheck = System.currentTimeMillis();
                 System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
+                System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
                 fps = 0;
                 if (!clip.isRunning()) {
                     clip.setFramePosition(0);

@@ -13,6 +13,7 @@ public class Player {
     private GamePanel gamePanel;
     public static int windowLimitX, windowLimitY;
     public int LOCATION_X = 0, LOCATION_Y = 0;
+    public double VECTORX = .0, VECTORY = .0;
     public BufferedImage currentTexture;
     public String[] inventory = {"water", "tulip", "rose"};                                                 // This is a set of items the player has (inventory)
     public byte selectedItem = 0;
@@ -38,26 +39,6 @@ public class Player {
         } catch (IOException ioe) {
             System.err.println(ErrorList.ERR_404.message);
             currentTexture = null;
-        }
-    }
-
-    public void moveUP(int speed) {                                                                         // Moves the player on the Y line
-        if (LOCATION_Y < 0) {
-            LOCATION_Y += 1;
-        } else if (LOCATION_Y > windowLimitY-170) {
-            LOCATION_Y -= 1;
-        } else {
-            LOCATION_Y += speed;
-        }
-    }
-
-    public void moveSIDE(int speed) {                                                                       // Moves the player on the X line
-        if (LOCATION_X < 0) {
-            LOCATION_X += 1;
-        } else if (LOCATION_X > windowLimitX-100) {
-            LOCATION_X -= 1;
-        } else {
-            LOCATION_X += speed;
         }
     }
 

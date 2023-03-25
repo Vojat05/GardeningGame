@@ -28,7 +28,7 @@ public class KeyboardInput implements KeyListener{
     private Player dad;
     private GamePanel gamePanel;
     private boolean up = true, down = true, left = true, right = true;
-    private int speed = 4;
+    private int speed = 1;
     private Window window;
     private Settings settings;
     private JButton button;
@@ -60,27 +60,27 @@ public class KeyboardInput implements KeyListener{
             if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
                 if (up) {
                     dad.setTexture("res/Pics/Dad_Texture_B.png");
+                    dad.VECTORY = -speed;
                     up = false;
                 }
-                dad.moveUP(-speed);
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
                 if (down) {
                     dad.setTexture("res/Pics/Dad_Texture_F.png");
+                    dad.VECTORY = speed;
                     down = false;
                 }
-                dad.moveUP(speed);
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
                 if (left) {
                     dad.setTexture("res/Pics/Dad_Texture_L.png");
+                    dad.VECTORX = -speed;
                     left = false;
                 }
-                dad.moveSIDE(-speed);
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
                 if (right) {
                     dad.setTexture("res/Pics/Dad_Texture_R.png");
+                    dad.VECTORX = speed;
                     right = false;
                 }
-                dad.moveSIDE(speed);
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
                 System.out.println("Game saved");
                 window.setElements(new MenuPanel(1920, 1080, window));
@@ -94,12 +94,16 @@ public class KeyboardInput implements KeyListener{
         if (dad != null) {
             if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
                 up = true;
+                dad.VECTORY = .0;
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
                 down = true;
+                dad.VECTORY = .0;
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
                 left = true;
+                dad.VECTORX = .0;
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
                 right = true;
+                dad.VECTORX = .0;
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "next"))) {
                 if (dad.selectedItem+1 < dad.inventory.length) {
                     dad.selectedItem++;
@@ -117,6 +121,21 @@ public class KeyboardInput implements KeyListener{
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open"))) {
                 gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
             }
+            if (dad.VECTORX == .0 && dad.VECTORY == .0) {
+                retexture("down");
+            } else if (dad.VECTORX == .0) {
+                if (dad.VECTORY > 0) {
+                    retexture("down");
+                } else {
+                    retexture("up");
+                }
+            } else if (dad.VECTORY == .0) {
+                if (dad.VECTORX > 0) {
+                    retexture("right");
+                } else {
+                    retexture("left");
+                }
+            }
         }
     }
 
@@ -124,6 +143,26 @@ public class KeyboardInput implements KeyListener{
     public void keyTyped(KeyEvent e) {
         if (settings != null) {
             settings.pressed(e.getKeyChar(), button, this, label);
+        }
+    }
+
+    private void retexture(String direction) {
+        switch (direction) {
+            case "up":
+                dad.setTexture("res/Pics/Dad_Texture_B.png");
+                break;
+
+            case "down":
+                dad.setTexture("res/Pics/Dad_Texture_F.png");
+                break;
+
+            case "left":
+                dad.setTexture("res/Pics/Dad_Texture_L.png");
+                break;
+
+            case "right":
+                dad.setTexture("res/Pics/Dad_Texture_R.png");
+                break;
         }
     }
 }
