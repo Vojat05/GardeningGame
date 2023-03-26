@@ -57,7 +57,7 @@ public class GamePanel extends JPanel{
     }
 
     private void setBackground() {                                                                                  // Method that sets the background to a desired thing
-        setBackground(new Color(84, 194, 4));
+        setBackground(new Color(90, 180, 4));
     }
 
     public void summonFlower(Flower flower) {                                                                       // Adds a flower to flowers ArrayList
@@ -71,7 +71,7 @@ public class GamePanel extends JPanel{
 
     public void waterFlower(Flower flower, int positionX, int positionY) {                                          // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
         for (Flower plant : game.flowers) {
-            if (plant.IN_MAP_X == positionX && plant.IN_MAP_Y == positionY) {
+            if (plant.LOCATION_X/128 == positionX && plant.LOCATION_Y/128 == positionY) {
                 if (plant.STATUS.equals("Alive")) {
                     switch (plant.TYPE) {
                         case "tulip":
@@ -84,7 +84,7 @@ public class GamePanel extends JPanel{
                             plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODISSAPEAR_ROSE.value;
                             break;
                     }
-                    plant.CURRENT_TEXTURE = plant.setTexture(Game.textures[plant.FLOWER_TEXTURE_NUMBER]);
+                    plant.CURRENT_TEXTURE = plant.setTexture(plant.ALIVE_TEXTURE);
                 }
             }
         }
@@ -114,7 +114,7 @@ public class GamePanel extends JPanel{
                     g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X, plant.LOCATION_Y, 128, 128, null);
                 } else {
                     game.flowers.remove(plant);
-                    Game.map[plant.IN_MAP_Y][plant.IN_MAP_X] = 0;
+                    Game.map[plant.LOCATION_Y/128][plant.LOCATION_X/128] = 0;
                 }
             }
 

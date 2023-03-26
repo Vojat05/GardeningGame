@@ -11,21 +11,14 @@ import com.vojat.Enums.*;
 
 public class Flower{
     public BufferedImage CURRENT_TEXTURE;
-    public String ALIVE_TEXTURE;
-    public String THIRSTY_TEXTURE;
-    public String DEAD_TEXTURE;
+    public String ALIVE_TEXTURE, THIRSTY_TEXTURE, DEAD_TEXTURE;
     public String TYPE;
     public String STATUS;
-    public short LOCATION_X;
-    public short LOCATION_Y;
+    public int LOCATION_X, LOCATION_Y;
     public int PLANT_NUMBER;
-    public long TIME_TO_DIE;
-    public long TIME_TO_DISSAPEAR;
-    public int IN_MAP_X;
-    public int IN_MAP_Y;
-    public int FLOWER_TEXTURE_NUMBER;
+    public long TIME_TO_DIE, TIME_TO_DISSAPEAR;
     
-    public Flower(String path, String type, short locationX, short locationY, String status, int number, int controlX, int controlY, int flowerNum) {
+    public Flower(String path, String type, int locationX, int locationY, String status, int number) {
         switch (type) {
             case "tulip":
                 this.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;
@@ -43,6 +36,7 @@ public class Flower{
                 this.ALIVE_TEXTURE = "res/Pics/Blue_Rose.png";
                 this.THIRSTY_TEXTURE = "res/Pics/Land.png";
                 this.DEAD_TEXTURE = "res/Pics/MrUgly.png";
+                break;
         }
 
         this.TYPE = type;
@@ -51,9 +45,6 @@ public class Flower{
         this.STATUS = status;
         this.PLANT_NUMBER = number;
         this.CURRENT_TEXTURE = setTexture(path);
-        this.IN_MAP_X = controlX;
-        this.IN_MAP_Y = controlY;
-        this.FLOWER_TEXTURE_NUMBER = flowerNum;
     }
 
     public BufferedImage setTexture(String path) {
