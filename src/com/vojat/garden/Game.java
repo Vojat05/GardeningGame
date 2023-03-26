@@ -10,6 +10,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import com.vojat.Main;
 import com.vojat.menu.Window;
 
 public class Game implements Runnable{
@@ -104,7 +105,9 @@ public class Game implements Runnable{
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
                 System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
-                System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
+                if (Main.debug) {
+                    System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
+                }
                 fps = 0;
                 if (!clip.isRunning()) {
                     clip.setFramePosition(0);
