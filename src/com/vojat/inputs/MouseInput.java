@@ -31,7 +31,7 @@ public class MouseInput implements MouseListener{
                     } else {                                                                            // If not, creates another Flower object to place here
                         flower = new Flower(Game.textures[dad.selectedItem], dad.inventory[dad.selectedItem], 128*controlVariableX, 128*controlVariableY, "Alive", assignNumberToPlant);
                         dad.plant(flower);
-                        wirteIntoMap(controlVariableY, controlVariableX, 1);                      // Writes it's value into map
+                        Game.wirteIntoMap(controlVariableY, controlVariableX, 1);                      // Writes it's value into map
                         assignNumberToPlant++;                                                          // Assigns the plant index
                     }
                 } else if(dad.selectedItem == 0) {
@@ -45,7 +45,7 @@ public class MouseInput implements MouseListener{
                 break;
             
             case MouseEvent.BUTTON2:
-                getMapData();
+                Game.getMapData();
                 break;
         }
     }
@@ -113,19 +113,6 @@ public class MouseInput implements MouseListener{
             controlVariableY = 6;
         } else {
             controlVariableY = 7;
-        }
-    }
-
-    private void wirteIntoMap(int i, int j, int value) {                                                    // Writes data into map at specified location
-        Game.map[i][j] = (byte) value;
-    }
-
-    private void getMapData() {                                                                             // Retrieves all data from map and prints it into console
-        for (int i=0; i<Game.map.length; i++) {
-            for (int j=0; j<Game.map[0].length; j++) {
-                System.out.print(" | " + Game.map[i][j] + " | ");
-            }
-            System.out.println("");
         }
     }
 }
