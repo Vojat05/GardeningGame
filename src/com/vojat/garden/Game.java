@@ -1,6 +1,7 @@
 package com.vojat.garden;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -11,22 +12,30 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.vojat.Main;
+import com.vojat.Data.JSONEditor;
 import com.vojat.menu.Window;
 
-public class Game implements Runnable{
+public class Game implements Runnable {
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_RESET = "\u001B[0m";
-    public ArrayList<Flower> flowers = new ArrayList<>();
-    public static byte[][] map = new byte[8][15];                                                                   // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
-    public static String[] textures = {"res/Pics/Water_Can.png", "res/Pics/Red_Tulip.png", "res/Pics/Blue_Rose.png"};              // Array of texture paths
+    public static ArrayList<Flower> flowers = new ArrayList<>();
+    public static byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
+    public static String[] textures = {"res/Pics/Water_Can.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
     private GamePanel gamePanel;
     private Thread gameLoop;
     private final int FPS_SET = 120;
     public static boolean run = true;
 
     public Game(int panelWidth, int panelHeight, Window window) {
-        gamePanel = new GamePanel(panelWidth, panelHeight, window, this);
-        InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);                          // Creates a new InventoryPanel object to pass into the main panel
+        flowers.clear();
+        // Cleares the map
+        for (int i=0; i<map.length; i++) {
+            for (int j=0; j<map[0].length; j++) {
+                map[i][j] = 0;
+            }
+        }
+        gamePanel = new GamePanel(panelWidth, panelHeight, window);
+        InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);      // Creates a new InventoryPanel object to pass into the main panel
         MainPanel mainPanel = new MainPanel(gamePanel, inventoryPanel);
         window.setElements(mainPanel);
 
@@ -35,7 +44,8 @@ public class Game implements Runnable{
         gamePanel.setIPanel(inventoryPanel);
     }
 
-    public void startGame() {                                                                                                       // Method to start the Game Loop
+    // Method to start the Game Loop
+    public void startGame() {
         run = true;
         gameLoop = new Thread(this);
         gameLoop.start();
@@ -58,8 +68,9 @@ public class Game implements Runnable{
         }
     }
 
+    // Game Loop
     @Override
-    public void run() {                                                                                                                 // Game Loop
+    public void run() {
 
         double timePerFrame = 1000000000.0 / FPS_SET;
         long now;
@@ -118,23 +129,114 @@ public class Game implements Runnable{
         clip.stop();
     }
 
-    public static void saveGame(File saveFile) {;}
+    // Saves the game progress into a seperate JSON file
+    public static void saveGame(String saveFilePath) throws FileNotFoundException {
+        String map = "\"map\":\"" + getMapData("") + "\"";
+        String value = "";
 
-    public static void loadGame(File saveFile) {
-        // ArrayList<Flower> flowers
-        // byte[][] map
+        for (int i=0; i<flowers.size(); i++) {
+            value += ",\"" + (flowers.get(i).PLANT_NUMBER + flowers.get(i).TYPE) + "\":\"" + ((flowers.get(i).TIME_TO_DIE - System.currentTimeMillis()) + "|" + flowers.get(i).LOCATION_X + "|" + flowers.get(i).LOCATION_Y) + "|\"";
+        }
+
+        JSONEditor jEditor = new JSONEditor(saveFilePath);
+        jEditor.write(map + value);
     }
 
-    public static void wirteIntoMap(int i, int j, int value) {                                                    // Writes data into map at specified location
+    public static void loadGame(String saveFilePath) throws FileNotFoundException {
+        
+        // Loads the map
+        JSONEditor jEditor = new JSONEditor(saveFilePath);
+        String[][] strMap = jEditor.read2DArr();
+        String mapValues = strMap[0][1];
+        String value = "";
+        int num = 0;
+        for (int i=0; i<mapValues.length(); i++) {
+            if (mapValues.charAt(i) == '|' && i != mapValues.length()-1) {
+                for (int j=0; j<value.length(); j++) {
+                    wirteIntoMap(num, j, Character.getNumericValue(value.charAt(j)));      // [8][15]
+                }
+                value = "";
+                num++;
+            } else {
+                value += mapValues.charAt(i);
+            }
+        }
+
+        // Loads the flowers
+        for (int i=1; i<strMap.length; i++) {
+            String plantNumber = "";
+            String plantType = "";
+            String timeToDie = "";
+            String posX = "";
+            String posY = "";
+            value = strMap[i][0];
+            for (int j=0; j<value.length(); j++) {
+                // 48 - 57 is the char range for integers 0 - 9
+                if (value.charAt(j) >= 48 && value.charAt(j) <= 57) {
+                    plantNumber += value.charAt(j);
+                } else {
+                    plantType += value.charAt(j);
+                }
+            }
+            value = strMap[i][1];
+            String data = "";
+            byte symbols = 0;
+            for (int j=0; j<value.length(); j++) {
+                if (value.charAt(j) == '|') {
+                    symbols++;
+                    switch (symbols) {
+                        case 1:
+                            timeToDie = data;
+                            break;
+
+                        case 2:
+                            posX = data;
+                            break;
+
+                        case 3:
+                            posY = data;
+                            break;
+                    }
+                    data = "";
+                } else {
+                    data += value.charAt(j);
+                }
+            }
+            flowers.add(new Flower(Integer.parseInt(timeToDie) > 5000 ? ("res/Pics/" + plantType + ".png") : "res/Pics/Land.png", 
+                plantType, 
+                Integer.parseInt(posX), 
+                Integer.parseInt(posY), 
+                Integer.parseInt(timeToDie) > 0 ? "Alive" : "Dead", 
+                Integer.parseInt(plantNumber), 
+                Integer.parseInt(timeToDie)));
+        }
+        System.gc();
+    }
+
+    // Writes data into map at specified location
+    public static void wirteIntoMap(int i, int j, int value) {
         map[i][j] = (byte) value;
     }
 
-    public static void getMapData() {                                                                             // Retrieves all data from map and prints it into console
-        for (int i=0; i<map.length; i++) {
-            for (int j=0; j<map[0].length; j++) {
-                System.out.print(" | " + map[i][j] + " | ");
+    // Retrieves all data from map and prints it into console
+    public static String getMapData(String type) {
+        if (type.equals("print")) {
+            for (int i=0; i<map.length; i++) {
+                for (int j=0; j<map[0].length; j++) {
+                    System.out.print(" | " + map[i][j] + " | ");
+                }
+                System.out.println("");
             }
-            System.out.println("");
+            return "";
+        } else {
+            String value = "";
+            for (int i=0; i<map.length; i++) {
+                for (int j=0; j<map[0].length; j++) {
+                    value += map[i][j];
+                }
+                value += "|";
+            }
+            return value;
         }
     }
 }

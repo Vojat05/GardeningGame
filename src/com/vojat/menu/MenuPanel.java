@@ -34,7 +34,6 @@ public class MenuPanel extends JPanel{
         JButton start = new JButton(InventoryPanel.createIcon("res/Pics/New.png", 150, 40));     // Create the start new game button
         {
             start.addActionListener((e) -> {
-                mapClear();
                 new Game(1920, 1080, window);
             });
             buttonSetup(start, 150, 40);
@@ -44,7 +43,7 @@ public class MenuPanel extends JPanel{
         {
             load.addActionListener((e) -> {
                 loadMenu.changeVisibility(buttonPanel, spacer);
-                loadMenu.createDataBlocks();
+                loadMenu.createDataBlocks(window);
             });
             buttonSetup(load, 150, 40);
         }
@@ -102,13 +101,5 @@ public class MenuPanel extends JPanel{
         button.setPreferredSize(new Dimension(sizeX, sizeY));
         button.setFocusPainted(false);
         button.setFocusable(false);
-    }
-
-    private void mapClear() {
-        for (int i=0; i<Game.map.length; i++) {
-            for (int j=0; j<Game.map[0].length; j++) {
-                Game.map[i][j] = 0;
-            }
-        }
     }
 }

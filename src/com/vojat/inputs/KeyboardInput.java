@@ -23,7 +23,7 @@ import com.vojat.menu.Window;
  * Interface must have its every method overriden
  * When extending an abstract class, you don't have to override every method
  */
-public class KeyboardInput implements KeyListener{
+public class KeyboardInput implements KeyListener {
 
     private Player dad;
     private GamePanel gamePanel;
@@ -41,6 +41,7 @@ public class KeyboardInput implements KeyListener{
         this.window = window;
         try {
             jEditor = new JSONEditor("src/com/vojat/Data/Controls.json");
+            jEditor.readFile();
             jEditor.readData(jEditor.JSONObjects.get(1), "up");
             jEditor.readData(jEditor.JSONObjects.get(1), "down");
         } catch (FileNotFoundException e) {
@@ -82,9 +83,8 @@ public class KeyboardInput implements KeyListener{
                     right = false;
                 }
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
-                System.out.println("Game saved");
-                window.setElements(new MenuPanel(1920, 1080, window));
                 Game.stopGame();
+                window.setElements(new MenuPanel(1920, 1080, window));
             }
         }
     }

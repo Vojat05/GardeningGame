@@ -8,17 +8,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.vojat.Main;
 import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
+import com.vojat.garden.Game;
 import com.vojat.garden.InventoryPanel;
+import com.vojat.inputs.MouseInput;
 
-public class Load extends JPanel{
+public class Load extends JPanel {
     public static boolean visible = false;
     private static JPanel saves = new JPanel();
     private static ArrayList<JPanel> blocks = new ArrayList<>();
+    private static JPanel buttonPanelT, spacerT;
 
     public Load(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer) {
+        buttonPanelT = buttonPanel;
+        spacerT = spacer;
         setBackground(null);
         setVisible(visible);
         setFocusable(true);
@@ -28,10 +36,6 @@ public class Load extends JPanel{
             MenuPanel.buttonSetup(back, 150, 40);
             back.addActionListener((e) -> {
                 changeVisibility(buttonPanel, spacer);
-                for (int i=0; i<blocks.size(); i++) {
-                    saves.remove(blocks.get(i));
-                }
-                blocks.clear();
             });
             back.setBackground(new Color(25, 25, 25));
             back.setForeground(Color.WHITE);
@@ -70,7 +74,7 @@ public class Load extends JPanel{
         add(saves);
     }
 
-    public void createDataBlocks() {        // Creates the 6 Save blocks
+    public void createDataBlocks(Window window) {        // Creates the 6 Save blocks
         for (int i=0; i<6; i++) {
             JPanel saveBlock = new JPanel();
             
@@ -78,7 +82,8 @@ public class Load extends JPanel{
             blocks.add(saveBlock);
 
             if (i+1 == 3 || i+1 == 6) {
-                createButton(saveBlock);
+                createButton(saveBlock, window);
+                saveBlock.add(new JLabel("Hello " + (blocks.indexOf(saveBlock)+1)));
             }
 
             if (saveBlock.getComponentCount() >= 1) {
@@ -89,21 +94,29 @@ public class Load extends JPanel{
         }
     }
 
-    private void buttonPress(JButton button, int saveNumber) {
+    // This method is called when the load button is pressed
+    private void buttonPress(JButton button, int saveNumber, Window window) {
         try {
-            if (!new File("src/com/vojat/Data/Saves/Save" + saveNumber + ".json").isFile()) {
-                System.out.println("Creating File");
-                JSONEditor.createFile("src/com/vojat/Data/Saves/Save" + saveNumber + ".json");
+            if (!(new File("src/com/vojat/Data/Saves/Save" + saveNumber + ".json").isFile())) {
+                if (Main.debug) {
+                    System.out.println("Creating File");
+                    JSONEditor.createFile("src/com/vojat/Data/Saves/Save" + saveNumber + ".json");
+                }
+            } else {
+                changeVisibility(buttonPanelT, spacerT);
+                new Game(1920, 1080, window);
+                Game.loadGame("src/com/vojat/Data/Saves/Save3.json");
+                MouseInput.setAssignPlantNum(Game.flowers.size());
             }
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_404.message);
         }
     }
 
-    public void createButton(JPanel panel) {        // Creates a button to be passed to the block
+    public void createButton(JPanel panel, Window window) {        // Creates a button to be passed to the block
         JButton button = new JButton(InventoryPanel.createIcon("res/Pics/Load.png", 150, 40));
         int saveNumber = blocks.indexOf(panel)+1;
-        button.addActionListener((e) -> buttonPress(button, saveNumber));
+        button.addActionListener((e) -> buttonPress(button, saveNumber, window));
         button.setPreferredSize(new Dimension(150, 40));
         button.setFocusPainted(false);
 
@@ -115,5 +128,9 @@ public class Load extends JPanel{
         setVisible(visible);
         buttonPanel.setVisible(!visible);
         spacer.setVisible(!visible);
+        for (int i=0; i<blocks.size(); i++) {
+            saves.remove(blocks.get(i));
+        }
+        blocks.clear();
     }
 }

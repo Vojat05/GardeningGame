@@ -17,7 +17,7 @@ import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
 import com.vojat.inputs.KeyboardInput;
 
-public class Settings extends JPanel{
+public class Settings extends JPanel {
     public static boolean visible = false;
     private static KeyboardInput in;
     private static JSONEditor jEditor;
@@ -33,6 +33,7 @@ public class Settings extends JPanel{
 
         try {
             jEditor = new JSONEditor("src/com/vojat/Data/Controls.json");
+            jEditor.readFile();
         } catch(FileNotFoundException fne) {
             System.err.println(ErrorList.ERR_404.message);
         }
@@ -76,7 +77,7 @@ public class Settings extends JPanel{
             MenuPanel.buttonSetup(save, 150, 40);
             save.addActionListener((e) -> {
                 for (int i=0; i<keys.size(); i++) {
-                    jEditor.write(inputs[i][0], keys.get(i).getText());
+                    jEditor.change(inputs[i][0], keys.get(i).getText());
                 }
             });
             save.setBackground(new Color(25, 25, 25));
@@ -88,12 +89,13 @@ public class Settings extends JPanel{
             restore.addActionListener((e) -> {
                 try {
                     JSONEditor jEditor2 = new JSONEditor("src/com/vojat/Data/ControlsDefault.json");
+                    jEditor2.readFile();
                     int picker = 0;
                     for (int i=0; i<keys.size(); i++) {
                         if (i == 0 || i == 4) {
                             picker++;
                         }
-                        jEditor.write(inputs[i][0], jEditor2.readData(jEditor2.JSONObjects.get(picker), inputs[i][0]));
+                        jEditor.change(inputs[i][0], jEditor2.readData(jEditor2.JSONObjects.get(picker), inputs[i][0]));
                         keys.get(i).setText(jEditor2.readData(jEditor2.JSONObjects.get(picker), inputs[i][0]));
                     }
                 } catch (FileNotFoundException fe) {
