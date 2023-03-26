@@ -15,9 +15,8 @@ public class JSONEditor {
     public ArrayList<JSONObject> JSONObjects = new ArrayList<JSONObject>();
     private String jsonData = "";
 
-    public JSONEditor(String filePath) throws FileNotFoundException{
+    public JSONEditor(String filePath) throws FileNotFoundException {
         setFile(filePath);
-        readFile();
     }
 
     public void setFile(String path) {
@@ -28,7 +27,16 @@ public class JSONEditor {
         return this.file;
     }
 
-    private void readFile() throws FileNotFoundException {
+    private int keyNumber() {
+        int sum = 0;
+        for (int i=0; i<jsonData.length(); i++) {
+            if (jsonData.charAt(i) == ':') {
+                sum++;
+            }
+        } return sum;
+    }
+
+    public void readFile() throws FileNotFoundException {
         jsonData = "";
         JSONObjects.clear();
         FileReader reader = new FileReader(file);
@@ -127,7 +135,63 @@ public class JSONEditor {
         }
     }
 
-    public void write(String key, String data) {        // Writes a passed data under a certian key, the key has to be present
+    public String[][] read2DArr() {
+        try {
+            {
+                jsonData = "";
+                JSONObjects.clear();
+                FileReader reader = new FileReader(file);
+                int data = reader.read();
+                while(data != -1) {             // Saves the entire JSON file as a String variable
+                    jsonData += (char) data;
+                    data = reader.read();
+                }
+                reader.close();
+            }
+            String[][] map = new String[keyNumber()][2];
+            for (int i=0; i<map.length; i++) {
+                for (int j=0; j<map[0].length; j++) {
+                    map[i][j] = "";
+                }
+            }
+            boolean write = false;
+            int num = 0;
+            for (int i=0; i<jsonData.length(); i++) {
+                switch (jsonData.charAt(i)) {
+                    case '{', '}', '"':
+                        break;
+
+                    case ':', ',':
+                        if (write) {
+                            num++;
+                        }
+                        write = write ? false : true;
+                        break;
+
+                    default:
+                        map[num][write ? 1 : 0] += jsonData.charAt(i);
+                }
+            }
+            return map;
+        } catch (IOException fe) {
+            System.err.println(ErrorList.ERR_404.message);
+            return null;
+        }
+    }
+
+    // Writes a whole new content to a JSON file
+    public void write(String data) {
+        try {
+            FileWriter fw = new FileWriter(file);
+            fw.write("{" + data + "}");
+            fw.close();
+        } catch (IOException e) {
+            System.err.println(ErrorList.ERR_404.message);
+        }
+    }
+
+    // Writes a passed data under a certian key, the key has to be present
+    public void change(String key, String data) {
         String name = "";
         String value = "";
         boolean writeName = false;
@@ -182,8 +246,9 @@ public class JSONEditor {
         }
     }
 
-    public static void createFile(String path) throws IOException{
+    public static File createFile(String path) throws IOException {
         File file = new File(path);
         file.createNewFile();
+        return file;
     }
 }

@@ -92,3 +92,9 @@ JAR file is made for every update documented here<br>
     <li> * Changed the movement system to vector movement system</li>
     <li> + Added the posibility for a player to walk diagonally</li>
 </ul>
+
+## 26/3/2023
+<ul>
+    <li> + Added the option to save the game progress</li>
+    <li> + Added the option to load a save file</li>
+</ul>

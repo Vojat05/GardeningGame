@@ -2,21 +2,26 @@ package com.vojat.inputs;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 
 import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Flower;
 import com.vojat.garden.Game;
 import com.vojat.garden.Player;
 
-public class MouseInput implements MouseListener{
+public class MouseInput implements MouseListener {
     private Player dad;
     private short controlVariableX;
     private short controlVariableY;
-    private int assignNumberToPlant = 0;
+    private static int assignNumberToPlant = Game.flowers.size();
     private Flower flower;
 
     public MouseInput(Player player) {
         this.dad = player;
+    }
+
+    public static void setAssignPlantNum(int number) {
+        assignNumberToPlant = number;
     }
 
     @Override
@@ -29,7 +34,7 @@ public class MouseInput implements MouseListener{
                     if (Game.map[controlVariableY][controlVariableX] >= 1) {                            // Checks if the desired area is occupied or not
                         System.err.println(ErrorList.ERR_CANTPLANT.message);
                     } else {                                                                            // If not, creates another Flower object to place here
-                        flower = new Flower(Game.textures[dad.selectedItem], dad.inventory[dad.selectedItem], 128*controlVariableX, 128*controlVariableY, "Alive", assignNumberToPlant);
+                        flower = new Flower(Game.textures[dad.selectedItem], dad.inventory[dad.selectedItem], controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
                         dad.plant(flower);
                         Game.wirteIntoMap(controlVariableY, controlVariableX, 1);                      // Writes it's value into map
                         assignNumberToPlant++;                                                          // Assigns the plant index
@@ -45,7 +50,13 @@ public class MouseInput implements MouseListener{
                 break;
             
             case MouseEvent.BUTTON2:
-                Game.getMapData();
+                Game.getMapData("print");
+
+                try {
+                    Game.saveGame("src/com/vojat/Data/Saves/Save3.json");
+                } catch (FileNotFoundException f) {
+                    System.err.println(ErrorList.ERR_404.message);
+                }
                 break;
         }
     }
