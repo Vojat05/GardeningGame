@@ -124,4 +124,17 @@ public class Game implements Runnable{
         // ArrayList<Flower> flowers
         // byte[][] map
     }
+
+    public static void wirteIntoMap(int i, int j, int value) {                                                    // Writes data into map at specified location
+        map[i][j] = (byte) value;
+    }
+
+    public static void getMapData() {                                                                             // Retrieves all data from map and prints it into console
+        for (int i=0; i<map.length; i++) {
+            for (int j=0; j<map[0].length; j++) {
+                System.out.print(" | " + map[i][j] + " | ");
+            }
+            System.out.println("");
+        }
+    }
 }
