@@ -99,6 +99,7 @@ public class Game implements Runnable {
 
             // Repaints every 120 frames
             if (deltaF >= 1) {
+                
                 // Moves the player based on vectors + colision logic
                 if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY)) {
                     gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;

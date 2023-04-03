@@ -77,20 +77,26 @@ public class Load extends JPanel {
     public void createDataBlocks(Window window) {        // Creates the 6 Save blocks
         for (int i=0; i<6; i++) {
             JPanel saveBlock = new JPanel();
-            
+            JPanel spacer = new JPanel();
+            {
+                spacer.setPreferredSize(new Dimension(400, 325));
+                spacer.setBackground(new Color(60, 60, 60, 40));
+            }
+
+            // If the specific file has a save point, it shows an image
+            if (new File("src/com/vojat/Data/Saves/Save" + (i+1) + ".json").isFile()) {
+                JLabel saveFilePicture = new JLabel();
+                {
+                    InventoryPanel.repaintItem(saveFilePicture, "res/Pics/save.png");
+                    spacer.add(saveFilePicture);
+                }
+            }
             saves.add(saveBlock);
             blocks.add(saveBlock);
-
-            if (i+1 == 3 || i+1 == 6) {
-                createButton(saveBlock, window);
-                saveBlock.add(new JLabel("Hello " + (blocks.indexOf(saveBlock)+1)));
-            }
-
-            if (saveBlock.getComponentCount() >= 1) {
-                saveBlock.setBackground(new Color(107, 252, 3, 60));
-            } else {
-                saveBlock.setBackground(new Color(30, 30, 30, 40));
-            }
+            saveBlock.add(spacer);
+            
+            createButton(saveBlock, window);
+            saveBlock.setBackground(new Color(30, 30, 30, 40));
         }
     }
 
