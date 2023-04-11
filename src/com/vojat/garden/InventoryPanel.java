@@ -1,7 +1,6 @@
 package com.vojat.garden;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Image;
 
 import javax.swing.BorderFactory;
@@ -18,7 +17,7 @@ public class InventoryPanel extends JPanel{
 
         {
             setBackground(new Color(40, 40, 40));
-            setPreferredSize(new Dimension(windowWidth, 75));
+            setBounds(0, windowHeight-75, windowWidth, 75);
         }
         item.setBorder(BorderFactory.createEtchedBorder(Color.BLACK, Color.RED));
         repaintItem(dad);

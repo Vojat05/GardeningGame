@@ -14,6 +14,7 @@ public class MenuPanel extends JPanel{
     
     public MenuPanel(int windowWidth, int windowHeight, Window window) {
         setFocusable(true);
+        requestFocus();
         setOpaque(true);
         setBackground(Color.DARK_GRAY);                 // This is the entire main menu background
         setPreferredSize(new Dimension(windowWidth, windowHeight));
@@ -34,7 +35,7 @@ public class MenuPanel extends JPanel{
         JButton start = new JButton(InventoryPanel.createIcon("res/Pics/New.png", 150, 40));     // Create the start new game button
         {
             start.addActionListener((e) -> {
-                new Game(1920, 1080, window);
+                new Game(1920, 1075, window);
             });
             buttonSetup(start, 150, 40);
         }
