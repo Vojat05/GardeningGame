@@ -79,7 +79,7 @@ public class Load extends JPanel {
             JPanel saveBlock = new JPanel();
             JPanel spacer = new JPanel();
             {
-                spacer.setPreferredSize(new Dimension(400, 325));
+                spacer.setPreferredSize(new Dimension(400, 350));
                 spacer.setBackground(new Color(60, 60, 60, 40));
             }
 
@@ -110,7 +110,7 @@ public class Load extends JPanel {
                 }
             } else {
                 changeVisibility(buttonPanelT, spacerT);
-                new Game(1920, 1080, window);
+                new Game(1920, 1075, window);
                 Game.loadGame("src/com/vojat/Data/Saves/Save3.json");
                 MouseInput.setAssignPlantNum(Game.flowers.size());
             }

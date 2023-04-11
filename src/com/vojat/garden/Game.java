@@ -21,6 +21,7 @@ public class Game implements Runnable {
     public static ArrayList<Flower> flowers = new ArrayList<>();
     public static byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
     public static String[] textures = {"res/Pics/Water_Can.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
+    public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png"};     // Array of texture paths for the ground animation
     private GamePanel gamePanel;
     private Thread gameLoop;
     private final int FPS_SET = 120;
@@ -72,7 +73,7 @@ public class Game implements Runnable {
     @Override
     public void run() {
 
-        double timePerFrame = 1000000000.0 / FPS_SET;
+        double timePerFrame = 1_000_000_000.0 / FPS_SET;
         long now;
         long previousTime = System.nanoTime();
         short fps = 0;
@@ -95,7 +96,7 @@ public class Game implements Runnable {
             now = System.nanoTime();
             
             deltaF += (now - previousTime) / timePerFrame;
-            previousTime = now;
+            previousTime = now;     // Updates previous time after the calculation
 
             // Repaints every 120 frames
             if (deltaF >= 1) {
@@ -121,6 +122,7 @@ public class Game implements Runnable {
                     System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
                 }
                 fps = 0;
+                gamePanel.changeGrass = true;
                 if (!clip.isRunning()) {
                     clip.setFramePosition(0);
                     clip.start();

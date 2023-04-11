@@ -1,9 +1,11 @@
 package com.vojat.garden;
 
 import java.awt.Graphics;
+import java.util.Random;
 import java.awt.Dimension;
 import java.awt.Color;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -17,6 +19,7 @@ public class GamePanel extends JPanel {
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
+    public boolean changeGrass = true;
 
     // width == window width & height == window height
     public GamePanel(int windowWidth, int windowHeight, Window window) {
@@ -24,8 +27,9 @@ public class GamePanel extends JPanel {
         setFocusable(true);         // Sets the JPanel focusable, it is later packed into the JFrame
 
         {   // Passing information for the game window, visible by the pack method
+            setBounds(0, 0, windowWidth, windowHeight-50);
             setPreferredSize(new Dimension(windowWidth, windowHeight-50));
-            setBackground();
+            setBackground(null);        // new Color(90, 180, 4)
             setBorder(new LineBorder(Color.BLACK));
         }
 
@@ -53,11 +57,6 @@ public class GamePanel extends JPanel {
     // Sets the inventory panel field (just for the repaint method to be functional in the listener)
     public void setIPanel(InventoryPanel iPanel) {
         this.inventoryPanel = iPanel;
-    }
-
-    // Method that sets the background to a desired thing
-    private void setBackground() {
-        setBackground(new Color(90, 180, 4));
     }
 
     // Adds a flower to flowers ArrayList
@@ -101,8 +100,8 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Drawing all the placed plants by a for loop to edit the plants
         try {
+            // Drawing all the placed plants by a for loop to edit the plants
             for (int i=0; i<Game.flowers.size(); i++) {
                 Flower plant = Game.flowers.get(i);
                 if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
@@ -115,13 +114,28 @@ public class GamePanel extends JPanel {
                     } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE.value) {
                         plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
                     }
-                    g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X*128, plant.LOCATION_Y*128, 128, 128, null);
+                    g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X*128, plant.LOCATION_Y*128, 128, 128, null);     // Draw the flower
                 } else {
                     Game.flowers.remove(plant);
                     Game.map[plant.LOCATION_Y][plant.LOCATION_X] = 0;
                 }
             }
 
+            // Drawing the grass texture
+            for (int i=0; i<Game.map.length; i++) {
+                for (int j=0; j<Game.map[0].length; j++) {
+                    if (Game.map[i][j] == 0 || Game.map[i][j] == -1) {
+                        if (changeGrass) {
+                            Random rnd = new Random();
+                            Game.map[i][j] = (byte) (rnd.nextInt(0, 2) * -1);
+                        }
+                        g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]*-1]).getImage(), 128*j, 128*i, 128, 128, null);
+                    }
+                }
+            }
+            changeGrass = false;
+
+            // Drawing the player character
             g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null);    // Resize of the dad texture into 128 x 128 pixels
         } catch(NullPointerException npe) {
             System.err.println(ErrorList.ERR_NPE.message);

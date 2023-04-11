@@ -98,3 +98,8 @@ JAR file is made for every update documented here<br>
     <li> + Added the option to save the game progress</li>
     <li> + Added the option to load a save file</li>
 </ul>
+
+## 11/4/2023
+<ul>
+    <li> + Added the grass animation system</li>
+</ul>
