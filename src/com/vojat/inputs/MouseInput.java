@@ -39,11 +39,15 @@ public class MouseInput implements MouseListener {
                         Game.wirteIntoMap(controlVariableY, controlVariableX, 2);                      // Writes it's value into map
                         assignNumberToPlant++;                                                          // Assigns the plant index
                     }
-                } else if(dad.selectedItem == 0) {
-                    if (Game.map[controlVariableY][controlVariableX] == 0) {
+                } else if(dad.selectedItem == 0) {       // Stop the watering if water isn't selected or if the water is empty
+                    if (Game.map[controlVariableY][controlVariableX] == 0) {   // Game.textures[0].equals("res/Pics/WaterDrop0.png")
                         System.err.println(ErrorList.ERR_NOPLANT.message);
+                    } else if (Game.textures[0].equals("res/Pics/WaterDrop0.png")) {
+                        System.err.println(ErrorList.ERR_WATER.message);
                     } else {
                         dad.water(flower, controlVariableX, controlVariableY);
+                        Game.textures[0] = "res/Pics/WaterDrop" + (Integer.parseInt(Game.textures[0].substring(18, 19))-1) + ".png";
+                        dad.gamePanel.inventoryPanel.repaintItem(dad);
                     }
                 }
                 System.gc();
@@ -58,6 +62,10 @@ public class MouseInput implements MouseListener {
                     System.err.println(ErrorList.ERR_404.message);
                 }
                 break;
+
+            case MouseEvent.BUTTON3:
+                Game.textures[0] = "res/Pics/WaterDrop9.png";
+                dad.gamePanel.inventoryPanel.repaintItem(dad);
         }
     }
 

@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import com.vojat.Enums.ErrorList;
 
 public class Player {
-    private GamePanel gamePanel;
+    public GamePanel gamePanel;
     public static int windowLimitX, windowLimitY;
     public int LOCATION_X = 0, LOCATION_Y = 0;
     public double VECTORX = .0, VECTORY = .0;
