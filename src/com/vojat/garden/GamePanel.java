@@ -23,7 +23,7 @@ public class GamePanel extends JPanel {
 
     // width == window width & height == window height
     public GamePanel(int windowWidth, int windowHeight, Window window) {
-        dad.setLimit(windowWidth, windowHeight);
+        dad.setLimit(windowWidth, windowHeight-50);
         setFocusable(true);         // Sets the JPanel focusable, it is later packed into the JFrame
 
         {   // Passing information for the game window, visible by the pack method
@@ -124,12 +124,12 @@ public class GamePanel extends JPanel {
             // Drawing the grass texture
             for (int i=0; i<Game.map.length; i++) {
                 for (int j=0; j<Game.map[0].length; j++) {
-                    if (Game.map[i][j] == 0 || Game.map[i][j] == -1) {
+                    if (Game.map[i][j] == 0 || Game.map[i][j] == 1) {
                         if (changeGrass) {
                             Random rnd = new Random();
-                            Game.map[i][j] = (byte) (rnd.nextInt(0, 2) * -1);
+                            Game.map[i][j] = (byte) (rnd.nextInt(0, 2));
                         }
-                        g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]*-1]).getImage(), 128*j, 128*i, 128, 128, null);
+                        g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
                     }
                 }
             }

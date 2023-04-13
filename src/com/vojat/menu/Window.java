@@ -1,5 +1,6 @@
 package com.vojat.menu;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -29,6 +30,7 @@ public class Window extends JFrame {
         components.add(arg);
         pack();
         setVisible(true);
+        setSize(new Dimension(1920, 1080));
     }
 
     @Override
