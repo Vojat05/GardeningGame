@@ -20,7 +20,7 @@ public class Game implements Runnable {
     private static final String ANSI_RESET = "\u001B[0m";
     public static ArrayList<Flower> flowers = new ArrayList<>();
     public static byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
-    public static String[] textures = {"res/Pics/Water_Can.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
+    public static String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
     public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png"};     // Array of texture paths for the ground animation
     private GamePanel gamePanel;
     private Thread gameLoop;

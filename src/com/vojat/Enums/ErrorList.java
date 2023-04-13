@@ -6,7 +6,8 @@ public enum ErrorList {
     ERR_NPE("Required variable is equal to null"),
     ERR_INTERRUPT("The code has been interrupted"),
     ERR_CANTPLANT("You already planted a plant here"),
-    ERR_NOPLANT("There is not a plant")
+    ERR_NOPLANT("There is not a plant"),
+    ERR_WATER("You do not have any water")
     ;
 
     public final String message;
