@@ -103,3 +103,9 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> + Added the grass animation system</li>
 </ul>
+
+## 13/4/2023
+<ul>
+    <li> * Fixed the screen size issue, it wasn't always just in 1920 x 1080</li>
+    <li> * Reworked the flower and grass repaint system to fix the game saving issue</li>
+</ul>

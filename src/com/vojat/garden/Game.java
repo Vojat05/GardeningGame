@@ -122,7 +122,7 @@ public class Game implements Runnable {
                     System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
                 }
                 fps = 0;
-                gamePanel.changeGrass = true;
+                gamePanel.changeGrass = true; //    Allows the game to change grass textures
                 if (!clip.isRunning()) {
                     clip.setFramePosition(0);
                     clip.start();
