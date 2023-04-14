@@ -15,7 +15,7 @@ import com.vojat.inputs.*;
 import com.vojat.menu.Window;
 
 public class GamePanel extends JPanel {
-    Player dad = new Player(this, 200, 200);
+    Player dad = new Player(this, 200, 400);
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
@@ -109,7 +109,9 @@ public class GamePanel extends JPanel {
                         Game.map[i][j] = (byte) (rnd.nextInt(0, 2));
                     }
                     g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
-                } else if (Game.map[i][j] > 2) {
+                } else if (Game.map[i][j] == 3) {
+                    g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 256, 256, null);
+                } else if (Game.map[i][j] >= 4) {
                     g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
                 }
             }
