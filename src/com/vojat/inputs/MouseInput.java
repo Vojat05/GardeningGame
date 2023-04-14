@@ -41,7 +41,7 @@ public class MouseInput implements MouseListener {
                         assignNumberToPlant++;                                                          // Assigns the plant index
                     }
                 } else if(dad.selectedItem == 0) {       // Stop the watering if water isn't selected or if the water is empty
-                    if (Game.map[controlVariableY][controlVariableX] <= 1) {   // Game.textures[0].equals("res/Pics/WaterDrop0.png")
+                    if (Game.map[controlVariableY][controlVariableX] != 2) {   // Game.textures[0].equals("res/Pics/WaterDrop0.png")
                         System.err.println(ErrorList.ERR_NOPLANT.message);
                     } else if (Game.textures[0].equals("res/Pics/WaterDrop0.png")) {
                         System.err.println(ErrorList.ERR_WATER.message);

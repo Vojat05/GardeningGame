@@ -109,13 +109,13 @@ public class GamePanel extends JPanel {
                         Game.map[i][j] = (byte) (rnd.nextInt(0, 2));
                     }
                     g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
-                } else if (Game.map[i][j] == 3) {
-                    g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 256, 256, null);
                 } else if (Game.map[i][j] >= 4) {
                     g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
                 }
             }
         }
+        // Draw the house
+        g.drawImage(new ImageIcon(Game.groundTextures[Game.map[0][1]]).getImage(), 128, 0, 256, 256, null);
         changeGrass = false;
 
         try {
