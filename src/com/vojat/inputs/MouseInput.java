@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 
+import com.vojat.Main;
 import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Flower;
 import com.vojat.garden.Game;
@@ -40,7 +41,7 @@ public class MouseInput implements MouseListener {
                         assignNumberToPlant++;                                                          // Assigns the plant index
                     }
                 } else if(dad.selectedItem == 0) {       // Stop the watering if water isn't selected or if the water is empty
-                    if (Game.map[controlVariableY][controlVariableX] == 0) {   // Game.textures[0].equals("res/Pics/WaterDrop0.png")
+                    if (Game.map[controlVariableY][controlVariableX] <= 1) {   // Game.textures[0].equals("res/Pics/WaterDrop0.png")
                         System.err.println(ErrorList.ERR_NOPLANT.message);
                     } else if (Game.textures[0].equals("res/Pics/WaterDrop0.png")) {
                         System.err.println(ErrorList.ERR_WATER.message);
@@ -56,16 +57,18 @@ public class MouseInput implements MouseListener {
             case MouseEvent.BUTTON2:
                 Game.getMapData("print");
 
-                try {
-                    Game.saveGame("src/com/vojat/Data/Saves/Save3.json");
-                } catch (FileNotFoundException f) {
-                    System.err.println(ErrorList.ERR_404.message);
+                if (Main.debug) {
+                    try {
+                        Game.saveGame("src/com/vojat/Data/Saves/Save3.json");
+                    } catch (FileNotFoundException f) {
+                        System.err.println(ErrorList.ERR_404.message);
+                    }
                 }
                 break;
 
             case MouseEvent.BUTTON3:
-                Game.textures[0] = "res/Pics/WaterDrop9.png";
-                dad.gamePanel.inventoryPanel.repaintItem(dad);
+                if (gardenerX(dad.LOCATION_X+64) == 1 && gardenerY(dad.LOCATION_Y+64) == 5) dad.waterRefill(); else System.err.println(ErrorList.ERR_WELL.message);
+                break;
         }
     }
 
@@ -82,56 +85,64 @@ public class MouseInput implements MouseListener {
     public void mouseExited(MouseEvent e) {;}    
 
     private void gardenerX(MouseEvent e) {                                                               // Center the click into a grid place for X
-        if (e.getX() <= 128) {
-            controlVariableX = 0;
-        } else if (e.getX() <= 128*2) {
-            controlVariableX = 1;
-        } else if (e.getX() <= 128*3) {
-            controlVariableX = 2;
-        } else if (e.getX() <= 128*4) {
-            controlVariableX = 3;
-        } else if (e.getX() <= 128*5) {
-            controlVariableX = 4;
-        } else if (e.getX() <= 128*6) {
-            controlVariableX = 5;
-        } else if (e.getX() <= 128*7) {
-            controlVariableX = 6;
-        } else if (e.getX() <= 128*8) {
-            controlVariableX = 7;
-        } else if (e.getX() <= 128*9) {
-            controlVariableX = 8;
-        } else if (e.getX() <= 128*10) {
-            controlVariableX = 9;
-        } else if (e.getX() <= 128*11) {
-            controlVariableX = 10;
-        } else if (e.getX() <= 128*12) {
-            controlVariableX = 11;
-        } else if (e.getX() <= 128*13) {
-            controlVariableX = 12;
-        } else if (e.getX() <= 128*14) {
-            controlVariableX = 13;
+        controlVariableX = Short.parseShort(Integer.toString(gardenerX(e.getX())));
+    }
+
+    public static int gardenerX(int positionX) {
+        if (positionX <= 128) {
+            return 0;
+        } else if (positionX <= 128*2) {
+            return 1;
+        } else if (positionX <= 128*3) {
+            return 2;
+        } else if (positionX <= 128*4) {
+            return 3;
+        } else if (positionX <= 128*5) {
+            return 4;
+        } else if (positionX <= 128*6) {
+            return 5;
+        } else if (positionX <= 128*7) {
+            return 6;
+        } else if (positionX <= 128*8) {
+            return 7;
+        } else if (positionX <= 128*9) {
+            return 8;
+        } else if (positionX <= 128*10) {
+            return 9;
+        } else if (positionX <= 128*11) {
+            return 10;
+        } else if (positionX <= 128*12) {
+            return 11;
+        } else if (positionX <= 128*13) {
+            return 12;
+        } else if (positionX <= 128*14) {
+            return 13;
         } else {
-            controlVariableX = 14;
+            return 14;
         }
     }
 
     private void gardenerY(MouseEvent e) {                                                                 // Center the click into a grid place for Y
-        if (e.getY() <= 128) {
-            controlVariableY = 0;
-        } else if (e.getY() <= 128*2) {
-            controlVariableY = 1;
-        } else if (e.getY() <= 128*3) {
-            controlVariableY = 2;
-        } else if (e.getY() <= 128*4) {
-            controlVariableY = 3;
-        } else if (e.getY() <= 128*5) {
-            controlVariableY = 4;
-        } else if (e.getY() <= 128*6) {
-            controlVariableY = 5;
-        } else if (e.getY() <= 128*7) {
-            controlVariableY = 6;
+        controlVariableY = Short.parseShort(Integer.toString(gardenerY(e.getY())));
+    }
+
+    public static int gardenerY(int positionY) {
+        if (positionY <= 128) {
+            return 0;
+        } else if (positionY <= 128*2) {
+            return 1;
+        } else if (positionY <= 128*3) {
+            return 2;
+        } else if (positionY <= 128*4) {
+            return 3;
+        } else if (positionY <= 128*5) {
+            return 4;
+        } else if (positionY <= 128*6) {
+            return 5;
+        } else if (positionY <= 128*7) {
+            return 6;
         } else {
-            controlVariableY = 7;
+            return 7;
         }
     }
 }

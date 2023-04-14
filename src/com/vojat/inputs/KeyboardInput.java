@@ -121,19 +121,19 @@ public class KeyboardInput implements KeyListener {
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open"))) {
                 gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
             }
-            if (dad.VECTORX == .0 && dad.VECTORY == .0) {
-                retexture("down");
-            } else if (dad.VECTORX == .0) {
-                if (dad.VECTORY > 0) {
-                    retexture("down");
-                } else {
-                    retexture("up");
-                }
-            } else if (dad.VECTORY == .0) {
-                if (dad.VECTORX > 0) {
-                    retexture("right");
-                } else {
-                    retexture("left");
+            if (dad.VECTORX != .0 || dad.VECTORY != .0) {
+                if (dad.VECTORX == .0) {
+                    if (dad.VECTORY > 0) {
+                        retexture("down");
+                    } else {
+                        retexture("up");
+                    }
+                } else if (dad.VECTORY == .0) {
+                    if (dad.VECTORX > 0) {
+                        retexture("right");
+                    } else {
+                        retexture("left");
+                    }
                 }
             }
         }

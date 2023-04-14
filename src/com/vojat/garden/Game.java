@@ -21,7 +21,7 @@ public class Game implements Runnable {
     public static ArrayList<Flower> flowers = new ArrayList<>();
     public static byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
     public static String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
-    public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png"};     // Array of texture paths for the ground animation
+    public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/Well.png"};     // Array of texture paths for the ground animation. The "" on position 2 is because number 2 in map is reserved for flowers
     private GamePanel gamePanel;
     private Thread gameLoop;
     private final int FPS_SET = 120;
@@ -35,6 +35,9 @@ public class Game implements Runnable {
                 map[i][j] = 0;
             }
         }
+        map[5][1] = 3;      // Bulds the well
+
+
         gamePanel = new GamePanel(panelWidth, panelHeight, window);
         InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);      // Creates a new InventoryPanel object to pass into the main panel
         MainPanel mainPanel = new MainPanel(gamePanel, inventoryPanel);

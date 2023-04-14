@@ -7,7 +7,8 @@ public enum ErrorList {
     ERR_INTERRUPT("The code has been interrupted"),
     ERR_CANTPLANT("You already planted a plant here"),
     ERR_NOPLANT("There is not a plant"),
-    ERR_WATER("You do not have any water")
+    ERR_WATER("You do not have any water"),
+    ERR_WELL("You are not staning at the well")
     ;
 
     public final String message;

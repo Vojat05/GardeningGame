@@ -100,6 +100,22 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        // Drawing the grass textures and other static objects (well, house ...)
+        for (int i=0; i<Game.map.length; i++) {
+            for (int j=0; j<Game.map[0].length; j++) {
+                if (Game.map[i][j] <= 1) {
+                    if (changeGrass) {
+                        Random rnd = new Random();
+                        Game.map[i][j] = (byte) (rnd.nextInt(0, 2));
+                    }
+                    g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
+                } else if (Game.map[i][j] > 2) {
+                    g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
+                }
+            }
+        }
+        changeGrass = false;
+
         try {
             // Drawing all the placed plants by a for loop to edit the plants
             for (int i=0; i<Game.flowers.size(); i++) {
@@ -121,22 +137,8 @@ public class GamePanel extends JPanel {
                 }
             }
 
-            // Drawing the grass texture
-            for (int i=0; i<Game.map.length; i++) {
-                for (int j=0; j<Game.map[0].length; j++) {
-                    if (Game.map[i][j] == 0 || Game.map[i][j] == 1) {
-                        if (changeGrass) {
-                            Random rnd = new Random();
-                            Game.map[i][j] = (byte) (rnd.nextInt(0, 2));
-                        }
-                        g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
-                    }
-                }
-            }
-            changeGrass = false;
-
-            // Drawing the player character
-            g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null);    // Resize of the dad texture into 128 x 128 pixels
+            // Drawing the player character in 128 x 128
+            g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null);
         } catch(NullPointerException npe) {
             System.err.println(ErrorList.ERR_NPE.message);
         }
