@@ -109,3 +109,10 @@ JAR file is made for every update documented here<br>
     <li> * Fixed the screen size issue, it wasn't always just in 1920 x 1080</li>
     <li> * Reworked the flower and grass repaint system to fix the game saving issue</li>
 </ul>
+
+## 14/4/2023
+<ul>
+    <li> + Added water depleting mechanic</li>
+    <li> + Added a well to refill player's water can</li>
+    <li> * Modified turning that the player stays rotated in his last movement direction</li>
+</ul>

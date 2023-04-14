@@ -49,4 +49,9 @@ public class Player {
     public void water(Flower flower, int positionX, int positionY) {
         gamePanel.waterFlower(flower, positionX, positionY);
     }
+
+    public void waterRefill() {
+        Game.textures[0] = "res/Pics/WaterDrop9.png";
+        gamePanel.inventoryPanel.repaintItem(this);
+    }
 }
