@@ -21,7 +21,7 @@ public class Game implements Runnable {
     public static ArrayList<Flower> flowers = new ArrayList<>();
     public static byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
     public static String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
-    public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/Well.png", "res/Pics/House.png"};     // Array of texture paths for the ground animation. The "" on position 2 is because number 2 in map is reserved for flowers
+    public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. The "" on position 2 is because number 2 in map is reserved for flowers
     private GamePanel gamePanel;
     private Thread gameLoop;
     private final int FPS_SET = 120;
@@ -35,8 +35,13 @@ public class Game implements Runnable {
                 map[i][j] = 0;
             }
         }
-        map[5][1] = 3;      // Builds the well
-        map[0][1] = 4;      // Builds the house
+        map[0][1] = 3;      // Builds the house
+        map[5][1] = 4;      // Builds the well
+        
+        // Fill with blank spaces, It's taken up by the house
+        map[0][2] = 2;
+        map[1][1] = 2;
+        map[1][2] = 2;
 
 
         gamePanel = new GamePanel(panelWidth, panelHeight, window);
