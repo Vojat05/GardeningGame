@@ -38,10 +38,10 @@ public class Game implements Runnable {
         map[0][1] = 3;      // Builds the house
         map[5][1] = 4;      // Builds the well
         
-        // Fill with blank spaces, It's taken up by the house
-        map[0][2] = 2;
-        map[1][1] = 2;
-        map[1][2] = 2;
+        // Fill with house spaces
+        map[0][2] = 3;
+        map[1][1] = 3;
+        map[1][2] = 3;
 
 
         gamePanel = new GamePanel(panelWidth, panelHeight, window);
