@@ -32,7 +32,9 @@ public class MouseInput implements MouseListener {
         switch (e.getButton()) {
             case MouseEvent.BUTTON1:
                 if (dad.selectedItem > 0 && controlVariableY != 7) {
-                    if (Game.map[controlVariableY][controlVariableX] >= 2) {                            // Checks if the desired area is occupied or not
+                    if (Math.abs(controlVariableX - gardenerX(dad.LOCATION_X+64)) > dad.reach || Math.abs(controlVariableY - gardenerY(dad.LOCATION_Y+64)) > dad.reach) {
+                        System.err.println(ErrorList.ERR_RANGE.message);
+                    } else if (Game.map[controlVariableY][controlVariableX] >= 2) {                            // Checks if the desired area is occupied or not
                         System.err.println(ErrorList.ERR_CANTPLANT.message);
                     } else {                                                                            // If not, creates another Flower object to place here
                         flower = new Flower(Game.textures[dad.selectedItem], dad.inventory[dad.selectedItem], controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
@@ -40,8 +42,10 @@ public class MouseInput implements MouseListener {
                         Game.wirteIntoMap(controlVariableY, controlVariableX, 2);                      // Writes it's value into map
                         assignNumberToPlant++;                                                          // Assigns the plant index
                     }
-                } else if(dad.selectedItem == 0) {       // Stop the watering if water isn't selected or if the water is empty
-                    if (Game.map[controlVariableY][controlVariableX] != 2) {   // Game.textures[0].equals("res/Pics/WaterDrop0.png")
+                } else if(dad.selectedItem == 0) {       // Stop the watering if water isn't selected or if the water is empty or is out of reach
+                    if (Math.abs(controlVariableX - gardenerX(dad.LOCATION_X+64)) > dad.reach || Math.abs(controlVariableY - gardenerY(dad.LOCATION_Y+64)) > dad.reach) {
+                        System.err.println(ErrorList.ERR_RANGE.message);
+                    } else if (Game.map[controlVariableY][controlVariableX] != 2) {
                         System.err.println(ErrorList.ERR_NOPLANT.message);
                     } else if (Game.textures[0].equals("res/Pics/WaterDrop0.png")) {
                         System.err.println(ErrorList.ERR_WATER.message);

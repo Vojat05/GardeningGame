@@ -17,6 +17,7 @@ public class Player {
     public BufferedImage currentTexture;
     public String[] inventory = {"water", "tulip", "rose"};                                                 // This is a set of items the player has (inventory)
     public byte selectedItem = 0;
+    public byte reach = 1;
 
     public Player(GamePanel gamePanel, int positionX, int positionY) {
         this.gamePanel = gamePanel;
