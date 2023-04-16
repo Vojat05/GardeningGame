@@ -118,3 +118,9 @@ JAR file is made for every update documented here<br>
     <li> + Added the house texture</li>
     <li> * Modified turning that the player stays rotated in his last movement direction</li>
 </ul>
+
+## 16/4/2023
+<ul>
+    <li> + Added collisions</li>
+    <li> + Added house entering mechanic</li>
+</ul>
