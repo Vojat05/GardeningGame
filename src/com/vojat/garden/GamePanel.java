@@ -15,7 +15,7 @@ import com.vojat.inputs.*;
 import com.vojat.menu.Window;
 
 public class GamePanel extends JPanel {
-    Player dad = new Player(this, 200, 400);
+    Player dad = new Player(this, 0, 0);
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
@@ -140,7 +140,7 @@ public class GamePanel extends JPanel {
             }
 
             // Drawing the player character in 128 x 128
-            g.drawImage(dad.currentTexture, dad.LOCATION_X, dad.LOCATION_Y, 128, 128, null);
+            g.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
         } catch(NullPointerException npe) {
             System.err.println(ErrorList.ERR_NPE.message);
         }

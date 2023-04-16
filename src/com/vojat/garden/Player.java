@@ -12,12 +12,13 @@ import com.vojat.Enums.ErrorList;
 public class Player {
     public GamePanel gamePanel;
     public static int windowLimitX, windowLimitY;
-    public int LOCATION_X = 0, LOCATION_Y = 0;
+    public double LOCATION_X = 0, LOCATION_Y = 0;
     public double VECTORX = .0, VECTORY = .0;
     public BufferedImage currentTexture;
     public String[] inventory = {"water", "tulip", "rose"};                                                 // This is a set of items the player has (inventory)
     public byte selectedItem = 0;
     public byte reach = 1;
+    public byte level = 0;
 
     public Player(GamePanel gamePanel, int positionX, int positionY) {
         this.gamePanel = gamePanel;

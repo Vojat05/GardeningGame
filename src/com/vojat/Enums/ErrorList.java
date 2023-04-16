@@ -1,5 +1,7 @@
 package com.vojat.Enums;
 
+import com.vojat.garden.Game;
+
 public enum ErrorList {
     ERR_404("The thing you're looking for wasn't found"),
     ERR_IO("IO exception occured"),
@@ -8,15 +10,13 @@ public enum ErrorList {
     ERR_CANTPLANT("You can not plant here"),
     ERR_NOPLANT("There is not a plant"),
     ERR_WATER("You do not have any water"),
-    ERR_WELL("You are not standing at the well"), 
+    ERR_WELL("You are not standing near the well"), 
     ERR_RANGE("This is out of your reach")
     ;
 
     public final String message;
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_RESET = "\u001B[0m";
 
     ErrorList(String mesage) {
-        this.message = ANSI_RED + mesage + ANSI_RESET;
+        this.message = Game.ANSI_RED + mesage + Game.ANSI_RESET;
     }
 }
