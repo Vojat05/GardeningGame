@@ -32,7 +32,7 @@ public class MouseInput implements MouseListener {
         switch (e.getButton()) {
             case MouseEvent.BUTTON1:
                 if (dad.selectedItem > 0 && controlVariableY != 7) {
-                    if (Math.abs(controlVariableX - gardenerX(dad.LOCATION_X+64)) > dad.reach || Math.abs(controlVariableY - gardenerY(dad.LOCATION_Y+64)) > dad.reach) {
+                    if (Math.abs(controlVariableX - Game.intoMapX(dad.LOCATION_X+64)) > dad.reach || Math.abs(controlVariableY - Game.intoMapY(dad.LOCATION_Y+64)) > dad.reach) {
                         System.err.println(ErrorList.ERR_RANGE.message);
                     } else if (Game.map[controlVariableY][controlVariableX] >= 2) {                            // Checks if the desired area is occupied or not
                         System.err.println(ErrorList.ERR_CANTPLANT.message);
@@ -43,7 +43,7 @@ public class MouseInput implements MouseListener {
                         assignNumberToPlant++;                                                          // Assigns the plant index
                     }
                 } else if(dad.selectedItem == 0) {       // Stop the watering if water isn't selected or if the water is empty or is out of reach
-                    if (Math.abs(controlVariableX - gardenerX(dad.LOCATION_X+64)) > dad.reach || Math.abs(controlVariableY - gardenerY(dad.LOCATION_Y+64)) > dad.reach) {
+                    if (Math.abs(controlVariableX - Game.intoMapX(dad.LOCATION_X+64)) > dad.reach || Math.abs(controlVariableY - Game.intoMapY(dad.LOCATION_Y+64)) > dad.reach) {
                         System.err.println(ErrorList.ERR_RANGE.message);
                     } else if (Game.map[controlVariableY][controlVariableX] != 2) {
                         System.err.println(ErrorList.ERR_NOPLANT.message);
@@ -71,7 +71,7 @@ public class MouseInput implements MouseListener {
                 break;
 
             case MouseEvent.BUTTON3:
-                if (gardenerX(dad.LOCATION_X+64) == 1 && gardenerY(dad.LOCATION_Y+64) == 5) dad.waterRefill(); else System.err.println(ErrorList.ERR_WELL.message);
+                if (Math.abs(1 - Game.intoMapX(dad.LOCATION_X+64)) <= dad.reach && Math.abs(5 - Game.intoMapY(dad.LOCATION_Y+64)) <= dad.reach) dad.waterRefill(); else System.err.println(ErrorList.ERR_WELL.message);
                 break;
         }
     }
@@ -88,65 +88,11 @@ public class MouseInput implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {;}    
 
-    private void gardenerX(MouseEvent e) {                                                               // Center the click into a grid place for X
-        controlVariableX = Short.parseShort(Integer.toString(gardenerX(e.getX())));
+    private void gardenerX(MouseEvent e) {                                                               // Center the click location into a grid place for X
+        controlVariableX = Short.parseShort(Integer.toString(Game.intoMapX(e.getX())));
     }
 
-    public static int gardenerX(int positionX) {
-        if (positionX <= 128) {
-            return 0;
-        } else if (positionX <= 128*2) {
-            return 1;
-        } else if (positionX <= 128*3) {
-            return 2;
-        } else if (positionX <= 128*4) {
-            return 3;
-        } else if (positionX <= 128*5) {
-            return 4;
-        } else if (positionX <= 128*6) {
-            return 5;
-        } else if (positionX <= 128*7) {
-            return 6;
-        } else if (positionX <= 128*8) {
-            return 7;
-        } else if (positionX <= 128*9) {
-            return 8;
-        } else if (positionX <= 128*10) {
-            return 9;
-        } else if (positionX <= 128*11) {
-            return 10;
-        } else if (positionX <= 128*12) {
-            return 11;
-        } else if (positionX <= 128*13) {
-            return 12;
-        } else if (positionX <= 128*14) {
-            return 13;
-        } else {
-            return 14;
-        }
-    }
-
-    private void gardenerY(MouseEvent e) {                                                                 // Center the click into a grid place for Y
-        controlVariableY = Short.parseShort(Integer.toString(gardenerY(e.getY())));
-    }
-
-    public static int gardenerY(int positionY) {
-        if (positionY <= 128) {
-            return 0;
-        } else if (positionY <= 128*2) {
-            return 1;
-        } else if (positionY <= 128*3) {
-            return 2;
-        } else if (positionY <= 128*4) {
-            return 3;
-        } else if (positionY <= 128*5) {
-            return 4;
-        } else if (positionY <= 128*6) {
-            return 5;
-        } else if (positionY <= 128*7) {
-            return 6;
-        } else {
-            return 7;
-        }
+    private void gardenerY(MouseEvent e) {                                                                 // Center the click location into a grid place for Y
+        controlVariableY = Short.parseShort(Integer.toString(Game.intoMapY(e.getY())));
     }
 }

@@ -16,12 +16,14 @@ import com.vojat.Data.JSONEditor;
 import com.vojat.menu.Window;
 
 public class Game implements Runnable {
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_RESET = "\u001B[0m";
     public static ArrayList<Flower> flowers = new ArrayList<>();
     public static byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
     public static String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
-    public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. The "" on position 2 is because number 2 in map is reserved for flowers
+    public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. position 2 in map is reserved for flowers
+    public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();
     private GamePanel gamePanel;
     private Thread gameLoop;
     private final int FPS_SET = 120;
@@ -43,6 +45,10 @@ public class Game implements Runnable {
         map[1][1] = 3;
         map[1][2] = 3;
 
+        // Fill the invisible walls arraylist
+        invisibleWalls.add(2);
+        invisibleWalls.add(3);
+        invisibleWalls.add(4);
 
         gamePanel = new GamePanel(panelWidth, panelHeight, window);
         InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);      // Creates a new InventoryPanel object to pass into the main panel
@@ -107,15 +113,20 @@ public class Game implements Runnable {
             deltaF += (now - previousTime) / timePerFrame;
             previousTime = now;     // Updates previous time after the calculation
 
-            // Repaints every 120 frames
+            // Repaints 120 times per second
             if (deltaF >= 1) {
-                
-                // Moves the player based on vectors + colision logic
-                if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY)) {
+
+                // Movement + colision logic
+                if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), intoMapX(gamePanel.dad.LOCATION_X + 64))))) {
                     gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
                 }
-                if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX)) {
+                if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80), intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX))))) {
                     gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
+                }
+
+                // Enter house logic
+                if (intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
+                    System.out.println("Enter house");
                 }
 
                 gamePanel.repaint();
@@ -250,5 +261,66 @@ public class Game implements Runnable {
             }
             return value;
         }
+    }
+
+    // Gets the theoretical X location in the map
+    public static int intoMapX(double positionX) {
+        if (positionX <= 128) {
+            return 0;
+        } else if (positionX <= 128*2) {
+            return 1;
+        } else if (positionX <= 128*3) {
+            return 2;
+        } else if (positionX <= 128*4) {
+            return 3;
+        } else if (positionX <= 128*5) {
+            return 4;
+        } else if (positionX <= 128*6) {
+            return 5;
+        } else if (positionX <= 128*7) {
+            return 6;
+        } else if (positionX <= 128*8) {
+            return 7;
+        } else if (positionX <= 128*9) {
+            return 8;
+        } else if (positionX <= 128*10) {
+            return 9;
+        } else if (positionX <= 128*11) {
+            return 10;
+        } else if (positionX <= 128*12) {
+            return 11;
+        } else if (positionX <= 128*13) {
+            return 12;
+        } else if (positionX <= 128*14) {
+            return 13;
+        } else {
+            return 14;
+        }
+    }
+
+    // Gets the theoretical Y location in the map
+    public static int intoMapY(double positionY) {
+        if (positionY <= 128) {
+            return 0;
+        } else if (positionY <= 128*2) {
+            return 1;
+        } else if (positionY <= 128*3) {
+            return 2;
+        } else if (positionY <= 128*4) {
+            return 3;
+        } else if (positionY <= 128*5) {
+            return 4;
+        } else if (positionY <= 128*6) {
+            return 5;
+        } else if (positionY <= 128*7) {
+            return 6;
+        } else {
+            return 7;
+        }
+    }
+
+    // Gets the theoretical location in the map
+    public static int intoMap(int y, int x) {
+        return map[y][x];
     }
 }
