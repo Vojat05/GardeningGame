@@ -37,7 +37,7 @@ public class MenuPanel extends JPanel{
             start.addActionListener((e) -> {
                 new Game(1920, 1075, window);
             });
-            buttonSetup(start, 150, 40);
+            buttonSetup(start, 150, 40, true);
         }
 
         JButton load = new JButton(InventoryPanel.createIcon("res/Pics/Load.png", 150, 40));     // Create the load game button
@@ -46,7 +46,7 @@ public class MenuPanel extends JPanel{
                 loadMenu.changeVisibility(buttonPanel, spacer);
                 loadMenu.createDataBlocks(window);
             });
-            buttonSetup(load, 150, 40);
+            buttonSetup(load, 150, 40, true);
         }
 
         JButton options = new JButton(InventoryPanel.createIcon("res/Pics/Options.png", 150, 40));       // Create the options button
@@ -55,7 +55,7 @@ public class MenuPanel extends JPanel{
                 settings.changeVisibility(buttonPanel, spacer);
                 settings.createDataBlocks();
             });
-            buttonSetup(options, 150, 40);
+            buttonSetup(options, 150, 40, true);
         }
 
         JButton exit = new JButton(InventoryPanel.createIcon("res/Pics/Exit.png", 150, 40));     // Exit button
@@ -64,7 +64,7 @@ public class MenuPanel extends JPanel{
                 window.dispose();
                 System.exit(0);
             });
-            buttonSetup(exit, 150, 40);
+            buttonSetup(exit, 150, 40, true);
         }
 
         {
@@ -98,9 +98,10 @@ public class MenuPanel extends JPanel{
         window.setElements(this);
     }
 
-    public static void buttonSetup(JButton button, int sizeX, int sizeY) {
+    public static void buttonSetup(JButton button, int sizeX, int sizeY, Boolean border) {
         button.setPreferredSize(new Dimension(sizeX, sizeY));
         button.setFocusPainted(false);
         button.setFocusable(false);
+        if (border) button.setBorder(null);
     }
 }

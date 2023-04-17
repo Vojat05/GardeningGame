@@ -33,7 +33,7 @@ public class Load extends JPanel {
 
         JButton back = new JButton("Back");
         {
-            MenuPanel.buttonSetup(back, 150, 40);
+            MenuPanel.buttonSetup(back, 150, 40, false);
             back.addActionListener((e) -> {
                 changeVisibility(buttonPanel, spacer);
             });
@@ -125,6 +125,7 @@ public class Load extends JPanel {
         button.addActionListener((e) -> buttonPress(button, saveNumber, window));
         button.setPreferredSize(new Dimension(150, 40));
         button.setFocusPainted(false);
+        button.setBorder(null);
 
         panel.add(button);
     }

@@ -24,7 +24,7 @@ public class Settings extends JPanel {
     private static ArrayList<JPanel> blocks = new ArrayList<>();
     private static ArrayList<JLabel> keys = new ArrayList<>();
     private static JPanel options = new JPanel();
-    private static String[][] inputs = {{"up", "Move Up"}, {"down", "Move Down"}, {"left", "Move Left"}, {"right", "Move Right"}, {"open", "Open inventory"}, {"next", "Select next inventory item"}, {"previous", "Select previous inventory item"}};
+    private static String[][] inputs = {{"pause", "Pause the game"}, {"up", "Move Up"}, {"down", "Move Down"}, {"left", "Move Left"}, {"right", "Move Right"}, {"open", "Open inventory"}, {"next", "Select next inventory item"}, {"previous", "Select previous inventory item"}};
 
     public Settings(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer) {
         setBackground(null);
@@ -59,7 +59,7 @@ public class Settings extends JPanel {
 
         JButton back = new JButton("Back");
         {
-            MenuPanel.buttonSetup(back, 150, 40);
+            MenuPanel.buttonSetup(back, 150, 40, false);
             back.addActionListener((e) -> {
                 changeVisibility(buttonPanel, spacer);
                 for (int i=0; i<blocks.size(); i++) {
@@ -74,7 +74,7 @@ public class Settings extends JPanel {
         }
         JButton save = new JButton("Save");         // Goes through each JLabel and writes it's value into the controls JSON file one at a time
         {
-            MenuPanel.buttonSetup(save, 150, 40);
+            MenuPanel.buttonSetup(save, 150, 40, false);
             save.addActionListener((e) -> {
                 for (int i=0; i<keys.size(); i++) {
                     jEditor.change(inputs[i][0], keys.get(i).getText());
@@ -85,14 +85,14 @@ public class Settings extends JPanel {
         }
         JButton restore = new JButton("Restore Controls");
         {
-            MenuPanel.buttonSetup(restore, 150, 40);
+            MenuPanel.buttonSetup(restore, 150, 40, false);
             restore.addActionListener((e) -> {
                 try {
                     JSONEditor jEditor2 = new JSONEditor("src/com/vojat/Data/ControlsDefault.json");
                     jEditor2.readFile();
                     int picker = 0;
                     for (int i=0; i<keys.size(); i++) {
-                        if (i == 0 || i == 4) {
+                        if (i == 1 || i == 5) {
                             picker++;
                         }
                         jEditor.change(inputs[i][0], jEditor2.readData(jEditor2.JSONObjects.get(picker), inputs[i][0]));
@@ -120,10 +120,10 @@ public class Settings extends JPanel {
     }
 
     public void createDataBlocks() {        // Creates each block in the options for the text to be Re-rendered for each opening
-        int getter = 1;
+        int getter = 0;
         
-        for (int i=0; i<7; i++) {
-            if (i == 4) {
+        for (int i=0; i<8; i++) {
+            if (i == 1 || i == 5) {
                 getter++;
             }
             JPanel block = new JPanel();
