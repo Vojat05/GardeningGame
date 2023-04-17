@@ -83,8 +83,10 @@ public class KeyboardInput implements KeyListener {
                     right = false;
                 }
             } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
-                Game.stopGame();
+                Game.killGame();
                 window.setElements(new MenuPanel(1920, 1080, window));
+            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) {
+                Game.pauseGame();
             }
         }
     }

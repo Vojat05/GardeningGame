@@ -18,6 +18,7 @@ public class Flower {
     public int PLANT_NUMBER;
     public long TIME_TO_DIE, TIME_TO_DISSAPEAR;
     
+    // Used when constructing new flowers
     public Flower(String path, String type, int locationX, int locationY, String status, int number) {
         switch (type) {
             case "tulip":
@@ -41,6 +42,8 @@ public class Flower {
         this.PLANT_NUMBER = number;
         this.CURRENT_TEXTURE = setTexture(path);
     }
+
+    // Used when loading flowers from game save file
     public Flower(String path, String type, int locationX, int locationY, String status, int number, int dieTime) {
         this.ALIVE_TEXTURE = "res/Pics/" + type + ".png";
         this.THIRSTY_TEXTURE = "res/Pics/Land.png";

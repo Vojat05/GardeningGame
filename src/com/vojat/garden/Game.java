@@ -24,10 +24,13 @@ public class Game implements Runnable {
     public static String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
     public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. position 2 in map is reserved for flowers
     public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();
+    private static ArrayList<Long> dieTimes = new ArrayList<Long>();
+    public static Clip clip;
     private GamePanel gamePanel;
     private Thread gameLoop;
     private final int FPS_SET = 120;
     public static boolean run = true;
+    public static boolean pause = false;
 
     public Game(int panelWidth, int panelHeight, Window window) {
         flowers.clear();
@@ -49,6 +52,7 @@ public class Game implements Runnable {
         invisibleWalls.add(2);
         invisibleWalls.add(3);
         invisibleWalls.add(4);
+        invisibleWalls.add(5);
 
         gamePanel = new GamePanel(panelWidth, panelHeight, window);
         InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);      // Creates a new InventoryPanel object to pass into the main panel
@@ -61,20 +65,39 @@ public class Game implements Runnable {
     }
 
     // Method to start the Game Loop
-    public void startGame() {
+    private void startGame() {
         run = true;
         gameLoop = new Thread(this);
         gameLoop.start();
     }
 
-    public static void stopGame() {
+    // Kills the game
+    public static void killGame() {
         run = false;
+    }
+
+    // Pauses the game
+    public static void pauseGame() {
+        pause = pause ? false : true;
+
+        // Saves the flower death times into the array list if paused and resets the die times when resumed
+        if (pause) {
+            for (Flower plant : flowers) {
+                dieTimes.add(plant.TIME_TO_DIE - System.currentTimeMillis());
+            }
+        } else {
+            for (int i=0; i<flowers.size(); i++) {
+                flowers.get(i).TIME_TO_DIE = dieTimes.get(i) + System.currentTimeMillis();
+                flowers.get(i).TIME_TO_DISSAPEAR = dieTimes.get(i) + System.currentTimeMillis() + 5000;
+                dieTimes.set(i, null);
+            }
+        }
     }
 
     public static void playMusic(String path) {
         try {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(path));
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
             System.gc();
@@ -95,6 +118,8 @@ public class Game implements Runnable {
         long lastCheck = System.currentTimeMillis();
         double deltaF = 0;
         Clip clip = null;
+
+        // The in-game audio player
         try {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("res/Audio/GameMusic.wav"));
             clip = AudioSystem.getClip();
@@ -103,49 +128,54 @@ public class Game implements Runnable {
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             System.err.println("Audio error has occured!");
-            e.printStackTrace();
         }
 
         // While this loop runs, the game updates (game loop)
         while (run) {
-            now = System.nanoTime();
+            if (!pause) {
+                now = System.nanoTime();
             
-            deltaF += (now - previousTime) / timePerFrame;
-            previousTime = now;     // Updates previous time after the calculation
+                deltaF += (now - previousTime) / timePerFrame;
+                previousTime = now;     // Updates previous time after the calculation
 
-            // Repaints 120 times per second
-            if (deltaF >= 1) {
+                // Repaints 120 times per second
+                if (deltaF >= 1) {
 
-                // Movement + colision logic
-                if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), intoMapX(gamePanel.dad.LOCATION_X + 64))))) {
-                    gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
+                    // Movement + colision logic
+                    if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), intoMapX(gamePanel.dad.LOCATION_X + 64))))) {
+                        gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
+                    }
+                    if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80), intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX))))) {
+                        gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
+                    }
+
+                    // Enter house logic
+                    if (intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
+                        System.out.println("Enter house");
+                    }
+
+                    gamePanel.repaint();
+                    fps++;
+                    deltaF--;
                 }
-                if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80), intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX))))) {
-                    gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
-                }
 
-                // Enter house logic
-                if (intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
-                    System.out.println("Enter house");
-                }
+                // The FPS counter. This occures ever second
+                if (System.currentTimeMillis() - lastCheck >= 1000) {
+                    lastCheck = System.currentTimeMillis();
+                    System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
+                    if (Main.debug) {
+                        System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
+                    }
+                    fps = 0;
+                    if (gamePanel.dad.level == 0) {
+                        gamePanel.changeGrass = true; //    Allows the game to change grass textures
+                    }
 
-                gamePanel.repaint();
-                fps++;
-                deltaF--;
-            }
-
-            // The FPS counter
-            if (System.currentTimeMillis() - lastCheck >= 1000) {
-                lastCheck = System.currentTimeMillis();
-                System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
-                if (Main.debug) {
-                    System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
-                }
-                fps = 0;
-                gamePanel.changeGrass = true; //    Allows the game to change grass textures
-                if (!clip.isRunning()) {
-                    clip.setFramePosition(0);
-                    clip.start();
+                    // Replays the in-game music if it had reached the end.
+                    if (!clip.isRunning()) {
+                        clip.setFramePosition(0);
+                        clip.start();
+                    }
                 }
             }
         }
@@ -225,7 +255,7 @@ public class Game implements Runnable {
                     data += value.charAt(j);
                 }
             }
-            flowers.add(new Flower(Integer.parseInt(timeToDie) > 5000 ? ("res/Pics/" + plantType + ".png") : "res/Pics/Land.png", 
+            flowers.add(new Flower(Integer.parseInt(timeToDie) > 5000 ? "res/Pics/" + plantType + ".png" : "res/Pics/Land.png", 
                 plantType, 
                 Integer.parseInt(posX), 
                 Integer.parseInt(posY), 
