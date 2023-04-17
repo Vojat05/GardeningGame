@@ -124,3 +124,9 @@ JAR file is made for every update documented here<br>
     <li> + Added collisions</li>
     <li> + Added house entering mechanic</li>
 </ul>
+
+## 17/4/2023
+<ul>
+    <li> + Added the option to pause to game</li>
+    <li> - Removed button border from every button with custom picture texture</li>
+</ul>
