@@ -127,7 +127,7 @@ public class GamePanel extends JPanel {
                         if (plant.STATUS.equals("Alive")) {
                             plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
                             plant.STATUS = "Dead";
-                            Game.playMusic("res/Audio/MagicSound.wav");
+                            Game.playSound("res/Audio/MagicSound.wav");
                         }
                     } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE.value) {
                         plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);

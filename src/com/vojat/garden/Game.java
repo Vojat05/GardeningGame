@@ -25,9 +25,9 @@ public class Game implements Runnable {
     public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. position 2 in map is reserved for flowers
     public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();
-    public static Clip clip;
     private GamePanel gamePanel;
     private Thread gameLoop;
+    public static Clip clip;
     private final int FPS_SET = 120;
     public static boolean run = true;
     public static boolean pause = false;
@@ -94,17 +94,21 @@ public class Game implements Runnable {
         }
     }
 
-    public static void playMusic(String path) {
+    public static void playSound(String path) {
         try {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(path));
-            clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clip.start();
+            Clip sound = AudioSystem.getClip();
+            sound.open(audioStream);
+            sound.start();
             System.gc();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             System.err.println("Audio error has occured!");
             e.printStackTrace();
         }
+    }
+
+    public static void stopMusic() {
+        clip.stop();
     }
 
     // Game Loop
@@ -117,7 +121,6 @@ public class Game implements Runnable {
         short fps = 0;
         long lastCheck = System.currentTimeMillis();
         double deltaF = 0;
-        Clip clip = null;
 
         // The in-game audio player
         try {
