@@ -20,9 +20,11 @@ public class Game implements Runnable {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
     public static ArrayList<Flower> flowers = new ArrayList<>();
-    public static byte[][] map = new byte[8][15];      // [Y][X] coords  -> Now it's a total of 120 spots to place a flower
+    public static byte[][] map = new byte[8][15];      // [Y][X] coords
+    public static byte[][] houseMap = new byte[8][15];      // [Y][X] cords
     public static String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
     public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. position 2 in map is reserved for flowers
+    public static String[] houseTextures = {"res/Pics/Plank.png"};
     public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();
     private GamePanel gamePanel;
@@ -34,12 +36,10 @@ public class Game implements Runnable {
 
     public Game(int panelWidth, int panelHeight, Window window) {
         flowers.clear();
-        // Cleares the map
-        for (int i=0; i<map.length; i++) {
-            for (int j=0; j<map[0].length; j++) {
-                map[i][j] = 0;
-            }
-        }
+        // Cleares the maps
+        clearMap(map);
+        clearMap(houseMap);
+
         map[0][1] = 3;      // Builds the house
         map[5][1] = 4;      // Builds the well
         
@@ -145,16 +145,17 @@ public class Game implements Runnable {
                 if (deltaF >= 1) {
 
                     // Movement + colision logic
-                    if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), intoMapX(gamePanel.dad.LOCATION_X + 64))))) {
+                    if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), intoMapX(gamePanel.dad.LOCATION_X + 64), gamePanel.dad.level == 0 ? map : houseMap)))) {
                         gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
                     }
-                    if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80), intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX))))) {
+                    if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80), intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), gamePanel.dad.level == 0 ? map : houseMap)))) {
                         gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
                     }
 
                     // Enter house logic
-                    if (intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
+                    if (intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1 && gamePanel.dad.level == 0) {
                         System.out.println("Enter house");
+                        gamePanel.dad.level = 1;
                     }
 
                     gamePanel.repaint();
@@ -170,8 +171,8 @@ public class Game implements Runnable {
                         System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
                     }
                     fps = 0;
-                    if (gamePanel.dad.level == 0) {
-                        gamePanel.changeGrass = true; //    Allows the game to change grass textures
+                    if (gamePanel.dad.level == 0) { // Checks if the player is on level 0 "outside"
+                        gamePanel.changeGrass = true;
                     }
 
                     // Replays the in-game music if it had reached the end.
@@ -209,7 +210,7 @@ public class Game implements Runnable {
         for (int i=0; i<mapValues.length(); i++) {
             if (mapValues.charAt(i) == '|' && i != mapValues.length()-1) {
                 for (int j=0; j<value.length(); j++) {
-                    wirteIntoMap(num, j, Character.getNumericValue(value.charAt(j)));      // [8][15]
+                    wirteIntoMap(num, j, Character.getNumericValue(value.charAt(j)));      // [8][15] is the max size
                 }
                 value = "";
                 num++;
@@ -352,8 +353,16 @@ public class Game implements Runnable {
         }
     }
 
-    // Gets the theoretical location in the map
-    public static int intoMap(int y, int x) {
+    // Gets the object in located in the map at the specific location
+    public static int intoMap(int y, int x, byte[][] map) {
         return map[y][x];
+    }
+
+    public static void clearMap(byte[][] map) {
+        for (int i=0; i<map.length; i++) {
+            for (int j=0; j<map[0].length; j++) {
+                map[i][j] = 0;
+            }
+        }
     }
 }

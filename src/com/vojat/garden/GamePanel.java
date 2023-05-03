@@ -15,7 +15,7 @@ import com.vojat.inputs.*;
 import com.vojat.menu.Window;
 
 public class GamePanel extends JPanel {
-    Player dad = new Player(this, 0, 0);
+    Player dad = new Player(this, 200, 300);
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;
@@ -92,6 +92,66 @@ public class GamePanel extends JPanel {
         }
     }
 
+    // Drawing terrain based on the map
+    private void drawTerrain(byte[][] map, Graphics g) {
+        // Drawing the grass textures and other static objects (well, house ...)
+        if (dad.level == 0) {
+            for (int i=0; i<map.length; i++) {
+                for (int j=0; j<map[0].length; j++) {
+                    if (map[i][j] <= 1) {
+                        if (changeGrass) {
+                            Random rnd = new Random();
+                            map[i][j] = (byte) (rnd.nextInt(0, 2));
+                        }
+                        g.drawImage(new ImageIcon(Game.groundTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);   // Draw the grass
+                    } else if (map[i][j] >= 4) {
+                        g.drawImage(new ImageIcon(Game.groundTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);   // Draw the objects like a well
+                    }
+                }
+            }
+        } else {
+            for (int i=0; i<map.length; i++) {
+                for (int j=0; j<map[0].length; j++) {
+                    g.drawImage(new ImageIcon(Game.houseTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
+                }
+            }
+        }
+        
+
+        try {
+            if (dad.level == 0) {
+                // Draw the house
+                g.drawImage(new ImageIcon(Game.groundTextures[map[0][1]]).getImage(), 128, 0, 256, 256, null);
+                changeGrass = false;
+
+                // Drawing all the placed plants by a for loop to edit the plants
+                for (int i=0; i<Game.flowers.size(); i++) {
+                    Flower plant = Game.flowers.get(i);
+                    if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
+                        if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
+                            if (plant.STATUS.equals("Alive")) {
+                                plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
+                                plant.STATUS = "Dead";
+                                Game.playSound("res/Audio/MagicSound.wav");
+                            }
+                        } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE.value) {
+                            plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
+                        }
+                        g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X*128, plant.LOCATION_Y*128, 128, 128, null);     // Draw the flower
+                    } else {
+                        Game.flowers.remove(plant);
+                        map[plant.LOCATION_Y][plant.LOCATION_X] = 0;
+                    }
+                }
+            }
+
+            // Drawing the player character in 128 x 128
+            g.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
+        } catch(NullPointerException npe) {
+            System.err.println(ErrorList.ERR_NPE.message);
+        }
+    }
+
 
 
     
@@ -100,49 +160,10 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Drawing the grass textures and other static objects (well, house ...)
-        for (int i=0; i<Game.map.length; i++) {
-            for (int j=0; j<Game.map[0].length; j++) {
-                if (Game.map[i][j] <= 1) {
-                    if (changeGrass) {
-                        Random rnd = new Random();
-                        Game.map[i][j] = (byte) (rnd.nextInt(0, 2));
-                    }
-                    g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
-                } else if (Game.map[i][j] >= 4) {
-                    g.drawImage(new ImageIcon(Game.groundTextures[Game.map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
-                }
-            }
-        }
-        // Draw the house
-        g.drawImage(new ImageIcon(Game.groundTextures[Game.map[0][1]]).getImage(), 128, 0, 256, 256, null);
-        changeGrass = false;
-
-        try {
-            // Drawing all the placed plants by a for loop to edit the plants
-            for (int i=0; i<Game.flowers.size(); i++) {
-                Flower plant = Game.flowers.get(i);
-                if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
-                    if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
-                        if (plant.STATUS.equals("Alive")) {
-                            plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
-                            plant.STATUS = "Dead";
-                            Game.playSound("res/Audio/MagicSound.wav");
-                        }
-                    } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE.value) {
-                        plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
-                    }
-                    g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X*128, plant.LOCATION_Y*128, 128, 128, null);     // Draw the flower
-                } else {
-                    Game.flowers.remove(plant);
-                    Game.map[plant.LOCATION_Y][plant.LOCATION_X] = 0;
-                }
-            }
-
-            // Drawing the player character in 128 x 128
-            g.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
-        } catch(NullPointerException npe) {
-            System.err.println(ErrorList.ERR_NPE.message);
+        if (dad.level == 0) {
+            drawTerrain(Game.map, g);
+        } else {
+            drawTerrain(Game.houseMap, g);
         }
     }
 }
