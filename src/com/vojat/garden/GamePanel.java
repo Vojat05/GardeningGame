@@ -159,11 +159,7 @@ public class GamePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        if (dad.level == 0) {
-            drawTerrain(Game.map, g);
-        } else {
-            drawTerrain(Game.houseMap, g);
-        }
+        
+        drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g);
     }
 }
