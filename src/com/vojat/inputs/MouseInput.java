@@ -36,9 +36,11 @@ public class MouseInput implements MouseListener {
                 } else {
                     if (dad.selectedItem > 0 && controlVariableY != 7) {
                         if (Math.abs(controlVariableX - Game.intoMapX(dad.LOCATION_X+64)) > dad.reach || Math.abs(controlVariableY - Game.intoMapY(dad.LOCATION_Y+64)) > dad.reach) {
-                            System.err.println(ErrorList.ERR_RANGE.message);
+                            System.err.println(ErrorList.ERR_RANGE_FAR.message);
                         } else if (Game.map[controlVariableY][controlVariableX] >= 2) {                            // Checks if the desired area is occupied or not
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
+                        } else if (Math.abs(controlVariableX - Game.intoMapX(dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(dad.LOCATION_Y+64)) == 0) {
+                            System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
                         } else {                                                                            // If not, creates another Flower object to place here
                             flower = new Flower(Game.textures[dad.selectedItem], dad.inventory[dad.selectedItem], controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
                             dad.plant(flower);
@@ -47,7 +49,7 @@ public class MouseInput implements MouseListener {
                         }
                     } else if(dad.selectedItem == 0) {       // Stop the watering if water isn't selected or if the water is empty or is out of reach
                         if (Math.abs(controlVariableX - Game.intoMapX(dad.LOCATION_X+64)) > dad.reach || Math.abs(controlVariableY - Game.intoMapY(dad.LOCATION_Y+64)) > dad.reach) {
-                            System.err.println(ErrorList.ERR_RANGE.message);
+                            System.err.println(ErrorList.ERR_RANGE_FAR.message);
                         } else if (Game.map[controlVariableY][controlVariableX] != 2) {
                             System.err.println(ErrorList.ERR_NOPLANT.message);
                         } else if (Game.textures[0].equals("res/Pics/WaterDrop0.png")) {
