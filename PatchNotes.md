@@ -127,6 +127,6 @@ JAR file is made for every update documented here<br>
 
 ## 17/4/2023
 <ul>
-    <li> + Added the option to pause to game</li>
+    <li> + Added the option to pause the game</li>
     <li> - Removed button border from every button with custom picture texture</li>
 </ul>
