@@ -156,6 +156,8 @@ public class Game implements Runnable {
                     if (intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1 && gamePanel.dad.level == 0) {
                         System.out.println("Enter house");
                         gamePanel.dad.level = 1;
+                        gamePanel.dad.LOCATION_X = 400;
+                        gamePanel.dad.LOCATION_Y = 800;
                     }
 
                     gamePanel.repaint();
