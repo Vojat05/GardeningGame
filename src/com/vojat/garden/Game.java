@@ -24,7 +24,7 @@ public class Game implements Runnable {
     public static byte[][] houseMap = new byte[8][15];      // [Y][X] cords
     public static String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
     public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. position 2 in map is reserved for flowers
-    public static String[] houseTextures = {"res/Pics/Plank.png"};
+    public static String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png"};
     public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();
     private GamePanel gamePanel;
@@ -48,11 +48,16 @@ public class Game implements Runnable {
         map[1][1] = 3;
         map[1][2] = 3;
 
+        // Fill the house map
+        // Grass field
+        for (int i=0; i<houseMap.length; i++) {
+            for (int j=houseMap[0].length-5; j<houseMap[0].length; j++) {
+                houseMap[i][j] = 1;
+            }
+        }
+
         // Fill the invisible walls arraylist
-        invisibleWalls.add(2);
-        invisibleWalls.add(3);
-        invisibleWalls.add(4);
-        invisibleWalls.add(5);
+        for (int i=2; i<6; i++) invisibleWalls.add(i);
 
         gamePanel = new GamePanel(panelWidth, panelHeight, window);
         InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);      // Creates a new InventoryPanel object to pass into the main panel
@@ -156,8 +161,8 @@ public class Game implements Runnable {
                     if (intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1 && gamePanel.dad.level == 0) {
                         System.out.println("Enter house");
                         gamePanel.dad.level = 1;
-                        gamePanel.dad.LOCATION_X = 400;
-                        gamePanel.dad.LOCATION_Y = 800;
+                        gamePanel.dad.LOCATION_X = 550;
+                        gamePanel.dad.LOCATION_Y = 700;
                     }
 
                     gamePanel.repaint();
