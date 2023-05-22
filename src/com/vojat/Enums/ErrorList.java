@@ -11,7 +11,8 @@ public enum ErrorList {
     ERR_NOPLANT("There is not a plant"),
     ERR_WATER("You do not have any water"),
     ERR_WELL("You are not standing near the well"), 
-    ERR_RANGE("This is out of your reach")
+    ERR_RANGE_FAR("This is out of your reach"),
+    ERR_RANGE_CLOSE("This is too close")
     ;
 
     public final String message;
