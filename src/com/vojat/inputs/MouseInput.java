@@ -39,7 +39,7 @@ public class MouseInput implements MouseListener {
                             System.err.println(ErrorList.ERR_RANGE_FAR.message);
                         } else if (Game.map[controlVariableY][controlVariableX] >= 2) {                            // Checks if the desired area is occupied or not
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
-                        } else if (Math.abs(controlVariableX - Game.intoMapX(dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(dad.LOCATION_Y+64)) == 0) {
+                        } else if (Math.abs(controlVariableX - Game.intoMapX(dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(dad.LOCATION_Y+64)) == 0) {              // Checks if the desired area is the same as player position
                             System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
                         } else {                                                                            // If not, creates another Flower object to place here
                             flower = new Flower(Game.textures[dad.selectedItem], dad.inventory[dad.selectedItem], controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
