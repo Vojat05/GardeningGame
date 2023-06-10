@@ -10,7 +10,7 @@ public enum ErrorList {
     ERR_CANTPLANT("You can not plant here"),
     ERR_NOPLANT("There is not a plant"),
     ERR_WATER("You do not have any water"),
-    ERR_WELL("You are not standing near the well"), 
+    ERR_WELL("You are not standing near a well"), 
     ERR_RANGE_FAR("This is out of your reach"),
     ERR_RANGE_CLOSE("This is too close")
     ;
