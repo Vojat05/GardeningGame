@@ -173,9 +173,10 @@ public class Settings extends JPanel {
     private void getKey(JButton button, JLabel label) {     // Creates the keypress listener for me tu listen for a pressed key
         in = new KeyboardInput(this, button, label);
         button.addKeyListener(in);
+        label.setText("?");
     }
 
-    public void pressed(char data, JButton button, KeyboardInput in, JLabel label) {        // Is called when any key is pressed to signal that it's time to end the listening a change the label text
+    public void setKey(char data, JButton button, KeyboardInput in, JLabel label) {        // Is called when any key is pressed to signal that it's time to end the listening a change the label text
         button.removeKeyListener(in);
         label.setText(("" + data).toUpperCase());
     }

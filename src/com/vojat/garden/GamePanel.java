@@ -15,7 +15,7 @@ import com.vojat.inputs.*;
 import com.vojat.menu.Window;
 
 public class GamePanel extends JPanel {
-    Player dad = new Player(this, 200, 300);
+    Player dad = new Player(this, 240, 200);
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
     public boolean inventoryVisible = true;

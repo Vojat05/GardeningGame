@@ -149,7 +149,7 @@ public class KeyboardInput implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         if (settings != null) {
-            settings.pressed(e.getKeyChar(), button, this, label);
+            settings.setKey(e.getKeyChar(), button, this, label);
         }
     }
 
