@@ -57,90 +57,88 @@ public class KeyboardInput implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (dad != null) {
-            if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
-                if (up) {
-                    dad.setTexture("res/Pics/Dad_Texture_B.png");
-                    dad.VECTORY = -speed;
-                    up = false;
-                }
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
-                if (down) {
-                    dad.setTexture("res/Pics/Dad_Texture_F.png");
-                    dad.VECTORY = speed;
-                    down = false;
-                }
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
-                if (left) {
-                    dad.setTexture("res/Pics/Dad_Texture_L.png");
-                    dad.VECTORX = -speed;
-                    left = false;
-                }
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
-                if (right) {
-                    dad.setTexture("res/Pics/Dad_Texture_R.png");
-                    dad.VECTORX = speed;
-                    right = false;
-                }
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
-                Game.killGame();
-                window.setElements(new MenuPanel(1920, 1080, window));
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) {
-                Game.pauseGame();
-                if (Game.pause) {
-                    Game.clip.stop();
-                } else {
-                    Game.clip.start();
-                }
+        if (dad == null) return;
+        if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
+            if (up) {
+                dad.setTexture("res/Pics/Dad_Texture_B.png");
+                up = false;
+            }
+            dad.VECTORY = -speed;
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
+            if (down) {
+                dad.setTexture("res/Pics/Dad_Texture_F.png");
+                down = false;
+            }
+            dad.VECTORY = speed;
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
+            if (left) {
+                dad.setTexture("res/Pics/Dad_Texture_L.png");
+                left = false;
+            }
+            dad.VECTORX = -speed;
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
+            if (right) {
+                dad.setTexture("res/Pics/Dad_Texture_R.png");
+                right = false;
+            }
+            dad.VECTORX = speed;
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
+            Game.killGame();
+            window.setElements(new MenuPanel(1920, 1080, window));
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) {
+            Game.pauseGame();
+            if (Game.pause) {
+                Game.clip.stop();
+            } else {
+                Game.clip.start();
             }
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (dad != null) {
-            if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
-                up = true;
-                dad.VECTORY = .0;
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
-                down = true;
-                dad.VECTORY = .0;
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
-                left = true;
-                dad.VECTORX = .0;
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
-                right = true;
-                dad.VECTORX = .0;
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "next"))) {
-                if (dad.selectedItem+1 < dad.inventory.length) {
-                    dad.selectedItem++;
-                } else {
-                    dad.selectedItem = 0;
-                }
-                gamePanel.inventoryPanel.repaintItem(dad);
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "previous"))) {
-                if (dad.selectedItem > 0) {
-                    dad.selectedItem--;
-                } else {
-                    dad.selectedItem = (byte) (dad.inventory.length - 1);
-                }
-                gamePanel.inventoryPanel.repaintItem(dad);
-            } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open"))) {
-                gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
+        if (dad == null) return;
+        if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
+            up = true;
+            dad.VECTORY = .0;
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
+            down = true;
+            dad.VECTORY = .0;
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
+            left = true;
+            dad.VECTORX = .0;
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
+            right = true;
+            dad.VECTORX = .0;
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "next"))) {
+            if (dad.selectedItem+1 < dad.inventory.length) {
+                dad.selectedItem++;
+            } else {
+                dad.selectedItem = 0;
             }
-            if (dad.VECTORX != .0 || dad.VECTORY != .0) {
-                if (dad.VECTORX == .0) {
-                    if (dad.VECTORY > 0) {
-                        retexture("down");
-                    } else {
-                        retexture("up");
-                    }
-                } else if (dad.VECTORY == .0) {
-                    if (dad.VECTORX > 0) {
-                        retexture("right");
-                    } else {
-                        retexture("left");
-                    }
+            gamePanel.inventoryPanel.repaintItem(dad);
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "previous"))) {
+            if (dad.selectedItem > 0) {
+                dad.selectedItem--;
+            } else {
+                dad.selectedItem = (byte) (dad.inventory.length - 1);
+            }
+            gamePanel.inventoryPanel.repaintItem(dad);
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open"))) {
+            gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
+        }
+        if (dad.VECTORX != .0 || dad.VECTORY != .0) {
+            if (dad.VECTORX == .0) {
+                if (dad.VECTORY > 0) {
+                    retexture("down");
+                } else {
+                    retexture("up");
+                }
+            } else if (dad.VECTORY == .0) {
+                if (dad.VECTORX > 0) {
+                    retexture("right");
+                } else {
+                    retexture("left");
                 }
             }
         }

@@ -54,6 +54,7 @@ public class Game implements Runnable {
             for (int j=houseMap[0].length-5; j<houseMap[0].length; j++) {
                 houseMap[i][j] = 1;
             }
+            houseMap[i][houseMap[0].length-6] = 2;
         }
 
         // Fill the invisible walls arraylist

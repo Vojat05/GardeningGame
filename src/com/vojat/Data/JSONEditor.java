@@ -180,7 +180,7 @@ public class JSONEditor {
         }
     }
 
-    // Writes a whole new content to a JSON file
+    // Rewrites the entire JSON file
     public void write(String data) {
         try {
             FileWriter fw = new FileWriter(file);
@@ -191,7 +191,7 @@ public class JSONEditor {
         }
     }
 
-    // Writes a passed data under a certian key, the key has to be present
+    // Writes passed data under a certian key, the key has to be present
     public void change(String key, String data) {
         String name = "";
         String value = "";
@@ -250,6 +250,7 @@ public class JSONEditor {
         }
     }
 
+    // Creates a new file
     public static File createFile(String path) throws IOException {
         File file = new File(path);
         file.createNewFile();
