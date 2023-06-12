@@ -24,7 +24,7 @@ public class Game implements Runnable {
     public static byte[][] houseMap = new byte[8][15];      // [Y][X] cords
     public static String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
     public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. position 2 in map is reserved for flowers
-    public static String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png"};
+    public static String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png", "res/Pics/doormat.png"};
     public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();
     private GamePanel gamePanel;
@@ -49,6 +49,8 @@ public class Game implements Runnable {
         map[1][2] = 3;
 
         // Fill the house map
+        houseMap[7][4] = 3;
+
         // Grass field
         for (int i=0; i<houseMap.length; i++) {
             for (int j=houseMap[0].length-5; j<houseMap[0].length; j++) {
@@ -160,10 +162,16 @@ public class Game implements Runnable {
 
                     // Enter house logic
                     if (gamePanel.dad.level == 0 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
-                        System.out.println("Enter house");
                         gamePanel.dad.level = 1;
-                        gamePanel.dad.LOCATION_X = 550;
-                        gamePanel.dad.LOCATION_Y = 700;
+                        gamePanel.dad.LOCATION_X = 510;
+                        gamePanel.dad.LOCATION_Y = 810;
+                    }
+
+                    // Exit house logic
+                    if (gamePanel.dad.level == 1 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 4 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
+                        gamePanel.dad.level = 0;
+                        gamePanel.dad.LOCATION_X = 240;
+                        gamePanel.dad.LOCATION_Y = 200;
                     }
 
                     gamePanel.repaint();
