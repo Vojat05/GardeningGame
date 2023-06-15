@@ -8,17 +8,17 @@ import com.vojat.Main;
 import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Flower;
 import com.vojat.garden.Game;
-import com.vojat.garden.Player;
+import com.vojat.garden.GamePanel;
 
 public class MouseInput implements MouseListener {
-    private Player dad;
+    private GamePanel gamePanel;
     private short controlVariableX;
     private short controlVariableY;
     private static int assignNumberToPlant = Game.flowers.size();
     private Flower flower;
 
-    public MouseInput(Player player) {
-        this.dad = player;
+    public MouseInput(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
     }
 
     public static void setAssignPlantNum(int number) {
@@ -33,33 +33,33 @@ public class MouseInput implements MouseListener {
             case MouseEvent.BUTTON1:
 
                 // Too far and close checks
-                if (Math.abs(controlVariableX - Game.intoMapX(dad.LOCATION_X+64)) > dad.reach || Math.abs(controlVariableY - Game.intoMapY(dad.LOCATION_Y+64)) > dad.reach) {
+                if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
                     System.err.println(ErrorList.ERR_RANGE_FAR.message);
                     return;
-                } else if (Math.abs(controlVariableX - Game.intoMapX(dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(dad.LOCATION_Y+64)) == 0) {
+                } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
                     System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
                     return;
                 }
 
-                if (dad.level == 1) {
+                if (gamePanel.dad.level == 1) {
                     interact(Game.houseMap[controlVariableY][controlVariableX]);
                 } else {
-                    if (dad.selectedItem > 0 && controlVariableY != 7) {
+                    if (gamePanel.dad.selectedItem > 0 && controlVariableY != 7) {
                         if (Game.map[controlVariableY][controlVariableX] >= 2) {                            // Checks if the desired area is occupied or not
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
                         } else {                                                                            // If not, creates another Flower object to place here
-                            flower = new Flower(Game.textures[dad.selectedItem], dad.inventory[dad.selectedItem], controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
-                            dad.plant(flower);
+                            flower = new Flower(Game.textures[gamePanel.dad.selectedItem], gamePanel.dad.inventory[gamePanel.dad.selectedItem], controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
+                            gamePanel.dad.plant(flower);
                             Game.wirteIntoMap(controlVariableY, controlVariableX, 2);                      // Writes it's value into map
                             assignNumberToPlant++;                                                          // Assigns the plant index
                         }
-                    } else if(dad.selectedItem == 0) {       // Stop the watering if water isn't selected or if the water is empty or is out of reach
+                    } else if(gamePanel.dad.selectedItem == 0) {       // Stop the watering if water isn't selected or if the water is empty or is out of reach
                         if (Game.map[controlVariableY][controlVariableX] != 2) {
                             System.err.println(ErrorList.ERR_NOPLANT.message);
                         } else {
-                            dad.water(flower, controlVariableX, controlVariableY);
+                            gamePanel.dad.water(flower, controlVariableX, controlVariableY);
                             Game.textures[0] = "res/Pics/WaterDrop" + (Integer.parseInt(Game.textures[0].substring(18, 19))-1) + ".png";
-                            dad.gamePanel.inventoryPanel.repaintItem(dad);
+                            gamePanel.dad.gamePanel.inventoryPanel.repaintItem(gamePanel.dad);
                         }
                     }
                 }
@@ -67,14 +67,14 @@ public class MouseInput implements MouseListener {
                 break;
             
             case MouseEvent.BUTTON2:
-                if (dad.level == 1) {
+                if (gamePanel.dad.level == 1) {
                     System.out.println("Interaction 2");
                 } else {
                     Game.getMapData("print");
 
                     if (Main.debug) {
                         try {
-                            Game.saveGame("src/com/vojat/Data/Saves/Save3.json", dad);
+                            Game.saveGame("src/com/vojat/Data/Saves/Save3.json", gamePanel.dad);
                         } catch (FileNotFoundException f) {
                             System.err.println(ErrorList.ERR_404.message);
                         }
@@ -83,10 +83,10 @@ public class MouseInput implements MouseListener {
                 break;
 
             case MouseEvent.BUTTON3:
-                if (dad.level == 1) {
+                if (gamePanel.dad.level == 1) {
                     System.out.println("Interaction 3");
                 } else {
-                    if (Math.abs(1 - Game.intoMapX(dad.LOCATION_X+64)) <= dad.reach && Math.abs(5 - Game.intoMapY(dad.LOCATION_Y+64)) <= dad.reach) dad.waterRefill(); else System.err.println(ErrorList.ERR_WELL.message);
+                    if (Math.abs(1 - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) <= gamePanel.dad.reach && Math.abs(5 - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) <= gamePanel.dad.reach) gamePanel.dad.waterRefill(); else System.err.println(ErrorList.ERR_WELL.message);
                 }
                 break;
         }
@@ -115,14 +115,10 @@ public class MouseInput implements MouseListener {
     private void interact(int object) {
         switch(object) {
             case 4:
-                System.out.println("Go to sleep");
-                dad.LOCATION_X = -10;
-                dad.LOCATION_Y = 120;
-                try {
-                    Game.saveGame("src/com/vojat/Data/Saves/Save1.json", dad);
-                } catch (FileNotFoundException f) {
-                    System.err.println(ErrorList.ERR_404.message);
-                }
+                gamePanel.dad.LOCATION_X = -10;
+                gamePanel.dad.LOCATION_Y = 120;
+                gamePanel.changeVisibility(gamePanel.saveMenu);
+                Game.pauseGame();
                 break;
             
             default:

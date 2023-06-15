@@ -87,11 +87,6 @@ public class KeyboardInput implements KeyListener {
             window.setElements(new MenuPanel(1920, 1080, window));
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) {
             Game.pauseGame();
-            if (Game.pause) {
-                Game.clip.stop();
-            } else {
-                Game.clip.start();
-            }
         }
     }
 
@@ -125,7 +120,7 @@ public class KeyboardInput implements KeyListener {
             }
             gamePanel.inventoryPanel.repaintItem(dad);
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open"))) {
-            gamePanel.changeVisibility(gamePanel.fullInv, gamePanel.inventoryVisible);
+            gamePanel.changeVisibility(gamePanel.fullInv);
         }
         if (dad.VECTORX != .0 || dad.VECTORY != .0) {
             if (dad.VECTORX == .0) {
