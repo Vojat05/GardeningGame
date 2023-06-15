@@ -24,7 +24,7 @@ public class Game implements Runnable {
     public static byte[][] houseMap = new byte[8][15];      // [Y][X] cords
     public static String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
     public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. position 2 in map is reserved for flowers
-    public static String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png", "res/Pics/doormat.png"};
+    public static String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png", "res/Pics/doormat.png", "res/Pics/bed.png"};
     public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();
     private GamePanel gamePanel;
@@ -50,8 +50,9 @@ public class Game implements Runnable {
 
         // Fill the house map
         houseMap[7][4] = 3;
+        houseMap[1][0] = 4;
 
-        // Grass field
+        // Grass field wisible from house
         for (int i=0; i<houseMap.length; i++) {
             for (int j=houseMap[0].length-5; j<houseMap[0].length; j++) {
                 houseMap[i][j] = 1;
@@ -70,6 +71,11 @@ public class Game implements Runnable {
         startGame();
         gamePanel.requestFocusInWindow();
         gamePanel.setIPanel(inventoryPanel);
+
+        // Set the player starting position
+        gamePanel.dad.level = 1;
+        gamePanel.dad.LOCATION_X = 80;
+        gamePanel.dad.LOCATION_Y = 120;
     }
 
     // Method to start the Game Loop
@@ -203,7 +209,7 @@ public class Game implements Runnable {
     }
 
     // Saves the game progress into a seperate JSON file
-    public static void saveGame(String saveFilePath) throws FileNotFoundException {
+    public static void saveGame(String saveFilePath, Player dad) throws FileNotFoundException {
         String map = "\"map\":\"" + getMapData("") + "\"";
         String value = "";
 
@@ -213,6 +219,10 @@ public class Game implements Runnable {
 
         JSONEditor jEditor = new JSONEditor(saveFilePath);
         jEditor.write(map + value);
+
+        // Move player out of the bed
+        dad.LOCATION_X = 80;
+        dad.LOCATION_Y = 120;
     }
 
     public static void loadGame(String saveFilePath) throws FileNotFoundException {

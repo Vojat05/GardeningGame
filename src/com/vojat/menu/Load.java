@@ -111,7 +111,7 @@ public class Load extends JPanel {
             } else {
                 changeVisibility(buttonPanelT, spacerT);
                 new Game(1920, 1075, window);
-                Game.loadGame("src/com/vojat/Data/Saves/Save3.json");
+                Game.loadGame("src/com/vojat/Data/Saves/Save" + saveNumber + ".json");
                 MouseInput.setAssignPlantNum(Game.flowers.size());
             }
         } catch (IOException e) {
