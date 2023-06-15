@@ -74,20 +74,19 @@ public class GamePanel extends JPanel {
     public void waterFlower(Flower flower, int positionX, int positionY) {
         for (Flower plant : Game.flowers) {
             if (plant.LOCATION_X == positionX && plant.LOCATION_Y == positionY) {
-                if (plant.STATUS.equals("Alive")) {
-                    switch (plant.TYPE) {
-                        case "tulip":
-                            plant.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;
-                            plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODIE_REDTULIP.value + 5000;
-                            break;
-                        
-                        case "rose":
-                            plant.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_ROSE.value;
-                            plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODIE_ROSE.value + 5000;
-                            break;
-                    }
-                    plant.CURRENT_TEXTURE = plant.setTexture(plant.ALIVE_TEXTURE);
+
+                if (plant.STATUS.equals("Dead")) {
+                    return;
                 }
+
+                for (int i=0; i<Game.flowerTypes.length; i++) {
+                    if (plant.TYPE == Game.flowerTypes[i][0]) {
+                        plant.TIME_TO_DIE = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]);
+                        plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]) + 5000;
+                        break;
+                    }
+                }
+                plant.CURRENT_TEXTURE = plant.setTexture(plant.ALIVE_TEXTURE);
             }
         }
     }
@@ -134,7 +133,7 @@ public class GamePanel extends JPanel {
                                 plant.STATUS = "Dead";
                                 Game.playSound("res/Audio/MagicSound.wav");
                             }
-                        } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Values.TOCHANGE.value) {
+                        } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Game.flowerChange) {
                             plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
                         }
                         g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X*128, plant.LOCATION_Y*128, 128, 128, null);     // Draw the flower

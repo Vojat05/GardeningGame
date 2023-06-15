@@ -20,16 +20,13 @@ public class Flower {
     
     // Used when constructing new flowers
     public Flower(String path, String type, int locationX, int locationY, String status, int number) {
-        switch (type) {
-            case "tulip":
-                this.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_REDTULIP.value;
-                this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODIE_REDTULIP.value + 5000;
+
+        for (int i=0; i<Game.flowerTypes.length; i++) {
+            if (type == Game.flowerTypes[i][0]) {
+                this.TIME_TO_DIE = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]);
+                this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]) + 5000;
                 break;
-            
-            case "rose":
-                this.TIME_TO_DIE = System.currentTimeMillis() + Values.TODIE_ROSE.value;
-                this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Values.TODIE_ROSE.value + 5000;
-                break;
+            }
         }
 
         this.ALIVE_TEXTURE = "res/Pics/" + type + ".png";

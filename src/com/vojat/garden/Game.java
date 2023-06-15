@@ -25,12 +25,14 @@ public class Game implements Runnable {
     public static String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
     public static String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. position 2 in map is reserved for flowers
     public static String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png", "res/Pics/doormat.png", "res/Pics/bed.png"};
+    public static String[][] flowerTypes = {{"tulip", "20000"}, {"rose", "25000"}};     // {"flower type", "time for it to die in millis"}
     public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();
     private GamePanel gamePanel;
     private Thread gameLoop;
     public static Clip clip;
     private final int FPS_SET = 120;
+    public final static int flowerChange = 5000;
     public static boolean run = true;
     public static boolean pause = false;
 
