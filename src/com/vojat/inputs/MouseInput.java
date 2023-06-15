@@ -27,6 +27,7 @@ public class MouseInput implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (Game.pause) return;
         gardenerX(e);
         gardenerY(e);
         switch (e.getButton()) {
