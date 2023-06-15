@@ -130,3 +130,11 @@ JAR file is made for every update documented here<br>
     <li> + Added the option to pause the game</li>
     <li> - Removed button border from every button with custom picture texture</li>
 </ul>
+
+## 15/6/2023
+<ul>
+    <li> + Added the option to save your game to a specific save slot from the bed inside the house</li>
+    <li> + Added the house interior parts</li>
+    <li> * Modified the games access to flowers to be more abstract</li>
+    <li> * Now the load button loads its own save file</li>
+</ul>

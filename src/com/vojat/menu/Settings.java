@@ -170,7 +170,7 @@ public class Settings extends JPanel {
         }
     }
 
-    private void getKey(JButton button, JLabel label) {     // Creates the keypress listener for me tu listen for a pressed key
+    private void getKey(JButton button, JLabel label) {     // Creates the keypress listener to listen for a pressed key
         in = new KeyboardInput(this, button, label);
         button.addKeyListener(in);
         label.setText("?");

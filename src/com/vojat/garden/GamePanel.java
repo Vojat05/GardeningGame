@@ -1,11 +1,14 @@
 package com.vojat.garden;
 
 import java.awt.Graphics;
+import java.io.FileNotFoundException;
 import java.util.Random;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -15,10 +18,10 @@ import com.vojat.inputs.*;
 import com.vojat.menu.Window;
 
 public class GamePanel extends JPanel {
-    Player dad = new Player(this, 240, 200);
+    public Player dad = new Player(this, 240, 200);
     public InventoryPanel inventoryPanel;
     public JPanel fullInv = new JPanel();
-    public boolean inventoryVisible = true;
+    public JPanel saveMenu = new JPanel();
     public boolean changeGrass = true;
 
     // width == window width & height == window height
@@ -35,7 +38,7 @@ public class GamePanel extends JPanel {
 
         {   // Adding the listeners
             addKeyListener(new KeyboardInput(this, dad, window));
-            addMouseListener(new MouseInput(dad));
+            addMouseListener(new MouseInput(this));
         }
 
         {   // Adding the inventory table
@@ -49,6 +52,22 @@ public class GamePanel extends JPanel {
             }
             fullInv.setVisible(false);
             add(fullInv);
+        }
+
+        {
+            saveMenu.setBorder(new LineBorder(Color.BLACK));
+            saveMenu.setPreferredSize(new Dimension(240, 590));
+            saveMenu.setBackground(new Color(50, 50, 50));
+            FlowLayout saveMenLayout = new FlowLayout(FlowLayout.CENTER, 40, 30);
+            saveMenu.setLayout(saveMenLayout);
+            for (int i=0; i<=6; i++) {
+                JButton button = new JButton(i == 0 ? "Close" : "Save " + i);
+                button.setPreferredSize(new Dimension(200, 50));
+                if (i != 0) button.addActionListener((e) -> saveButton(button)); else button.addActionListener((e) -> {Game.pauseGame(); dad.LOCATION_X = 80; dad.LOCATION_Y = 120; changeVisibility(saveMenu);});
+                saveMenu.add(button);
+            }
+            saveMenu.setVisible(false);
+            add(saveMenu);
         }
     }
 
@@ -64,10 +83,20 @@ public class GamePanel extends JPanel {
         Game.flowers.add(flower);
     }
 
+    private void saveButton(JButton button) {
+        try {
+            Game.saveGame("src/com/vojat/Data/Saves/Save" + button.getText().substring(button.getText().length()-1, button.getText().length()) + ".json", dad);
+        } catch (FileNotFoundException f) {
+            System.err.println(ErrorList.ERR_404.message);
+        } finally {
+            Game.pauseGame();
+        }
+        changeVisibility(saveMenu);
+    }
+
     // Changes the visibility of an inventory table
-    public void changeVisibility(JPanel panel, boolean value) {
-        panel.setVisible(value);
-        inventoryVisible = inventoryVisible ? false : true;
+    public void changeVisibility(JPanel panel) {
+        panel.setVisible(panel.isVisible() ? false : true);
     }
 
     // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
