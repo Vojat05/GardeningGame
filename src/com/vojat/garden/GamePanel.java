@@ -54,7 +54,7 @@ public class GamePanel extends JPanel {
             add(fullInv);
         }
 
-        {
+        {   // Creates savemenu visible after getting in bed
             saveMenu.setBorder(new LineBorder(Color.BLACK));
             saveMenu.setPreferredSize(new Dimension(240, 590));
             saveMenu.setBackground(new Color(50, 50, 50));
