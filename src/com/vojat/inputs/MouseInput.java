@@ -49,6 +49,7 @@ public class MouseInput implements MouseListener {
                         if (Game.map[controlVariableY][controlVariableX] >= 2) {                            // Checks if the desired area is occupied or not
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
                         } else {                                                                            // If not, creates another Flower object to place here
+                            Game.playSound("res/Audio/Plant.wav");
                             flower = new Flower(Game.textures[gamePanel.dad.selectedItem], gamePanel.dad.inventory[gamePanel.dad.selectedItem], controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
                             gamePanel.dad.plant(flower);
                             Game.wirteIntoMap(controlVariableY, controlVariableX, 2);                      // Writes it's value into map
@@ -58,6 +59,7 @@ public class MouseInput implements MouseListener {
                         if (Game.map[controlVariableY][controlVariableX] != 2) {
                             System.err.println(ErrorList.ERR_NOPLANT.message);
                         } else {
+                            Game.playSound("res/Audio/WaterPlant.wav");
                             gamePanel.dad.water(flower, controlVariableX, controlVariableY);
                             Game.textures[0] = "res/Pics/WaterDrop" + (Integer.parseInt(Game.textures[0].substring(18, 19))-1) + ".png";
                             gamePanel.dad.gamePanel.inventoryPanel.repaintItem(gamePanel.dad);
@@ -87,7 +89,10 @@ public class MouseInput implements MouseListener {
                 if (gamePanel.dad.level == 1) {
                     System.out.println("Interaction 3");
                 } else {
-                    if (Math.abs(1 - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) <= gamePanel.dad.reach && Math.abs(5 - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) <= gamePanel.dad.reach) gamePanel.dad.waterRefill(); else System.err.println(ErrorList.ERR_WELL.message);
+                    if (Math.abs(1 - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) <= gamePanel.dad.reach && Math.abs(5 - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) <= gamePanel.dad.reach) {
+                        gamePanel.dad.waterRefill();
+                        Game.playSound("res/Audio/WaterPour.wav");
+                    } else System.err.println(ErrorList.ERR_WELL.message);
                 }
                 break;
         }
@@ -116,6 +121,7 @@ public class MouseInput implements MouseListener {
     private void interact(int object) {
         switch(object) {
             case 4:
+                Game.playSound("res/Audio/BedSqueak.wav");
                 gamePanel.dad.LOCATION_X = -10;
                 gamePanel.dad.LOCATION_Y = 120;
                 gamePanel.changeVisibility(gamePanel.saveMenu);
