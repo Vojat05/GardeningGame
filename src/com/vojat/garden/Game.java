@@ -22,7 +22,7 @@ public class Game implements Runnable {
     public static ArrayList<Flower> flowers = new ArrayList<>();
     public static byte[][] map = new byte[8][15];      // [Y][X] coords
     public static byte[][] houseMap = new byte[8][15];      // [Y][X] cords
-    public static final String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths
+    public static final String[] textures = {"res/Pics/WaterDrop9.png", "res/Pics/tulip.png", "res/Pics/rose.png"};     // Array of texture paths for inventory
     public static final String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. position 2 in map is reserved for flowers
     public static final String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png", "res/Pics/doormat.png", "res/Pics/bed.png"};
     public static final String[][] flowerTypes = {{"tulip", "20000"}, {"rose", "25000"}};     // {"flower type", "time for it to die in millis"}
@@ -182,6 +182,7 @@ public class Game implements Runnable {
 
                     // Enter house logic
                     if (gamePanel.dad.level == 0 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
+                        playSound("res/Audio/DoorInteract.wav");
                         gamePanel.dad.level = 1;
                         gamePanel.dad.LOCATION_X = 510;
                         gamePanel.dad.LOCATION_Y = 810;
@@ -189,6 +190,7 @@ public class Game implements Runnable {
 
                     // Exit house logic
                     if (gamePanel.dad.level == 1 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 4 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
+                        playSound("res/Audio/DoorInteract.wav");
                         gamePanel.dad.level = 0;
                         gamePanel.dad.LOCATION_X = 240;
                         gamePanel.dad.LOCATION_Y = 200;
