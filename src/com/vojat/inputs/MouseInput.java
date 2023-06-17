@@ -58,10 +58,11 @@ public class MouseInput implements MouseListener {
                     } else if(gamePanel.dad.selectedItem == 0) {       // Stop the watering if water isn't selected or if the water is empty or is out of reach
                         if (Game.map[controlVariableY][controlVariableX] != 2) {
                             System.err.println(ErrorList.ERR_NOPLANT.message);
-                        } else {
+                        } else if (Integer.parseInt(Game.textures[0].substring(18, 19))-1 >= 0) {
                             Game.playSound("res/Audio/WaterPlant.wav");
                             gamePanel.dad.water(flower, controlVariableX, controlVariableY);
                             Game.textures[0] = "res/Pics/WaterDrop" + (Integer.parseInt(Game.textures[0].substring(18, 19))-1) + ".png";
+                            System.out.println(Game.textures[0]);
                             gamePanel.dad.gamePanel.inventoryPanel.repaintItem(gamePanel.dad);
                         }
                     }
