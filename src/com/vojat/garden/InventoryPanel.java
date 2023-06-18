@@ -24,26 +24,17 @@ public class InventoryPanel extends JPanel{
     }
 
     public void repaintItem(Player dad) {                                                                  // Repaint the selected item
-        ImageIcon image = new ImageIcon(Game.textures[dad.selectedItem]);
-        Image pic = image.getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH);
-        image = new ImageIcon(pic);
-        item.setIcon(image);
+        item.setIcon(new ImageIcon(new ImageIcon(Game.textures[dad.selectedItem]).getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
         add(item);
     }
 
     public static void repaintItem(int index, JLabel label) {
-        ImageIcon image = new ImageIcon(Game.textures[index]);
-        Image pic = image.getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH);
-        image = new ImageIcon(pic);
-        label.setIcon(image);
+        label.setIcon(new ImageIcon(new ImageIcon(Game.textures[index]).getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
         label.setBorder(new LineBorder(Color.BLACK, 2));
     }
 
     public static void repaintItem(JLabel label, String fileAdress) {
-        ImageIcon image = new ImageIcon(fileAdress);
-        Image pic = image.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
-        image = new ImageIcon(pic);
-        label.setIcon(image);
+        label.setIcon(new ImageIcon(new ImageIcon(fileAdress).getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH)));
     }
 
     public static Icon createIcon(String fileAdress, int sizeX, int sizeY) {

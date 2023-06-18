@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -15,7 +16,7 @@ public class Player {
     public double LOCATION_X = 0, LOCATION_Y = 0;
     public double VECTORX = .0, VECTORY = .0;
     public BufferedImage currentTexture;
-    public String[] inventory = {"water", "tulip", "rose"};                                                 // This is a set of items the player has (inventory)
+    public ArrayList<String> inventory = new ArrayList<String>();       // Player inventory
     public byte selectedItem = 0;
     public byte reach = 1;
     public byte level = 0;
@@ -24,15 +25,25 @@ public class Player {
         this.gamePanel = gamePanel;
         this.LOCATION_X = positionX;
         this.LOCATION_Y = positionY;
+
+        inventorySetup();
     }
 
-    public Player() {;}                                                                                     // With this constructor, the player doesn't have the access to his abilities
+    public Player() {                                                   // With this constructor, the player doesn't have the access to his abilities
+        inventorySetup();
+    }
+
+    private void inventorySetup() {
+        this.inventory.add("water");
+        this.inventory.add("tulip");
+        this.inventory.add("rose");
+    }
 
     public void setLimit(int limitX, int limitY) {
         windowLimitX = limitX-128;
         windowLimitY = limitY-170;
 
-        setTexture("res/Pics/Dad_Texture_F.png");                                                          // Sets the default player texture on startup to look forward
+        setTexture("res/Pics/Dad_Texture_F.png");                 // Sets the default player texture on startup to look forward
     }
 
     public void setTexture(String path) {
@@ -44,7 +55,7 @@ public class Player {
         }
     }
 
-    public void plant(Flower flower) {                                                                      // Plants the passed flower
+    public void plant(Flower flower) {                                 // Plants the passed flower
         gamePanel.summonFlower(flower);
     }
 

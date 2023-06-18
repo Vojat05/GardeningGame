@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import com.vojat.Enums.*;
+import com.vojat.Enums.ErrorList;
 import com.vojat.inputs.*;
 import com.vojat.menu.Window;
 
@@ -45,7 +45,7 @@ public class GamePanel extends JPanel {
             fullInv.setBorder(new LineBorder(Color.BLACK));
             fullInv.setPreferredSize(new Dimension(windowWidth - 20, 80));
             fullInv.setBackground(new Color(0, 0, 0, 50));
-            for (int i=0; i<dad.inventory.length; i++) {
+            for (int i=0; i<dad.inventory.size(); i++) {
                 JLabel item = new JLabel();
                 InventoryPanel.repaintItem(i, item);
                 fullInv.add(item);

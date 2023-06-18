@@ -50,7 +50,7 @@ public class MouseInput implements MouseListener {
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
                         } else {                                                                            // If not, creates another Flower object to place here
                             Game.playSound("res/Audio/Plant.wav");
-                            flower = new Flower(Game.textures[gamePanel.dad.selectedItem], gamePanel.dad.inventory[gamePanel.dad.selectedItem], controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
+                            flower = new Flower(Game.textures[gamePanel.dad.selectedItem], gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
                             gamePanel.dad.plant(flower);
                             Game.wirteIntoMap(controlVariableY, controlVariableX, 2);                      // Writes it's value into map
                             assignNumberToPlant++;                                                          // Assigns the plant index
@@ -62,7 +62,6 @@ public class MouseInput implements MouseListener {
                             Game.playSound("res/Audio/WaterPlant.wav");
                             gamePanel.dad.water(flower, controlVariableX, controlVariableY);
                             Game.textures[0] = "res/Pics/WaterDrop" + (Integer.parseInt(Game.textures[0].substring(18, 19))-1) + ".png";
-                            System.out.println(Game.textures[0]);
                             gamePanel.dad.gamePanel.inventoryPanel.repaintItem(gamePanel.dad);
                         }
                     }
