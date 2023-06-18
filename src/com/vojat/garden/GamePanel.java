@@ -47,7 +47,7 @@ public class GamePanel extends JPanel {
             fullInv.setBackground(new Color(0, 0, 0, 50));
             for (int i=0; i<dad.inventory.size(); i++) {
                 JLabel item = new JLabel();
-                InventoryPanel.repaintItem(i, item);
+                InventoryPanel.repaintItem(i, item, dad);
                 fullInv.add(item);
             }
             fullInv.setVisible(false);

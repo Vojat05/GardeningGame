@@ -34,7 +34,7 @@ public class Player {
     }
 
     private void inventorySetup() {
-        this.inventory.add("water");
+        this.inventory.add("water9");
         this.inventory.add("tulip");
         this.inventory.add("rose");
     }
@@ -64,7 +64,7 @@ public class Player {
     }
 
     public void waterRefill() {
-        Game.textures[0] = "res/Pics/WaterDrop9.png";
+        inventory.set(0, "water9");
         gamePanel.inventoryPanel.repaintItem(this);
     }
 }

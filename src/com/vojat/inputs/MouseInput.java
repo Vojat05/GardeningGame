@@ -46,23 +46,23 @@ public class MouseInput implements MouseListener {
                     interact(Game.houseMap[controlVariableY][controlVariableX]);
                 } else {
                     if (gamePanel.dad.selectedItem > 0 && controlVariableY != 7) {
-                        if (Game.map[controlVariableY][controlVariableX] >= 2) {                            // Checks if the desired area is occupied or not
+                        if (Game.map[controlVariableY][controlVariableX] >= 2) {                                 // Checks if the desired area is occupied or not
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
-                        } else {                                                                            // If not, creates another Flower object to place here
+                        } else {                                                                                 // If not, creates another Flower object to place here
                             Game.playSound("res/Audio/Plant.wav");
-                            flower = new Flower(Game.textures[gamePanel.dad.selectedItem], gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
+                            flower = new Flower("res/Pics/" + gamePanel.dad.inventory.get(gamePanel.dad.selectedItem) + ".png", gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
                             gamePanel.dad.plant(flower);
                             Game.wirteIntoMap(controlVariableY, controlVariableX, 2);                      // Writes it's value into map
-                            assignNumberToPlant++;                                                          // Assigns the plant index
+                            assignNumberToPlant++;                                                               // Assigns the plant index
                         }
-                    } else if(gamePanel.dad.selectedItem == 0) {       // Stop the watering if water isn't selected or if the water is empty or is out of reach
+                    } else if(gamePanel.dad.selectedItem == 0) {                                                 // Stop the watering if water isn't selected or if the water is empty or is out of reach
                         if (Game.map[controlVariableY][controlVariableX] != 2) {
                             System.err.println(ErrorList.ERR_NOPLANT.message);
-                        } else if (Integer.parseInt(Game.textures[0].substring(18, 19))-1 >= 0) {
+                        } else if (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
                             Game.playSound("res/Audio/WaterPlant.wav");
                             gamePanel.dad.water(flower, controlVariableX, controlVariableY);
-                            Game.textures[0] = "res/Pics/WaterDrop" + (Integer.parseInt(Game.textures[0].substring(18, 19))-1) + ".png";
-                            gamePanel.dad.gamePanel.inventoryPanel.repaintItem(gamePanel.dad);
+                            gamePanel.dad.inventory.set(0, "water" + (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1));
+                            gamePanel.inventoryPanel.repaintItem(gamePanel.dad);
                         }
                     }
                 }
@@ -72,6 +72,7 @@ public class MouseInput implements MouseListener {
             case MouseEvent.BUTTON2:
                 if (gamePanel.dad.level == 1) {
                     System.out.println("Interaction 2");
+                    gamePanel.dad.inventory.add("MrUgly");
                 } else {
                     Game.getMapData("print");
 
@@ -110,7 +111,7 @@ public class MouseInput implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {;}    
 
-    private void gardenerX(MouseEvent e) {                                                               // Center the click location into a grid place for X
+    private void gardenerX(MouseEvent e) {                                                                 // Center the click location into a grid place for X
         controlVariableX = Short.parseShort(Integer.toString(Game.intoMapX(e.getX())));
     }
 
