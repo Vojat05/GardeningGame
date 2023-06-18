@@ -72,7 +72,6 @@ public class MouseInput implements MouseListener {
             case MouseEvent.BUTTON2:
                 if (gamePanel.dad.level == 1) {
                     System.out.println("Interaction 2");
-                    gamePanel.dad.inventory.add("MrUgly");
                 } else {
                     Game.getMapData("print");
 
