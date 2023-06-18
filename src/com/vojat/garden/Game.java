@@ -236,7 +236,7 @@ public class Game implements Runnable {
         JSONEditor jEditor = new JSONEditor(saveFilePath);
         jEditor.write(map + value);
 
-        System.out.println("Game saved succesfully into \"" + saveFilePath + "\"");
+        if (Main.debug) System.out.println("Game saved succesfully into \"" + saveFilePath + "\"");
 
         // Move player out of the bed
         dad.LOCATION_X = 80;

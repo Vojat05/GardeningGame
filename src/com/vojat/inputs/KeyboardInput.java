@@ -106,7 +106,7 @@ public class KeyboardInput implements KeyListener {
             right = true;
             dad.VECTORX = .0;
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "next"))) {
-            if (dad.selectedItem+1 < dad.inventory.length) {
+            if (dad.selectedItem+1 < dad.inventory.size()) {
                 dad.selectedItem++;
             } else {
                 dad.selectedItem = 0;
@@ -116,7 +116,7 @@ public class KeyboardInput implements KeyListener {
             if (dad.selectedItem > 0) {
                 dad.selectedItem--;
             } else {
-                dad.selectedItem = (byte) (dad.inventory.length - 1);
+                dad.selectedItem = (byte) (dad.inventory.size() - 1);
             }
             gamePanel.inventoryPanel.repaintItem(dad);
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open"))) {

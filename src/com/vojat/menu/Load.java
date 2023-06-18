@@ -2,6 +2,7 @@ package com.vojat.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.File;
 import java.io.IOException;
@@ -81,14 +82,27 @@ public class Load extends JPanel {
             {
                 spacer.setPreferredSize(new Dimension(400, 350));
                 spacer.setBackground(new Color(60, 60, 60, 40));
+                FlowLayout spacerLayout = new FlowLayout(FlowLayout.CENTER, 50, 20);
+                spacer.setLayout(spacerLayout);
             }
 
             // If the specific file has a save point, it shows an image
             if (new File("src/com/vojat/Data/Saves/Save" + (i+1) + ".json").isFile()) {
                 JLabel saveFilePicture = new JLabel();
+                JButton deleteSaveButton = new JButton("Delete");
                 {
                     InventoryPanel.repaintItem(saveFilePicture, "res/Pics/save.png");
                     spacer.add(saveFilePicture);
+
+                    deleteSaveButton.setPreferredSize(new Dimension(150, 40));
+                    deleteSaveButton.setName(String.valueOf(i));
+                    deleteSaveButton.addActionListener((e) -> {
+                        new File("src/com/vojat/Data/Saves/Save" + (Integer.parseInt(deleteSaveButton.getName())+1) + ".json").delete();
+                        changeVisibility(buttonPanelT, spacerT);
+                        changeVisibility(buttonPanelT, spacerT);
+                        createDataBlocks(window);
+                    });
+                    spacer.add(deleteSaveButton);
                 }
             }
             saves.add(saveBlock);
