@@ -24,12 +24,12 @@ public class InventoryPanel extends JPanel{
     }
 
     public void repaintItem(Player dad) {                                                                  // Repaint the selected item
-        item.setIcon(new ImageIcon(new ImageIcon(Game.textures[dad.selectedItem]).getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
+        item.setIcon(new ImageIcon(new ImageIcon("res/Pics/" + dad.inventory.get(dad.selectedItem) + ".png").getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
         add(item);
     }
 
-    public static void repaintItem(int index, JLabel label) {
-        label.setIcon(new ImageIcon(new ImageIcon(Game.textures[index]).getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
+    public static void repaintItem(int index, JLabel label, Player dad) {
+        label.setIcon(new ImageIcon(new ImageIcon("res/Pics/" + dad.inventory.get(index) + ".png").getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
         label.setBorder(new LineBorder(Color.BLACK, 2));
     }
 
