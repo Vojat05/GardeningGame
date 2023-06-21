@@ -12,15 +12,18 @@ import com.vojat.garden.InventoryPanel;
 
 public class MenuPanel extends JPanel{
     
+    /*
+     * ----------------------------------------------------------------
+     * The main menu panel
+     * ----------------------------------------------------------------
+     */
+
     public MenuPanel(int windowWidth, int windowHeight, Window window) {
         setFocusable(true);
         requestFocus();
         setOpaque(true);
-        setBackground(Color.DARK_GRAY);                 // This is the entire main menu background
+        setBackground(Color.DARK_GRAY); // This is the entire main menu background
         setPreferredSize(new Dimension(windowWidth, windowHeight));
-
-
-
 
 
         JPanel buttonPanel = new JPanel();
@@ -29,6 +32,7 @@ public class MenuPanel extends JPanel{
             spacer.setPreferredSize(new Dimension(windowWidth-250, 100));
             spacer.setBackground(null);
         }
+
         Settings settings = new Settings(windowWidth, windowHeight, buttonPanel, spacer);
         Load loadMenu = new Load(windowWidth, windowHeight, buttonPanel, spacer);
         
@@ -67,6 +71,12 @@ public class MenuPanel extends JPanel{
             buttonSetup(exit, 150, 40, true);
         }
 
+        /*
+         * ----------------------------------------------------------------
+         * Bundeling all the emelents together
+         * ----------------------------------------------------------------
+         */
+
         {
             JLabel logo = new JLabel();
             InventoryPanel.repaintItem(logo, "res/Pics/Game_Logo.png");
@@ -97,6 +107,12 @@ public class MenuPanel extends JPanel{
 
         window.setElements(this);
     }
+
+    /*
+     * ----------------------------------------------------------------
+     * Method for setting up the buttons
+     * ----------------------------------------------------------------
+     */
 
     public static void buttonSetup(JButton button, int sizeX, int sizeY, Boolean border) {
         button.setPreferredSize(new Dimension(sizeX, sizeY));

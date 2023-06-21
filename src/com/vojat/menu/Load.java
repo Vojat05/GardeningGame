@@ -17,13 +17,25 @@ import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Game;
 import com.vojat.garden.InventoryPanel;
-import com.vojat.inputs.MouseInput;
 
 public class Load extends JPanel {
-    public static boolean visible = false;
-    private static JPanel saves = new JPanel();
-    private static ArrayList<JPanel> blocks = new ArrayList<>();
-    private static JPanel buttonPanelT, spacerT;
+
+    /*
+     * ----------------------------------------------------------------
+     * Load menu variables
+     * ----------------------------------------------------------------
+     */
+
+    public static boolean visible = false;                                      // Determines wheather the load menu is visible or not
+    private static JPanel saves = new JPanel();                                 // Panel used for the save blocks
+    private static ArrayList<JPanel> blocks = new ArrayList<>();                // ArrayList for the save blocks
+    private static JPanel buttonPanelT, spacerT;                                // The button panel on the left side and the spacer that takes up space at the top
+
+    /*
+     * ----------------------------------------------------------------
+     * The constructor that build the initial menu
+     * ----------------------------------------------------------------
+     */
 
     public Load(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer) {
         buttonPanelT = buttonPanel;
@@ -42,13 +54,14 @@ public class Load extends JPanel {
             back.setForeground(Color.WHITE);
         }
 
-        JPanel space = new JPanel();        // Spacer
+        JPanel space = new JPanel();
         {
             space.setPreferredSize(new Dimension(200, 150));
             space.setBackground(null);
         }
 
-        JPanel line = new JPanel();             // The black line in the midle
+        // The black line between the button panel and the saves
+        JPanel line = new JPanel();
         {
             line.setPreferredSize(new Dimension(5, 800));
             line.setBackground(Color.BLACK);
@@ -75,7 +88,13 @@ public class Load extends JPanel {
         add(saves);
     }
 
-    public void createDataBlocks(Window window) {        // Creates the 6 Save blocks
+    /*
+     * ----------------------------------------------------------------
+     * Creates the save blocks
+     * ----------------------------------------------------------------
+     */
+
+    public void createDataBlocks(Window window) {
         for (int i=0; i<6; i++) {
             JPanel saveBlock = new JPanel();
             JPanel spacer = new JPanel();
@@ -86,7 +105,7 @@ public class Load extends JPanel {
                 spacer.setLayout(spacerLayout);
             }
 
-            // If the specific file has a save point, it shows an image
+            // If the specific file has a save point, it shows a floppy icon
             if (new File("src/com/vojat/Data/Saves/Save" + (i+1) + ".json").isFile()) {
                 JLabel saveFilePicture = new JLabel();
                 JButton deleteSaveButton = new JButton("Delete");
@@ -126,14 +145,14 @@ public class Load extends JPanel {
                 changeVisibility(buttonPanelT, spacerT);
                 new Game(1920, 1075, window);
                 Game.loadGame("src/com/vojat/Data/Saves/Save" + saveNumber + ".json");
-                MouseInput.setAssignPlantNum(Game.flowers.size());
             }
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_404.message);
         }
     }
 
-    public void createButton(JPanel panel, Window window) {        // Creates a button to be passed to the block
+    // Creates a button to be passed to the block
+    public void createButton(JPanel panel, Window window) {
         JButton button = new JButton(InventoryPanel.createIcon("res/Pics/Load.png", 150, 40));
         int saveNumber = blocks.indexOf(panel)+1;
         button.addActionListener((e) -> buttonPress(button, saveNumber, window));
@@ -144,6 +163,7 @@ public class Load extends JPanel {
         panel.add(button);
     }
 
+    // Changes the visibility of the load menu and removes the save blocks
     public void changeVisibility(JPanel buttonPanel, JPanel spacer) {
         visible = visible ? false : true;
         setVisible(visible);

@@ -10,9 +10,22 @@ import com.vojat.garden.MainPanel;
 import com.vojat.garden.Player;
 
 public class Window extends JFrame {
-    private MainPanel mainPanel;
-    private Player dad;
-    private ArrayList<JComponent> components = new ArrayList<JComponent>();
+
+    /*
+     * ----------------------------------------------------------------
+     * Window variables
+     * ----------------------------------------------------------------
+     */
+
+    private MainPanel mainPanel;                                                            // The main menu panel
+    private Player dad;                                                                     // The player character
+    private ArrayList<JComponent> components = new ArrayList<JComponent>();                 // Arraylist of all of it's components
+
+    /*
+     * ----------------------------------------------------------------
+     * Window constructor to setup the window & window change methods
+     * ----------------------------------------------------------------
+     */
 
     public Window() {
         setTitle("Dad The Gardener");
@@ -33,8 +46,9 @@ public class Window extends JFrame {
         setSize(new Dimension(1920, 1080));
     }
 
+    // dad & mainPanel are always null !!
     @Override
-    public void validate() {        // dad & mainPanel are always null !!
+    public void validate() {
         super.validate();
         if (dad != null & mainPanel != null) {
             mainPanel.setPanelSize(getSize().width, getSize().height);

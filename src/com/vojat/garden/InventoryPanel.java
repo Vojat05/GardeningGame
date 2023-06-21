@@ -11,7 +11,20 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 public class InventoryPanel extends JPanel{
-    private JLabel item = new JLabel();
+    
+    /*
+     * ----------------------------------------------------------------
+     * Inventory panel variable
+     * ----------------------------------------------------------------
+     */
+
+    private JLabel item = new JLabel();                                     // The label for the selected item
+
+    /*
+     * ----------------------------------------------------------------
+     * Inventory panel constructor used for buildin up the menu
+     * ----------------------------------------------------------------
+     */
 
     public InventoryPanel(int windowWidth, int windowHeight, GamePanel gamePanel, Player dad) {
 
@@ -22,6 +35,12 @@ public class InventoryPanel extends JPanel{
         item.setBorder(BorderFactory.createEtchedBorder(Color.BLACK, Color.RED));
         repaintItem(dad);
     }
+
+    /*
+     * ----------------------------------------------------------------
+     * Static repaint methods used throughout the game
+     * ----------------------------------------------------------------
+     */
 
     public void repaintItem(Player dad) {                                                                  // Repaint the selected item
         item.setIcon(new ImageIcon(new ImageIcon("res/Pics/" + dad.inventory.get(dad.selectedItem) + ".png").getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
@@ -37,6 +56,7 @@ public class InventoryPanel extends JPanel{
         label.setIcon(new ImageIcon(new ImageIcon(fileAdress).getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH)));
     }
 
+    // Creates the icon with a certian size from an image path
     public static Icon createIcon(String fileAdress, int sizeX, int sizeY) {
         Image pic = new ImageIcon(fileAdress).getImage().getScaledInstance(sizeX, sizeY, java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(pic);

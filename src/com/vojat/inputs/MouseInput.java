@@ -11,18 +11,26 @@ import com.vojat.garden.Game;
 import com.vojat.garden.GamePanel;
 
 public class MouseInput implements MouseListener {
-    private GamePanel gamePanel;
-    private short controlVariableX;
-    private short controlVariableY;
-    private static int assignNumberToPlant = Game.flowers.size();
-    private Flower flower;
+
+    /*
+     * ----------------------------------------------------------------
+     * Mouse input variables
+     * ----------------------------------------------------------------
+     */
+
+    private GamePanel gamePanel;                                                        // Game panel
+    private short controlVariableX;                                                     // Theoretical mouse X coordinate in the game map 
+    private short controlVariableY;                                                     // Theoretical mouse Y coordiante in the game map
+    private Flower flower;                                                              // Flower object that's set on each click on some flower
+
+    /*
+     * ----------------------------------------------------------------
+     * In-game mouse click interactions
+     * ----------------------------------------------------------------
+     */
 
     public MouseInput(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-    }
-
-    public static void setAssignPlantNum(int number) {
-        assignNumberToPlant = number;
     }
 
     @Override
@@ -42,25 +50,42 @@ public class MouseInput implements MouseListener {
                     return;
                 }
 
+                // Player level check
                 if (gamePanel.dad.level == 1) {
                     interact(Game.houseMap[controlVariableY][controlVariableX]);
                 } else {
                     if (gamePanel.dad.selectedItem > 0 && controlVariableY != 7) {
-                        if (Game.map[controlVariableY][controlVariableX] >= 2) {                                 // Checks if the desired area is occupied or not
+
+                        // Checks if the desired area is occupied or not
+                        if (Game.map[controlVariableY][controlVariableX] >= 2) {
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
-                        } else {                                                                                 // If not, creates another Flower object to place here
+                        } else {
+
+                            // Creates a flower object if the area isn't being occupied
                             Game.playSound("res/Audio/Plant.wav");
-                            flower = new Flower("res/Pics/" + gamePanel.dad.inventory.get(gamePanel.dad.selectedItem) + ".png", gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", assignNumberToPlant);
+                            flower = new Flower("res/Pics/" + gamePanel.dad.inventory.get(gamePanel.dad.selectedItem) + ".png", gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", Game.flowers.size());
                             gamePanel.dad.plant(flower);
-                            Game.wirteIntoMap(controlVariableY, controlVariableX, 2);                      // Writes it's value into map
-                            assignNumberToPlant++;                                                               // Assigns the plant index
+
+                            // Writes it's value into map
+                            Game.wirteIntoMap(controlVariableY, controlVariableX, 2);
                         }
-                    } else if(gamePanel.dad.selectedItem == 0) {                                                 // Stop the watering if water isn't selected or if the water is empty or is out of reach
+                    } else if(gamePanel.dad.selectedItem == 0) {
+
+                        // Stop the watering if water isn't selected or if the water is empty or is out of reach
                         if (Game.map[controlVariableY][controlVariableX] != 2) {
                             System.err.println(ErrorList.ERR_NOPLANT.message);
                         } else if (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
                             Game.playSound("res/Audio/WaterPlant.wav");
-                            gamePanel.dad.water(flower, controlVariableX, controlVariableY);
+
+                            // Checks selects the plant based on clicked location
+                            for (Flower plant : Game.flowers) {
+                                if (plant.LOCATION_X == controlVariableX && plant.LOCATION_Y == controlVariableY) {
+                                    flower = plant;
+                                    break;
+                                }
+                            }
+
+                            gamePanel.dad.water(flower);
                             gamePanel.dad.inventory.set(0, "water" + (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1));
                             gamePanel.inventoryPanel.repaintItem(gamePanel.dad);
                         }
@@ -69,6 +94,7 @@ public class MouseInput implements MouseListener {
                 System.gc();
                 break;
             
+            // This is the mouse wheel button being pressed
             case MouseEvent.BUTTON2:
                 if (gamePanel.dad.level == 1) {
                     System.out.println("Interaction 2");
@@ -118,9 +144,17 @@ public class MouseInput implements MouseListener {
         controlVariableY = Short.parseShort(Integer.toString(Game.intoMapY(e.getY())));
     }
 
+    /*
+     * ----------------------------------------------------------------
+     * Interaction method for the in-house objects
+     * ----------------------------------------------------------------
+     */
+
     private void interact(int object) {
         switch(object) {
             case 4:
+
+                // The bed interaction
                 Game.playSound("res/Audio/BedSqueak.wav");
                 gamePanel.dad.LOCATION_X = -10;
                 gamePanel.dad.LOCATION_Y = 120;

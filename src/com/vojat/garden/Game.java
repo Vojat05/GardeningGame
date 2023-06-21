@@ -16,28 +16,43 @@ import com.vojat.Data.JSONEditor;
 import com.vojat.menu.Window;
 
 public class Game implements Runnable {
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static ArrayList<Flower> flowers = new ArrayList<>();
-    public static byte[][] map = new byte[8][15];      // [Y][X] coords
-    public static byte[][] houseMap = new byte[8][15];      // [Y][X] cords
-    public static final String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};     // Array of texture paths for the ground animation. position 2 in map is reserved for flowers
-    public static final String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png", "res/Pics/doormat.png", "res/Pics/bed.png"};
-    public static final String[][] flowerTypes = {{"tulip", "20000"}, {"rose", "25000"}};     // {"flower type", "time for it to die in millis"}
-    public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();
-    private static ArrayList<Long> dieTimes = new ArrayList<Long>();
-    private GamePanel gamePanel;
-    private Thread gameLoop;
-    public static Clip clip;
-    private final int FPS_SET = 120;
-    public final static int flowerChange = 5000;
-    public static boolean run = true;
-    public static boolean pause = false;
+
+    /*
+     * -------------------------------------------------------------------------------
+     * Here are all the important game variables
+     * -------------------------------------------------------------------------------
+     */
+
+    public static final String ANSI_GREEN = "\u001B[32m";                                                                                                                           // Set the console text color to green
+    public static final String ANSI_RED = "\u001B[31m";                                                                                                                             // Set the console text color to red
+    public static final String ANSI_RESET = "\u001B[0m";                                                                                                                            // Reset the console text color
+    public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
+    public static byte[][] map = new byte[8][15];                                                                                                                                   // [Y][X] coords
+    public static byte[][] houseMap = new byte[8][15];                                                                                                                              // [Y][X] cords
+    public static final String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};                                   // Texture array for outside
+    public static final String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png", "res/Pics/doormat.png", "res/Pics/bed.png"};                // Texture array for the inside of the house
+    public static final String[][] flowerTypes = {{"tulip", "20000"}, {"rose", "25000"}};                                                                                           // {"flower type", "time for it to die in millis"}
+    public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();                                                                                                     // ArrayList of map objects that are collidable
+    public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
+    public final static int flowerChange = 5000;                                                                                                                                    // The time each flower has for being thirsty before they die
+    public static boolean pause = false;                                                                                                                                            // Determines wheather the game should be paused or not
+    private GamePanel gamePanel;                                                                                                                                                    // The panel that shows the game window
+    private Thread gameLoop;                                                                                                                                                        // The game loop itself
+    private final int FPS_SET = 120;                                                                                                                                                // Frame-Rate cap
+    private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
+    private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
+
+
+    /*
+     * --------------------------------------------------------------------------------
+     * Game functions and constructor
+     * --------------------------------------------------------------------------------
+     */
 
     public Game(int panelWidth, int panelHeight, Window window) {
+
+        // Cleares the maps and flowers
         flowers.clear();
-        // Cleares the maps
         clearMap(map);
         clearMap(houseMap);
 
@@ -64,11 +79,13 @@ public class Game implements Runnable {
         // Fill the invisible walls arraylist
         for (int i=2; i<6; i++) invisibleWalls.add(i);
 
+        // Sets up all the panels
         gamePanel = new GamePanel(panelWidth, panelHeight, window);
-        InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);      // Creates a new InventoryPanel object to pass into the main panel
+        InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);
         MainPanel mainPanel = new MainPanel(gamePanel, inventoryPanel);
         window.setElements(mainPanel);
 
+        // Starts the game and requests focus
         startGame();
         gamePanel.requestFocusInWindow();
         gamePanel.setIPanel(inventoryPanel);
@@ -121,6 +138,43 @@ public class Game implements Runnable {
         }
     }
 
+    // Writes data into map at specified location
+    public static void wirteIntoMap(int i, int j, int value) {
+        map[i][j] = (byte) value;
+    }
+
+    // Retrieves all data from map and prints it into console
+    public static String getMapData(String type) {
+        if (type.equals("print")) {
+            for (int i=0; i<map.length; i++) {
+                for (int j=0; j<map[0].length; j++) {
+                    System.out.print(" | " + map[i][j] + " | ");
+                }
+                System.out.println("");
+            }
+            return "";
+        } else {
+            String value = "";
+            for (int i=0; i<map.length; i++) {
+                for (int j=0; j<map[0].length; j++) {
+                    value += map[i][j];
+                }
+                value += "|";
+            }
+            return value;
+        }
+    }
+
+    // Cleares a given 2D array
+    public static void clearMap(byte[][] map) {
+        for (int i=0; i<map.length; i++) {
+            for (int j=0; j<map[0].length; j++) {
+                map[i][j] = 0;
+            }
+        }
+    }
+
+    // Plays the wav file at a given path
     public static void playSound(String path) {
         try {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(path));
@@ -138,7 +192,12 @@ public class Game implements Runnable {
         clip.stop();
     }
 
-    // Game Loop
+    /*
+     * -----------------------------------------------------------------
+     * The game loop is written here
+     * -----------------------------------------------------------------
+     */
+
     @Override
     public void run() {
 
@@ -207,21 +266,31 @@ public class Game implements Runnable {
                     if (Main.debug) {
                         System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
                     }
-                    fps = 0;
-                    if (gamePanel.dad.level == 0) { // Checks if the player is on level 0 "outside"
+                    
+                    // Checks if the player is on level 0 "outside"
+                    if (gamePanel.dad.level == 0) {
                         gamePanel.changeGrass = true;
                     }
-
+                    
                     // Replays the in-game music if it had reached the end.
                     if (!clip.isRunning()) {
                         clip.setFramePosition(0);
                         clip.start();
                     }
+
+                    // Resets the FPS counter
+                    fps = 0;
                 }
             }
         }
         clip.stop();
     }
+
+    /*
+     * -------------------------------------------------------------------------
+     * Save and load methods
+     * -------------------------------------------------------------------------
+     */
 
     // Saves the game progress into a seperate JSON file
     public static void saveGame(String saveFilePath, Player dad) throws FileNotFoundException {
@@ -242,6 +311,7 @@ public class Game implements Runnable {
         dad.LOCATION_Y = 120;
     }
 
+    // Loads the game progress from a given save
     public static void loadGame(String saveFilePath) throws FileNotFoundException {
         
         // Loads the map
@@ -302,7 +372,8 @@ public class Game implements Runnable {
                     data += value.charAt(j);
                 }
             }
-            flowers.add(new Flower(Integer.parseInt(timeToDie) > 5000 ? "res/Pics/" + plantType + ".png" : "res/Pics/Land.png", 
+            flowers.add(new Flower(
+                Integer.parseInt(timeToDie) > flowerChange ? "res/Pics/" + plantType + ".png" : "res/Pics/Land.png", 
                 plantType, 
                 Integer.parseInt(posX), 
                 Integer.parseInt(posY), 
@@ -313,32 +384,11 @@ public class Game implements Runnable {
         System.gc();
     }
 
-    // Writes data into map at specified location
-    public static void wirteIntoMap(int i, int j, int value) {
-        map[i][j] = (byte) value;
-    }
-
-    // Retrieves all data from map and prints it into console
-    public static String getMapData(String type) {
-        if (type.equals("print")) {
-            for (int i=0; i<map.length; i++) {
-                for (int j=0; j<map[0].length; j++) {
-                    System.out.print(" | " + map[i][j] + " | ");
-                }
-                System.out.println("");
-            }
-            return "";
-        } else {
-            String value = "";
-            for (int i=0; i<map.length; i++) {
-                for (int j=0; j<map[0].length; j++) {
-                    value += map[i][j];
-                }
-                value += "|";
-            }
-            return value;
-        }
-    }
+    /*
+     * --------------------------------------------------------------------------
+     * Methods for translating coordinates into the game map
+     * --------------------------------------------------------------------------
+     */
 
     // Gets the theoretical X location in the map
     public static int intoMapX(double positionX) {
@@ -370,9 +420,7 @@ public class Game implements Runnable {
             return 12;
         } else if (positionX <= 128*14) {
             return 13;
-        } else {
-            return 14;
-        }
+        } else return 14;
     }
 
     // Gets the theoretical Y location in the map
@@ -391,21 +439,11 @@ public class Game implements Runnable {
             return 5;
         } else if (positionY <= 128*7) {
             return 6;
-        } else {
-            return 7;
-        }
+        } else return 7;
     }
 
     // Gets the object in located in the map at the specific location
     public static int intoMap(int y, int x, byte[][] map) {
         return map[y][x];
-    }
-
-    public static void clearMap(byte[][] map) {
-        for (int i=0; i<map.length; i++) {
-            for (int j=0; j<map[0].length; j++) {
-                map[i][j] = 0;
-            }
-        }
     }
 }
