@@ -25,7 +25,7 @@ public class GamePanel extends JPanel {
      * ----------------------------------------------------------------
      */
 
-    public Player dad = new Player(this, 240, 200);                     // The player instance
+    public Player dad = new Player(this, 240, 200);                                         // The player instance
     public InventoryPanel inventoryPanel;                                                   // Inventory panel used to display selected item
     public JPanel fullInv = new JPanel();                                                   // Player inventory panel visible after pressing "T"
     public JPanel saveMenu = new JPanel();                                                  // Save menu panel visible after getting into bed
