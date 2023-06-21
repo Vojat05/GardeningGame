@@ -18,30 +18,61 @@ import com.vojat.inputs.*;
 import com.vojat.menu.Window;
 
 public class GamePanel extends JPanel {
-    public Player dad = new Player(this, 240, 200);
-    public InventoryPanel inventoryPanel;
-    public JPanel fullInv = new JPanel();
-    public JPanel saveMenu = new JPanel();
-    public boolean changeGrass = true;
+
+    /*
+     * ----------------------------------------------------------------
+     * Game panel variables
+     * ----------------------------------------------------------------
+     */
+
+    public Player dad = new Player(this, 240, 200);                     // The player instance
+    public InventoryPanel inventoryPanel;                                                   // Inventory panel used to display selected item
+    public JPanel fullInv = new JPanel();                                                   // Player inventory panel visible after pressing "T"
+    public JPanel saveMenu = new JPanel();                                                  // Save menu panel visible after getting into bed
+    public boolean changeGrass = true;                                                      // Determines wheather the grass should have a wind effect applied
+
+    /*
+     * ----------------------------------------------------------------
+     * Methods for interaction with game logic
+     * ----------------------------------------------------------------
+     */
 
     // width == window width & height == window height
     public GamePanel(int windowWidth, int windowHeight, Window window) {
         dad.setLimit(windowWidth, windowHeight-50);
         setFocusable(true);         // Sets the JPanel focusable, it is later packed into the JFrame
 
-        {   // Passing information for the game window, visible by the pack method
+        /*
+         * ----------------------------------------------------------------
+         * Game panel visuals & location setup
+         * ----------------------------------------------------------------
+         */
+
+        {
             setBounds(0, 0, windowWidth, windowHeight-50);
             setPreferredSize(new Dimension(windowWidth, windowHeight-50));
-            setBackground(null);        // new Color(90, 180, 4)
+            setBackground(null);
             setBorder(new LineBorder(Color.BLACK));
         }
 
-        {   // Adding the listeners
+        /*
+         * ----------------------------------------------------------------
+         * Adding the mouse & keyboard listeners
+         * ----------------------------------------------------------------
+         */
+        
+        {
             addKeyListener(new KeyboardInput(this, dad, window));
             addMouseListener(new MouseInput(this));
         }
 
-        {   // Adding the inventory table
+        /*
+         * ----------------------------------------------------------------
+         * Inventory panel setup     | Visible after pressing "T"
+         * ----------------------------------------------------------------
+         */
+        
+        {
             fullInv.setBorder(new LineBorder(Color.BLACK));
             fullInv.setPreferredSize(new Dimension(windowWidth - 20, 80));
             fullInv.setBackground(new Color(0, 0, 0, 50));
@@ -54,7 +85,13 @@ public class GamePanel extends JPanel {
             add(fullInv);
         }
 
-        {   // Creates savemenu visible after getting in bed
+        /*
+         * ----------------------------------------------------------------
+         * Save menu panel setup      | Visible after getting in bed
+         * ----------------------------------------------------------------
+         */
+        
+        {
             saveMenu.setBorder(new LineBorder(Color.BLACK));
             saveMenu.setPreferredSize(new Dimension(240, 590));
             saveMenu.setBackground(new Color(50, 50, 50));
@@ -71,8 +108,6 @@ public class GamePanel extends JPanel {
         }
     }
 
-
-
     // Sets the inventory panel field (just for the repaint method to be functional in the listener)
     public void setIPanel(InventoryPanel iPanel) {
         this.inventoryPanel = iPanel;
@@ -83,6 +118,7 @@ public class GamePanel extends JPanel {
         Game.flowers.add(flower);
     }
 
+    // Saves the game into a specified save file
     private void saveButton(JButton button) {
         try {
             Game.saveGame("src/com/vojat/Data/Saves/Save" + button.getText().substring(button.getText().length()-1, button.getText().length()) + ".json", dad);
@@ -100,44 +136,55 @@ public class GamePanel extends JPanel {
     }
 
     // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
-    public void waterFlower(Flower flower, int positionX, int positionY) {
-        for (Flower plant : Game.flowers) {
-            if (plant.LOCATION_X == positionX && plant.LOCATION_Y == positionY) {
+    public void waterFlower(Flower flower) {
 
-                if (plant.STATUS.equals("Dead")) {
-                    return;
-                }
+        // Checks if the flower is dead and returns
+        if (flower.STATUS.equals("Dead")) return;
 
-                for (int i=0; i<Game.flowerTypes.length; i++) {
-                    if (plant.TYPE == Game.flowerTypes[i][0]) {
-                        plant.TIME_TO_DIE = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]);
-                        plant.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]) + 5000;
-                        break;
-                    }
-                }
-                plant.CURRENT_TEXTURE = plant.setTexture(plant.ALIVE_TEXTURE);
+        // Resets the flower times to die and dissapear
+        for (int i=0; i<Game.flowerTypes.length; i++) {
+            if (flower.TYPE.equals(Game.flowerTypes[i][0])) {
+                flower.TIME_TO_DIE = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]);
+                flower.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]) + 5000;
+                break;
             }
         }
+
+        // Resets the flower texture
+        flower.CURRENT_TEXTURE = flower.setTexture(flower.ALIVE_TEXTURE);
     }
 
-    // Drawing terrain based on the map
+    /*
+     * ----------------------------------------------------------------
+     * Method for drawing the terrain based on the player's level
+     * ----------------------------------------------------------------
+     */
+
     private void drawTerrain(byte[][] map, Graphics g) {
+
         // Drawing the grass textures and other static objects (well, house ...)
         if (dad.level == 0) {
             for (int i=0; i<map.length; i++) {
                 for (int j=0; j<map[0].length; j++) {
                     if (map[i][j] <= 1) {
+
                         if (changeGrass) {
                             Random rnd = new Random();
                             map[i][j] = (byte) (rnd.nextInt(0, 2));
                         }
-                        g.drawImage(new ImageIcon(Game.groundTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);   // Draw the grass
+
+                        // Draw the grass
+                        g.drawImage(new ImageIcon(Game.groundTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
                     } else if (map[i][j] >= 4) {
-                        g.drawImage(new ImageIcon(Game.groundTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);   // Draw the objects like a well
+
+                        // Draw the other objects (well, house, etc.)
+                        g.drawImage(new ImageIcon(Game.groundTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
                     }
                 }
             }
         } else {
+
+            // Draws the interior of the house
             for (int i=0; i<map.length; i++) {
                 for (int j=0; j<map[0].length; j++) {
                     g.drawImage(new ImageIcon(Game.houseTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
@@ -148,13 +195,15 @@ public class GamePanel extends JPanel {
 
         try {
             if (dad.level == 0) {
-                // Draw the house
+                // Draw the house itself
                 g.drawImage(new ImageIcon(Game.groundTextures[map[0][1]]).getImage(), 128, 0, 256, 256, null);
                 changeGrass = false;
 
-                // Drawing all the placed plants by a for loop to edit the plants
+                // Drawing all the placed plants by a for loop to allow editing the plants
                 for (int i=0; i<Game.flowers.size(); i++) {
                     Flower plant = Game.flowers.get(i);
+
+                    // Flower life-ending logic
                     if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
                         if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
                             if (plant.STATUS.equals("Alive")) {
@@ -182,7 +231,11 @@ public class GamePanel extends JPanel {
 
 
 
-    
+    /*
+     * ----------------------------------------------------------------
+     * Game panel repaint method
+     * ----------------------------------------------------------------
+     */
 
     @Override
     public void paintComponent(Graphics g) {

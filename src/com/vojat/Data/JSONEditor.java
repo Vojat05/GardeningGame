@@ -12,22 +12,39 @@ import com.vojat.Main;
 import com.vojat.Enums.ErrorList;
 
 public class JSONEditor {
-    private File file;
-    public ArrayList<JSONObject> JSONObjects = new ArrayList<JSONObject>();
-    private String jsonData = "";
 
+    /*
+     * ----------------------------------------------------------------
+     * JSON Editor variables
+     * ----------------------------------------------------------------
+     */
+
+    private File file;                                                                          // The JSON file which it writes to & reads from
+    public ArrayList<JSONObject> JSONObjects = new ArrayList<JSONObject>();                     // ArrayList of all the JSON Objects in that JSON file
+    private String jsonData = "";                                                               // The currently being edited contents of the JSON file
+
+    /*
+     * ----------------------------------------------------------------
+     * JSON Editor methods & its constructor
+     * ----------------------------------------------------------------
+     */
+
+    // Sets the initial JSON file
     public JSONEditor(String filePath) throws FileNotFoundException {
         setFile(filePath);
     }
 
+    // Allows the reset of the JSON file
     public void setFile(String path) {
         this.file = new File(path);
     }
 
+    // Returns the current JSON file
     public File getFile() {
         return this.file;
     }
 
+    // Returns the number of elements in the JSON file
     private int keyNumber() {
         int sum = 0;
         for (int i=0; i<jsonData.length(); i++) {
@@ -37,36 +54,44 @@ public class JSONEditor {
         } return sum;
     }
 
+    // Reads the JSON file and saves it into JSON data for further editing
     public void readFile() throws FileNotFoundException {
         jsonData = "";
         JSONObjects.clear();
         FileReader reader = new FileReader(file);
         try {
             int data = reader.read();
-            while(data != -1) {             // Saves the entire JSON file as a String variable
+            while(data != -1) {
                 jsonData += (char) data;
                 data = reader.read();
             }
             reader.close();
-            makeObject(jsonData);              // Processes the Sting variable to make JSON Objects with name and content
+
+            // Processes the Sting variable to make JSON Objects with name and content
+            makeObject(jsonData);
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_IO.message);
         }
     }
 
-    private void makeObject(String data) {      // Goes through the entire file and creates the objects, which are then saved into memory for further usage
+    // Goes through the entire file and creates the JSON objects, which are then saved into memory for further usage
+    private void makeObject(String data) {
         int objectIndex = 0;
         String name = "";
         boolean isWritingIntoObject = false;
         boolean write = false;
         for (int i=0; i<data.length(); i++) {
             switch (data.charAt(i)) {
-                case '}':       // Stops writing into a JSON object
+                case '}':
+
+                    // Stops writing into a JSON object
                     ((JSONObject) JSONObjects.get(objectIndex-1)).addValue('}');
                     isWritingIntoObject = false;
                     break;
 
-                case '{':       // Starts writing into a JSON object
+                case '{':
+
+                    // Starts writing into a JSON object
                     if (i == 0) {
                         break;
                     }
@@ -76,25 +101,33 @@ public class JSONEditor {
                     objectIndex++;
                     break;
                 
-                case '"':       // if isn't writing into an object it changes the write permission
+                case '"':
+
+                    // if isn't writing into an object it changes the write permission
                     if (!isWritingIntoObject) {
                         write = write ? false : true;
                     }
                     break;
 
-                default:        // If it has write permission, it writes the name of the object
+                default:
+
+                    // If it has write permission, it writes the name of the object
                     if (write) {
                         name += data.charAt(i);
                     }
                     break;
             }
-            if (isWritingIntoObject) {      // Writes adds the data to the JSON object
+
+            // Writes adds the data to the JSON object
+            if (isWritingIntoObject) {
                 ((JSONObject) JSONObjects.get(objectIndex-1)).addValue(data.charAt(i));
             }
         }
     }
 
-    public String readData(JSONObject object, String request) {         // Goes through the JSON object and stores every key and value into a HashMap for an easier access
+
+    // Goes through the JSON object and stores every key and value into a HashMap for an easier access and returns the value of the request
+    public String readData(JSONObject object, String request) {
         String key = "";
         String data = "";
         boolean writeData = false;
@@ -136,6 +169,7 @@ public class JSONEditor {
         }
     }
 
+    // Returns the JSON file as a 2D String array
     public String[][] read2DArr() {
         try {
             {
@@ -143,7 +177,7 @@ public class JSONEditor {
                 JSONObjects.clear();
                 FileReader reader = new FileReader(file);
                 int data = reader.read();
-                while(data != -1) {             // Saves the entire JSON file as a String variable
+                while(data != -1) {
                     jsonData += (char) data;
                     data = reader.read();
                 }

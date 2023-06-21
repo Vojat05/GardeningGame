@@ -25,21 +25,35 @@ import com.vojat.menu.Window;
  */
 public class KeyboardInput implements KeyListener {
 
-    private Player dad;
-    private GamePanel gamePanel;
-    private boolean up = true, down = true, left = true, right = true;
-    private int speed = 1;
-    private Window window;
-    private Settings settings;
-    private JButton button;
-    private JLabel label;
-    private JSONEditor jEditor;
+    /*
+     * ----------------------------------------------------------------
+     * Keyboard input variables
+     * ----------------------------------------------------------------
+     */
+
+    private Player dad;                                                                     // The player
+    private GamePanel gamePanel;                                                            // Game panel
+    private boolean up = true, down = true, left = true, right = true;                      // Determines wheather the player's texture should be repainted in a specific direction                                                             
+    private Window window;                                                                  // Window on which the game panel is
+    private Settings settings;                                                              // Settings panel used for the change key response
+    private JButton button;                                                                 // Button for the settings change key
+    private JLabel label;                                                                   // The label to be repainted after the key is changed
+    private JSONEditor jEditor;                                                             // JSON Editor for getting the control keys
+
+    /*
+     * ----------------------------------------------------------------
+     * Constructor used by the game panel
+     * ----------------------------------------------------------------
+     */
 
     public KeyboardInput(GamePanel gamePanel, Player dad, Window window) {
         this.gamePanel = gamePanel;
         this.dad = dad;
         this.window = window;
+
         try {
+
+            // Sets up the JSON Objects from the controls JSON
             jEditor = new JSONEditor("src/com/vojat/Data/Controls.json");
             jEditor.readFile();
             jEditor.readData(jEditor.JSONObjects.get(1), "up");
@@ -49,11 +63,23 @@ public class KeyboardInput implements KeyListener {
         }
     }
 
+    /*
+     * ----------------------------------------------------------------
+     * Constructor used by the settings panel
+     * ----------------------------------------------------------------
+     */
+
     public KeyboardInput(Settings settings, JButton button, JLabel label) {
         this.settings = settings;
         this.button = button;
         this.label = label;
     }
+
+    /*
+     * ----------------------------------------------------------------
+     * In-game movement methods
+     * ----------------------------------------------------------------
+     */
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -63,25 +89,25 @@ public class KeyboardInput implements KeyListener {
                 dad.setTexture("res/Pics/Dad_Texture_B.png");
                 up = false;
             }
-            dad.VECTORY = -speed;
+            dad.VECTORY = -dad.speed;
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
             if (down) {
                 dad.setTexture("res/Pics/Dad_Texture_F.png");
                 down = false;
             }
-            dad.VECTORY = speed;
+            dad.VECTORY = dad.speed;
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
             if (left) {
                 dad.setTexture("res/Pics/Dad_Texture_L.png");
                 left = false;
             }
-            dad.VECTORX = -speed;
+            dad.VECTORX = -dad.speed;
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
             if (right) {
                 dad.setTexture("res/Pics/Dad_Texture_R.png");
                 right = false;
             }
-            dad.VECTORX = speed;
+            dad.VECTORX = dad.speed;
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
             Game.killGame();
             window.setElements(new MenuPanel(1920, 1080, window));
@@ -139,12 +165,24 @@ public class KeyboardInput implements KeyListener {
         }
     }
 
+    /*
+     * ----------------------------------------------------------------
+     * Determines the new controls key
+     * ----------------------------------------------------------------
+     */
+
     @Override
     public void keyTyped(KeyEvent e) {
         if (settings != null) {
             settings.setKey(e.getKeyChar(), button, this, label);
         }
     }
+
+    /*
+     * ----------------------------------------------------------------
+     * Changes the player texture
+     * ----------------------------------------------------------------
+     */
 
     private void retexture(String direction) {
         switch (direction) {
