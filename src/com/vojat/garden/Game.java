@@ -29,7 +29,7 @@ public class Game implements Runnable {
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
     public static byte[][] map = new byte[8][15];                                                                                                                                   // [Y][X] coords
     public static byte[][] houseMap = new byte[8][15];                                                                                                                              // [Y][X] cords
-    public static final String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png"};                                   // Texture array for outside
+    public static final String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png", "res/Pics/Fence.png"};             // Texture array for outside
     public static final String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png", "res/Pics/doormat.png", "res/Pics/bed.png"};                // Texture array for the inside of the house
     public static final String[][] flowerTypes = {{"tulip", "20000"}, {"rose", "25000"}};                                                                                           // {"flower type", "time for it to die in millis"}
     public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();                                                                                                     // ArrayList of map objects that are collidable
@@ -58,6 +58,16 @@ public class Game implements Runnable {
 
         map[0][1] = 3;      // Builds the house
         map[5][1] = 4;      // Builds the well
+
+
+        // Build the fence around the garden
+        for (int i=3; i<map[0].length; i++) {
+            map[0][i] = 5;
+        }
+
+        for (int i=0; i<map[0].length; i++) {
+            map[7][i] = 5;
+        }
         
         // Fill with house spaces
         map[0][2] = 3;

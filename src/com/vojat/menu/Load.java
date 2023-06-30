@@ -113,6 +113,7 @@ public class Load extends JPanel {
                     InventoryPanel.repaintItem(saveFilePicture, "res/Pics/save.png");
                     spacer.add(saveFilePicture);
 
+                    // Deletes the save file and "restarts" the panel
                     deleteSaveButton.setPreferredSize(new Dimension(150, 40));
                     deleteSaveButton.setName(String.valueOf(i));
                     deleteSaveButton.addActionListener((e) -> {

@@ -50,11 +50,11 @@ public class MouseInput implements MouseListener {
                     return;
                 }
 
-                // Player level check
+                // Player level check  |  0 == outside & 1 == inside
                 if (gamePanel.dad.level == 1) {
                     interact(Game.houseMap[controlVariableY][controlVariableX]);
                 } else {
-                    if (gamePanel.dad.selectedItem > 0 && controlVariableY != 7) {
+                    if ((gamePanel.dad.selectedItem > 0 && gamePanel.dad.selectedItem <= Game.flowerTypes.length) && controlVariableY != 7) {
 
                         // Checks if the desired area is occupied or not
                         if (Game.map[controlVariableY][controlVariableX] >= 2) {
