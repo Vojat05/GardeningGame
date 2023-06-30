@@ -138,3 +138,8 @@ JAR file is made for every update documented here<br>
     <li> * Modified the games access to flowers to be more abstract</li>
     <li> * Now the load button loads its own save file</li>
 </ul>
+
+## 1/7/2023
+<ul>
+    <li> + Added the fence texture and usage</li>
+</ul>
