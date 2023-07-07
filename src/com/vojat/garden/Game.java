@@ -60,7 +60,7 @@ public class Game implements Runnable {
         map[5][1] = 4;      // Builds the well
 
 
-        // Build the fence around the garden
+        // Building the fence around the garden
         for (int i=3; i<map[0].length; i++) {
             map[0][i] = 5;
         }
