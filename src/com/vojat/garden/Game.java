@@ -18,9 +18,9 @@ import com.vojat.menu.Window;
 public class Game implements Runnable {
 
     /*
-     * -------------------------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Here are all the important game variables
-     * -------------------------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     public static final String ANSI_GREEN = "\u001B[32m";                                                                                                                           // Set the console text color to green
@@ -45,7 +45,7 @@ public class Game implements Runnable {
 
     /*
      * --------------------------------------------------------------------------------
-     * Game functions and constructor
+     * Setting up the game
      * --------------------------------------------------------------------------------
      */
 
@@ -55,10 +55,15 @@ public class Game implements Runnable {
         flowers.clear();
         clearMap(map);
         clearMap(houseMap);
-
+        
+        /*
+        * --------------------------------------------------------------------------------
+        * Building the main game objects (house, well, etc.)
+        * --------------------------------------------------------------------------------
+        */
+        
         map[0][1] = 3;      // Builds the house
         map[5][1] = 4;      // Builds the well
-
 
         // Building the fence around the garden
         for (int i=3; i<map[0].length; i++) {
@@ -86,8 +91,20 @@ public class Game implements Runnable {
             houseMap[i][houseMap[0].length-6] = 2;
         }
 
+        /*
+         * --------------------------------------------------------------------------------
+         * Filling up the arraylist with invisible walls
+         * --------------------------------------------------------------------------------
+         */
+
         // Fill the invisible walls arraylist
         for (int i=2; i<6; i++) invisibleWalls.add(i);
+
+        /*
+         * --------------------------------------------------------------------------------
+         * Setting up the main in-game panels
+         * --------------------------------------------------------------------------------
+         */
 
         // Sets up all the panels
         gamePanel = new GamePanel(panelWidth, panelHeight, window);
@@ -105,6 +122,12 @@ public class Game implements Runnable {
         gamePanel.dad.LOCATION_X = 80;
         gamePanel.dad.LOCATION_Y = 120;
     }
+
+    /*
+     * --------------------------------------------------------------------------------
+     * Methods for controlling the Game
+     * --------------------------------------------------------------------------------
+     */
 
     // Method to start the Game Loop
     private void startGame() {
@@ -184,6 +207,12 @@ public class Game implements Runnable {
         }
     }
 
+    /*
+     * --------------------------------------------------------------------------------
+     * Methods for controlling the game audio
+     * --------------------------------------------------------------------------------
+     */
+
     // Plays the wav file at a given path
     public static void playSound(String path) {
         try {
@@ -203,9 +232,9 @@ public class Game implements Runnable {
     }
 
     /*
-     * -----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * The game loop is written here
-     * -----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     @Override
@@ -395,9 +424,9 @@ public class Game implements Runnable {
     }
 
     /*
-     * --------------------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Methods for translating coordinates into the game map
-     * --------------------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     // Gets the theoretical X location in the map
