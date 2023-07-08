@@ -66,11 +66,8 @@ public class Game implements Runnable {
         map[5][1] = 4;      // Builds the well
 
         // Building the fence around the garden
-        for (int i=3; i<map[0].length; i++) {
-            map[0][i] = 5;
-        }
-
         for (int i=0; i<map[0].length; i++) {
+            if (i >= 3) map[0][i] = 5;
             map[7][i] = 5;
         }
         
@@ -97,16 +94,14 @@ public class Game implements Runnable {
          * --------------------------------------------------------------------------------
          */
 
-        // Fill the invisible walls arraylist
         for (int i=2; i<6; i++) invisibleWalls.add(i);
 
         /*
          * --------------------------------------------------------------------------------
-         * Setting up the main in-game panels
+         * Setting up the main in-game panels and player spawn
          * --------------------------------------------------------------------------------
          */
 
-        // Sets up all the panels
         gamePanel = new GamePanel(panelWidth, panelHeight, window);
         InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);
         MainPanel mainPanel = new MainPanel(gamePanel, inventoryPanel);
@@ -136,7 +131,7 @@ public class Game implements Runnable {
         gameLoop.start();
     }
 
-    // Kills the game
+    // Stops the game
     public static void killGame() {
         run = false;
     }
@@ -151,6 +146,7 @@ public class Game implements Runnable {
 
         pause = pause ? false : true;
 
+        // Pauses the game music
         if (pause) {
             clip.stop();
         } else {
@@ -229,6 +225,7 @@ public class Game implements Runnable {
 
     public static void stopMusic() {
         clip.stop();
+        clip.flush();
     }
 
     /*
@@ -302,6 +299,7 @@ public class Game implements Runnable {
                 if (System.currentTimeMillis() - lastCheck >= 1000) {
                     lastCheck = System.currentTimeMillis();
                     System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
+
                     if (Main.debug) {
                         System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
                     }
@@ -317,7 +315,7 @@ public class Game implements Runnable {
                         clip.start();
                     }
 
-                    // Resets the FPS counter
+                    // Resets the FPS counter each second
                     fps = 0;
                 }
             }
@@ -336,6 +334,7 @@ public class Game implements Runnable {
         String map = "\"map\":\"" + getMapData("") + "\"";
         String value = "";
 
+        // Foramts the flower information to be saved | {plant_number + plant_type : time_to_die | location X | location Y |}
         for (int i=0; i<flowers.size(); i++) {
             value += ",\"" + (flowers.get(i).PLANT_NUMBER + flowers.get(i).TYPE) + "\":\"" + ((flowers.get(i).TIME_TO_DIE - System.currentTimeMillis()) + "|" + flowers.get(i).LOCATION_X + "|" + flowers.get(i).LOCATION_Y) + "|\"";
         }
@@ -380,6 +379,7 @@ public class Game implements Runnable {
             String posY = "";
             value = strMap[i][0];
             for (int j=0; j<value.length(); j++) {
+                
                 // 48 - 57 is the char range for integers 0 - 9
                 if (value.charAt(j) >= 48 && value.charAt(j) <= 57) {
                     plantNumber += value.charAt(j);
