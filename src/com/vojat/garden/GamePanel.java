@@ -162,7 +162,7 @@ public class GamePanel extends JPanel {
 
     private void drawTerrain(byte[][] map, Graphics g) {
 
-        // Drawing the grass textures and other static objects (well, house ...)
+        // Drawing the grass textures and other static objects (well, house, etc.)
         if (dad.level == 0) {
             for (int i=0; i<map.length; i++) {
                 for (int j=0; j<map[0].length; j++) {
@@ -180,6 +180,11 @@ public class GamePanel extends JPanel {
 
                         // Draw the other objects (well, house, etc.)
                         g.drawImage(new ImageIcon(Game.groundTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
+
+                        // Drawing the side fence poles
+                        for (int k=2; k<32; k++) {
+                            g.drawImage(new ImageIcon("res/Pics/FencePole.png").getImage(), 1877, k*30, 22, 96, null);
+                        }
                     }
                 }
             }

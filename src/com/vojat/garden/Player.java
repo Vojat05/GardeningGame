@@ -27,7 +27,7 @@ public class Player {
     public byte selectedItem = 0;                                           // Index of a specific item from the inventory
     public byte reach = 1;                                                  // Player reach
     public byte level = 0;                                                  // Level on which the player is located  0 == outside ; 1 == inside house
-    public int speed = 1;                                                   // Player's movement speed
+    public int speed = 2;                                                   // Player's movement speed
 
     /*
      * --------------------------------------------------------------------------------
