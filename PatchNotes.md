@@ -143,3 +143,8 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> + Added the fence texture and usage</li>
 </ul>
+
+## 8/7/2023
+<ul>
+    <li> + Added fence poles on the garden side</li>
+</ul>
