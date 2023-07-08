@@ -13,9 +13,9 @@ import com.vojat.garden.GamePanel;
 public class MouseInput implements MouseListener {
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Mouse input variables
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     private GamePanel gamePanel;                                                        // Game panel
@@ -24,9 +24,9 @@ public class MouseInput implements MouseListener {
     private Flower flower;                                                              // Flower object that's set on each click on some flower
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * In-game mouse click interactions
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     public MouseInput(GamePanel gamePanel) {
@@ -136,18 +136,20 @@ public class MouseInput implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {;}    
 
-    private void gardenerX(MouseEvent e) {                                                                 // Center the click location into a grid place for X
+    // Center the click location into a grid place for X
+    private void gardenerX(MouseEvent e) {
         controlVariableX = Short.parseShort(Integer.toString(Game.intoMapX(e.getX())));
     }
 
-    private void gardenerY(MouseEvent e) {                                                                 // Center the click location into a grid place for Y
+    // Center the click location into a grid place for Y
+    private void gardenerY(MouseEvent e) {
         controlVariableY = Short.parseShort(Integer.toString(Game.intoMapY(e.getY())));
     }
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Interaction method for the in-house objects
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     private void interact(int object) {

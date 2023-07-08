@@ -17,18 +17,18 @@ import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Settings;
 import com.vojat.menu.Window;
 
-
 /*
  * Class implementing KeyListener interface
  * Interface must have its every method overriden
  * When extending an abstract class, you don't have to override every method
  */
+
 public class KeyboardInput implements KeyListener {
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Keyboard input variables
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     private Player dad;                                                                     // The player
@@ -41,9 +41,9 @@ public class KeyboardInput implements KeyListener {
     private JSONEditor jEditor;                                                             // JSON Editor for getting the control keys
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Constructor used by the game panel
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     public KeyboardInput(GamePanel gamePanel, Player dad, Window window) {
@@ -64,9 +64,9 @@ public class KeyboardInput implements KeyListener {
     }
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Constructor used by the settings panel
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     public KeyboardInput(Settings settings, JButton button, JLabel label) {
@@ -76,9 +76,9 @@ public class KeyboardInput implements KeyListener {
     }
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * In-game movement methods
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     @Override
@@ -166,9 +166,9 @@ public class KeyboardInput implements KeyListener {
     }
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Determines the new controls key
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     @Override
@@ -179,9 +179,9 @@ public class KeyboardInput implements KeyListener {
     }
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Changes the player texture
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     private void retexture(String direction) {

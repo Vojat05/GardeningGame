@@ -20,9 +20,9 @@ import com.vojat.inputs.KeyboardInput;
 public class Settings extends JPanel {
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Setting menu variiables
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     public static boolean visible = false;                                          // Determines wheather the settings menu is visible
@@ -42,9 +42,9 @@ public class Settings extends JPanel {
         {"previous", "Select previous inventory item"}};
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Constructor building the settings menu
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     public Settings(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer) {
@@ -208,9 +208,9 @@ public class Settings extends JPanel {
     }
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Controls key change methods
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     // Creates the keypress listener to listen for a pressed key

@@ -12,9 +12,9 @@ import com.vojat.garden.Player;
 public class Window extends JFrame {
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Window variables
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     private MainPanel mainPanel;                                                            // The main menu panel
@@ -22,9 +22,9 @@ public class Window extends JFrame {
     private ArrayList<JComponent> components = new ArrayList<JComponent>();                 // Arraylist of all of it's components
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Window constructor to setup the window & window change methods
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     public Window() {

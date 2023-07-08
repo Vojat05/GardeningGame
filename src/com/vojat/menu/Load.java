@@ -21,9 +21,9 @@ import com.vojat.garden.InventoryPanel;
 public class Load extends JPanel {
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Load menu variables
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     public static boolean visible = false;                                      // Determines wheather the load menu is visible or not
@@ -32,9 +32,9 @@ public class Load extends JPanel {
     private static JPanel buttonPanelT, spacerT;                                // The button panel on the left side and the spacer that takes up space at the top
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * The constructor that build the initial menu
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     public Load(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer) {
@@ -89,9 +89,9 @@ public class Load extends JPanel {
     }
 
     /*
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      * Creates the save blocks
-     * ----------------------------------------------------------------
+     * --------------------------------------------------------------------------------
      */
 
     public void createDataBlocks(Window window) {
