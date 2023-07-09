@@ -29,8 +29,8 @@ public class Game implements Runnable {
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
     public static char[][] map = new char[8][15];                                                                                                                                   // [Y][X] coords
     public static char[][] houseMap = new char[8][15];                                                                                                                              // [Y][X] cords
-    public static final String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png", "res/Pics/Fence.png"};             // Texture array for outside
-    public static final String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png", "res/Pics/doormat.png", "res/Pics/bed.png"};                // Texture array for the inside of the house
+    public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png"};                                                          // Texture array for outside
+    public static final String[] houseTextures = {"Plank.png", "Grass1.png", "woodWall.png", "doormat.png", "bed.png"};                                                             // Texture array for the inside of the house
     public static final String[][] flowerTypes = {{"tulip", "20000"}, {"rose", "25000"}};                                                                                           // {"flower type", "time for it to die in millis"}
     public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();                                                                                                     // ArrayList of map objects that are collidable
     public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
@@ -266,11 +266,19 @@ public class Game implements Runnable {
                 // Repaints 120 times per second
                 if (deltaF >= 1) {
 
-                    // Movement + colision logic
-                    if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), intoMapX(gamePanel.dad.LOCATION_X + 64), gamePanel.dad.level == 0 ? map : houseMap)))) {
+                    /*
+                     * --------------------------------------------------------------------------------
+                     * Movement & colision logic
+                     * --------------------------------------------------------------------------------
+                     */
+
+                    // Y coordinate logic
+                    if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap)))) {
                         gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
                     }
-                    if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapY(gamePanel.dad.LOCATION_Y + 80), intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), gamePanel.dad.level == 0 ? map : houseMap)))) {
+
+                    // X coordinate logic
+                    if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap)))) {
                         gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
                     }
 
@@ -431,58 +439,16 @@ public class Game implements Runnable {
 
     // Gets the theoretical X location in the map
     public static int intoMapX(double positionX) {
-        if (positionX <= 128) {
-            return 0;
-        } else if (positionX <= 128*2) {
-            return 1;
-        } else if (positionX <= 128*3) {
-            return 2;
-        } else if (positionX <= 128*4) {
-            return 3;
-        } else if (positionX <= 128*5) {
-            return 4;
-        } else if (positionX <= 128*6) {
-            return 5;
-        } else if (positionX <= 128*7) {
-            return 6;
-        } else if (positionX <= 128*8) {
-            return 7;
-        } else if (positionX <= 128*9) {
-            return 8;
-        } else if (positionX <= 128*10) {
-            return 9;
-        } else if (positionX <= 128*11) {
-            return 10;
-        } else if (positionX <= 128*12) {
-            return 11;
-        } else if (positionX <= 128*13) {
-            return 12;
-        } else if (positionX <= 128*14) {
-            return 13;
-        } else return 14;
+        return (int) positionX/128;
     }
 
     // Gets the theoretical Y location in the map
     public static int intoMapY(double positionY) {
-        if (positionY <= 128) {
-            return 0;
-        } else if (positionY <= 128*2) {
-            return 1;
-        } else if (positionY <= 128*3) {
-            return 2;
-        } else if (positionY <= 128*4) {
-            return 3;
-        } else if (positionY <= 128*5) {
-            return 4;
-        } else if (positionY <= 128*6) {
-            return 5;
-        } else if (positionY <= 128*7) {
-            return 6;
-        } else return 7;
+        return (int) positionY/128;
     }
 
     // Gets the object in located in the map at the specific location
-    public static int intoMap(int y, int x, char[][] map) {
-        return map[y][x];
+    public static int intoMap(int x, int y, char[][] map) {
+        return (int) map[y][x] - 48;
     }
 }

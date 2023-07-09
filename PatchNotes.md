@@ -152,4 +152,5 @@ JAR file is made for every update documented here<br>
 ## 9/7/2023
 <ul>
     <li> * Changed the in-game Map system from 0 - 9 integers to 49 - 126 char values (ASCII Table)</li>
+    <li> * Fixed the collision issue introduced with the new map</li>
 </ul>
