@@ -272,6 +272,8 @@ public class JSONEditor {
         if (Main.debug) {
             System.out.println(map.size() + " | " + mapKeys.size());
         }
+        
+        // This is for the controls
         value = "{\"game\":{\"" + mapKeys.get(0) + "\":\"" + map.get(mapKeys.get(0)) + "\", \"" + mapKeys.get(1) + "\":\"" + map.get(mapKeys.get(1)) + "\"},\"movement\":{\"" + mapKeys.get(2) + "\":\"" + map.get(mapKeys.get(2)) + "\",\"" + mapKeys.get(3) + "\":\"" + map.get(mapKeys.get(3)) + "\",\"" + mapKeys.get(4) + "\":\"" + map.get(mapKeys.get(4)) + "\",\"" + mapKeys.get(5) + "\":\"" + map.get(mapKeys.get(5)) + "\"},\"inventory\":{\"" + mapKeys.get(6) + "\":\"" + map.get(mapKeys.get(6)) + "\",\"" + mapKeys.get(7) + "\":\"" + map.get(mapKeys.get(7)) + "\",\"" + mapKeys.get(8) + "\":\"" + map.get(mapKeys.get(8)) + "\"}}";
         FileWriter fw;
         try {

@@ -160,26 +160,28 @@ public class GamePanel extends JPanel {
      * --------------------------------------------------------------------------------
      */
 
-    private void drawTerrain(byte[][] map, Graphics g) {
+    private void drawTerrain(char[][] map, Graphics g) {
 
         // Drawing the grass textures and other static objects (well, house, etc.)
         if (dad.level == 0) {
             for (int i=0; i<map.length; i++) {
                 for (int j=0; j<map[0].length; j++) {
-                    if (map[i][j] <= 1) {
+
+                    // Interaction with map done via ASCII table values | 49 == '1'
+                    if ((int) map[i][j] - 48 <= 1) {
 
                         // Changes the grass in map value if the player is outside
                         if (changeGrass) {
                             Random rnd = new Random();
-                            map[i][j] = (byte) (rnd.nextInt(0, 2));
+                            map[i][j] = (char) (48 + rnd.nextInt(0, 2));
                         }
 
                         // Draw the grass
-                        g.drawImage(new ImageIcon(Game.groundTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
-                    } else if (map[i][j] >= 4) {
+                        g.drawImage(new ImageIcon(Game.groundTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
+                    } else if ((int) map[i][j] - 48 >= 4) {
 
                         // Draw the other objects (well, house, etc.)
-                        g.drawImage(new ImageIcon(Game.groundTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
+                        g.drawImage(new ImageIcon(Game.groundTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
 
                         // Drawing the side fence poles
                         for (int k=2; k<32; k++) {
@@ -193,7 +195,7 @@ public class GamePanel extends JPanel {
             // Draws the interior of the house
             for (int i=0; i<map.length; i++) {
                 for (int j=0; j<map[0].length; j++) {
-                    g.drawImage(new ImageIcon(Game.houseTextures[map[i][j]]).getImage(), 128*j, 128*i, 128, 128, null);
+                    g.drawImage(new ImageIcon(Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
                 }
             }
         }
@@ -202,7 +204,7 @@ public class GamePanel extends JPanel {
         try {
             if (dad.level == 0) {
                 // Draw the house itself
-                g.drawImage(new ImageIcon(Game.groundTextures[map[0][1]]).getImage(), 128, 0, 256, 256, null);
+                g.drawImage(new ImageIcon(Game.groundTextures[(int) map[0][1] - 48]).getImage(), 128, 0, 256, 256, null);
                 changeGrass = false;
 
                 // Drawing all the placed plants by a for loop to allow editing the plants
@@ -223,7 +225,7 @@ public class GamePanel extends JPanel {
                         g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X*128, plant.LOCATION_Y*128, 128, 128, null);     // Draw the flower
                     } else {
                         Game.flowers.remove(plant);
-                        map[plant.LOCATION_Y][plant.LOCATION_X] = 0;
+                        map[plant.LOCATION_Y][plant.LOCATION_X] = '0';
                     }
                 }
             }

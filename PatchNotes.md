@@ -148,3 +148,8 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> + Added fence poles on the garden side</li>
 </ul>
+
+## 9/7/2023
+<ul>
+    <li> * Changed the in-game Map system from 0 - 9 integers to 49 - 126 char values (ASCII Table)</li>
+</ul>

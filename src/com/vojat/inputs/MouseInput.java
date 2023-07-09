@@ -52,12 +52,12 @@ public class MouseInput implements MouseListener {
 
                 // Player level check  |  0 == outside & 1 == inside
                 if (gamePanel.dad.level == 1) {
-                    interact(Game.houseMap[controlVariableY][controlVariableX]);
+                    interact((int) Game.houseMap[controlVariableY][controlVariableX] - 48);
                 } else {
                     if ((gamePanel.dad.selectedItem > 0 && gamePanel.dad.selectedItem <= Game.flowerTypes.length) && controlVariableY != 7) {
 
                         // Checks if the desired area is occupied or not
-                        if (Game.map[controlVariableY][controlVariableX] >= 2) {
+                        if ((int) Game.map[controlVariableY][controlVariableX] >= 50) {
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
                         } else {
 
@@ -72,7 +72,7 @@ public class MouseInput implements MouseListener {
                     } else if(gamePanel.dad.selectedItem == 0) {
 
                         // Stop the watering if water isn't selected or if the water is empty or is out of reach
-                        if (Game.map[controlVariableY][controlVariableX] != 2) {
+                        if ((int) Game.map[controlVariableY][controlVariableX] != 50) {
                             System.err.println(ErrorList.ERR_NOPLANT.message);
                         } else if (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
                             Game.playSound("res/Audio/WaterPlant.wav");
