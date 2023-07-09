@@ -27,8 +27,8 @@ public class Game implements Runnable {
     public static final String ANSI_RED = "\u001B[31m";                                                                                                                             // Set the console text color to red
     public static final String ANSI_RESET = "\u001B[0m";                                                                                                                            // Reset the console text color
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
-    public static byte[][] map = new byte[8][15];                                                                                                                                   // [Y][X] coords
-    public static byte[][] houseMap = new byte[8][15];                                                                                                                              // [Y][X] cords
+    public static char[][] map = new char[8][15];                                                                                                                                   // [Y][X] coords
+    public static char[][] houseMap = new char[8][15];                                                                                                                              // [Y][X] cords
     public static final String[] groundTextures = {"res/Pics/Grass1.png", "res/Pics/Grass2.png", "" , "res/Pics/House.png", "res/Pics/Well.png", "res/Pics/Fence.png"};             // Texture array for outside
     public static final String[] houseTextures = {"res/Pics/Plank.png", "res/Pics/Grass1.png", "res/Pics/woodWall.png", "res/Pics/doormat.png", "res/Pics/bed.png"};                // Texture array for the inside of the house
     public static final String[][] flowerTypes = {{"tulip", "20000"}, {"rose", "25000"}};                                                                                           // {"flower type", "time for it to die in millis"}
@@ -62,30 +62,30 @@ public class Game implements Runnable {
         * --------------------------------------------------------------------------------
         */
         
-        map[0][1] = 3;      // Builds the house
-        map[5][1] = 4;      // Builds the well
+        map[0][1] = '3';      // Builds the house
+        map[5][1] = '4';      // Builds the well
 
         // Building the fence around the garden
         for (int i=0; i<map[0].length; i++) {
-            if (i >= 3) map[0][i] = 5;
-            map[7][i] = 5;
+            if (i >= 3) map[0][i] = '5';
+            map[7][i] = '5';
         }
         
         // Fill with house spaces
-        map[0][2] = 3;
-        map[1][1] = 3;
-        map[1][2] = 3;
+        map[0][2] = '3';
+        map[1][1] = '3';
+        map[1][2] = '3';
 
         // Fill the house map
-        houseMap[7][4] = 3;
-        houseMap[1][0] = 4;
+        houseMap[7][4] = '3';
+        houseMap[1][0] = '4';
 
         // Grass field wisible from house
         for (int i=0; i<houseMap.length; i++) {
             for (int j=houseMap[0].length-5; j<houseMap[0].length; j++) {
-                houseMap[i][j] = 1;
+                houseMap[i][j] = '1';
             }
-            houseMap[i][houseMap[0].length-6] = 2;
+            houseMap[i][houseMap[0].length-6] = '2';
         }
 
         /*
@@ -161,18 +161,18 @@ public class Game implements Runnable {
         } else {
             for (int i=0; i<flowers.size(); i++) {
                 flowers.get(i).TIME_TO_DIE = dieTimes.get(i) + System.currentTimeMillis();
-                flowers.get(i).TIME_TO_DISSAPEAR = dieTimes.get(i) + System.currentTimeMillis() + 5000;
-                dieTimes.set(i, null);
+                flowers.get(i).TIME_TO_DISSAPEAR = flowers.get(i).TIME_TO_DIE + 5000;
             }
+            dieTimes.clear();
         }
     }
 
     // Writes data into map at specified location
     public static void wirteIntoMap(int i, int j, int value) {
-        map[i][j] = (byte) value;
+        map[i][j] = (char) (48 + value);
     }
 
-    // Retrieves all data from map and prints it into console
+    // Retrieves all data from map and prints it into console if desired
     public static String getMapData(String type) {
         if (type.equals("print")) {
             for (int i=0; i<map.length; i++) {
@@ -188,17 +188,17 @@ public class Game implements Runnable {
                 for (int j=0; j<map[0].length; j++) {
                     value += map[i][j];
                 }
-                value += "|";
+                value += "!";
             }
             return value;
         }
     }
 
     // Cleares a given 2D array
-    public static void clearMap(byte[][] map) {
+    public static void clearMap(char[][] map) {
         for (int i=0; i<map.length; i++) {
             for (int j=0; j<map[0].length; j++) {
-                map[i][j] = 0;
+                map[i][j] = '0';
             }
         }
     }
@@ -336,7 +336,7 @@ public class Game implements Runnable {
 
         // Foramts the flower information to be saved | {plant_number + plant_type : time_to_die | location X | location Y |}
         for (int i=0; i<flowers.size(); i++) {
-            value += ",\"" + (flowers.get(i).PLANT_NUMBER + flowers.get(i).TYPE) + "\":\"" + ((flowers.get(i).TIME_TO_DIE - System.currentTimeMillis()) + "|" + flowers.get(i).LOCATION_X + "|" + flowers.get(i).LOCATION_Y) + "|\"";
+            value += ",\"" + (flowers.get(i).PLANT_NUMBER + flowers.get(i).TYPE) + "\":\"" + ((flowers.get(i).TIME_TO_DIE - System.currentTimeMillis()) + "!" + flowers.get(i).LOCATION_X + "!" + flowers.get(i).LOCATION_Y) + "!\"";
         }
 
         JSONEditor jEditor = new JSONEditor(saveFilePath);
@@ -359,9 +359,9 @@ public class Game implements Runnable {
         String value = "";
         int num = 0;
         for (int i=0; i<mapValues.length(); i++) {
-            if (mapValues.charAt(i) == '|' && i != mapValues.length()-1) {
+            if (mapValues.charAt(i) == '!' && i != mapValues.length()-1) {
                 for (int j=0; j<value.length(); j++) {
-                    wirteIntoMap(num, j, Character.getNumericValue(value.charAt(j)));      // [8][15] is the max size
+                    wirteIntoMap(num, j, (int) value.charAt(j) - 48);      // [8][15] is the max size
                 }
                 value = "";
                 num++;
@@ -379,7 +379,7 @@ public class Game implements Runnable {
             String posY = "";
             value = strMap[i][0];
             for (int j=0; j<value.length(); j++) {
-                
+
                 // 48 - 57 is the char range for integers 0 - 9
                 if (value.charAt(j) >= 48 && value.charAt(j) <= 57) {
                     plantNumber += value.charAt(j);
@@ -391,7 +391,7 @@ public class Game implements Runnable {
             String data = "";
             byte symbols = 0;
             for (int j=0; j<value.length(); j++) {
-                if (value.charAt(j) == '|') {
+                if (value.charAt(j) == '!') {
                     symbols++;
                     switch (symbols) {
                         case 1:
@@ -482,7 +482,7 @@ public class Game implements Runnable {
     }
 
     // Gets the object in located in the map at the specific location
-    public static int intoMap(int y, int x, byte[][] map) {
+    public static int intoMap(int y, int x, char[][] map) {
         return map[y][x];
     }
 }
