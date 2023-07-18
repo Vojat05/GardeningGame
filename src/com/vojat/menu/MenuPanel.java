@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.vojat.Main;
 import com.vojat.garden.Game;
 import com.vojat.garden.InventoryPanel;
 
@@ -18,25 +19,30 @@ public class MenuPanel extends JPanel{
      * --------------------------------------------------------------------------------
      */
 
-    public MenuPanel(int windowWidth, int windowHeight, Window window) {
+    public MenuPanel(Window window) {
         setFocusable(true);
         requestFocus();
         setOpaque(true);
-        setBackground(Color.DARK_GRAY); // This is the entire main menu background
-        setPreferredSize(new Dimension(windowWidth, windowHeight));
+
+        // This is the entire main menu background
+        setBackground(Color.DARK_GRAY);
+        setPreferredSize(new Dimension(Main.sizeX, Main.sizeY));
 
 
         JPanel buttonPanel = new JPanel();
-        JPanel spacer = new JPanel();       // Creates a spacer used for the button panel offset
+        
+        // Creates a spacer used for the button panel offset
+        JPanel spacer = new JPanel();
         {
-            spacer.setPreferredSize(new Dimension(windowWidth-250, 100));
+            spacer.setPreferredSize(new Dimension(Main.sizeX-250, 100));
             spacer.setBackground(null);
         }
 
-        Settings settings = new Settings(windowWidth, windowHeight, buttonPanel, spacer);
-        Load loadMenu = new Load(windowWidth, windowHeight, buttonPanel, spacer);
+        Settings settings = new Settings(Main.sizeX, Main.sizeY, buttonPanel, spacer);
+        Load loadMenu = new Load(Main.sizeX, Main.sizeY, buttonPanel, spacer);
         
-        JButton start = new JButton(InventoryPanel.createIcon("res/Pics/New.png", 150, 40));     // Create the start new game button
+        // Create the start new game button
+        JButton start = new JButton(InventoryPanel.createIcon("res/Pics/New.png", 150, 40));
         {
             start.addActionListener((e) -> {
                 new Game(1920, 1075, window);
@@ -44,7 +50,8 @@ public class MenuPanel extends JPanel{
             buttonSetup(start, 150, 40, true);
         }
 
-        JButton load = new JButton(InventoryPanel.createIcon("res/Pics/Load.png", 150, 40));     // Create the load game button
+        // Create the load game button
+        JButton load = new JButton(InventoryPanel.createIcon("res/Pics/Load.png", 150, 40));
         {
             load.addActionListener((e) -> {
                 loadMenu.changeVisibility(buttonPanel, spacer);
@@ -53,7 +60,8 @@ public class MenuPanel extends JPanel{
             buttonSetup(load, 150, 40, true);
         }
 
-        JButton options = new JButton(InventoryPanel.createIcon("res/Pics/Options.png", 150, 40));       // Create the options button
+        // Create the options button
+        JButton options = new JButton(InventoryPanel.createIcon("res/Pics/Options.png", 150, 40));
         {
             options.addActionListener((e) -> {
                 settings.changeVisibility(buttonPanel, spacer);
@@ -62,7 +70,8 @@ public class MenuPanel extends JPanel{
             buttonSetup(options, 150, 40, true);
         }
 
-        JButton exit = new JButton(InventoryPanel.createIcon("res/Pics/Exit.png", 150, 40));     // Exit button
+        // Exit button
+        JButton exit = new JButton(InventoryPanel.createIcon("res/Pics/Exit.png", 150, 40));
         {
             exit.addActionListener((e) -> {
                 window.dispose();

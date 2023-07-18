@@ -154,3 +154,8 @@ JAR file is made for every update documented here<br>
     <li> * Changed the in-game Map system from 0 - 9 integers to 49 - 126 char values (ASCII Table)</li>
     <li> * Fixed the collision issue introduced with the new map</li>
 </ul>
+
+## 18/7/2023
+<ul>
+    <li> * Changed the window resize option to set the game window fullscreen if the display resolution is FullHD</li>
+</ul>
