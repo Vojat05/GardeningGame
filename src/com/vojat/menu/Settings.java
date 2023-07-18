@@ -15,6 +15,7 @@ import javax.swing.border.LineBorder;
 
 import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
+import com.vojat.garden.Game;
 import com.vojat.inputs.KeyboardInput;
 
 public class Settings extends JPanel {
@@ -57,6 +58,7 @@ public class Settings extends JPanel {
             jEditor.readFile();
         } catch(FileNotFoundException fne) {
             System.err.println(ErrorList.ERR_404.message);
+            Game.error("File not found", 3);
         }
 
         // Panel for the buttons on the left side
@@ -131,6 +133,7 @@ public class Settings extends JPanel {
                     }
                 } catch (FileNotFoundException fe) {
                     System.err.println(ErrorList.ERR_404.message);
+                    Game.error("File not found", 3);
                 }
             });
             restore.setBackground(new Color(25, 25, 25));

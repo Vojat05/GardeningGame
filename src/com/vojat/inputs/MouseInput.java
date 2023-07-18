@@ -44,9 +44,11 @@ public class MouseInput implements MouseListener {
                 // Too far and close checks
                 if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
                     System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                    Game.error("Out of reach", 3);
                     return;
                 } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
                     System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
+                    Game.error("Too close", 3);
                     return;
                 }
 
@@ -59,6 +61,7 @@ public class MouseInput implements MouseListener {
                         // Checks if the desired area is occupied or not
                         if ((int) Game.map[controlVariableY][controlVariableX] >= 50) {
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
+                            Game.error("Area occupied", 3);
                         } else {
 
                             // Creates a flower object if the area isn't being occupied
@@ -74,6 +77,7 @@ public class MouseInput implements MouseListener {
                         // Stop the watering if water isn't selected or if the water is empty or is out of reach
                         if ((int) Game.map[controlVariableY][controlVariableX] != 50) {
                             System.err.println(ErrorList.ERR_NOPLANT.message);
+                            Game.error("There isn't a plant", 3);
                         } else if (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
                             Game.playSound("res/Audio/WaterPlant.wav");
 
@@ -106,6 +110,7 @@ public class MouseInput implements MouseListener {
                             Game.saveGame("src/com/vojat/Data/Saves/Save3.json", gamePanel.dad);
                         } catch (FileNotFoundException f) {
                             System.err.println(ErrorList.ERR_404.message);
+                            Game.error("File not found", 3);
                         }
                     }
                 }
@@ -118,7 +123,10 @@ public class MouseInput implements MouseListener {
                     if (Math.abs(1 - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) <= gamePanel.dad.reach && Math.abs(5 - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) <= gamePanel.dad.reach) {
                         gamePanel.dad.waterRefill();
                         Game.playSound("res/Audio/WaterPour.wav");
-                    } else System.err.println(ErrorList.ERR_WELL.message);
+                    } else {
+                        System.err.println(ErrorList.ERR_WELL.message);
+                        Game.error("The well is too far", 3);
+                    }
                 }
                 break;
         }

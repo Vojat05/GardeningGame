@@ -60,6 +60,7 @@ public class KeyboardInput implements KeyListener {
             jEditor.readData(jEditor.JSONObjects.get(1), "down");
         } catch (FileNotFoundException e) {
             System.err.println(ErrorList.ERR_404.message);
+            Game.error("File not found", 3);
         }
     }
 

@@ -159,3 +159,8 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> * Changed the window resize option to set the game window fullscreen if the display resolution is FullHD</li>
 </ul>
+
+## 19/7/2023
+<ul>
+    <li> + Added error visualization</li>
+</ul>

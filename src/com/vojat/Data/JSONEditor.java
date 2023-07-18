@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import com.vojat.Main;
 import com.vojat.Enums.ErrorList;
+import com.vojat.garden.Game;
 
 public class JSONEditor {
 
@@ -71,6 +72,7 @@ public class JSONEditor {
             makeObject(jsonData);
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_IO.message);
+            Game.error("Input / Output Error", 3);
         }
     }
 
@@ -210,6 +212,7 @@ public class JSONEditor {
             return map;
         } catch (IOException fe) {
             System.err.println(ErrorList.ERR_404.message);
+            Game.error("File not found", 3);
             return null;
         }
     }
@@ -222,6 +225,7 @@ public class JSONEditor {
             fw.close();
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_404.message);
+            Game.error("File not found", 3);
         }
     }
 
@@ -283,6 +287,7 @@ public class JSONEditor {
             readFile();
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_IO.message);
+            Game.error("Input / Output Error", 3);
         }
     }
 

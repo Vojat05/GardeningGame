@@ -149,6 +149,7 @@ public class Load extends JPanel {
             }
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_404.message);
+            Game.error("File not found", 3);
         }
     }
 
