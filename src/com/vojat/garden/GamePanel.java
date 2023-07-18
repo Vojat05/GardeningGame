@@ -1,10 +1,12 @@
 package com.vojat.garden;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.FileNotFoundException;
 import java.util.Random;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
@@ -124,6 +126,7 @@ public class GamePanel extends JPanel {
             Game.saveGame("src/com/vojat/Data/Saves/Save" + button.getText().substring(button.getText().length()-1, button.getText().length()) + ".json", dad);
         } catch (FileNotFoundException f) {
             System.err.println(ErrorList.ERR_404.message);
+            Game.error("Save file missing", 3);
         } finally {
             Game.pauseGame();
         }
@@ -160,7 +163,7 @@ public class GamePanel extends JPanel {
      * --------------------------------------------------------------------------------
      */
 
-    private void drawTerrain(char[][] map, Graphics g) {
+    private void drawTerrain(char[][] map, Graphics2D g) {
 
         // Drawing the grass textures and other static objects (well, house, etc.)
         if (dad.level == 0) {
@@ -172,7 +175,7 @@ public class GamePanel extends JPanel {
 
                         // Changes the grass in map value if the player is outside
                         Random rnd = new Random();
-                        map[i][j] = (char) (48 + rnd.nextInt(0, 2));
+                        map[i][j] = (char) (48 + rnd.nextInt(2));
                     }
                     
                     // Draw everything except flowers and house
@@ -228,8 +231,14 @@ public class GamePanel extends JPanel {
 
             // Drawing the player character in 128 x 128
             g.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
+
+            // Drawing the errors
+            g.setFont(new Font("Monospaced", Font.BOLD, 20));
+            g.setColor(new Color(238, 16, 16));
+            g.drawString(Game.errorMessage, (int) dad.LOCATION_X - 60, (int) dad.LOCATION_Y + 10);
         } catch(NullPointerException npe) {
             System.err.println(ErrorList.ERR_NPE.message);
+            Game.error("Null Pointer Exception Draw", 3);
         }
     }
 
@@ -244,7 +253,9 @@ public class GamePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        Graphics2D g2d = (Graphics2D) g;
         
-        drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g);
+        drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g2d);
     }
 }

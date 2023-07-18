@@ -68,6 +68,7 @@ public class Player {
         } catch (IOException ioe) {
             System.err.println(ErrorList.ERR_404.message);
             currentTexture = null;
+            Game.error("Texture not found", 3);
         }
     }
 

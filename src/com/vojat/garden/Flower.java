@@ -84,6 +84,7 @@ public class Flower {
             return ImageIO.read(new FileInputStream(path));
         } catch (IOException ioe) {
             System.err.println(ErrorList.ERR_404.message);
+            Game.error("Texture not found", 3);
             return null;
         }
     }
