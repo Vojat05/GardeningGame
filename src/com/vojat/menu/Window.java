@@ -18,7 +18,7 @@ public class Window extends JFrame {
      * --------------------------------------------------------------------------------
      */
 
-    public static int width, height;
+    public static int width, height;                                                        // The device screen width and height in pixels
     private MainPanel mainPanel;                                                            // The main menu panel
     private Player dad;                                                                     // The player character
     private ArrayList<JComponent> components = new ArrayList<JComponent>();                 // Arraylist of all of it's components
