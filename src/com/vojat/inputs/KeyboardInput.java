@@ -110,7 +110,7 @@ public class KeyboardInput implements KeyListener {
             dad.VECTORX = dad.speed;
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
             Game.killGame();
-            window.setElements(new MenuPanel(1920, 1080, window));
+            window.setElements(new MenuPanel(window));
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) {
             Game.pauseGame();
         }
