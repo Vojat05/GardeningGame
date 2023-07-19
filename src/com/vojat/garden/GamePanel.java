@@ -202,6 +202,7 @@ public class GamePanel extends JPanel {
 
         try {
             if (dad.level == 0) {
+                
                 // Draw the house itself
                 g.drawImage(new ImageIcon("res/Pics/" + Game.groundTextures[(int) map[0][1] - 48]).getImage(), 128, 0, 256, 256, null);
                 changeGrass = false;
@@ -221,7 +222,9 @@ public class GamePanel extends JPanel {
                         } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Game.flowerChange) {
                             plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
                         }
-                        g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X*128, plant.LOCATION_Y*128, 128, 128, null);     // Draw the flower
+
+                        // Draw the flower
+                        g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X*128, plant.LOCATION_Y*128, 128, 128, null);
                     } else {
                         Game.flowers.remove(plant);
                         map[plant.LOCATION_Y][plant.LOCATION_X] = '0';
@@ -237,6 +240,7 @@ public class GamePanel extends JPanel {
             g.setColor(new Color(238, 16, 16));
             g.drawString(Game.errorMessage, (int) dad.LOCATION_X - 60, (int) dad.LOCATION_Y + 10);
         } catch(NullPointerException npe) {
+            System.out.println(npe.getMessage());
             System.err.println(ErrorList.ERR_NPE.message);
             Game.error("Null Pointer Exception Draw", 3);
         }

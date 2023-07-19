@@ -27,7 +27,7 @@ public class Game implements Runnable {
     public static final String ANSI_RED = "\u001B[31m";                                                                                                                             // Set the console text color to red
     public static final String ANSI_RESET = "\u001B[0m";                                                                                                                            // Reset the console text color
     public static byte errorTime = 0;                                                                                                                                               // Number of secodns for the latest error to be visible
-    public static String errorMessage;                                                                                                                                              // The laster error message
+    public static String errorMessage = "";                                                                                                                                         // The laster error message
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
     public static char[][] map = new char[8][15];                                                                                                                                   // [Y][X] coords
     public static char[][] houseMap = new char[8][15];                                                                                                                              // [Y][X] cords
