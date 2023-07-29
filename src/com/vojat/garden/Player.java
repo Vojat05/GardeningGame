@@ -48,10 +48,12 @@ public class Player {
         inventorySetup();
     }
 
+    // Fills up the starting inventory
     private void inventorySetup() {
         this.inventory.add("water9");
-        this.inventory.add("tulip");
-        this.inventory.add("rose");
+        for (int i=0; i<Game.flowerTypes.length; i++) {
+            this.inventory.add(Game.flowerTypes[i][0]);
+        }
     }
 
     public void setLimit(int limitX, int limitY) {
