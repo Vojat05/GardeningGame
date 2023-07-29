@@ -92,6 +92,9 @@ public class MouseInput implements MouseListener {
                             gamePanel.dad.water(flower);
                             gamePanel.dad.inventory.set(0, "water" + (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1));
                             gamePanel.inventoryPanel.repaintItem(gamePanel.dad);
+                        } else {
+                            System.err.println(ErrorList.ERR_WATER.message);
+                            Game.error("Out of Water", 3);
                         }
                     }
                 }
