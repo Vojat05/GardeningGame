@@ -95,9 +95,9 @@ public class InventoryPanel extends JPanel{
     }
 
     public Color setHPBorderColor(Color color) {
-        
+
         return this.HPBorderColor = color;
-        
+
     }
 
     /*
@@ -206,7 +206,7 @@ public class InventoryPanel extends JPanel{
         g2d.setStroke(new BasicStroke(1));
 
         g2d.setFont(HPfont.deriveFont(18f));
-        g2d.drawString((dad.HP == 100 ? "1 0 0" : " " + dad.HP) + "  /  1 0 0" , 303, 66);
+        g2d.drawString((dad.HP == 100 ? "100" : " " + dad.HP) + " / 100" , 303, 66);
         
     }
 }
