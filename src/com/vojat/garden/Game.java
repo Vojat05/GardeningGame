@@ -364,13 +364,20 @@ public class Game implements Runnable {
                             System.out.println(ANSI_RED + "Shit hit" + ANSI_RESET);
                             gamePanel.dad.hurt(5);
                             bird.shitPositionY = Window.height;
+                            continue;
 
                         }
 
                         // Bird shit movement and bird removal after out of map
-                        bird.shitPositionY += Bird.shitSpeed;
-                        if (bird.shitPositionY >= bird.positionY + 500) bird.drawShit = false;
-                        if (bird.positionX + 200 < 0) birdList.remove(i);
+                        if (bird.shitPositionY < bird.positionY + 500) bird.shitPositionY += Bird.shitSpeed;
+                        if (bird.shitPositionY >= bird.positionY + 500) {
+
+                            if (!bird.splat) bird.audio = true;
+                            bird.drawShit = false;
+                            bird.splat = true;
+
+                        }
+                        if (bird.positionX + 1000 < 0) birdList.remove(i);
 
                     }
 
@@ -411,7 +418,7 @@ public class Game implements Runnable {
                     if (gamePanel.dad.level == 0) gamePanel.changeGrass = true;
 
                     // Spawns the birb   -/- Change to 100 after testing
-                    if (gamePanel.dad.level == 0 && random.nextInt(20) == 0) spawnBird();
+                    if (gamePanel.dad.level == 0 && random.nextInt(5) == 0) spawnBird();
 
                     // Bird shitting logic
                     for (int i=0; i<birdList.size(); i++) {

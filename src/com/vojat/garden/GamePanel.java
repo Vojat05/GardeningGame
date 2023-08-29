@@ -280,7 +280,7 @@ public class GamePanel extends JPanel {
                 for (int i=0; i<Game.birdList.size(); i++) {
 
                     Bird bird = Game.birdList.get(i);
-                    g.drawImage(bird.texture, (int) bird.positionX, (int) bird.positionY, 64, 64, null);
+                    g.drawImage(bird.texture, (int) bird.positionX, (int) bird.positionY, 95, 69, null);
 
                 }
             }
@@ -307,6 +307,21 @@ public class GamePanel extends JPanel {
         for (int i=0; i<Game.birdList.size(); i++) {
 
             Bird bird = Game.birdList.get(i);
+            if (!bird.drawShit && !bird.splat) continue;
+
+            if (!bird.drawShit && bird.splat && System.currentTimeMillis() < bird.timeToCleanShit) {
+
+                if (bird.audio) Game.playSound("res/Audio/Splash.wav");
+                bird.audio = false;
+                
+                g.setPaint(new Color(236, 236, 236));
+                g.fillOval((int) bird.shitPositionX, (int) bird.shitPositionY, 15, 15);
+                g.setPaint(new Color(191, 191, 191));
+                g.fillOval((int) bird.shitPositionX + 3, (int) bird.shitPositionY + 2, 10, 10);
+                continue;
+
+            }
+
             if (!bird.drawShit) continue;
 
             // The white part
@@ -316,9 +331,9 @@ public class GamePanel extends JPanel {
             // The gray part
             g.setPaint(new Color(191, 191, 191));
             g.fillRect((int) bird.shitPositionX, (int) bird.shitPositionY - 10, 10, 10);
+
         }
     }
-
 
 
     /*
