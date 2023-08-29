@@ -30,38 +30,52 @@ public class MouseInput implements MouseListener {
      */
 
     public MouseInput(GamePanel gamePanel) {
+
         this.gamePanel = gamePanel;
+
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
         if (Game.pause) return;
         gardenerX(e);
         gardenerY(e);
+
         switch (e.getButton()) {
+
             case MouseEvent.BUTTON1:
 
                 // Too far and close checks
                 if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+
                     System.err.println(ErrorList.ERR_RANGE_FAR.message);
                     Game.error("Out of reach", 3);
                     return;
+
                 } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+
                     System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
                     Game.error("Too close", 3);
                     return;
+
                 }
 
                 // Player level check  |  0 == outside & 1 == inside
                 if (gamePanel.dad.level == 1) {
+
                     interact((int) Game.houseMap[controlVariableY][controlVariableX] - 48);
+
                 } else {
+
                     if ((gamePanel.dad.selectedItem > 0 && gamePanel.dad.selectedItem <= Game.flowerTypes.length) && controlVariableY != 7) {
 
                         // Checks if the desired area is occupied or not
                         if ((int) Game.map[controlVariableY][controlVariableX] >= 50) {
+
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
                             Game.error("Area occupied", 3);
+
                         } else {
 
                             // Creates a flower object if the area isn't being occupied
@@ -71,66 +85,91 @@ public class MouseInput implements MouseListener {
 
                             // Writes it's value into map
                             Game.wirteIntoMap(controlVariableY, controlVariableX, 2);
+
                         }
+
                     } else if(gamePanel.dad.selectedItem == 0) {
 
                         // Stop the watering if water isn't selected or if the water is empty or is out of reach
                         if ((int) Game.map[controlVariableY][controlVariableX] != 50) {
+
                             System.err.println(ErrorList.ERR_NOPLANT.message);
                             Game.error("There isn't a plant", 3);
+
                         } else if (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
+
                             Game.playSound("res/Audio/WaterPlant.wav");
 
                             // Checks selects the plant based on clicked location
                             for (Flower plant : Game.flowers) {
+
                                 if (plant.LOCATION_X == controlVariableX && plant.LOCATION_Y == controlVariableY) {
+
                                     flower = plant;
                                     break;
+
                                 }
                             }
 
                             gamePanel.dad.water(flower);
                             gamePanel.dad.inventory.set(0, "water" + (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1));
                             gamePanel.inventoryPanel.repaintItem(gamePanel.dad);
+
                         } else {
+
                             System.err.println(ErrorList.ERR_WATER.message);
                             Game.error("Out of Water", 3);
+
                         }
                     }
                 }
+
                 System.gc();
                 break;
             
             // This is the mouse wheel button being pressed
             case MouseEvent.BUTTON2:
-                if (gamePanel.dad.level == 1) {
-                    System.out.println("Interaction 2");
-                } else {
+
+                if (gamePanel.dad.level == 1) System.out.println("Interaction 2"); 
+                else {
+
                     Game.getMapData("print");
 
                     if (Main.debug) {
+
                         try {
+
                             Game.saveGame("src/com/vojat/Data/Saves/Save3.json", gamePanel.dad);
+
                         } catch (FileNotFoundException f) {
+
                             System.err.println(ErrorList.ERR_404.message);
                             Game.error("File not found", 3);
+
                         }
                     }
                 }
+
                 break;
 
             case MouseEvent.BUTTON3:
-                if (gamePanel.dad.level == 1) {
-                    System.out.println("Interaction 3");
-                } else {
+
+                if (gamePanel.dad.level == 1) System.out.println("Interaction 3");
+                else {
+
                     if (Math.abs(1 - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) <= gamePanel.dad.reach && Math.abs(5 - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) <= gamePanel.dad.reach) {
+
                         gamePanel.dad.waterRefill();
                         Game.playSound("res/Audio/WaterPour.wav");
+
                     } else {
+
                         System.err.println(ErrorList.ERR_WELL.message);
                         Game.error("The well is too far", 3);
+
                     }
                 }
+
                 break;
         }
     }
@@ -149,12 +188,16 @@ public class MouseInput implements MouseListener {
 
     // Center the click location into a grid place for X
     private void gardenerX(MouseEvent e) {
+
         controlVariableX = Short.parseShort(Integer.toString(Game.intoMapX(e.getX())));
+
     }
 
     // Center the click location into a grid place for Y
     private void gardenerY(MouseEvent e) {
+
         controlVariableY = Short.parseShort(Integer.toString(Game.intoMapY(e.getY())));
+
     }
 
     /*
@@ -164,7 +207,9 @@ public class MouseInput implements MouseListener {
      */
 
     private void interact(int object) {
+
         switch(object) {
+
             case 4:
 
                 // The bed interaction
@@ -178,6 +223,7 @@ public class MouseInput implements MouseListener {
             default:
                 System.out.println("Block number |" + object + "|");
                 break;
+                
         }
     }
 }

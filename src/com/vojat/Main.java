@@ -15,5 +15,6 @@ public class Main {
 
         Window window = new Window(gDevice.getDisplayMode().getWidth(), gDevice.getDisplayMode().getHeight());
         new MenuPanel(window);
+        
     }
 }

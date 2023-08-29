@@ -47,6 +47,7 @@ public class KeyboardInput implements KeyListener {
      */
 
     public KeyboardInput(GamePanel gamePanel, Player dad, Window window) {
+
         this.gamePanel = gamePanel;
         this.dad = dad;
         this.window = window;
@@ -58,9 +59,12 @@ public class KeyboardInput implements KeyListener {
             jEditor.readFile();
             jEditor.readData(jEditor.JSONObjects.get(1), "up");
             jEditor.readData(jEditor.JSONObjects.get(1), "down");
+
         } catch (FileNotFoundException e) {
+
             System.err.println(ErrorList.ERR_404.message);
             Game.error("File not found", 3);
+
         }
     }
 
@@ -71,9 +75,11 @@ public class KeyboardInput implements KeyListener {
      */
 
     public KeyboardInput(Settings settings, JButton button, JLabel label) {
+
         this.settings = settings;
         this.button = button;
         this.label = label;
+
     }
 
     /*
@@ -84,84 +90,112 @@ public class KeyboardInput implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+
         if (dad == null) return;
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
+
             if (up) {
+
                 dad.setTexture("res/Pics/Dad_Texture_B.png");
                 up = false;
+
             }
+
             dad.VECTORY = -dad.speed;
+
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
+
             if (down) {
+
                 dad.setTexture("res/Pics/Dad_Texture_F.png");
                 down = false;
+
             }
+
             dad.VECTORY = dad.speed;
+
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
+
             if (left) {
+
                 dad.setTexture("res/Pics/Dad_Texture_L.png");
                 left = false;
+
             }
+
             dad.VECTORX = -dad.speed;
+
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
+
             if (right) {
+
                 dad.setTexture("res/Pics/Dad_Texture_R.png");
                 right = false;
+
             }
+
             dad.VECTORX = dad.speed;
+
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
+
             Game.killGame();
             window.setElements(new MenuPanel(window));
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) {
-            Game.pauseGame();
-        }
+
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) Game.pauseGame();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+
         if (dad == null) return;
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
+
             up = true;
             dad.VECTORY = .0;
+
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
+
             down = true;
             dad.VECTORY = .0;
+
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
+
             left = true;
             dad.VECTORX = .0;
+
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
+
             right = true;
             dad.VECTORX = .0;
+
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "next"))) {
-            if (dad.selectedItem+1 < dad.inventory.size()) {
-                dad.selectedItem++;
-            } else {
-                dad.selectedItem = 0;
-            }
+
+            if (dad.selectedItem+1 < dad.inventory.size()) dad.selectedItem++; 
+            else dad.selectedItem = 0;
+
             gamePanel.inventoryPanel.repaintItem(dad);
+
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "previous"))) {
-            if (dad.selectedItem > 0) {
-                dad.selectedItem--;
-            } else {
-                dad.selectedItem = (byte) (dad.inventory.size() - 1);
-            }
+
+            if (dad.selectedItem > 0) dad.selectedItem--; 
+            else dad.selectedItem = (byte) (dad.inventory.size() - 1);
+
             gamePanel.inventoryPanel.repaintItem(dad);
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open"))) {
-            gamePanel.changeVisibility(gamePanel.fullInv);
-        }
+
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open"))) gamePanel.changeVisibility(gamePanel.fullInv);
+
         if (dad.VECTORX != .0 || dad.VECTORY != .0) {
+
             if (dad.VECTORX == .0) {
-                if (dad.VECTORY > 0) {
-                    retexture("down");
-                } else {
-                    retexture("up");
-                }
+
+                if (dad.VECTORY > 0) retexture("down"); 
+                else retexture("up");
+
             } else if (dad.VECTORY == .0) {
-                if (dad.VECTORX > 0) {
-                    retexture("right");
-                } else {
-                    retexture("left");
-                }
+
+                if (dad.VECTORX > 0) retexture("right"); 
+                else retexture("left");
+
             }
         }
     }
@@ -174,9 +208,9 @@ public class KeyboardInput implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if (settings != null) {
-            settings.setKey(e.getKeyChar(), button, this, label);
-        }
+
+        if (settings != null) settings.setKey(e.getKeyChar(), button, this, label);
+
     }
 
     /*
@@ -186,7 +220,9 @@ public class KeyboardInput implements KeyListener {
      */
 
     private void retexture(String direction) {
+
         switch (direction) {
+
             case "up":
                 dad.setTexture("res/Pics/Dad_Texture_B.png");
                 break;
@@ -202,6 +238,7 @@ public class KeyboardInput implements KeyListener {
             case "right":
                 dad.setTexture("res/Pics/Dad_Texture_R.png");
                 break;
+                
         }
     }
 }

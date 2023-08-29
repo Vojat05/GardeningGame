@@ -78,11 +78,15 @@ public class GamePanel extends JPanel {
             fullInv.setBorder(new LineBorder(Color.BLACK));
             fullInv.setPreferredSize(new Dimension(windowWidth - 20, 80));
             fullInv.setBackground(new Color(0, 0, 0, 50));
+
             for (int i=0; i<dad.inventory.size(); i++) {
+
                 JLabel item = new JLabel();
                 InventoryPanel.repaintItem(i, item, dad);
                 fullInv.add(item);
+
             }
+
             fullInv.setVisible(false);
             add(fullInv);
         }
@@ -99,12 +103,17 @@ public class GamePanel extends JPanel {
             saveMenu.setBackground(new Color(50, 50, 50));
             FlowLayout saveMenLayout = new FlowLayout(FlowLayout.CENTER, 40, 30);
             saveMenu.setLayout(saveMenLayout);
+
             for (int i=0; i<=6; i++) {
+
                 JButton button = new JButton(i == 0 ? "Close" : "Save " + i);
                 button.setPreferredSize(new Dimension(200, 50));
-                if (i != 0) button.addActionListener((e) -> saveButton(button)); else button.addActionListener((e) -> {Game.pauseGame(); dad.LOCATION_X = 80; dad.LOCATION_Y = 120; changeVisibility(saveMenu);});
+                if (i != 0) button.addActionListener((e) -> saveButton(button)); 
+                else button.addActionListener((e) -> {Game.pauseGame(); dad.LOCATION_X = 80; dad.LOCATION_Y = 120; changeVisibility(saveMenu);});
                 saveMenu.add(button);
+
             }
+
             saveMenu.setVisible(false);
             add(saveMenu);
         }
@@ -112,30 +121,45 @@ public class GamePanel extends JPanel {
 
     // Sets the inventory panel field (just for the repaint method to be functional in the listener)
     public void setIPanel(InventoryPanel iPanel) {
+
         this.inventoryPanel = iPanel;
+
     }
 
     // Adds a flower to flowers ArrayList
     public void summonFlower(Flower flower) {
+
         Game.flowers.add(flower);
+
     }
 
     // Saves the game into a specified save file
     private void saveButton(JButton button) {
+
         try {
+
             Game.saveGame("src/com/vojat/Data/Saves/Save" + button.getText().substring(button.getText().length()-1, button.getText().length()) + ".json", dad);
+
         } catch (FileNotFoundException f) {
+
             System.err.println(ErrorList.ERR_404.message);
             Game.error("Save file missing", 3);
+
         } finally {
+
             Game.pauseGame();
+
         }
+
         changeVisibility(saveMenu);
+
     }
 
     // Changes the visibility of an inventory table
     public void changeVisibility(JPanel panel) {
+
         panel.setVisible(panel.isVisible() ? false : true);
+
     }
 
     // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
@@ -146,10 +170,13 @@ public class GamePanel extends JPanel {
 
         // Resets the flower times to die and dissapear
         for (int i=0; i<Game.flowerTypes.length; i++) {
+
             if (flower.TYPE.equals(Game.flowerTypes[i][0])) {
+
                 flower.TIME_TO_DIE = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]);
                 flower.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]) + 5000;
                 break;
+
             }
         }
 
@@ -167,7 +194,9 @@ public class GamePanel extends JPanel {
 
         // Drawing the grass textures and other static objects (well, house, etc.)
         if (dad.level == 0) {
+
             for (int i=0; i<map.length; i++) {
+
                 for (int j=0; j<map[0].length; j++) {
 
                     // Interaction with map done via ASCII table values | 49 == '1'
@@ -176,25 +205,34 @@ public class GamePanel extends JPanel {
                         // Changes the grass in map value if the player is outside
                         Random rnd = new Random();
                         map[i][j] = (char) (48 + rnd.nextInt(2));
+
                     }
                     
                     // Draw everything except flowers and house
                     if ((int) map[i][j] - 48 != 3 || (int) map[i][j] - 48 != 2) {
+
                         g.drawImage(new ImageIcon("res/Pics/" + Game.groundTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
+
                     }
 
                     // Drawing the side fence poles
                     for (int k=2; k<32; k++) {
+
                         g.drawImage(new ImageIcon("res/Pics/FencePole.png").getImage(), 1877, k*30, 22, 96, null);
+
                     }
                 }
             }
+
         } else {
 
             // Draws the interior of the house
             for (int i=0; i<map.length; i++) {
+
                 for (int j=0; j<map[0].length; j++) {
+
                     g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
+
                 }
             }
         }
@@ -209,25 +247,32 @@ public class GamePanel extends JPanel {
 
                 // Drawing all the placed plants by a for loop to allow editing the plants
                 for (int i=0; i<Game.flowers.size(); i++) {
+
                     Flower plant = Game.flowers.get(i);
 
                     // Flower life-ending logic
                     if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
+
                         if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
+
                             if (plant.STATUS.equals("Alive")) {
+
                                 plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
                                 plant.STATUS = "Dead";
                                 Game.playSound("res/Audio/MagicSound.wav");
+
                             }
-                        } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Game.flowerChange) {
-                            plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
-                        }
+
+                        } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Game.flowerChange) plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
 
                         // Draw the flower
                         g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X*128, plant.LOCATION_Y*128, 128, 128, null);
+
                     } else {
+
                         Game.flowers.remove(plant);
                         map[plant.LOCATION_Y][plant.LOCATION_X] = '0';
+
                     }
                 }
             }
@@ -239,10 +284,13 @@ public class GamePanel extends JPanel {
             g.setFont(new Font("Monospaced", Font.BOLD, 20));
             g.setColor(new Color(238, 16, 16));
             g.drawString(Game.errorMessage, (int) dad.LOCATION_X - 60, (int) dad.LOCATION_Y + 10);
+
         } catch(NullPointerException npe) {
+
             System.out.println(npe.getMessage());
             System.err.println(ErrorList.ERR_NPE.message);
             Game.error("Null Pointer Exception Draw", 3);
+
         }
     }
 
@@ -261,5 +309,6 @@ public class GamePanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         
         drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g2d);
+        
     }
 }
