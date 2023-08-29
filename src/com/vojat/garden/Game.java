@@ -258,7 +258,7 @@ public class Game implements Runnable {
     public void spawnBird() {
 
         System.out.println("Spawn Birb");
-        birdList.add(new Bird(-1, gamePanel.dad.LOCATION_Y - 200));
+        birdList.add(new Bird(-1, gamePanel.dad.LOCATION_Y - 200 - random.nextInt(100)));
 
     }
 
@@ -418,7 +418,7 @@ public class Game implements Runnable {
                     if (gamePanel.dad.level == 0) gamePanel.changeGrass = true;
 
                     // Spawns the birb   -/- Change to 100 after testing
-                    if (gamePanel.dad.level == 0 && random.nextInt(5) == 0) spawnBird();
+                    if (gamePanel.dad.level == 0 && random.nextInt(80) == 0) spawnBird();
 
                     // Bird shitting logic
                     for (int i=0; i<birdList.size(); i++) {

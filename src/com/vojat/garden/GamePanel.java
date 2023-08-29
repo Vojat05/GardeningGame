@@ -285,9 +285,6 @@ public class GamePanel extends JPanel {
                 }
             }
 
-            // Drawing the player character in 128 x 128
-            g.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
-
             // Drawing the errors
             g.setFont(new Font("Monospaced", Font.BOLD, 20));
             g.setColor(new Color(238, 16, 16));
@@ -350,6 +347,9 @@ public class GamePanel extends JPanel {
         
         drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g2d);
         drawBirdShit(g2d);
+
+        // Drawing the player character in 128 x 128
+        g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
 
     }
 }
