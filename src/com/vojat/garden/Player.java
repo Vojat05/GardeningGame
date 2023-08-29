@@ -26,8 +26,8 @@ public class Player {
     public ArrayList<String> inventory = new ArrayList<String>();           // Player inventory with all object he holds
     public byte selectedItem = 0;                                           // Index of a specific item from the inventory
     public byte reach = 1;                                                  // Player reach
-    public byte level = 0;                                                  // Level on which the player is located  0 == outside ; 1 == inside house
-    public int speed = 2;                                                   // Player's movement speed
+    public byte level = 1;                                                  // Level on which the player is located  0 == outside ; 1 == inside house
+    public int speed = 1;                                                   // Player's movement speed
     public int HP = 100;                                                    // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
 
     /*
@@ -43,7 +43,7 @@ public class Player {
         this.LOCATION_Y = positionY;
 
         inventorySetup();
-        
+
     }
 
     // With this constructor, the player doesn't have the access to his abilities
@@ -81,7 +81,7 @@ public class Player {
 
             System.err.println(ErrorList.ERR_404.message);
             currentTexture = null;
-            Game.error("Texture not found", 3);
+            Game.error("Player texture not found", 3);
 
         }
     }

@@ -275,6 +275,14 @@ public class GamePanel extends JPanel {
 
                     }
                 }
+
+                // Drawing the birds
+                for (int i=0; i<Game.birdList.size(); i++) {
+
+                    Bird bird = Game.birdList.get(i);
+                    g.drawImage(bird.texture, (int) bird.positionX, (int) bird.positionY, 64, 64, null);
+
+                }
             }
 
             // Drawing the player character in 128 x 128
@@ -294,6 +302,23 @@ public class GamePanel extends JPanel {
         }
     }
 
+    private void drawBirdShit(Graphics2D g) {
+
+        for (int i=0; i<Game.birdList.size(); i++) {
+
+            Bird bird = Game.birdList.get(i);
+            if (!bird.drawShit) continue;
+
+            // The white part
+            g.setPaint(new Color(236, 236, 236));
+            g.fillRect((int) bird.shitPositionX, (int) bird.shitPositionY, 10, 10);
+
+            // The gray part
+            g.setPaint(new Color(191, 191, 191));
+            g.fillRect((int) bird.shitPositionX, (int) bird.shitPositionY - 10, 10, 10);
+        }
+    }
+
 
 
     /*
@@ -309,6 +334,7 @@ public class GamePanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         
         drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g2d);
-        
+        drawBirdShit(g2d);
+
     }
 }
