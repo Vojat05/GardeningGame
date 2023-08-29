@@ -173,4 +173,5 @@ JAR file is made for every update documented here<br>
 ## 29/8/2023
 <ul>
     <li> + Added a HP system</li>
+    <li> + Added birds that deal damage by pooping on the player</li>
 </ul>

@@ -115,22 +115,22 @@ public class InventoryPanel extends JPanel{
         
         // The icon block in front
         int[] iconX = {20, 44, 44, 20, 20, 30, 32, 32, 30, 20};
-        int[] iconY = {10, 10, 58, 58, 46, 45, 43, 24, 22, 22};
+        int[] iconY = {15, 15, 63, 63, 51, 50, 48, 29, 27, 27};
 
         g2d.fillPolygon(iconX, iconY, iconX.length);
 
         // The HP bar background
         int[] barBgX = {46, 402, 382, 262, 260, 260, 46};
-        int[] barBgY = {10, 10, 44, 44, 46, 58, 58};
+        int[] barBgY = {15, 15, 49, 49, 51, 63, 63};
 
         g2d.fillPolygon(barBgX, barBgY, barBgX.length);
 
         // The HP bar sloped edge smoothening
         g2d.setPaint(new Color(239, 244, 245, 100));
-        g2d.drawLine(402, 10, 382, 43);
+        g2d.drawLine(402, 15, 382, 48);
 
         g2d.setPaint(new Color(239, 244, 245, 50));
-        g2d.drawLine(402, 11, 383, 42);
+        g2d.drawLine(402, 16, 383, 47);
 
         // The HP bar value
         if (dad.HP != 0) {
@@ -138,7 +138,7 @@ public class InventoryPanel extends JPanel{
             g2d.setPaint(dad.HP <= 60 ? dad.HP <= 20 ? new Color(0xfa2311) : new Color(0xf9c52e) : new Color(0x3bf02f));
     
             int[] hpBarValueX = {65, 378, 371, 249, 244, 65};
-            int[] hpBarValueY = {23, 23, 32, 32, 42, 42};
+            int[] hpBarValueY = {28, 28, 37, 37, 47, 47};
     
             hpBarValueX[1] = 65 + Math.round(Math.round(3.13 * dad.HP));
             hpBarValueX[2] = 60 + Math.round(Math.round(3.13 * dad.HP));
@@ -164,7 +164,7 @@ public class InventoryPanel extends JPanel{
         g2d.setPaint(Color.DARK_GRAY);
 
         int[] borderBlackX = {64, 379, 372, 249, 244, 64};
-        int[] borderBlackY = {22, 22, 33, 33, 43, 43};
+        int[] borderBlackY = {27, 27, 38, 38, 48, 48};
 
         g2d.drawPolygon(borderBlackX, borderBlackY, borderBlackX.length);
 
@@ -173,7 +173,7 @@ public class InventoryPanel extends JPanel{
         g2d.setPaint(Color.WHITE);
 
         int[] borderWhiteX = {62, 382, 373, 250, 245, 62};
-        int[] borderWhiteY = {20, 20, 34, 34, 44, 44};
+        int[] borderWhiteY = {25, 25, 39, 39, 49, 49};
 
         g2d.drawPolygon(borderWhiteX, borderWhiteY, borderWhiteX.length);
 
@@ -188,7 +188,7 @@ public class InventoryPanel extends JPanel{
 
         // The HP value background box
         int[] bgGrayX = {264, 380, 382, 382, 378, 265, 262, 262};
-        int[] bgGrayY = {46, 46, 48, 62, 64, 64, 62, 48};
+        int[] bgGrayY = {51, 51, 53, 67, 69, 69, 67, 53};
 
         g2d.fillPolygon(bgGrayX, bgGrayY, bgGrayX.length);
 
@@ -197,7 +197,7 @@ public class InventoryPanel extends JPanel{
         g2d.setStroke(new BasicStroke(1));
 
         g2d.setFont(HPfont.deriveFont(18f));
-        g2d.drawString((dad.HP == 100 ? "100" : " " + dad.HP) + " / 100" , 303, 61);
+        g2d.drawString((dad.HP == 100 ? "100" : " " + dad.HP) + " / 100" , 303, 66);
         
     }
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -30,12 +31,14 @@ public class Game implements Runnable {
     public static final String[] houseTextures = {"Plank.png", "Grass1.png", "woodWall.png", "doormat.png", "bed.png"};                                                             // Texture array for the inside of the house
     public static final String[][] flowerTypes = {{"tulip", "20000"}, {"rose", "25000"}, {"tentacle", "40000"}};                                                                    // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 5000;                                                                                                                                    // The time each flower has for being thirsty before they die
+    public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
     public static byte errorTime = 0;                                                                                                                                               // Number of secodns for the latest error to be visible
     public static String errorMessage = "";                                                                                                                                         // The laster error message
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
     public static char[][] map = new char[8][15];                                                                                                                                   // [Y][X] coords
     public static char[][] houseMap = new char[8][15];                                                                                                                              // [Y][X] cords
     public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();                                                                                                     // ArrayList of map objects that are collidable
+    public static ArrayList<Bird> birdList = new ArrayList<Bird>();                                                                                                                 // The list of birds currently in game for drawing
     public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
     public static boolean pause = false;                                                                                                                                            // Determines wheather the game should be paused or not
     private final int FPS_SET = 120;                                                                                                                                                // Frame-Rate cap
@@ -252,6 +255,13 @@ public class Game implements Runnable {
         errorTime = (byte) duration;
     }
 
+    public void spawnBird() {
+
+        System.out.println("Spawn Birb");
+        birdList.add(new Bird(-1, gamePanel.dad.LOCATION_Y - 200));
+
+    }
+
     /*
      * --------------------------------------------------------------------------------
      * Methods for controlling the game audio
@@ -341,6 +351,28 @@ public class Game implements Runnable {
                     // X coordinate colision logic
                     if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap)))) gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
 
+                    // Bird flight logic
+                    for (int i=0; i<birdList.size(); i++) {
+
+                        // Bird flight
+                        Bird bird = birdList.get(i);
+                        bird.positionX += bird.vectorX;
+
+                        // Bird shit detection
+                        if (bird.drawShit && intoMapY(bird.shitPositionY - 30) == intoMapY(gamePanel.dad.LOCATION_Y + 64) && intoMapX(bird.shitPositionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) {
+
+                            System.out.println(ANSI_RED + "Shit hit" + ANSI_RESET);
+                            gamePanel.dad.hurt(5);
+                            bird.shitPositionY = Window.height;
+
+                        }
+
+                        // Bird shit movement and bird removal after out of map
+                        bird.shitPositionY += Bird.shitSpeed;
+                        if (bird.shitPositionY >= bird.positionY + 500) bird.drawShit = false;
+                        if (bird.positionX + 200 < 0) birdList.remove(i);
+
+                    }
 
                     // Enter house logic
                     if (gamePanel.dad.level == 0 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
@@ -373,10 +405,21 @@ public class Game implements Runnable {
                     lastCheck = System.currentTimeMillis();
                     System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
 
-                    if (Main.debug) System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY);
+                    if (Main.debug) System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY + "\nNo. Birds: " + birdList.size());
                     
                     // Checks if the player is on level 0 "outside"
                     if (gamePanel.dad.level == 0) gamePanel.changeGrass = true;
+
+                    // Spawns the birb   -/- Change to 100 after testing
+                    if (gamePanel.dad.level == 0 && random.nextInt(20) == 0) spawnBird();
+
+                    // Bird shitting logic
+                    for (int i=0; i<birdList.size(); i++) {
+
+                        Bird bird = birdList.get(i);
+                        if (intoMapX(bird.positionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) bird.shit();
+
+                    }
                     
                     // Replays the in-game music if it had reached the end.
                     if (!clip.isRunning()) {
