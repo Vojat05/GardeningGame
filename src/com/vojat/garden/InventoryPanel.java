@@ -25,9 +25,10 @@ public class InventoryPanel extends JPanel{
      * --------------------------------------------------------------------------------
      */
 
+    private Color HPBorderColor = Color.WHITE;                              // The color of the outer HP border
     private JLabel item = new JLabel();                                     // The label for the selected item
     private Player dad;                                                     // The player character
-    private Font HPfont;
+    private Font HPfont;                                                    // Custom font for the HP value text
 
     /*
      * --------------------------------------------------------------------------------
@@ -93,6 +94,12 @@ public class InventoryPanel extends JPanel{
 
     }
 
+    public Color setHPBorderColor(Color color) {
+        
+        return this.HPBorderColor = color;
+        
+    }
+
     /*
      * --------------------------------------------------------------------------------
      * The inventory panel repaint method
@@ -104,6 +111,8 @@ public class InventoryPanel extends JPanel{
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
+
+
 
         /*
         * --------------------------------------------------------------------------------
@@ -170,7 +179,7 @@ public class InventoryPanel extends JPanel{
 
         // The HP bar border white
         g2d.setStroke(new BasicStroke(1));
-        g2d.setPaint(Color.WHITE);
+        g2d.setPaint(HPBorderColor);
 
         int[] borderWhiteX = {62, 382, 373, 250, 245, 62};
         int[] borderWhiteY = {25, 25, 39, 39, 49, 49};
@@ -197,7 +206,7 @@ public class InventoryPanel extends JPanel{
         g2d.setStroke(new BasicStroke(1));
 
         g2d.setFont(HPfont.deriveFont(18f));
-        g2d.drawString((dad.HP == 100 ? "100" : " " + dad.HP) + " / 100" , 303, 66);
+        g2d.drawString((dad.HP == 100 ? "1 0 0" : " " + dad.HP) + "  /  1 0 0" , 303, 66);
         
     }
 }

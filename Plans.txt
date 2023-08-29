@@ -1,13 +1,3 @@
-The Pigeon:
-
-A pigeon will have 1% chance of spawning each second
-The pidgeon will fly over and shit when he's over the player position
-Pigeon will be checking wheather to shit every second
-If he hits, it'll remove 5HP
-If he misses a splater will be on the ground for the next 5 seconds
-
-----------------------------------------------------------------------
-
 Player Death:
 
 On a player death he must reload the last save point
@@ -20,3 +10,6 @@ Each plant need a thirtsy and dead texture
 
 ----------------------------------------------------------------------
 
+The Cacti:
+
+Add some cacti to the game, and make them able to survive long time without any water

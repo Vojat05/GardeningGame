@@ -19,6 +19,7 @@ public class Flower {
 
     public BufferedImage CURRENT_TEXTURE;                                           // Current flower texture
     public String ALIVE_TEXTURE, THIRSTY_TEXTURE, DEAD_TEXTURE;                     // All 3 texture versions of a flower
+    public BufferedImage baseTexture;                                               // Texture to be used underneath the flower (allows having flowers with transparent backgrounds)
     public String TYPE;                                                             // Flower type
     public String STATUS;                                                           // Determines wheather the flower is alive or dead
     public int LOCATION_X, LOCATION_Y;                                              // Exact flower location
@@ -42,6 +43,7 @@ public class Flower {
             }
         }
 
+        this.baseTexture = setTexture("res/Pics/Grass" + Game.random.nextInt(1, 3) + ".png");
         this.ALIVE_TEXTURE = "res/Pics/" + type + ".png";
         this.THIRSTY_TEXTURE = "res/Pics/Land.png";
         this.DEAD_TEXTURE = "res/Pics/MrUgly.png";
@@ -60,6 +62,7 @@ public class Flower {
      */
 
     public Flower(String path, String type, int locationX, int locationY, String status, int number, int dieTime) {
+        this.baseTexture = setTexture("res/Pics/Grass" + Game.random.nextInt(1, 3) + ".png");
         this.ALIVE_TEXTURE = "res/Pics/" + type + ".png";
         this.THIRSTY_TEXTURE = "res/Pics/" + type + "_thirsty.png";
         this.DEAD_TEXTURE = "res/Pics/MrUgly.png";
