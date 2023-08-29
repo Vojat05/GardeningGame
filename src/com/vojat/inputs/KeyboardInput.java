@@ -96,7 +96,7 @@ public class KeyboardInput implements KeyListener {
 
             if (up) {
 
-                dad.setTexture("res/Pics/Dad_Texture_B.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_B.png");
                 up = false;
 
             }
@@ -107,7 +107,7 @@ public class KeyboardInput implements KeyListener {
 
             if (down) {
 
-                dad.setTexture("res/Pics/Dad_Texture_F.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_F.png");
                 down = false;
 
             }
@@ -118,7 +118,7 @@ public class KeyboardInput implements KeyListener {
 
             if (left) {
 
-                dad.setTexture("res/Pics/Dad_Texture_L.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_L.png");
                 left = false;
 
             }
@@ -129,7 +129,7 @@ public class KeyboardInput implements KeyListener {
 
             if (right) {
 
-                dad.setTexture("res/Pics/Dad_Texture_R.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_R.png");
                 right = false;
 
             }
@@ -224,19 +224,19 @@ public class KeyboardInput implements KeyListener {
         switch (direction) {
 
             case "up":
-                dad.setTexture("res/Pics/Dad_Texture_B.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_B.png");
                 break;
 
             case "down":
-                dad.setTexture("res/Pics/Dad_Texture_F.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_F.png");
                 break;
 
             case "left":
-                dad.setTexture("res/Pics/Dad_Texture_L.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_L.png");
                 break;
 
             case "right":
-                dad.setTexture("res/Pics/Dad_Texture_R.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_R.png");
                 break;
                 
         }

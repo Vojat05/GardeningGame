@@ -266,7 +266,8 @@ public class GamePanel extends JPanel {
                         } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Game.flowerChange) plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
 
                         // Draw the flower
-                        g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X*128, plant.LOCATION_Y*128, 128, 128, null);
+                        g.drawImage(plant.baseTexture, plant.LOCATION_X * 128, plant.LOCATION_Y * 128, 128, 128, null);
+                        g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X * 128, plant.LOCATION_Y * 128, 128, 128, null);
 
                     } else {
 

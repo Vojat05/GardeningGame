@@ -2,13 +2,7 @@ package com.vojat.garden;
 
 import java.awt.image.BufferedImage;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-
-import com.vojat.Enums.ErrorList;
 
 public class Player {
 
@@ -18,8 +12,8 @@ public class Player {
      * --------------------------------------------------------------------------------
      */
 
-    public GamePanel gamePanel;                                             // Panel on which the player is
     public static int windowLimitX, windowLimitY;                           // Coordinate limits for the player to move in
+    public GamePanel gamePanel;                                             // Panel on which the player is
     public double LOCATION_X = .0, LOCATION_Y = .0;                         // Position of the player
     public double VECTORX = .0, VECTORY = .0;                               // Player's movement vectors
     public BufferedImage currentTexture;                                    // Player's current texture {front, back, left, right}
@@ -68,22 +62,8 @@ public class Player {
         windowLimitY = limitY-170;
 
         // Sets the default player texture on startup to look forward
-        setTexture("res/Pics/Dad_Texture_F.png");
+        currentTexture = Game.setTexture("res/Pics/Dad_Texture_F.png");
 
-    }
-
-    public void setTexture(String path) {
-        try {
-
-            currentTexture = ImageIO.read(new FileInputStream(path));
-
-        } catch (IOException ioe) {
-
-            System.err.println(ErrorList.ERR_404.message);
-            currentTexture = null;
-            Game.error("Player texture not found", 3);
-
-        }
     }
 
     // Plants the given flower

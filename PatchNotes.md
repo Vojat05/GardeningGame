@@ -175,3 +175,9 @@ JAR file is made for every update documented here<br>
     <li> + Added a HP system</li>
     <li> + Added birds that deal damage by pooping on the player</li>
 </ul>
+
+## 30/8/2023
+<ul>
+    <li> * The flowers now have a random grass texture underneath, so they can be transparent</li>
+    <li> + Added wall paintings to the house interior</li>
+</ul>

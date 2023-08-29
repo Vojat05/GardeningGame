@@ -1,11 +1,14 @@
 package com.vojat.garden;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -14,6 +17,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.vojat.Main;
 import com.vojat.Data.JSONEditor;
+import com.vojat.Enums.ErrorList;
 import com.vojat.menu.Window;
 
 public class Game implements Runnable {
@@ -28,8 +32,8 @@ public class Game implements Runnable {
     public static final String ANSI_RED = "\u001B[31m";                                                                                                                             // Set the console text color to red
     public static final String ANSI_RESET = "\u001B[0m";                                                                                                                            // Reset the console text color
     public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png"};                                                          // Texture array for outside
-    public static final String[] houseTextures = {"Plank.png", "Grass1.png", "woodWall.png", "doormat.png", "bed.png"};                                                             // Texture array for the inside of the house
-    public static final String[][] flowerTypes = {{"tulip", "20000"}, {"rose", "25000"}, {"tentacle", "40000"}};                                                                    // {"flower type", "time for it to die in millis"}
+    public static final String[] houseTextures = {"Plank.png", "Grass1.png", "woodWall.png", "doormat.png", "bed.png", "wallpaint.png"};                                            // Texture array for the inside of the house
+    public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}};                                                                 // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 5000;                                                                                                                                    // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
     public static byte errorTime = 0;                                                                                                                                               // Number of secodns for the latest error to be visible
@@ -86,14 +90,17 @@ public class Game implements Runnable {
         // Fill the house map
         houseMap[7][4] = '3';
         houseMap[1][0] = '4';
-
+        
         // Grass field wisible from house
         for (int i=0; i<houseMap.length; i++) {
-
-            for (int j=houseMap[0].length-5; j<houseMap[0].length; j++) houseMap[i][j] = '1';
-            houseMap[i][houseMap[0].length-6] = '2';
-
+            
+            for (int j=houseMap[0].length - 5; j<houseMap[0].length; j++) houseMap[i][j] = '1';
+            houseMap[i][houseMap[0].length - 6] = '2';
+            
         }
+        
+        // Setting up the wall paintings
+        houseMap[2][9] = '5';
 
         /*
          * --------------------------------------------------------------------------------
@@ -262,6 +269,21 @@ public class Game implements Runnable {
 
     }
 
+    public static BufferedImage setTexture(String path) {
+
+        try {
+
+            return ImageIO.read(new FileInputStream(path));
+
+        } catch (IOException ioe) {
+
+            System.err.println(ErrorList.ERR_404.message);
+            Game.error("Bird texture not found", 3);
+            return null;
+
+        }
+    }
+
     /*
      * --------------------------------------------------------------------------------
      * Methods for controlling the game audio
@@ -424,7 +446,7 @@ public class Game implements Runnable {
                     for (int i=0; i<birdList.size(); i++) {
 
                         Bird bird = birdList.get(i);
-                        if (intoMapX(bird.positionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) bird.shit();
+                        if (gamePanel.dad.level == 0 && intoMapX(bird.positionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) bird.shit();
 
                     }
                     
