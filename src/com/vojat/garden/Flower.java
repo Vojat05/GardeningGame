@@ -61,7 +61,7 @@ public class Flower {
 
     public Flower(String path, String type, int locationX, int locationY, String status, int number, int dieTime) {
         this.ALIVE_TEXTURE = "res/Pics/" + type + ".png";
-        this.THIRSTY_TEXTURE = "res/Pics/Land.png";
+        this.THIRSTY_TEXTURE = "res/Pics/" + type + "_thirsty.png";
         this.DEAD_TEXTURE = "res/Pics/MrUgly.png";
         this.TIME_TO_DIE = dieTime + System.currentTimeMillis();
         this.TIME_TO_DISSAPEAR = dieTime + 5000 + System.currentTimeMillis();
@@ -80,12 +80,17 @@ public class Flower {
      */
 
     public BufferedImage setTexture(String path) {
+
         try {
+
             return ImageIO.read(new FileInputStream(path));
+
         } catch (IOException ioe) {
+
             System.err.println(ErrorList.ERR_404.message);
             Game.error("Texture not found", 3);
             return null;
+
         }
     }
 }
