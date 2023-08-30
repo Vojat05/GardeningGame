@@ -5,3 +5,27 @@ Compiled on the <code>Java 17.0.1</code> version
 
 This game is about a father watering plants.<br>
 The objective of this game is to plant flowers and not let them die.
+
+Sometimes pigeons will come flying across the garden, you must try yo dodge their bombarding.<br>
+If you take too much damage, you'll die. And every time that happens, you will be forced to load your previous save file.<br>
+
+# Controls
+
+## Movement
+W - Move up
+A - Move left
+S - Move back
+D - Move right
+
+## Inventory Management
+T - Toggles the inventory panel
+Q - Selects the previous item
+E - Selects the next item
+
+## Planting
+Left Click - Plants a currently selected plant / water a targeted plant
+Right Click - Refills the water storage
+
+## Game Options
+Esc - Returns to the main menu
+P - Pauses the game

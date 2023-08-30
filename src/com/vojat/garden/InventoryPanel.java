@@ -7,6 +7,7 @@ import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.io.File;
 import java.io.IOException;
 
@@ -25,10 +26,10 @@ public class InventoryPanel extends JPanel{
      * --------------------------------------------------------------------------------
      */
 
+    public Font HPfont;                                                     // Custom font for the HP value text
     private Color HPBorderColor = Color.WHITE;                              // The color of the outer HP border
     private JLabel item = new JLabel();                                     // The label for the selected item
     private Player dad;                                                     // The player character
-    private Font HPfont;                                                    // Custom font for the HP value text
 
     /*
      * --------------------------------------------------------------------------------
@@ -47,7 +48,7 @@ public class InventoryPanel extends JPanel{
         // Sets up the custom HP font
         try {
 
-            HPfont = Font.createFont(Font.TRUETYPE_FONT, new File("res/Fonts/HPfont.ttf"));
+            HPfont = Font.createFont(Font.TRUETYPE_FONT, new File("res/Fonts/customFont.ttf"));
 
         } catch (FontFormatException | IOException e) {
 
@@ -111,7 +112,7 @@ public class InventoryPanel extends JPanel{
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
-
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 
         /*
@@ -205,8 +206,8 @@ public class InventoryPanel extends JPanel{
         g2d.setPaint(Color.white);
         g2d.setStroke(new BasicStroke(1));
 
-        g2d.setFont(HPfont.deriveFont(18f));
-        g2d.drawString((dad.HP == 100 ? "100" : " " + dad.HP) + " / 100" , 303, 66);
+        g2d.setFont(HPfont.deriveFont(15f));
+        g2d.drawString((dad.HP == 100 ? "100" : " " + dad.HP) + " / 100" , 298, 66);
         
     }
 }

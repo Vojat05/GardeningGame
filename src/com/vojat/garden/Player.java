@@ -90,9 +90,10 @@ public class Player {
 
     public int hurt(int dmg) {
 
-        if (this.HP - dmg < 0) {
+        if (this.HP - dmg <= 0) {
 
-            this.HP = 0;
+            // Kills the player
+            kill();
 
         } else if (this.HP - dmg > 100) {
 
@@ -109,8 +110,20 @@ public class Player {
 
     }
 
+    public void kill() {
+
+        this.HP = 0;
+        Game.alert = true;
+        Game.killGame();
+        currentTexture = Game.setTexture("res/Pics/Grave.png");
+        gamePanel.repaint();
+
+    }
+
     public int setHealth(int HP) {
 
+        if (HP == 0) kill();
+        gamePanel.inventoryPanel.repaint();
         return this.HP = HP;
 
     }

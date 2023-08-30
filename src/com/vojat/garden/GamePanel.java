@@ -2,11 +2,13 @@ package com.vojat.garden;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.FileNotFoundException;
 import java.util.Random;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.BasicStroke;
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
@@ -138,7 +140,7 @@ public class GamePanel extends JPanel {
 
         try {
 
-            Game.saveGame("src/com/vojat/Data/Saves/Save" + button.getText().substring(button.getText().length()-1, button.getText().length()) + ".json", dad);
+            Game.saveGame("src/com/vojat/Data/Saves/Save" + button.getText().substring(button.getText().length()-1, button.getText().length()) + ".json", dad, (byte) Integer.parseInt(button.getText().substring(button.getText().length()-1, button.getText().length())));
 
         } catch (FileNotFoundException f) {
 
@@ -186,7 +188,7 @@ public class GamePanel extends JPanel {
 
     /*
      * --------------------------------------------------------------------------------
-     * Method for drawing the terrain based on the player's level
+     * Drawing the terrain based on the player's level
      * --------------------------------------------------------------------------------
      */
 
@@ -300,6 +302,13 @@ public class GamePanel extends JPanel {
         }
     }
 
+
+    /*
+     * --------------------------------------------------------------------------------
+     * Drawing the bird shit mid air and the splat on the ground
+     * --------------------------------------------------------------------------------
+     */
+
     private void drawBirdShit(Graphics2D g) {
 
         for (int i=0; i<Game.birdList.size(); i++) {
@@ -307,6 +316,7 @@ public class GamePanel extends JPanel {
             Bird bird = Game.birdList.get(i);
             if (!bird.drawShit && !bird.splat) continue;
 
+            // Drawing the bird shit splat on the ground
             if (!bird.drawShit && bird.splat && System.currentTimeMillis() < bird.timeToCleanShit) {
 
                 if (bird.audio) Game.playSound("res/Audio/Splash.wav");
@@ -336,6 +346,89 @@ public class GamePanel extends JPanel {
 
     /*
      * --------------------------------------------------------------------------------
+     * Drawing the death screen panel
+     * --------------------------------------------------------------------------------
+     */
+
+    private void drawDeathSign(Graphics2D g2d) {
+
+        // Drawing the red hexagon background
+        g2d.setPaint(new Color(231, 44, 22, 155));
+
+        int middleX = this.getWidth() / 2;
+        int middleY = this.getHeight() / 2;
+
+        int[] backgroundX = {middleX - 200, middleX + 200, middleX + 250, middleX + 200, middleX - 200, middleX - 250};
+        int[] backgroundY = {middleY - middleY / 2, middleY - middleY / 2, middleY - middleY / 2 + 86, middleY - middleY / 2 + 86 * 2, middleY - middleY / 2 + 86 * 2, middleY - middleY / 2 + 86};
+
+        g2d.fillPolygon(backgroundX, backgroundY, backgroundX.length);
+
+        // Drawing the red hexagon border
+        g2d.setPaint(new Color(185, 7, 7, 220));
+        g2d.setStroke(new BasicStroke(4));
+        g2d.drawPolygon(backgroundX, backgroundY, backgroundX.length);
+
+        // Drawing the text inside
+        g2d.setFont(inventoryPanel.HPfont.deriveFont(64f));
+        g2d.drawString("You are dead", middleX - 130, (int) (middleY - middleY / 2 + 86 * 1.25));
+
+
+
+        // Drawing the option to load the last save
+
+        // The upper white rectangle
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(middleX - 200, middleY - middleY / 2 + 90 * 2, 400, 80);
+
+        // The middle gray rectangle
+        g2d.setPaint(new Color(210, 210, 210, 245));
+        g2d.fillRect(middleX - 200, middleY - middleY / 2 + 260, 400, 120);
+        
+        // The bottom white rectangle
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(middleX - 200, middleY - middleY / 2 + 380, 400, 80);
+        
+
+        // The filler into the Alert Box
+        g2d.setFont(inventoryPanel.HPfont.deriveFont(42f));
+        g2d.setPaint(new Color(30, 30, 30, 240));
+        g2d.drawString("Alert", middleX - 35, middleY - middleY / 2 + 240);
+
+        g2d.setFont(inventoryPanel.HPfont.deriveFont(24f));
+        g2d.drawString("Do you want to reload your last save?", middleX - 145, middleY - middleY / 2 + 330);
+
+
+        // The selection buttons
+
+        // Agree button
+        g2d.setPaint(new Color(10, 126, 236, 250));
+        g2d.fillOval(middleX - 150, middleY - middleY / 2 + 395, 50, 50);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillOval(middleX - 147, middleY - middleY / 2 + 398, 44, 44);
+        g2d.setPaint(new Color(10, 126, 236, 250));
+        g2d.fillOval(middleX - 144, middleY - middleY / 2 + 401, 38, 38);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillOval(middleX - 137, middleY - middleY / 2 + 408, 24, 24);
+        g2d.setPaint(new Color(10, 126, 236, 250));
+        g2d.fillOval(middleX - 133, middleY - middleY / 2 + 412, 16, 16);
+
+        // Rejct button
+        g2d.setPaint(new Color(236, 9, 68, 250));
+        g2d.fillOval(middleX + 100, middleY - middleY / 2 + 395, 50, 50);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillOval(middleX + 103, middleY - middleY / 2 + 398, 44, 44);
+        g2d.setPaint(new Color(236, 9, 68, 250));
+        g2d.fillOval(middleX + 106, middleY - middleY / 2 + 401, 38, 38);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.setStroke(new BasicStroke(4));
+        g2d.drawLine(middleX + 118, middleY - middleY / 2 + 413, middleX + 130, middleY - middleY / 2 + 426);
+        g2d.drawLine(middleX + 130, middleY - middleY / 2 + 413, middleX + 118, middleY - middleY / 2 + 426);
+
+    }
+
+
+    /*
+     * --------------------------------------------------------------------------------
      * Game panel repaint method
      * --------------------------------------------------------------------------------
      */
@@ -345,12 +438,16 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g2d);
         drawBirdShit(g2d);
 
         // Drawing the player character in 128 x 128
         g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
+
+        // Drawing the death screen
+        if (dad.HP == 0) drawDeathSign(g2d);
 
     }
 }
