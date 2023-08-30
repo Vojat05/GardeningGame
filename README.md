@@ -12,20 +12,20 @@ If you take too much damage, you'll die. And every time that happens, you will b
 # Controls
 
 ## Movement
-W - Move up
-A - Move left
-S - Move back
+W - Move up<br>
+A - Move left<br>
+S - Move back<br>
 D - Move right
 
 ## Inventory Management
-T - Toggles the inventory panel
-Q - Selects the previous item
+T - Toggles the inventory panel<br>
+Q - Selects the previous item<br>
 E - Selects the next item
 
 ## Planting
-Left Click - Plants a currently selected plant / water a targeted plant
+Left Click - Plants a currently selected plant / water a targeted plant<br>
 Right Click - Refills the water storage
 
 ## Game Options
-Esc - Returns to the main menu
+Esc - Returns to the main menu<br>
 P - Pauses the game
