@@ -90,6 +90,8 @@ public class Player {
 
     public int hurt(int dmg) {
 
+        if (dmg > 0 && this.HP - dmg > 0) Game.playSound("res/Audio/Damage.wav");
+
         if (this.HP - dmg <= 0) {
 
             // Kills the player
@@ -114,9 +116,11 @@ public class Player {
 
         this.HP = 0;
         Game.alert = true;
+        Game.alertMessage = "Do you want to reload your last save?";
         Game.killGame();
         currentTexture = Game.setTexture("res/Pics/Grave.png");
         gamePanel.repaint();
+        Game.playSound("res/Audio/Death.wav");
 
     }
 

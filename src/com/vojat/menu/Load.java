@@ -145,7 +145,7 @@ public class Load extends JPanel {
             } else {
                 changeVisibility(buttonPanelT, spacerT);
                 new Game(1920, 1075, window);
-                Game.loadGame("src/com/vojat/Data/Saves/Save" + saveNumber + ".json");
+                Game.loadGame("src/com/vojat/Data/Saves/Save" + saveNumber + ".json", (byte) saveNumber);
             }
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_404.message);

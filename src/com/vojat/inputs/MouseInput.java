@@ -48,10 +48,18 @@ public class MouseInput implements MouseListener {
 
             if ((e.getX() >= 802 && e.getX() <= 852) && (e.getY() >= 636 && e.getY() <= 685)) {
 
-                new Game(1920, 1075, Main.window);
                 try {
+                    
+                    if (Game.save != -1) {
+                        
+                        new Game(1920, 1075, Main.window);
+                        Game.loadGame("src/com/vojat/Data/Saves/Save" + Game.save + ".json", Game.save);
+                    
+                    } else {
 
-                    if (Game.save != -1) Game.loadGame("src/com/vojat/Data/Saves/Save" + Game.save + ".json");
+                        Game.alertUpdate("Save not found, return to main menu.", gamePanel);
+
+                    }
 
                 } catch (FileNotFoundException fne) {
                     
@@ -157,8 +165,9 @@ public class MouseInput implements MouseListener {
             
             // This is the mouse wheel button being pressed
             case MouseEvent.BUTTON2:
-
-                if (gamePanel.dad.level == 1) {System.out.println("Interaction 2"); gamePanel.dad.hurt(10);} 
+            
+            gamePanel.dad.hurt(10);
+            if (gamePanel.dad.level == 1) System.out.println("Interaction 2"); 
                 else {
 
                     Game.getMapData("print");

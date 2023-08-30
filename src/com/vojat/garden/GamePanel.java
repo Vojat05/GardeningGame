@@ -395,7 +395,7 @@ public class GamePanel extends JPanel {
         g2d.drawString("Alert", middleX - 35, middleY - middleY / 2 + 240);
 
         g2d.setFont(inventoryPanel.HPfont.deriveFont(24f));
-        g2d.drawString("Do you want to reload your last save?", middleX - 145, middleY - middleY / 2 + 330);
+        g2d.drawString(Game.alertMessage, middleX - 145, middleY - middleY / 2 + 330);
 
 
         // The selection buttons
