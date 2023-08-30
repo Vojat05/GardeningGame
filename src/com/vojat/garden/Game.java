@@ -38,7 +38,8 @@ public class Game implements Runnable {
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
     public static boolean alert = false;                                                                                                                                            // Is some type of a system warning / alert up?
     public static byte errorTime = 0;                                                                                                                                               // Number of secodns for the latest error to be visible
-    public static String errorMessage = "";                                                                                                                                         // The laster error message
+    public static String errorMessage = "";                                                                                                                                         // The lastet error message
+    public static String alertMessage = "";                                                                                                                                         // The latest alert message
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
     public static char[][] map = new char[8][15];                                                                                                                                   // [Y][X] coords
     public static char[][] houseMap = new char[8][15];                                                                                                                              // [Y][X] cords
@@ -287,6 +288,13 @@ public class Game implements Runnable {
         }
     }
 
+    public static void alertUpdate(String message, GamePanel gamePanel) {
+
+        alertMessage = message;
+        gamePanel.repaint();
+
+    }
+
     /*
      * --------------------------------------------------------------------------------
      * Methods for controlling the game audio
@@ -502,9 +510,10 @@ public class Game implements Runnable {
     }
 
     // Loads the game progress from a given save
-    public static void loadGame(String saveFilePath) throws FileNotFoundException {
+    public static void loadGame(String saveFilePath, byte saveNumber) throws FileNotFoundException {
         
         // Loads the map
+        save = saveNumber;
         JSONEditor jEditor = new JSONEditor(saveFilePath);
         String[][] strMap = jEditor.read2DArr();
         String mapValues = strMap[0][1];
