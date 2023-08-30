@@ -180,4 +180,5 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> * The flowers now have a random grass texture underneath, so they can be transparent</li>
     <li> + Added wall paintings to the house interior</li>
+    <li> + Added an option to reload last save after death</li>
 </ul>

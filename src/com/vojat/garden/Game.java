@@ -36,6 +36,7 @@ public class Game implements Runnable {
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}};                                                                 // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 5000;                                                                                                                                    // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
+    public static boolean alert = false;                                                                                                                                            // Is some type of a system warning / alert up?
     public static byte errorTime = 0;                                                                                                                                               // Number of secodns for the latest error to be visible
     public static String errorMessage = "";                                                                                                                                         // The laster error message
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
@@ -45,6 +46,7 @@ public class Game implements Runnable {
     public static ArrayList<Bird> birdList = new ArrayList<Bird>();                                                                                                                 // The list of birds currently in game for drawing
     public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
     public static boolean pause = false;                                                                                                                                            // Determines wheather the game should be paused or not
+    public static byte save = -1;                                                                                                                                                   // The current game save number to be plugged into the respawn
     private final int FPS_SET = 120;                                                                                                                                                // Frame-Rate cap
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
@@ -151,6 +153,7 @@ public class Game implements Runnable {
     public static void killGame() {
 
         run = false;
+        clip.stop();
 
     }
 
@@ -439,8 +442,8 @@ public class Game implements Runnable {
                     // Checks if the player is on level 0 "outside"
                     if (gamePanel.dad.level == 0) gamePanel.changeGrass = true;
 
-                    // Spawns the birb   -/- Change to 100 after testing
-                    if (gamePanel.dad.level == 0 && random.nextInt(80) == 0) spawnBird();
+                    // Spawns the birb
+                    if (gamePanel.dad.level == 0 && random.nextInt(100) == 0) spawnBird();
 
                     // Bird shitting logic
                     for (int i=0; i<birdList.size(); i++) {
@@ -476,7 +479,8 @@ public class Game implements Runnable {
      */
 
     // Saves the game progress into a seperate JSON file
-    public static void saveGame(String saveFilePath, Player dad) throws FileNotFoundException {
+    public static void saveGame(String saveFilePath, Player dad, byte saveNumber) throws FileNotFoundException {
+        save = saveNumber;
         String map = "\"map\":\"" + getMapData("") + "\"";
         String value = "";
 

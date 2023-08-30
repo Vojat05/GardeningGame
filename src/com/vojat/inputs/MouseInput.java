@@ -9,6 +9,7 @@ import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Flower;
 import com.vojat.garden.Game;
 import com.vojat.garden.GamePanel;
+import com.vojat.menu.MenuPanel;
 
 public class MouseInput implements MouseListener {
 
@@ -39,8 +40,35 @@ public class MouseInput implements MouseListener {
     public void mouseClicked(MouseEvent e) {
 
         if (Game.pause) return;
-        gardenerX(e);
-        gardenerY(e);
+        controlVariableX = gardenerX(e);
+        controlVariableY = gardenerY(e);
+
+        // Reset game on death
+        if (Game.alert && gamePanel.dad.HP == 0) {
+
+            if ((e.getX() >= 802 && e.getX() <= 852) && (e.getY() >= 636 && e.getY() <= 685)) {
+
+                new Game(1920, 1075, Main.window);
+                try {
+
+                    if (Game.save != -1) Game.loadGame("src/com/vojat/Data/Saves/Save" + Game.save + ".json");
+
+                } catch (FileNotFoundException fne) {
+                    
+                    System.err.println("File not found");
+
+                }
+                return;
+            
+            }
+            else if((e.getX() >= 1052 && e.getX() <= 1101) && (e.getY() >= 636 && e.getY() <= 685)) {
+                
+                Main.window.setElements(new MenuPanel(Main.window)); 
+                return;
+            
+            }
+
+        }
 
         switch (e.getButton()) {
 
@@ -130,7 +158,7 @@ public class MouseInput implements MouseListener {
             // This is the mouse wheel button being pressed
             case MouseEvent.BUTTON2:
 
-                if (gamePanel.dad.level == 1) System.out.println("Interaction 2"); 
+                if (gamePanel.dad.level == 1) {System.out.println("Interaction 2"); gamePanel.dad.hurt(10);} 
                 else {
 
                     Game.getMapData("print");
@@ -139,7 +167,7 @@ public class MouseInput implements MouseListener {
 
                         try {
 
-                            Game.saveGame("src/com/vojat/Data/Saves/Save3.json", gamePanel.dad);
+                            Game.saveGame("src/com/vojat/Data/Saves/Save3.json", gamePanel.dad, (byte) 3);
 
                         } catch (FileNotFoundException f) {
 
@@ -187,16 +215,16 @@ public class MouseInput implements MouseListener {
     public void mouseExited(MouseEvent e) {;}    
 
     // Center the click location into a grid place for X
-    private void gardenerX(MouseEvent e) {
+    private Short gardenerX(MouseEvent e) {
 
-        controlVariableX = Short.parseShort(Integer.toString(Game.intoMapX(e.getX())));
+        return Short.parseShort(Integer.toString(Game.intoMapX(e.getX())));
 
     }
 
     // Center the click location into a grid place for Y
-    private void gardenerY(MouseEvent e) {
+    private Short gardenerY(MouseEvent e) {
 
-        controlVariableY = Short.parseShort(Integer.toString(Game.intoMapY(e.getY())));
+        return Short.parseShort(Integer.toString(Game.intoMapY(e.getY())));
 
     }
 
