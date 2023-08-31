@@ -32,17 +32,19 @@ public class Game implements Runnable {
     public static final String ANSI_RED = "\u001B[31m";                                                                                                                             // Set the console text color to red
     public static final String ANSI_RESET = "\u001B[0m";                                                                                                                            // Reset the console text color
     public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png"};                                                          // Texture array for outside
-    public static final String[] houseTextures = {"Plank.png", "Grass1.png", "woodWall.png", "doormat.png", "bed.png", "wallpaint.png"};                                            // Texture array for the inside of the house
+    public static final String[] houseTextures = {"Plank.png", "Grass1.png", "woodWall.png", "doormat.png", "bed.png", "wallpaint.png", "Wardrobe.png"};                            // Texture array for the inside of the house
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}};                                                                 // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 5000;                                                                                                                                    // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
-    public static boolean alert = false;                                                                                                                                            // Is some type of a system warning / alert up?
+    public static boolean alert = false;                                                                                                                                            // Is some type of a alert up?
+    public static String alertMessage = "";                                                                                                                                         // The latest alert message
+    public static boolean warning = false;                                                                                                                                          // Is some type of a warning up?
+    public static String warningMessage = "";                                                                                                                                       // The latest warning message
     public static byte errorTime = 0;                                                                                                                                               // Number of secodns for the latest error to be visible
     public static String errorMessage = "";                                                                                                                                         // The lastet error message
-    public static String alertMessage = "";                                                                                                                                         // The latest alert message
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
     public static char[][] map = new char[8][15];                                                                                                                                   // [Y][X] coords
-    public static char[][] houseMap = new char[8][15];                                                                                                                              // [Y][X] cords
+    public static char[][] houseMap = new char[8][15];                                                                                                                              // [Y][X] coords
     public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();                                                                                                     // ArrayList of map objects that are collidable
     public static ArrayList<Bird> birdList = new ArrayList<Bird>();                                                                                                                 // The list of birds currently in game for drawing
     public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
@@ -90,28 +92,27 @@ public class Game implements Runnable {
         map[1][1] = '3';
         map[1][2] = '3';
 
-        // Fill the house map
-        houseMap[7][4] = '3';
-        houseMap[1][0] = '4';
-        
-        // Grass field wisible from house
+        // Grass field & walls wisible from house
         for (int i=0; i<houseMap.length; i++) {
             
             for (int j=houseMap[0].length - 5; j<houseMap[0].length; j++) houseMap[i][j] = '1';
             houseMap[i][houseMap[0].length - 6] = '2';
             
         }
-        
-        // Setting up the wall paintings
-        houseMap[2][9] = '5';
 
+        // Fill the house map
+        houseMap[7][4] = '3';
+        houseMap[1][0] = '4';
+        houseMap[2][9] = '5';
+        houseMap[5][9] = '6';
+        
         /*
          * --------------------------------------------------------------------------------
          * Filling up the arraylist with invisible walls
          * --------------------------------------------------------------------------------
          */
 
-        for (int i=2; i<6; i++) invisibleWalls.add(i);
+        for (int i=2; i<( houseMap.length > map.length ? houseMap.length : map.length ); i++) invisibleWalls.add(i);
 
         /*
          * --------------------------------------------------------------------------------
@@ -390,6 +391,17 @@ public class Game implements Runnable {
                         // Bird flight
                         Bird bird = birdList.get(i);
                         bird.positionX += bird.vectorX;
+
+                        // Bird flapping wings
+                        if (intoMapX(bird.positionX) % 2 == 0) {
+
+                            bird.texture = setTexture("res/Pics/Pigeon1.png");
+
+                        } else {
+
+                            bird.texture = setTexture("res/Pics/Pigeon2.png");
+
+                        }
 
                         // Bird shit detection
                         if (bird.drawShit && intoMapY(bird.shitPositionY - 30) == intoMapY(gamePanel.dad.LOCATION_Y + 64) && intoMapX(bird.shitPositionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) {

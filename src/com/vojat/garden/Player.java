@@ -117,6 +117,8 @@ public class Player {
         this.HP = 0;
         Game.alert = true;
         Game.alertMessage = "Do you want to reload your last save?";
+        Game.warning = true;
+        Game.warningMessage = "You are dead";
         Game.killGame();
         currentTexture = Game.setTexture("res/Pics/Grave.png");
         gamePanel.repaint();

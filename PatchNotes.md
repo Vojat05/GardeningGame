@@ -183,3 +183,9 @@ JAR file is made for every update documented here<br>
     <li> + Added an option to reload last save after death</li>
     <li> + Added damage and death sound effects</li>
 </ul>
+
+## 31/8/2023
+<ul>
+    <li> + Added a wardrobe into the house</li>
+    <li> * Birds now flap with their wings while flying</li>
+</ul>

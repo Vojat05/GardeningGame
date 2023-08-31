@@ -216,13 +216,6 @@ public class GamePanel extends JPanel {
                         g.drawImage(new ImageIcon("res/Pics/" + Game.groundTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
 
                     }
-
-                    // Drawing the side fence poles
-                    for (int k=2; k<32; k++) {
-
-                        g.drawImage(new ImageIcon("res/Pics/FencePole.png").getImage(), 1877, k*30, 22, 96, null);
-
-                    }
                 }
             }
 
@@ -233,7 +226,32 @@ public class GamePanel extends JPanel {
 
                 for (int j=0; j<map[0].length; j++) {
 
-                    g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
+                    // Drawing the floor
+                    if (j < 9) {
+
+                        g.drawImage(new ImageIcon("res/Pics/Plank.png").getImage(), 128*j, 128*i, 128, 128, null);
+
+                    } else if (j == 9) {
+
+                        g.drawImage(new ImageIcon("res/Pics/woodWall.png").getImage(), 128*j, 128*i, 128, 128, null);
+
+                    } else {
+
+                        g.drawImage(new ImageIcon("res/Pics/Grass1.png").getImage(), 128*j, 128*i, 128, 128, null);
+
+                    }
+
+                    // Drawing the objects
+                    if ((int) map[i][j] == '6') {
+
+                        // The wardrobe and wall seperation
+                        g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j-30, 128*i, 128, 128, null);
+                        
+                    } else {
+
+                        g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
+
+                    }
 
                 }
             }
@@ -279,11 +297,18 @@ public class GamePanel extends JPanel {
                     }
                 }
 
+                // Drawing the side fence poles
+                for (int i=2; i<32; i++) {
+
+                    g.drawImage(new ImageIcon("res/Pics/FencePole.png").getImage(), 1877, i*30, 22, 96, null);
+
+                }
+
                 // Drawing the birds
                 for (int i=0; i<Game.birdList.size(); i++) {
 
                     Bird bird = Game.birdList.get(i);
-                    g.drawImage(bird.texture, (int) bird.positionX, (int) bird.positionY, 95, 69, null);
+                    g.drawImage(bird.texture, (int) bird.positionX, (int) bird.positionY, 127, 118, null);
 
                 }
             }
@@ -346,11 +371,12 @@ public class GamePanel extends JPanel {
 
     /*
      * --------------------------------------------------------------------------------
-     * Drawing the death screen panel
+     * Drawing the alert panel
      * --------------------------------------------------------------------------------
      */
 
-    private void drawDeathSign(Graphics2D g2d) {
+
+    private void drawWarning(Graphics2D g2d) {
 
         // Drawing the red hexagon background
         g2d.setPaint(new Color(231, 44, 22, 155));
@@ -370,11 +396,14 @@ public class GamePanel extends JPanel {
 
         // Drawing the text inside
         g2d.setFont(inventoryPanel.HPfont.deriveFont(64f));
-        g2d.drawString("You are dead", middleX - 130, (int) (middleY - middleY / 2 + 86 * 1.25));
+        g2d.drawString(Game.warningMessage, middleX - Game.warningMessage.length() * 11, (int) (middleY - middleY / 2 + 86 * 1.25));
 
+    }
 
+    private void drawAlert(Graphics2D g2d) {
 
-        // Drawing the option to load the last save
+        int middleX = this.getWidth() / 2;
+        int middleY = this.getHeight() / 2;
 
         // The upper white rectangle
         g2d.setPaint(new Color(245, 245, 245, 245));
@@ -395,7 +424,7 @@ public class GamePanel extends JPanel {
         g2d.drawString("Alert", middleX - 35, middleY - middleY / 2 + 240);
 
         g2d.setFont(inventoryPanel.HPfont.deriveFont(24f));
-        g2d.drawString(Game.alertMessage, middleX - 145, middleY - middleY / 2 + 330);
+        g2d.drawString(Game.alertMessage, middleX - Game.alertMessage.length() * 4, middleY - middleY / 2 + 330);
 
 
         // The selection buttons
@@ -447,7 +476,16 @@ public class GamePanel extends JPanel {
         g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
 
         // Drawing the death screen
-        if (dad.HP == 0) drawDeathSign(g2d);
+        if (dad.HP == 0) {
+
+            drawWarning(g2d);
+            drawAlert(g2d);
+            return;
+
+        }
+
+        if (Game.alert) drawAlert(g2d);
+        else if (Game.warning) drawWarning(g2d);
 
     }
 }

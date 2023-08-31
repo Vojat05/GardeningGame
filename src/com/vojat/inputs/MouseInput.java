@@ -47,6 +47,7 @@ public class MouseInput implements MouseListener {
         if (Game.alert && gamePanel.dad.HP == 0) {
 
             if ((e.getX() >= 802 && e.getX() <= 852) && (e.getY() >= 636 && e.getY() <= 685)) {
+                // Accept button
 
                 try {
                     
@@ -55,23 +56,35 @@ public class MouseInput implements MouseListener {
                         new Game(1920, 1075, Main.window);
                         Game.loadGame("src/com/vojat/Data/Saves/Save" + Game.save + ".json", Game.save);
                     
+                    } else if (Game.alertMessage.equals("Save not found, return to main menu.")) {
+
+                        Main.window.setElements(new MenuPanel(Main.window));
+                        Game.alert = false;
+                        Game.warning = false;
+
                     } else {
 
                         Game.alertUpdate("Save not found, return to main menu.", gamePanel);
 
                     }
+                    Game.playSound("res/Audio/Button.wav");
 
                 } catch (FileNotFoundException fne) {
                     
                     System.err.println("File not found");
 
                 }
+
                 return;
             
             }
             else if((e.getX() >= 1052 && e.getX() <= 1101) && (e.getY() >= 636 && e.getY() <= 685)) {
+                // Reject button
                 
-                Main.window.setElements(new MenuPanel(Main.window)); 
+                Main.window.setElements(new MenuPanel(Main.window));
+                Game.playSound("res/Audio/Button.wav");
+                Game.alert = false;
+                Game.warning = false;
                 return;
             
             }
