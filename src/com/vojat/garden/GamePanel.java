@@ -308,7 +308,7 @@ public class GamePanel extends JPanel {
                 for (int i=0; i<Game.birdList.size(); i++) {
 
                     Bird bird = Game.birdList.get(i);
-                    g.drawImage(bird.texture, (int) bird.positionX, (int) bird.positionY, 127, 118, null);
+                    g.drawImage(bird.texture, (int) bird.positionX, (int) bird.positionY, 76, 71, null);
 
                 }
             }

@@ -54,6 +54,8 @@ public class MouseInput implements MouseListener {
                         
                         new Game(1920, 1075, Main.window);
                         Game.loadGame("src/com/vojat/Data/Saves/Save" + Game.save + ".json", Game.save);
+                        Game.alert = false;
+                        Game.warning = false;
                     
                     } else if (Game.alertMessage.equals("Save not found, return to main menu.")) {
 
@@ -110,7 +112,7 @@ public class MouseInput implements MouseListener {
         }
 
         // Pause intercation protection
-        if (Game.pause) return;
+        if (Game.pause || gamePanel.dad.HP == 0) return;
 
         switch (e.getButton()) {
 
