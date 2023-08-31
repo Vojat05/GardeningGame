@@ -14,7 +14,7 @@ public class Bird {
     public static final int shitSpeed = 1;                                                                                           // The speed at which the bird shit falls to the ground
     public double vectorX = .0, positionY = 0, positionX = Window.width, shitPositionX = 0, shitPositionY = 0;                       // Birds location and velocity data
     public boolean drawShit = false, splat = false, audio = false;                                                                   // Has the bird shat yet?
-    public BufferedImage texture = Game.setTexture("res/pics/pigeon.png");                                                           // Bird texture
+    public BufferedImage texture = Game.setTexture("res/pics/Pigeon1.png");                                                          // Bird texture
     public long timeToCleanShit = 0;
 
     /*
