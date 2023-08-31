@@ -45,7 +45,7 @@ public class Flower {
 
         this.baseTexture = setTexture("res/Pics/Grass" + Game.random.nextInt(1, 3) + ".png");
         this.ALIVE_TEXTURE = "res/Pics/" + type + ".png";
-        this.THIRSTY_TEXTURE = "res/Pics/Land.png";
+        this.THIRSTY_TEXTURE = "res/Pics/" + type + "_thirsty.png";
         this.DEAD_TEXTURE = "res/Pics/MrUgly.png";
         this.TYPE = type;
         this.LOCATION_X = locationX;

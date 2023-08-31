@@ -32,9 +32,9 @@ public class Game implements Runnable {
     public static final String ANSI_RED = "\u001B[31m";                                                                                                                             // Set the console text color to red
     public static final String ANSI_RESET = "\u001B[0m";                                                                                                                            // Reset the console text color
     public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png"};                                                          // Texture array for outside
-    public static final String[] houseTextures = {"Plank.png", "Grass1.png", "woodWall.png", "doormat.png", "bed.png", "wallpaint.png", "Wardrobe.png"};                            // Texture array for the inside of the house
-    public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}};                                                                 // {"flower type", "time for it to die in millis"}
-    public static final int flowerChange = 5000;                                                                                                                                    // The time each flower has for being thirsty before they die
+    public static final String[] houseTextures = {"Plank.png", "Grass1.png", "woodWall.png", "doormat.png", "bed.png", "Wardrobe.png"};                                             // Texture array for the inside of the house
+    public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}, {"Cactus", "400000"}};                                           // {"flower type", "time for it to die in millis"}
+    public static final int flowerChange = 60000;                                                                                                                                   // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
     public static boolean alert = false;                                                                                                                                            // Is some type of a alert up?
     public static String alertMessage = "";                                                                                                                                         // The latest alert message
@@ -103,8 +103,7 @@ public class Game implements Runnable {
         // Fill the house map
         houseMap[7][4] = '3';
         houseMap[1][0] = '4';
-        houseMap[2][9] = '5';
-        houseMap[5][9] = '6';
+        houseMap[3][8] = '5';
         
         /*
          * --------------------------------------------------------------------------------
@@ -283,7 +282,7 @@ public class Game implements Runnable {
         } catch (IOException ioe) {
 
             System.err.println(ErrorList.ERR_404.message);
-            Game.error("Bird texture not found", 3);
+            Game.error("Texture not found", 3);
             return null;
 
         }
@@ -413,8 +412,8 @@ public class Game implements Runnable {
                         // Bird shit detection
                         if (bird.drawShit && intoMapY(bird.shitPositionY - 30) == intoMapY(gamePanel.dad.LOCATION_Y + 64) && intoMapX(bird.shitPositionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) {
 
-                            System.out.println(ANSI_RED + "Shit hit" + ANSI_RESET);
-                            gamePanel.dad.hurt(5);
+                            if (gamePanel.dad.HP == 0) gamePanel.dad.currentTexture = setTexture("res/Pics/GraveShit.png");
+                            if (gamePanel.dad.HP != 0) gamePanel.dad.hurt(5);
                             bird.shitPositionY = Window.height;
                             continue;
 
@@ -481,7 +480,7 @@ public class Game implements Runnable {
                     }
                     
                     // Replays the in-game music if it had reached the end.
-                    if (!clip.isRunning()) {
+                    if (!clip.isRunning() && gamePanel.dad.HP != 0) {
 
                         clip.setFramePosition(0);
                         clip.start();

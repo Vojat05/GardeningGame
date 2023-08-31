@@ -39,7 +39,7 @@ public class Bird {
         this.shitPositionY = this.positionY + 32;
         this.timeToCleanShit = System.currentTimeMillis() + 10_000;
         this.vectorX = -2;
-        System.out.println(Game.ANSI_RED + "Bird shits" + Game.ANSI_RESET);
+        Game.playSound("res/Audio/BirdShit.wav");
 
     }
 }

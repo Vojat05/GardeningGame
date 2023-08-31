@@ -188,4 +188,6 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> + Added a wardrobe into the house</li>
     <li> * Birds now flap with their wings while flying</li>
+    <li> * The grave stone can be covered in bird shit</li>
+    <li> + Added a cactus<li>
 </ul>

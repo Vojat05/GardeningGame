@@ -17,6 +17,7 @@ public class Player {
     public double LOCATION_X = .0, LOCATION_Y = .0;                         // Position of the player
     public double VECTORX = .0, VECTORY = .0;                               // Player's movement vectors
     public BufferedImage currentTexture;                                    // Player's current texture {front, back, left, right}
+    public char textureModifier = '0';                                      // Changes the players skin
     public ArrayList<String> inventory = new ArrayList<String>();           // Player inventory with all object he holds
     public byte selectedItem = 0;                                           // Index of a specific item from the inventory
     public byte reach = 1;                                                  // Player reach
@@ -62,7 +63,7 @@ public class Player {
         windowLimitY = limitY-170;
 
         // Sets the default player texture on startup to look forward
-        currentTexture = Game.setTexture("res/Pics/Dad_Texture_F.png");
+        currentTexture = Game.setTexture("res/Pics/Dad_Texture_F" + this.textureModifier + ".png");
 
     }
 
@@ -119,7 +120,7 @@ public class Player {
         Game.alertMessage = "Do you want to reload your last save?";
         Game.warning = true;
         Game.warningMessage = "You are dead";
-        Game.killGame();
+        Game.clip.stop();
         currentTexture = Game.setTexture("res/Pics/Grave.png");
         gamePanel.repaint();
         Game.playSound("res/Audio/Death.wav");

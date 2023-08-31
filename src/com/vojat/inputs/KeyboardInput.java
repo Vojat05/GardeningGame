@@ -87,12 +87,12 @@ public class KeyboardInput implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if (dad == null) return;
+        if (dad == null || dad.HP == 0) return;
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
 
             if (up) {
 
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_B.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_B" + dad.textureModifier + ".png");
                 up = false;
 
             }
@@ -103,7 +103,7 @@ public class KeyboardInput implements KeyListener {
 
             if (down) {
 
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_F.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_F" + dad.textureModifier + ".png");
                 down = false;
 
             }
@@ -114,7 +114,7 @@ public class KeyboardInput implements KeyListener {
 
             if (left) {
 
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_L.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_L" + dad.textureModifier + ".png");
                 left = false;
 
             }
@@ -125,7 +125,7 @@ public class KeyboardInput implements KeyListener {
 
             if (right) {
 
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_R.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_R" + dad.textureModifier + ".png");
                 right = false;
 
             }
@@ -157,7 +157,7 @@ public class KeyboardInput implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
-        if (dad == null) return;
+        if (dad == null || dad.HP == 0) return;
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
 
             up = true;
@@ -234,19 +234,19 @@ public class KeyboardInput implements KeyListener {
         switch (direction) {
 
             case "up":
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_B.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_B" + dad.textureModifier + ".png");
                 break;
 
             case "down":
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_F.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_F" + dad.textureModifier + ".png");
                 break;
 
             case "left":
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_L.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_L" + dad.textureModifier + ".png");
                 break;
 
             case "right":
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_R.png");
+                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_R" + dad.textureModifier + ".png");
                 break;
                 
         }

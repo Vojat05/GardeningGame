@@ -1,15 +1,3 @@
-Player Death:
-
-On a player death he must reload the last save point
-
-----------------------------------------------------------------------
-
 Thistry Plant Textures:
 
 Each plant need a thirtsy and dead texture
-
-----------------------------------------------------------------------
-
-The Cacti:
-
-Add some cacti to the game, and make them able to survive long time without any water
