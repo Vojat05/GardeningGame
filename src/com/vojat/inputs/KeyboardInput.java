@@ -13,9 +13,7 @@ import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Game;
 import com.vojat.garden.GamePanel;
 import com.vojat.garden.Player;
-import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Settings;
-import com.vojat.menu.Window;
 
 /*
  * Class implementing KeyListener interface
@@ -33,8 +31,7 @@ public class KeyboardInput implements KeyListener {
 
     private Player dad;                                                                     // The player
     private GamePanel gamePanel;                                                            // Game panel
-    private boolean up = true, down = true, left = true, right = true;                      // Determines wheather the player's texture should be repainted in a specific direction                                                             
-    private Window window;                                                                  // Window on which the game panel is
+    private boolean up = true, down = true, left = true, right = true;                      // Determines wheather the player's texture should be repainted in a specific direction
     private Settings settings;                                                              // Settings panel used for the change key response
     private JButton button;                                                                 // Button for the settings change key
     private JLabel label;                                                                   // The label to be repainted after the key is changed
@@ -46,11 +43,10 @@ public class KeyboardInput implements KeyListener {
      * --------------------------------------------------------------------------------
      */
 
-    public KeyboardInput(GamePanel gamePanel, Player dad, Window window) {
+    public KeyboardInput(GamePanel gamePanel, Player dad) {
 
         this.gamePanel = gamePanel;
         this.dad = dad;
-        this.window = window;
 
         try {
 
@@ -138,10 +134,24 @@ public class KeyboardInput implements KeyListener {
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
 
-            Game.killGame();
-            window.setElements(new MenuPanel(window));
+            if (!Game.pause && !Game.alert) {
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) Game.pauseGame();
+                Game.pauseGame();
+                Game.alert("Are you sure you want to quit?", gamePanel);
+
+            } else if (Game.pause && Game.alert) {
+
+                Game.pauseGame();
+                Game.alert = false;
+
+            }
+            else if (Game.pause && !Game.alert) Game.alert("Are you sure you want to quit?", gamePanel);
+
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) {
+
+            if (!Game.alert) Game.pauseGame();
+
+        }
     }
 
     @Override
@@ -168,21 +178,21 @@ public class KeyboardInput implements KeyListener {
             right = true;
             dad.VECTORX = .0;
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "next"))) {
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "next")) && !Game.pause) {
 
             if (dad.selectedItem+1 < dad.inventory.size()) dad.selectedItem++; 
             else dad.selectedItem = 0;
 
             gamePanel.inventoryPanel.repaintItem(dad);
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "previous"))) {
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "previous")) && !Game.pause) {
 
             if (dad.selectedItem > 0) dad.selectedItem--; 
             else dad.selectedItem = (byte) (dad.inventory.size() - 1);
 
             gamePanel.inventoryPanel.repaintItem(dad);
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open"))) gamePanel.changeVisibility(gamePanel.fullInv);
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
 
         if (dad.VECTORX != .0 || dad.VECTORY != .0) {
 
