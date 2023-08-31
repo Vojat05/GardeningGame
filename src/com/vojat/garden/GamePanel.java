@@ -111,7 +111,7 @@ public class GamePanel extends JPanel {
                 JButton button = new JButton(i == 0 ? "Close" : "Save " + i);
                 button.setPreferredSize(new Dimension(200, 50));
                 if (i != 0) button.addActionListener((e) -> saveButton(button)); 
-                else button.addActionListener((e) -> {Game.pauseGame(); dad.LOCATION_X = 80; dad.LOCATION_Y = 120; changeVisibility(saveMenu);});
+                else button.addActionListener((e) -> {Game.pauseGame(); dad.LOCATION_X = 208; dad.LOCATION_Y = 120; changeVisibility(saveMenu);});
                 saveMenu.add(button);
 
             }
@@ -222,37 +222,91 @@ public class GamePanel extends JPanel {
         } else {
 
             // Draws the interior of the house
+            // Drawing the grass background
+            for (int i=0; i<Game.houseMap.length; i++) {
+
+                for (int j=0; j<Game.houseMap[0].length; j++) {
+    
+                    g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[1]).getImage(), 128*j, 128*i, 128, 128, null);
+    
+                }
+            }
+
+            // Drawing the plank floor inside
+            for (int i=1; i<7; i++) {
+
+                for (int j=1; j<9; j++) {
+    
+                    g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[0]).getImage(), 128*j, 128*i, 128, 128, null);
+    
+                }
+            }
+
+            // Drawing the house walls
+            // Horizontal
+            for (int i=0; i<10; i++) {
+                Game.houseMap[0][i] = '2';
+                Game.houseMap[7][i] = '2';
+
+                if (i == 0) {
+
+                    g.drawImage(new ImageIcon("res/Pics/cornerTL.png").getImage(), 128*i, 0, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/cornerBL.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    continue;
+
+                } else if (i == 2) {
+
+                    g.drawImage(new ImageIcon("res/Pics/window.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/wallT.png").getImage(), 128*i, 0, 128, 128, null);
+                    continue;
+
+                } else if (i == 5) {
+
+                    g.drawImage(new ImageIcon("res/Pics/door.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/wallT.png").getImage(), 128*i, 0, 128, 128, null);
+                    continue;
+
+                } else if (i == 9) {
+
+                    g.drawImage(new ImageIcon("res/Pics/cornerTR.png").getImage(), 128*i, 0, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/cornerBR.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    continue;
+
+                }
+
+                g.drawImage(new ImageIcon("res/Pics/wallB.png").getImage(), 128*i, 128*7, 128, 128, null);
+                g.drawImage(new ImageIcon("res/Pics/wallT.png").getImage(), 128*i, 0, 128, 128, null);
+
+            }
+
+            // Vertical
+            for (int i=1; i<7; i++) {
+                Game.houseMap[i][0] = '2';
+                Game.houseMap[i][9] = '2';
+
+                g.drawImage(new ImageIcon("res/Pics/wallL.png").getImage(), 0, 128*i, 128, 128, null);
+                g.drawImage(new ImageIcon("res/Pics/wallR.png").getImage(), 128*9, 128*i, 128, 128, null);
+
+            }
+
             for (int i=0; i<map.length; i++) {
 
                 for (int j=0; j<map[0].length; j++) {
 
-                    // Drawing the floor
-                    if (j < 9) {
-
-                        g.drawImage(new ImageIcon("res/Pics/Plank.png").getImage(), 128*j, 128*i, 128, 128, null);
-
-                    } else if (j == 9) {
-
-                        g.drawImage(new ImageIcon("res/Pics/woodWall.png").getImage(), 128*j, 128*i, 128, 128, null);
-
-                    } else {
-
-                        g.drawImage(new ImageIcon("res/Pics/Grass1.png").getImage(), 128*j, 128*i, 128, 128, null);
-
-                    }
-
                     // Drawing the objects
-                    if ((int) map[i][j] == '6') {
+                    if ((int) map[i][j] - 48 > 1) {
 
-                        // The wardrobe and wall seperation
-                        g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j-30, 128*i, 128, 128, null);
-                        
-                    } else {
-
-                        g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
-
+                        if ((int) map[i][j] == '6') {
+    
+                            // The wardrobe and wall seperation
+                            g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j-30, 128*i, 128, 128, null);
+                            
+                        } else {
+    
+                            g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
+    
+                        }
                     }
-
                 }
             }
         }

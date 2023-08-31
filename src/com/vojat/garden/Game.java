@@ -32,7 +32,7 @@ public class Game implements Runnable {
     public static final String ANSI_RED = "\u001B[31m";                                                                                                                             // Set the console text color to red
     public static final String ANSI_RESET = "\u001B[0m";                                                                                                                            // Reset the console text color
     public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png"};                                                          // Texture array for outside
-    public static final String[] houseTextures = {"Plank.png", "Grass1.png", "woodWall.png", "doormat.png", "bed.png", "Wardrobe.png"};                                             // Texture array for the inside of the house
+    public static final String[] houseTextures = {"Plank.png", "Grass1.png", "", "doormat.png", "bed.png", "Wardrobe.png"};                                                         // Texture array for the inside of the house
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}, {"Cactus", "400000"}};                                           // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 60000;                                                                                                                                   // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
@@ -92,18 +92,10 @@ public class Game implements Runnable {
         map[1][1] = '3';
         map[1][2] = '3';
 
-        // Grass field & walls wisible from house
-        for (int i=0; i<houseMap.length; i++) {
-            
-            for (int j=houseMap[0].length - 5; j<houseMap[0].length; j++) houseMap[i][j] = '1';
-            houseMap[i][houseMap[0].length - 6] = '2';
-            
-        }
-
         // Fill the house map
-        houseMap[7][4] = '3';
-        houseMap[1][0] = '4';
-        houseMap[3][8] = '5';
+        houseMap[6][5] = '3'; // Doormat
+        houseMap[1][1] = '4'; // Bed
+        houseMap[3][8] = '5'; // Wardrobe
         
         /*
          * --------------------------------------------------------------------------------
@@ -111,7 +103,7 @@ public class Game implements Runnable {
          * --------------------------------------------------------------------------------
          */
 
-        for (int i=2; i<( houseMap.length > map.length ? houseMap.length : map.length ); i++) invisibleWalls.add(i);
+        for (int i=2; i<( houseMap.length > map.length ? houseMap.length : map.length ); i++) if (i !=3) invisibleWalls.add(i);
 
         /*
          * --------------------------------------------------------------------------------
@@ -131,7 +123,7 @@ public class Game implements Runnable {
 
         // Set the player starting position
         gamePanel.dad.level = 1;
-        gamePanel.dad.LOCATION_X = 80;
+        gamePanel.dad.LOCATION_X = 208;
         gamePanel.dad.LOCATION_Y = 120;
     }
 
@@ -437,13 +429,13 @@ public class Game implements Runnable {
 
                         playSound("res/Audio/DoorInteract.wav");
                         gamePanel.dad.level = 1;
-                        gamePanel.dad.LOCATION_X = 510;
+                        gamePanel.dad.LOCATION_X = 638;
                         gamePanel.dad.LOCATION_Y = 810;
 
                     }
 
                     // Exit house logic
-                    if (gamePanel.dad.level == 1 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 4 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
+                    if (gamePanel.dad.level == 1 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 5 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
 
                         playSound("res/Audio/DoorInteract.wav");
                         gamePanel.dad.level = 0;
