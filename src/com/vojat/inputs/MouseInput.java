@@ -287,7 +287,7 @@ public class MouseInput implements MouseListener {
 
                 // The bed interaction
                 Game.playSound("res/Audio/BedSqueak.wav");
-                gamePanel.dad.LOCATION_X = -10;
+                gamePanel.dad.LOCATION_X = 118;
                 gamePanel.dad.LOCATION_Y = 120;
                 gamePanel.changeVisibility(gamePanel.saveMenu);
                 Game.pauseGame();
