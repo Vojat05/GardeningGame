@@ -66,7 +66,7 @@ public class GamePanel extends JPanel {
          */
         
         {
-            addKeyListener(new KeyboardInput(this, dad, window));
+            addKeyListener(new KeyboardInput(this, dad));
             addMouseListener(new MouseInput(this));
         }
 

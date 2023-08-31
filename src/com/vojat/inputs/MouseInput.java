@@ -39,19 +39,18 @@ public class MouseInput implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        if (Game.pause) return;
         controlVariableX = gardenerX(e);
         controlVariableY = gardenerY(e);
 
-        // Reset game on death
-        if (Game.alert && gamePanel.dad.HP == 0) {
+        // Alert button interaction
+        if (Game.alert) {
 
             if ((e.getX() >= 802 && e.getX() <= 852) && (e.getY() >= 636 && e.getY() <= 685)) {
                 // Accept button
 
                 try {
                     
-                    if (Game.save != -1) {
+                    if (Game.save != -1 && Game.alertMessage.equals("Do you want to reload your last save?")) {
                         
                         new Game(1920, 1075, Main.window);
                         Game.loadGame("src/com/vojat/Data/Saves/Save" + Game.save + ".json", Game.save);
@@ -61,6 +60,13 @@ public class MouseInput implements MouseListener {
                         Main.window.setElements(new MenuPanel(Main.window));
                         Game.alert = false;
                         Game.warning = false;
+
+                    } else if (Game.alertMessage.equals("Are you sure you want to quit?")) {
+
+                        Game.killGame();
+                        Main.window.setElements(new MenuPanel(Main.window));
+                        Game.alert = false;
+                        Game.pause = false;
 
                     } else {
 
@@ -81,15 +87,30 @@ public class MouseInput implements MouseListener {
             else if((e.getX() >= 1052 && e.getX() <= 1101) && (e.getY() >= 636 && e.getY() <= 685)) {
                 // Reject button
                 
-                Main.window.setElements(new MenuPanel(Main.window));
+                if (gamePanel.dad.HP == 0) {
+
+                    Main.window.setElements(new MenuPanel(Main.window));
+                    Game.alert = false;
+                    Game.warning = false;
+                    
+                } else if (Game.alertMessage.equals("Are you sure you want to quit?")) {
+                    
+                    Game.pauseGame();
+                    Game.alert = false;
+                    
+                }
+                
                 Game.playSound("res/Audio/Button.wav");
-                Game.alert = false;
-                Game.warning = false;
                 return;
             
             }
 
+            return;
+
         }
+
+        // Pause intercation protection
+        if (Game.pause) return;
 
         switch (e.getButton()) {
 

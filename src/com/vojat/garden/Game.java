@@ -296,6 +296,14 @@ public class Game implements Runnable {
 
     }
 
+    public static void alert(String message, GamePanel gamePanel) {
+
+        alert = true;
+        alertMessage = message;
+        gamePanel.repaint();
+
+    }
+
     /*
      * --------------------------------------------------------------------------------
      * Methods for controlling the game audio
@@ -366,9 +374,8 @@ public class Game implements Runnable {
             if (!pause) {
 
                 now = System.nanoTime();
-            
                 deltaF += (now - previousTime) / timePerFrame;
-                previousTime = now;     // Updates previous time after the calculation
+                previousTime = now;
 
                 // Repaints 120 times per second
                 if (deltaF >= 1) {
@@ -489,7 +496,9 @@ public class Game implements Runnable {
                 }
             }
         }
+
         clip.stop();
+        
     }
 
     /*
