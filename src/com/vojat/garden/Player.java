@@ -116,13 +116,16 @@ public class Player {
     public void kill() {
 
         this.HP = 0;
+        this.VECTORX = .0;
+        this.VECTORY = .0;
+        this.currentTexture = Game.setTexture("res/Pics/Grave.png");
+
         Game.alert = true;
         Game.alertMessage = "Do you want to reload your last save?";
         Game.warning = true;
         Game.warningMessage = "You are dead";
+
         Game.clip.stop();
-        currentTexture = Game.setTexture("res/Pics/Grave.png");
-        gamePanel.repaint();
         Game.playSound("res/Audio/Death.wav");
 
     }

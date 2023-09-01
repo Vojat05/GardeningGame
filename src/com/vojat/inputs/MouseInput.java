@@ -163,7 +163,13 @@ public class MouseInput implements MouseListener {
                     } else if(gamePanel.dad.selectedItem == 0) {
 
                         // Stop the watering if water isn't selected or if the water is empty or is out of reach
-                        if ((int) Game.map[controlVariableY][controlVariableX] != 50) {
+                        
+                        if ((int) Game.map[controlVariableY][controlVariableX] == '4') {
+
+                            gamePanel.dad.waterRefill();
+                            Game.playSound("res/Audio/WaterPour.wav");
+                            
+                        } else if ((int) Game.map[controlVariableY][controlVariableX] != 50) {
 
                             System.err.println(ErrorList.ERR_NOPLANT.message);
                             Game.error("There isn't a plant", 3);
