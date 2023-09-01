@@ -411,7 +411,7 @@ public class Game implements Runnable {
                         // Bird shit detection
                         if (bird.drawShit && intoMapY(bird.shitPositionY - 30) == intoMapY(gamePanel.dad.LOCATION_Y + 64) && intoMapX(bird.shitPositionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) {
 
-                            if (gamePanel.dad.HP == 0) gamePanel.dad.currentTexture = setTexture("res/Pics/GraveShit.png");
+                            if (gamePanel.dad.HP == 0) gamePanel.dad.currentTexture = setTexture("res/Pics/Player/GraveShit.png");
                             if (gamePanel.dad.HP != 0) gamePanel.dad.hurt(5);
                             bird.shitPositionY = Window.height;
                             continue;
