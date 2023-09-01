@@ -17,13 +17,13 @@ public class Player {
     public double LOCATION_X = .0, LOCATION_Y = .0;                         // Position of the player
     public double VECTORX = .0, VECTORY = .0;                               // Player's movement vectors
     public BufferedImage currentTexture;                                    // Player's current texture {front, back, left, right}
-    public char textureModifier = '0';                                      // Changes the players skin
     public ArrayList<String> inventory = new ArrayList<String>();           // Player inventory with all object he holds
     public byte selectedItem = 0;                                           // Index of a specific item from the inventory
     public byte reach = 1;                                                  // Player reach
     public byte level = 1;                                                  // Level on which the player is located  0 == outside ; 1 == inside house
     public int speed = 1;                                                   // Player's movement speed
     public int HP = 100;                                                    // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
+    private char textureModifier = '0';                                     // Changes the players skin
 
     /*
      * --------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ public class Player {
         windowLimitY = limitY-170;
 
         // Sets the default player texture on startup to look forward
-        currentTexture = Game.setTexture("res/Pics/Dad_Texture_F" + this.textureModifier + ".png");
+        currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_F" + getTextureModifier() + ".png");
 
     }
 
@@ -118,7 +118,7 @@ public class Player {
         this.HP = 0;
         this.VECTORX = .0;
         this.VECTORY = .0;
-        this.currentTexture = Game.setTexture("res/Pics/Grave.png");
+        this.currentTexture = Game.setTexture("res/Pics/Player/Grave.png");
 
         Game.alert = true;
         Game.alertMessage = "Do you want to reload your last save?";
@@ -135,6 +135,19 @@ public class Player {
         if (HP == 0) kill();
         gamePanel.inventoryPanel.repaint();
         return this.HP = HP;
+
+    }
+
+    public char getTextureModifier() {
+
+        return this.textureModifier;
+
+    }
+
+    public void setTextureModifier(char newTextureModifier) {
+
+        this.textureModifier = newTextureModifier;
+        this.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_F" + getTextureModifier() + ".png");
 
     }
 }

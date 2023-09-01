@@ -227,7 +227,7 @@ public class GamePanel extends JPanel {
 
                 for (int j=0; j<Game.houseMap[0].length; j++) {
     
-                    g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[1]).getImage(), 128*j, 128*i, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/" + Game.groundTextures[0]).getImage(), 128*j, 128*i, 128, 128, null);
     
                 }
             }
@@ -237,7 +237,7 @@ public class GamePanel extends JPanel {
 
                 for (int j=1; j<9; j++) {
     
-                    g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[0]).getImage(), 128*j, 128*i, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[0]).getImage(), 128*j, 128*i, 128, 128, null);
     
                 }
             }
@@ -250,32 +250,32 @@ public class GamePanel extends JPanel {
 
                 if (i == 0) {
 
-                    g.drawImage(new ImageIcon("res/Pics/cornerTL.png").getImage(), 128*i, 0, 128, 128, null);
-                    g.drawImage(new ImageIcon("res/Pics/cornerBL.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/House/cornerTL.png").getImage(), 128*i, 0, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/House/cornerBL.png").getImage(), 128*i, 128*7, 128, 128, null);
                     continue;
 
                 } else if (i == 2) {
 
-                    g.drawImage(new ImageIcon("res/Pics/window.png").getImage(), 128*i, 128*7, 128, 128, null);
-                    g.drawImage(new ImageIcon("res/Pics/wallT.png").getImage(), 128*i, 0, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/House/window.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/House/wallT.png").getImage(), 128*i, 0, 128, 128, null);
                     continue;
 
                 } else if (i == 5) {
 
-                    g.drawImage(new ImageIcon("res/Pics/door.png").getImage(), 128*i, 128*7, 128, 128, null);
-                    g.drawImage(new ImageIcon("res/Pics/wallT.png").getImage(), 128*i, 0, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/House/door.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/House/wallT.png").getImage(), 128*i, 0, 128, 128, null);
                     continue;
 
                 } else if (i == 9) {
 
-                    g.drawImage(new ImageIcon("res/Pics/cornerTR.png").getImage(), 128*i, 0, 128, 128, null);
-                    g.drawImage(new ImageIcon("res/Pics/cornerBR.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/House/cornerTR.png").getImage(), 128*i, 0, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/Pics/House/cornerBR.png").getImage(), 128*i, 128*7, 128, 128, null);
                     continue;
 
                 }
 
-                g.drawImage(new ImageIcon("res/Pics/wallB.png").getImage(), 128*i, 128*7, 128, 128, null);
-                g.drawImage(new ImageIcon("res/Pics/wallT.png").getImage(), 128*i, 0, 128, 128, null);
+                g.drawImage(new ImageIcon("res/Pics/House/wallB.png").getImage(), 128*i, 128*7, 128, 128, null);
+                g.drawImage(new ImageIcon("res/Pics/House/wallT.png").getImage(), 128*i, 0, 128, 128, null);
 
             }
 
@@ -284,8 +284,8 @@ public class GamePanel extends JPanel {
                 Game.houseMap[i][0] = '2';
                 Game.houseMap[i][9] = '2';
 
-                g.drawImage(new ImageIcon("res/Pics/wallL.png").getImage(), 0, 128*i, 128, 128, null);
-                g.drawImage(new ImageIcon("res/Pics/wallR.png").getImage(), 128*9, 128*i, 128, 128, null);
+                g.drawImage(new ImageIcon("res/Pics/House/wallL.png").getImage(), 0, 128*i, 128, 128, null);
+                g.drawImage(new ImageIcon("res/Pics/House/wallR.png").getImage(), 128*9, 128*i, 128, 128, null);
 
             }
 
@@ -299,11 +299,11 @@ public class GamePanel extends JPanel {
                         if ((int) map[i][j] == '6') {
     
                             // The wardrobe and wall seperation
-                            g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j-30, 128*i, 128, 128, null);
+                            g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j-30, 128*i, 128, 128, null);
                             
                         } else {
     
-                            g.drawImage(new ImageIcon("res/Pics/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
+                            g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
     
                         }
                     }

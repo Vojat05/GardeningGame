@@ -88,11 +88,12 @@ public class KeyboardInput implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         if (dad == null || dad.HP == 0) return;
+
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
 
             if (up) {
 
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_B" + dad.textureModifier + ".png");
+                dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_B" + dad.getTextureModifier() + ".png");
                 up = false;
 
             }
@@ -103,7 +104,7 @@ public class KeyboardInput implements KeyListener {
 
             if (down) {
 
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_F" + dad.textureModifier + ".png");
+                dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_F" + dad.getTextureModifier() + ".png");
                 down = false;
 
             }
@@ -114,7 +115,7 @@ public class KeyboardInput implements KeyListener {
 
             if (left) {
 
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_L" + dad.textureModifier + ".png");
+                dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_L" + dad.getTextureModifier() + ".png");
                 left = false;
 
             }
@@ -125,7 +126,7 @@ public class KeyboardInput implements KeyListener {
 
             if (right) {
 
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_R" + dad.textureModifier + ".png");
+                dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_R" + dad.getTextureModifier() + ".png");
                 right = false;
 
             }
@@ -234,19 +235,19 @@ public class KeyboardInput implements KeyListener {
         switch (direction) {
 
             case "up":
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_B" + dad.textureModifier + ".png");
+                dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_B" + dad.getTextureModifier() + ".png");
                 break;
 
             case "down":
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_F" + dad.textureModifier + ".png");
+                dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_F" + dad.getTextureModifier() + ".png");
                 break;
 
             case "left":
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_L" + dad.textureModifier + ".png");
+                dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_L" + dad.getTextureModifier() + ".png");
                 break;
 
             case "right":
-                dad.currentTexture = Game.setTexture("res/Pics/Dad_Texture_R" + dad.textureModifier + ".png");
+                dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_R" + dad.getTextureModifier() + ".png");
                 break;
                 
         }

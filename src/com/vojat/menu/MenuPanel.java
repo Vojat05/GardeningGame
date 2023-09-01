@@ -42,7 +42,7 @@ public class MenuPanel extends JPanel{
         Load loadMenu = new Load(Main.sizeX, Main.sizeY, buttonPanel, spacer);
         
         // Create the start new game button
-        JButton start = new JButton(InventoryPanel.createIcon("res/Pics/New.png", 150, 40));
+        JButton start = new JButton(InventoryPanel.createIcon("res/Pics/Buttons/New.png", 150, 40));
         {
             start.addActionListener((e) -> {
                 new Game(1920, 1075, window);
@@ -51,7 +51,7 @@ public class MenuPanel extends JPanel{
         }
 
         // Create the load game button
-        JButton load = new JButton(InventoryPanel.createIcon("res/Pics/Load.png", 150, 40));
+        JButton load = new JButton(InventoryPanel.createIcon("res/Pics/Buttons/Load.png", 150, 40));
         {
             load.addActionListener((e) -> {
                 loadMenu.changeVisibility(buttonPanel, spacer);
@@ -61,7 +61,7 @@ public class MenuPanel extends JPanel{
         }
 
         // Create the options button
-        JButton options = new JButton(InventoryPanel.createIcon("res/Pics/Options.png", 150, 40));
+        JButton options = new JButton(InventoryPanel.createIcon("res/Pics/Buttons/Options.png", 150, 40));
         {
             options.addActionListener((e) -> {
                 settings.changeVisibility(buttonPanel, spacer);
@@ -71,7 +71,7 @@ public class MenuPanel extends JPanel{
         }
 
         // Exit button
-        JButton exit = new JButton(InventoryPanel.createIcon("res/Pics/Exit.png", 150, 40));
+        JButton exit = new JButton(InventoryPanel.createIcon("res/Pics/Buttons/Exit.png", 150, 40));
         {
             exit.addActionListener((e) -> {
                 window.dispose();
