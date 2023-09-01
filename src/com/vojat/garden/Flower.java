@@ -38,7 +38,7 @@ public class Flower {
         for (int i=0; i<Game.flowerTypes.length; i++) {
             if (type == Game.flowerTypes[i][0]) {
                 this.TIME_TO_DIE = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]);
-                this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]) + 5000;
+                this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]) + 20000;
                 break;
             }
         }
@@ -46,13 +46,14 @@ public class Flower {
         this.baseTexture = setTexture("res/Pics/Grass" + Game.random.nextInt(1, 3) + ".png");
         this.ALIVE_TEXTURE = "res/Pics/" + type + ".png";
         this.THIRSTY_TEXTURE = "res/Pics/" + type + "_thirsty.png";
-        this.DEAD_TEXTURE = "res/Pics/MrUgly.png";
+        this.DEAD_TEXTURE = "res/Pics/" + type + "_dead.png";
         this.TYPE = type;
         this.LOCATION_X = locationX;
         this.LOCATION_Y = locationY;
         this.STATUS = status;
         this.PLANT_NUMBER = number;
         this.CURRENT_TEXTURE = setTexture(path);
+        
     }
 
     /*
@@ -62,18 +63,20 @@ public class Flower {
      */
 
     public Flower(String path, String type, int locationX, int locationY, String status, int number, int dieTime) {
+
         this.baseTexture = setTexture("res/Pics/Grass" + Game.random.nextInt(1, 3) + ".png");
         this.ALIVE_TEXTURE = "res/Pics/" + type + ".png";
         this.THIRSTY_TEXTURE = "res/Pics/" + type + "_thirsty.png";
         this.DEAD_TEXTURE = "res/Pics/MrUgly.png";
         this.TIME_TO_DIE = dieTime + System.currentTimeMillis();
-        this.TIME_TO_DISSAPEAR = dieTime + 5000 + System.currentTimeMillis();
+        this.TIME_TO_DISSAPEAR = dieTime + 20000 + System.currentTimeMillis();
         this.TYPE = type;
         this.LOCATION_X = locationX;
         this.LOCATION_Y = locationY;
         this.STATUS = status;
         this.PLANT_NUMBER = number;
         this.CURRENT_TEXTURE = setTexture(path);
+
     }
 
     /*
