@@ -55,6 +55,7 @@ public class Game implements Runnable {
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
     private GamePanel gamePanel;                                                                                                                                                    // The panel that shows the game window
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
+    private int seconds = 0;                                                                                                                                                        // Seconds since the game started
 
 
     /*
@@ -295,6 +296,12 @@ public class Game implements Runnable {
 
     }
 
+    public int getRunTime() {
+
+        return this.seconds;
+
+    }
+
     /*
      * --------------------------------------------------------------------------------
      * Methods for controlling the game audio
@@ -454,6 +461,7 @@ public class Game implements Runnable {
 
                     lastCheck = System.currentTimeMillis();
                     System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
+                    System.out.println("Secs < " + getRunTime() + " >");
 
                     if (Main.debug) System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY + "\nNo. Birds: " + birdList.size());
                     
@@ -481,6 +489,7 @@ public class Game implements Runnable {
 
                     // Resets the FPS counter each second
                     fps = 0;
+                    seconds++;
                     if (errorTime != 0) errorTime--;
                     if (errorTime == 0) errorMessage = "";
 
