@@ -155,7 +155,7 @@ public class Load extends JPanel {
 
     // Creates a button to be passed to the block
     public void createButton(JPanel panel, Window window) {
-        JButton button = new JButton(InventoryPanel.createIcon("res/Pics/Load.png", 150, 40));
+        JButton button = new JButton(InventoryPanel.createIcon("res/Pics/Buttons/Load.png", 150, 40));
         int saveNumber = blocks.indexOf(panel)+1;
         button.addActionListener((e) -> buttonPress(button, saveNumber, window));
         button.setPreferredSize(new Dimension(150, 40));

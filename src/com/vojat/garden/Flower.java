@@ -32,7 +32,7 @@ public class Flower {
      * --------------------------------------------------------------------------------
      */
 
-    public Flower(String path, String type, int locationX, int locationY, String status, int number) {
+    public Flower(String type, int locationX, int locationY, String status, int number) {
 
         // Sets the die & disappear times based on the flower type
         for (int i=0; i<Game.flowerTypes.length; i++) {
@@ -44,15 +44,15 @@ public class Flower {
         }
 
         this.baseTexture = setTexture("res/Pics/Grass" + Game.random.nextInt(1, 3) + ".png");
-        this.ALIVE_TEXTURE = "res/Pics/" + type + ".png";
-        this.THIRSTY_TEXTURE = "res/Pics/" + type + "_thirsty.png";
-        this.DEAD_TEXTURE = "res/Pics/" + type + "_dead.png";
+        this.ALIVE_TEXTURE = "res/Pics/Flowers/" + type + ".png";
+        this.THIRSTY_TEXTURE = "res/Pics/Flowers/" + type + "_thirsty.png";
+        this.DEAD_TEXTURE = "res/Pics/Flowers/" + type + "_dead.png";
         this.TYPE = type;
         this.LOCATION_X = locationX;
         this.LOCATION_Y = locationY;
         this.STATUS = status;
         this.PLANT_NUMBER = number;
-        this.CURRENT_TEXTURE = setTexture(path);
+        this.CURRENT_TEXTURE = setTexture(this.ALIVE_TEXTURE);
         
     }
 
@@ -62,12 +62,12 @@ public class Flower {
      * --------------------------------------------------------------------------------
      */
 
-    public Flower(String path, String type, int locationX, int locationY, String status, int number, int dieTime) {
+    public Flower(String type, int locationX, int locationY, String status, int number, int dieTime) {
 
         this.baseTexture = setTexture("res/Pics/Grass" + Game.random.nextInt(1, 3) + ".png");
-        this.ALIVE_TEXTURE = "res/Pics/" + type + ".png";
-        this.THIRSTY_TEXTURE = "res/Pics/" + type + "_thirsty.png";
-        this.DEAD_TEXTURE = "res/Pics/MrUgly.png";
+        this.ALIVE_TEXTURE = "res/Pics/Flowers/" + type + ".png";
+        this.THIRSTY_TEXTURE = "res/Pics/Flowers/" + type + "_thirsty.png";
+        this.DEAD_TEXTURE = "res/Pics/Flowers/" + type + "_dead.png";
         this.TIME_TO_DIE = dieTime + System.currentTimeMillis();
         this.TIME_TO_DISSAPEAR = dieTime + 20000 + System.currentTimeMillis();
         this.TYPE = type;
@@ -75,7 +75,7 @@ public class Flower {
         this.LOCATION_Y = locationY;
         this.STATUS = status;
         this.PLANT_NUMBER = number;
-        this.CURRENT_TEXTURE = setTexture(path);
+        this.CURRENT_TEXTURE = setTexture(dieTime > Game.flowerChange ? this.ALIVE_TEXTURE : dieTime > this.TIME_TO_DISSAPEAR ? this.THIRSTY_TEXTURE : this.DEAD_TEXTURE);
 
     }
 

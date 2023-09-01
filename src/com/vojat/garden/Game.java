@@ -32,7 +32,7 @@ public class Game implements Runnable {
     public static final String ANSI_RED = "\u001B[31m";                                                                                                                             // Set the console text color to red
     public static final String ANSI_RESET = "\u001B[0m";                                                                                                                            // Reset the console text color
     public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png"};                                                          // Texture array for outside
-    public static final String[] houseTextures = {"Plank.png", "Grass1.png", "", "doormat.png", "bed.png", "Wardrobe.png"};                                                         // Texture array for the inside of the house
+    public static final String[] houseTextures = {"Plank.png", "", "", "doormat.png", "bed.png", "Wardrobe.png"};                                                                   // Texture array for the inside of the house
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}, {"Cactus", "400000"}};                                           // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 60000;                                                                                                                                   // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
@@ -526,7 +526,7 @@ public class Game implements Runnable {
         if (Main.debug) System.out.println("Game saved succesfully into \"" + saveFilePath + "\"");
 
         // Move player out of the bed
-        dad.LOCATION_X = 80;
+        dad.LOCATION_X = 208;
         dad.LOCATION_Y = 120;
     }
 
@@ -610,13 +610,13 @@ public class Game implements Runnable {
             }
 
             flowers.add(new Flower(
-                Integer.parseInt(timeToDie) > flowerChange ? "res/Pics/" + plantType + ".png" : "res/Pics/" + plantType + "_thirsty.png", 
                 plantType, 
                 Integer.parseInt(posX), 
                 Integer.parseInt(posY), 
                 Integer.parseInt(timeToDie) > 0 ? "Alive" : "Dead", 
                 Integer.parseInt(plantNumber), 
-                Integer.parseInt(timeToDie)));
+                Integer.parseInt(timeToDie))
+            );
 
         }
 

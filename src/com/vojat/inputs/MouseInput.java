@@ -70,6 +70,12 @@ public class MouseInput implements MouseListener {
                         Game.alert = false;
                         Game.pause = false;
 
+                    } else if (Game.alertMessage.equals("Do you want to change your clothes?")) {
+
+                        gamePanel.dad.setTextureModifier(gamePanel.dad.getTextureModifier() == '0' ? '1' : '0');
+                        Game.pauseGame();
+                        Game.alert = false;
+
                     } else {
 
                         Game.alertUpdate("Save not found, return to main menu.", gamePanel);
@@ -95,12 +101,12 @@ public class MouseInput implements MouseListener {
                     Game.alert = false;
                     Game.warning = false;
                     
-                } else if (Game.alertMessage.equals("Are you sure you want to quit?")) {
+                } else {
                     
                     Game.pauseGame();
                     Game.alert = false;
                     
-                }
+                } 
                 
                 Game.playSound("res/Audio/Button.wav");
                 return;
@@ -152,7 +158,7 @@ public class MouseInput implements MouseListener {
 
                             // Creates a flower object if the area isn't being occupied
                             Game.playSound("res/Audio/Plant.wav");
-                            flower = new Flower("res/Pics/" + gamePanel.dad.inventory.get(gamePanel.dad.selectedItem) + ".png", gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", Game.flowers.size());
+                            flower = new Flower(gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", Game.flowers.size());
                             gamePanel.dad.plant(flower);
 
                             // Writes it's value into map
@@ -296,6 +302,13 @@ public class MouseInput implements MouseListener {
                 gamePanel.dad.LOCATION_X = 118;
                 gamePanel.dad.LOCATION_Y = 120;
                 gamePanel.changeVisibility(gamePanel.saveMenu);
+                Game.pauseGame();
+                break;
+            
+            case 5:
+
+                // The closet interaction
+                Game.alert("Do you want to change your clothes?", gamePanel);
                 Game.pauseGame();
                 break;
             

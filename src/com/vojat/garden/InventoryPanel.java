@@ -69,14 +69,16 @@ public class InventoryPanel extends JPanel{
     // Repaint the selected item
     public void repaintItem(Player dad) {
 
-        item.setIcon(new ImageIcon(new ImageIcon("res/Pics/" + dad.inventory.get(dad.selectedItem) + ".png").getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
+        item.setIcon(new ImageIcon(new ImageIcon("res/Pics/" + (dad.selectedItem == 0 ? "Player" : "Flowers") + "/" + dad.inventory.get(dad.selectedItem) + ".png").getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
         add(item);
 
     }
 
+    // Repaint the inventory ( T )
     public static void repaintItem(int index, JLabel label, Player dad) {
 
-        label.setIcon(new ImageIcon(new ImageIcon("res/Pics/" + dad.inventory.get(index) + ".png").getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
+        // Terrible fix, repair later
+        label.setIcon(new ImageIcon(new ImageIcon("res/Pics/" + (dad.inventory.get(index).charAt(0) == 'w' ? "Player" : "Flowers") + "/" + dad.inventory.get(index) + ".png").getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
         label.setBorder(new LineBorder(Color.BLACK, 2));
 
     }
