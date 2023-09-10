@@ -24,6 +24,7 @@ public class Player {
     public int speed = 1;                                                   // Player's movement speed
     public int HP = 100;                                                    // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
     private char textureModifier = '0';                                     // Changes the players skin
+    private boolean canMove = true;                                         // Can player can move around or not?
 
     /*
      * --------------------------------------------------------------------------------
@@ -149,5 +150,17 @@ public class Player {
         this.textureModifier = newTextureModifier;
         this.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_F" + getTextureModifier() + ".png");
 
+    }
+
+    public boolean canMove() {
+
+        return this.canMove;
+
+    }
+
+    public boolean setMove(boolean value) {
+
+        return this.canMove = value;
+        
     }
 }

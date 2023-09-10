@@ -2,6 +2,7 @@ package com.vojat.inputs;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.FileNotFoundException;
 
 import com.vojat.Main;
@@ -11,7 +12,7 @@ import com.vojat.garden.Game;
 import com.vojat.garden.GamePanel;
 import com.vojat.menu.MenuPanel;
 
-public class MouseInput implements MouseListener {
+public class MouseInput implements MouseListener, MouseMotionListener {
 
     /*
      * --------------------------------------------------------------------------------
@@ -23,6 +24,8 @@ public class MouseInput implements MouseListener {
     private short controlVariableX;                                                     // Theoretical mouse X coordinate in the game map 
     private short controlVariableY;                                                     // Theoretical mouse Y coordiante in the game map
     private Flower flower;                                                              // Flower object that's set on each click on some flower
+    private int mouseX = 0;
+    private int mouseY = 0;
 
     /*
      * --------------------------------------------------------------------------------
@@ -43,9 +46,27 @@ public class MouseInput implements MouseListener {
         controlVariableY = gardenerY(e);
 
         // Alert button interaction
-        if (Game.alert) {
+        if (Game.alert || gamePanel.saveMenuOpen) {
 
-            if ((e.getX() >= 802 && e.getX() <= 852) && (e.getY() >= 636 && e.getY() <= 685)) {
+            if (gamePanel.saveMenuOpen) {
+
+                if ( !(e.getX() >= 772 && e.getX() <= 1132) ) return;
+
+                for (int i=1; i<=6; i++) {
+                    
+                    if (e.getY() >= 185 + i * 60 && e.getY() <= 235 + i * 60) {
+                        
+                        gamePanel.setSaveNumber(i);
+                        Game.playSound("res/Audio/Button.wav");
+                        break;
+                    
+                    }
+
+                }
+            }
+
+            if ( (e.getX() >= 802 && e.getX() <= 852) && (e.getY() >= 636 && e.getY() <= 685) ) {
+                
                 // Accept button
 
                 try {
@@ -76,11 +97,22 @@ public class MouseInput implements MouseListener {
                         Game.pauseGame();
                         Game.alert = false;
 
+                    } else if (Game.alertMessage.equals("")) {
+
+                        // The save box options
+                        Game.saveGame("src/com/vojat/Data/Saves/Save" + gamePanel.getSaveNumber() + ".json", gamePanel.dad, (byte) gamePanel.getSaveNumber());
+                        gamePanel.hideSaveMenu();
+                        gamePanel.dad.LOCATION_X = 208;
+                        gamePanel.dad.LOCATION_Y = 120;
+                        Game.alertMessage = "None";
+                        Game.pauseGame();
+
                     } else {
 
                         Game.alertUpdate("Save not found, return to main menu.", gamePanel);
 
                     }
+
                     Game.playSound("res/Audio/Button.wav");
 
                 } catch (FileNotFoundException fne) {
@@ -88,29 +120,36 @@ public class MouseInput implements MouseListener {
                     System.err.println("File not found");
 
                 }
-
-                return;
-            
             }
             else if((e.getX() >= 1052 && e.getX() <= 1101) && (e.getY() >= 636 && e.getY() <= 685)) {
+                
                 // Reject button
                 
                 if (gamePanel.dad.HP == 0) {
 
                     Main.window.setElements(new MenuPanel(Main.window));
                     Game.alert = false;
+                    Game.alertMessage = "None";
                     Game.warning = false;
                     
+                } else if (gamePanel.saveMenuOpen) {
+
+                    gamePanel.hideSaveMenu();
+                    gamePanel.dad.LOCATION_X = 208;
+                    gamePanel.dad.LOCATION_Y = 120;
+                    Game.alertMessage = "None";
+                    Game.pauseGame();
+
                 } else {
                     
                     Game.pauseGame();
                     Game.alert = false;
+                    Game.alertMessage = "None";
                     
-                } 
-                
+                }
+
                 Game.playSound("res/Audio/Button.wav");
-                return;
-            
+
             }
 
             return;
@@ -239,7 +278,28 @@ public class MouseInput implements MouseListener {
 
             case MouseEvent.BUTTON3:
 
-                if (gamePanel.dad.level == 1) System.out.println("Interaction 3");
+                if (gamePanel.dad.level == 1) {
+
+                    if (!gamePanel.dad.canMove()) {
+
+                        // This means he is sitting ( currently only in his couch )
+                        if (gamePanel.dad.LOCATION_X == 894) {
+                            
+                            gamePanel.dad.LOCATION_X = 825;
+                            gamePanel.dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_L" + gamePanel.dad.getTextureModifier() + ".png");
+                        
+                        }
+                        else {
+                            
+                            gamePanel.dad.LOCATION_Y = 335;
+                            gamePanel.dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_F" + gamePanel.dad.getTextureModifier() + ".png");
+                        
+                        }
+
+                        gamePanel.dad.setMove(true);
+
+                    }
+                }
                 else {
 
                     if (Math.abs(1 - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) <= gamePanel.dad.reach && Math.abs(5 - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) <= gamePanel.dad.reach) {
@@ -269,7 +329,18 @@ public class MouseInput implements MouseListener {
     public void mouseEntered(MouseEvent e) {;}
 
     @Override
-    public void mouseExited(MouseEvent e) {;}    
+    public void mouseExited(MouseEvent e) {;}
+
+    @Override
+    public void mouseDragged(MouseEvent e) {;}
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+        mouseX = e.getX();
+        mouseY = e.getY();
+
+    }
 
     // Center the click location into a grid place for X
     private Short gardenerX(MouseEvent e) {
@@ -298,10 +369,11 @@ public class MouseInput implements MouseListener {
             case 4:
 
                 // The bed interaction
-                Game.playSound("res/Audio/BedSqueak.wav");
                 gamePanel.dad.LOCATION_X = 118;
                 gamePanel.dad.LOCATION_Y = 120;
-                gamePanel.changeVisibility(gamePanel.saveMenu);
+                gamePanel.showSaveMenu();
+                Game.alertMessage = "";
+                Game.playSound("res/Audio/BedSqueak.wav");
                 Game.pauseGame();
                 break;
             
@@ -311,11 +383,48 @@ public class MouseInput implements MouseListener {
                 Game.alert("Do you want to change your clothes?", gamePanel);
                 Game.pauseGame();
                 break;
+
+            case 9:
+
+                // The couch interaction
+                Game.playSound("res/Audio/BedSqueak.wav");
+                System.out.println(controlVariableX*128 + " | " + controlVariableY*128);
+
+                if (gamePanel.dad.LOCATION_X < 845) {
+
+                    gamePanel.dad.LOCATION_X = 894;
+                    gamePanel.dad.LOCATION_Y = 255;
+
+                } else {
+
+                    gamePanel.dad.LOCATION_X = 896;
+                    gamePanel.dad.LOCATION_Y = 256;
+
+                }
+
+                gamePanel.dad.setMove(false);
+                gamePanel.dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_Sitting.png");
+                break;
             
             default:
                 System.out.println("Block number |" + object + "|");
                 break;
                 
         }
+    }
+
+    // Highlites the save slot blocks on hover
+    public void hoverEffect() {
+
+        if ( !(mouseX >= 772 && mouseX <= 1132) ) { gamePanel.setHoverSaveNumber(0); return; }
+
+        for (int i=1; i<=6; i++) {
+            
+            if (mouseY >= 185 + i * 60 && mouseY <= 235 + i * 60) gamePanel.setHoverSaveNumber(i);
+
+        }
+
+        if (mouseY < 245 || mouseY > 595) gamePanel.setHoverSaveNumber(0);
+
     }
 }

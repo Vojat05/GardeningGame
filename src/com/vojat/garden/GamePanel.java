@@ -3,16 +3,13 @@ package com.vojat.garden;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.io.FileNotFoundException;
 import java.util.Random;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -32,8 +29,11 @@ public class GamePanel extends JPanel {
     public Player dad = new Player(this, 240, 200);                                         // The player instance
     public InventoryPanel inventoryPanel;                                                   // Inventory panel used to display selected item
     public JPanel fullInv = new JPanel();                                                   // Player inventory panel visible after pressing "T"
-    public JPanel saveMenu = new JPanel();                                                  // Save menu panel visible after getting into bed
     public boolean changeGrass = true;                                                      // Determines wheather the grass should have a wind effect applied
+    public boolean saveMenuOpen = false;                                                    // Should the save menu be shown
+    private int hoverSaveSlotNumber = 0;                                                    // Number of a save slot that is currently in hover
+    private MouseInput mouseInput = new MouseInput(this);                                   // The mouse input class ( Used for the save box hover effect )
+    private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
 
     /*
      * --------------------------------------------------------------------------------
@@ -67,7 +67,8 @@ public class GamePanel extends JPanel {
         
         {
             addKeyListener(new KeyboardInput(this, dad));
-            addMouseListener(new MouseInput(this));
+            addMouseListener(mouseInput);
+            addMouseMotionListener(mouseInput);
         }
 
         /*
@@ -92,33 +93,6 @@ public class GamePanel extends JPanel {
             fullInv.setVisible(false);
             add(fullInv);
         }
-
-        /*
-         * --------------------------------------------------------------------------------
-         * Save menu panel setup      | Visible after getting in bed
-         * --------------------------------------------------------------------------------
-         */
-        
-        {
-            saveMenu.setBorder(new LineBorder(Color.BLACK));
-            saveMenu.setPreferredSize(new Dimension(240, 590));
-            saveMenu.setBackground(new Color(50, 50, 50));
-            FlowLayout saveMenLayout = new FlowLayout(FlowLayout.CENTER, 40, 30);
-            saveMenu.setLayout(saveMenLayout);
-
-            for (int i=0; i<=6; i++) {
-
-                JButton button = new JButton(i == 0 ? "Close" : "Save " + i);
-                button.setPreferredSize(new Dimension(200, 50));
-                if (i != 0) button.addActionListener((e) -> saveButton(button)); 
-                else button.addActionListener((e) -> {Game.pauseGame(); dad.LOCATION_X = 208; dad.LOCATION_Y = 120; changeVisibility(saveMenu);});
-                saveMenu.add(button);
-
-            }
-
-            saveMenu.setVisible(false);
-            add(saveMenu);
-        }
     }
 
     // Sets the inventory panel field (just for the repaint method to be functional in the listener)
@@ -135,32 +109,52 @@ public class GamePanel extends JPanel {
 
     }
 
-    // Saves the game into a specified save file
-    private void saveButton(JButton button) {
-
-        try {
-
-            Game.saveGame("src/com/vojat/Data/Saves/Save" + button.getText().substring(button.getText().length()-1, button.getText().length()) + ".json", dad, (byte) Integer.parseInt(button.getText().substring(button.getText().length()-1, button.getText().length())));
-
-        } catch (FileNotFoundException f) {
-
-            System.err.println(ErrorList.ERR_404.message);
-            Game.error("Save file missing", 3);
-
-        } finally {
-
-            Game.pauseGame();
-
-        }
-
-        changeVisibility(saveMenu);
-
-    }
-
     // Changes the visibility of an inventory table
     public void changeVisibility(JPanel panel) {
 
         panel.setVisible(panel.isVisible() ? false : true);
+
+    }
+
+    // Changes the save menu box visibility to true
+    public void showSaveMenu() {
+
+        this.saveMenuOpen = true;
+
+    }
+
+    // Changes the save menu box visibility to false
+    public void hideSaveMenu() {
+
+        this.saveMenuOpen = false;
+
+    }
+
+    // Sets the save slot number
+    public void setSaveNumber(int value) {
+
+        this.selectedSaveSlotNumber = value;
+
+    }
+
+    // Returns the save slot number
+    public int getSaveNumber() {
+
+        return this.selectedSaveSlotNumber;
+
+    }
+
+    // Sets the slot number that is in mouse hover
+    public void setHoverSaveNumber(int value) {
+
+        this.hoverSaveSlotNumber = value;
+
+    }
+
+    // Gets the slot number that is in mouse hover
+    public int getHoverSaveNumber() {
+        
+        return this.hoverSaveSlotNumber;
 
     }
 
@@ -296,11 +290,27 @@ public class GamePanel extends JPanel {
                     // Drawing the objects
                     if ((int) map[i][j] - 48 > 1) {
 
-                        if ((int) map[i][j] == '6') {
-    
-                            // The wardrobe and wall seperation
-                            g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j-30, 128*i, 128, 128, null);
-                            
+                        if (map[i][j] == '8') {
+
+                            // The TV - wall offset
+                            g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i-30, 128, 128, null);
+
+                        } else if (i == 5 && ( j == 1 || j == 4 )) {
+
+                            // Draws the chairs with their respective orientation
+                            if (j == 1) g.drawImage(new ImageIcon("res/Pics/House/" + (Game.houseTextures[(int) map[i][j] - 48]).substring(0, 5) + "_left.png").getImage(), 128*j+60, 128*i+20, 128, 128, null);
+                            else g.drawImage(new ImageIcon("res/Pics/House/" + (Game.houseTextures[(int) map[i][j] - 48]).substring(0, 5) + "_right.png").getImage(), 128*j-40, 128*i+20, 128, 128, null);
+
+                        } else if (map[i][j] == '6') {
+
+                            // The table resizing
+                            g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i-52, 256, 256, null);
+
+                        } else if (map[i][j] == '5') {
+
+                            // The wardrobe - wall offset
+                            g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j+40, 128*i-30, 128, 128, null);
+
                         } else {
     
                             g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
@@ -472,13 +482,82 @@ public class GamePanel extends JPanel {
         g2d.fillRect(middleX - 200, middleY - middleY / 2 + 380, 400, 80);
         
 
-        // The filler into the Alert Box
+        // Alert box title
         g2d.setFont(inventoryPanel.HPfont.deriveFont(42f));
         g2d.setPaint(new Color(30, 30, 30, 240));
         g2d.drawString("Alert", middleX - 35, middleY - middleY / 2 + 240);
 
         g2d.setFont(inventoryPanel.HPfont.deriveFont(24f));
         g2d.drawString(Game.alertMessage, middleX - Game.alertMessage.length() * 4, middleY - middleY / 2 + 330);
+
+
+        // The selection buttons
+
+        // Agree button
+        g2d.setPaint(new Color(10, 126, 236, 250));
+        g2d.fillOval(middleX - 150, middleY - middleY / 2 + 395, 50, 50);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillOval(middleX - 147, middleY - middleY / 2 + 398, 44, 44);
+        g2d.setPaint(new Color(10, 126, 236, 250));
+        g2d.fillOval(middleX - 144, middleY - middleY / 2 + 401, 38, 38);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillOval(middleX - 137, middleY - middleY / 2 + 408, 24, 24);
+        g2d.setPaint(new Color(10, 126, 236, 250));
+        g2d.fillOval(middleX - 133, middleY - middleY / 2 + 412, 16, 16);
+
+        // Rejct button
+        g2d.setPaint(new Color(236, 9, 68, 250));
+        g2d.fillOval(middleX + 100, middleY - middleY / 2 + 395, 50, 50);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillOval(middleX + 103, middleY - middleY / 2 + 398, 44, 44);
+        g2d.setPaint(new Color(236, 9, 68, 250));
+        g2d.fillOval(middleX + 106, middleY - middleY / 2 + 401, 38, 38);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.setStroke(new BasicStroke(4));
+        g2d.drawLine(middleX + 118, middleY - middleY / 2 + 413, middleX + 130, middleY - middleY / 2 + 426);
+        g2d.drawLine(middleX + 130, middleY - middleY / 2 + 413, middleX + 118, middleY - middleY / 2 + 426);
+
+    }
+
+    private void drawSaveBox(Graphics2D g2d, int marginTopPx) {
+        
+        int middleX = this.getWidth() / 2;
+        int middleY = this.getHeight() / 2;
+
+        // The upper white rectangle
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(middleX - 200, middleY - middleY / 2 - 100, 400, 80);
+
+        // The middle gray rectangle
+        g2d.setPaint(new Color(210, 210, 210, 245));
+        g2d.fillRect(middleX - 200, middleY - middleY / 2 - 20, 400, 400);
+        
+        // The bottom white rectangle
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(middleX - 200, middleY - middleY / 2 + 380, 400, 80);
+        
+
+        // Save box title
+        g2d.setFont(inventoryPanel.HPfont.deriveFont(42f));
+        g2d.setPaint(new Color(30, 30, 30, 240));
+        g2d.drawString("Save", middleX - 35, middleY - middleY / 2 - 40);
+
+        // The save slots
+        for (int i=1; i<=6; i++) {
+
+            // Drawing the box
+            g2d.setPaint(new Color(30, 30, 30, 240));
+            g2d.setStroke(new BasicStroke(1));
+            g2d.drawRect(middleX - 180, middleY - middleY / 2 - 65 + ( 60 * i + marginTopPx ), 360, 50);
+            g2d.setPaint(i == hoverSaveSlotNumber ? new Color(255, 217, 29) : i == selectedSaveSlotNumber ? new Color(48, 222, 17) : new Color(245, 245, 245, 245));
+            g2d.fillRect(middleX - 179, middleY - middleY / 2 - 64 + ( 60 * i + marginTopPx ), 358, 48);
+            
+            // Drawing the slot text
+            g2d.setFont(inventoryPanel.HPfont.deriveFont(36f));
+            g2d.setPaint(new Color(30, 30, 30, 240));
+            g2d.drawString("Slot " + i, middleX - 36, middleY / 2 - 25 + ( 60 * i + marginTopPx ));
+
+        }
 
 
         // The selection buttons
@@ -524,6 +603,8 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
+
+        // Smoothening render hint
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g2d);
@@ -541,8 +622,14 @@ public class GamePanel extends JPanel {
 
         }
 
-        if (Game.alert) drawAlert(g2d);
-        else if (Game.warning) drawWarning(g2d);
+        if (Game.warning) drawWarning(g2d);
+        else if (Game.alert) drawAlert(g2d);
+        else if (saveMenuOpen) {
+
+            drawSaveBox(g2d, 10);
+            mouseInput.hoverEffect();
+
+        }
 
     }
 }
