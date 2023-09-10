@@ -89,6 +89,36 @@ public class KeyboardInput implements KeyListener {
 
         if (dad == null || dad.HP == 0) return;
 
+        if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
+
+            if (gamePanel.saveMenuOpen) {
+
+                gamePanel.hideSaveMenu();
+                dad.LOCATION_X = 208;
+                dad.LOCATION_Y = 120;
+                Game.alertMessage = "None";
+                Game.pauseGame();
+
+            } else if (!Game.pause && !Game.alert) {
+
+                Game.pauseGame();
+                Game.alert("Are you sure you want to quit?", gamePanel);
+
+            } else if (Game.pause && Game.alert) {
+
+                Game.pauseGame();
+                Game.alert = false;
+
+            } else if (Game.pause && !Game.alert) Game.alert("Are you sure you want to quit?", gamePanel);
+
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) {
+
+            if (!Game.alert) Game.pauseGame();
+
+        }
+
+        if (!dad.canMove()) return;
+
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
 
             if (up) {
@@ -132,25 +162,6 @@ public class KeyboardInput implements KeyListener {
             }
 
             dad.VECTORX = dad.speed;
-
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
-
-            if (!Game.pause && !Game.alert) {
-
-                Game.pauseGame();
-                Game.alert("Are you sure you want to quit?", gamePanel);
-
-            } else if (Game.pause && Game.alert) {
-
-                Game.pauseGame();
-                Game.alert = false;
-
-            }
-            else if (Game.pause && !Game.alert) Game.alert("Are you sure you want to quit?", gamePanel);
-
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) {
-
-            if (!Game.alert) Game.pauseGame();
 
         }
     }

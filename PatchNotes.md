@@ -197,3 +197,11 @@ JAR file is made for every update documented here<br>
     <li> * The player now has the ability to change between 2 outfits by interacting with the closet inside the house</li>
     <li> * Refilling water is now also possible by left clicking the well with the water selected</li>
 </ul>
+
+## 10/9/2023
+<ul>
+    <li> + Added some house interior such as a table, TV, chairs and a couch on which a player can sit by pressing RMB</li>
+    <li> * All currently accessible flowers have all 3 textures</li>
+    <li> * The wardrobe texture changed to better fit into the perspective</li>
+    <li> * The save menu was updated to fit the current alert design</li>
+<ul>

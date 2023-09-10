@@ -32,12 +32,12 @@ public class Game implements Runnable {
     public static final String ANSI_RED = "\u001B[31m";                                                                                                                             // Set the console text color to red
     public static final String ANSI_RESET = "\u001B[0m";                                                                                                                            // Reset the console text color
     public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png"};                                                          // Texture array for outside
-    public static final String[] houseTextures = {"Plank.png", "", "", "doormat.png", "bed.png", "Wardrobe.png"};                                                                   // Texture array for the inside of the house
+    public static final String[] houseTextures = {"Plank.png", "", "", "doormat.png", "bed.png", "Wardrobe.png", "table.png", "chair.png", "tv.png", "couch.png"};                  // Texture array for the inside of the house
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}, {"Cactus", "400000"}};                                           // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 60000;                                                                                                                                   // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
     public static boolean alert = false;                                                                                                                                            // Is some type of a alert up?
-    public static String alertMessage = "";                                                                                                                                         // The latest alert message
+    public static String alertMessage = "None";                                                                                                                                     // The latest alert message
     public static boolean warning = false;                                                                                                                                          // Is some type of a warning up?
     public static String warningMessage = "";                                                                                                                                       // The latest warning message
     public static byte errorTime = 0;                                                                                                                                               // Number of secodns for the latest error to be visible
@@ -94,9 +94,15 @@ public class Game implements Runnable {
         map[1][2] = '3';
 
         // Fill the house map
+        houseMap[5][3] = '2'; // Empty box to make up for the tabe size
         houseMap[6][5] = '3'; // Doormat
         houseMap[1][1] = '4'; // Bed
         houseMap[3][8] = '5'; // Wardrobe
+        houseMap[5][2] = '6'; // Table
+        houseMap[5][1] = '7'; // Chair Left
+        houseMap[5][4] = '7'; // Chair Right
+        houseMap[1][6] = '8'; // TV
+        houseMap[2][7] = '9'; // Couch
         
         /*
          * --------------------------------------------------------------------------------
@@ -104,7 +110,12 @@ public class Game implements Runnable {
          * --------------------------------------------------------------------------------
          */
 
-        for (int i=2; i<( houseMap.length > map.length ? houseMap.length : map.length ); i++) if (i !=3) invisibleWalls.add(i);
+        for (int i=2; i<( houseTextures.length > groundTextures.length ? houseTextures.length : groundTextures.length ); i++) {
+            
+            if (i == 8 || i == 7) continue;
+            else if (i != 3) invisibleWalls.add(i);
+        
+        }
 
         /*
          * --------------------------------------------------------------------------------
@@ -494,6 +505,14 @@ public class Game implements Runnable {
                     if (errorTime == 0) errorMessage = "";
 
                 }
+            } else {
+
+                now = System.nanoTime();
+                deltaF += (now - previousTime) / timePerFrame;
+                previousTime = now;
+    
+                if (deltaF >= 1) { gamePanel.repaint(); deltaF--; }
+
             }
         }
 
