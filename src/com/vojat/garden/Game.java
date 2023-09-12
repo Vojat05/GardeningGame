@@ -449,6 +449,7 @@ public class Game implements Runnable {
                         gamePanel.dad.level = 1;
                         gamePanel.dad.LOCATION_X = 638;
                         gamePanel.dad.LOCATION_Y = 810;
+                        invisibleWalls.remove(invisibleWalls.indexOf(3));
 
                     }
 
@@ -459,6 +460,7 @@ public class Game implements Runnable {
                         gamePanel.dad.level = 0;
                         gamePanel.dad.LOCATION_X = 240;
                         gamePanel.dad.LOCATION_Y = 200;
+                        invisibleWalls.add(3);
 
                     }
 
