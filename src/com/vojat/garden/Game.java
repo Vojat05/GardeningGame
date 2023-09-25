@@ -83,6 +83,7 @@ public class Game implements Runnable {
         // Building the fence around the garden
         for (int i=0; i<map[0].length; i++) {
 
+            if (i == 0) map[0][i] = '5';
             if (i >= 3) map[0][i] = '5';
             map[7][i] = '5';
 
@@ -347,6 +348,104 @@ public class Game implements Runnable {
 
     /*
      * --------------------------------------------------------------------------------
+     * Game Logic || Game tick Logic
+     * --------------------------------------------------------------------------------
+     */
+
+    private void gameTick() {
+
+        /*
+         * --------------------------------------------------------------------------------
+         * Player Movement & colision logic
+         * --------------------------------------------------------------------------------
+         */
+
+        // Y coordinate colision logic
+        if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
+        
+        // X coordinate colision logic
+        if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap)))) gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
+        
+        /*
+         * --------------------------------------------------------------------------------
+         * Bird flight logic
+         * --------------------------------------------------------------------------------
+         */
+
+        for (int i=0; i<birdList.size(); i++) {
+
+            // Bird flight
+            Bird bird = birdList.get(i);
+            bird.positionX += bird.vectorX;
+
+            // Bird flapping wings
+            if (intoMapX(bird.positionX) % 2 == 0) {
+
+                bird.texture = setTexture("res/Pics/Pigeon1.png");
+
+            } else {
+
+                bird.texture = setTexture("res/Pics/Pigeon2.png");
+
+            }
+
+            // Bird shit detection
+            if (bird.drawShit && intoMapY(bird.shitPositionY - 30) == intoMapY(gamePanel.dad.LOCATION_Y + 64) && intoMapX(bird.shitPositionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) {
+
+                if (gamePanel.dad.HP == 0) gamePanel.dad.currentTexture = setTexture("res/Pics/Player/GraveShit.png");
+                if (gamePanel.dad.HP != 0) gamePanel.dad.hurt(5);
+
+                bird.shitPositionY = Window.height;
+                continue;
+
+            }
+
+            // Bird shit movement and bird removal after out of map
+            if (bird.shitPositionY < bird.positionY + 500) bird.shitPositionY += Bird.shitSpeed;
+            if (bird.shitPositionY >= bird.positionY + 500) {
+
+                if (!bird.splat) bird.audio = true;
+
+                bird.drawShit = false;
+                bird.splat = true;
+
+            }
+
+            if (bird.positionX + 1000 < 0) birdList.remove(i);
+
+        }
+
+        /*
+         * --------------------------------------------------------------------------------
+         * Enter / Exit house logic // Position listener
+         * --------------------------------------------------------------------------------
+         */
+
+        // Enter house logic
+        if (gamePanel.dad.level == 0 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
+
+            playSound("res/Audio/DoorInteract.wav");
+            gamePanel.dad.level = 1;
+            gamePanel.dad.LOCATION_X = 638;
+            gamePanel.dad.LOCATION_Y = 810;
+            invisibleWalls.remove(invisibleWalls.indexOf(3));
+
+        }
+
+        // Exit house logic
+        if (gamePanel.dad.level == 1 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 5 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
+
+            playSound("res/Audio/DoorInteract.wav");
+            gamePanel.dad.level = 0;
+            gamePanel.dad.LOCATION_X = 240;
+            gamePanel.dad.LOCATION_Y = 200;
+            invisibleWalls.add(3);
+
+        }
+    }
+
+    /*
+     * --------------------------------------------------------------------------------
      * The game loop is written here
      * --------------------------------------------------------------------------------
      */
@@ -389,80 +488,7 @@ public class Game implements Runnable {
                 // Repaints 120 times per second
                 if (deltaF >= 1) {
 
-                    /*
-                     * --------------------------------------------------------------------------------
-                     * Movement & colision logic
-                     * --------------------------------------------------------------------------------
-                     */
-
-                    // Y coordinate colision logic
-                    if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
-
-                    // X coordinate colision logic
-                    if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap)))) gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
-
-                    // Bird flight logic
-                    for (int i=0; i<birdList.size(); i++) {
-
-                        // Bird flight
-                        Bird bird = birdList.get(i);
-                        bird.positionX += bird.vectorX;
-
-                        // Bird flapping wings
-                        if (intoMapX(bird.positionX) % 2 == 0) {
-
-                            bird.texture = setTexture("res/Pics/Pigeon1.png");
-
-                        } else {
-
-                            bird.texture = setTexture("res/Pics/Pigeon2.png");
-
-                        }
-
-                        // Bird shit detection
-                        if (bird.drawShit && intoMapY(bird.shitPositionY - 30) == intoMapY(gamePanel.dad.LOCATION_Y + 64) && intoMapX(bird.shitPositionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) {
-
-                            if (gamePanel.dad.HP == 0) gamePanel.dad.currentTexture = setTexture("res/Pics/Player/GraveShit.png");
-                            if (gamePanel.dad.HP != 0) gamePanel.dad.hurt(5);
-                            bird.shitPositionY = Window.height;
-                            continue;
-
-                        }
-
-                        // Bird shit movement and bird removal after out of map
-                        if (bird.shitPositionY < bird.positionY + 500) bird.shitPositionY += Bird.shitSpeed;
-                        if (bird.shitPositionY >= bird.positionY + 500) {
-
-                            if (!bird.splat) bird.audio = true;
-                            bird.drawShit = false;
-                            bird.splat = true;
-
-                        }
-                        if (bird.positionX + 1000 < 0) birdList.remove(i);
-
-                    }
-
-                    // Enter house logic
-                    if (gamePanel.dad.level == 0 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
-
-                        playSound("res/Audio/DoorInteract.wav");
-                        gamePanel.dad.level = 1;
-                        gamePanel.dad.LOCATION_X = 638;
-                        gamePanel.dad.LOCATION_Y = 810;
-                        invisibleWalls.remove(invisibleWalls.indexOf(3));
-
-                    }
-
-                    // Exit house logic
-                    if (gamePanel.dad.level == 1 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 5 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
-
-                        playSound("res/Audio/DoorInteract.wav");
-                        gamePanel.dad.level = 0;
-                        gamePanel.dad.LOCATION_X = 240;
-                        gamePanel.dad.LOCATION_Y = 200;
-                        invisibleWalls.add(3);
-
-                    }
+                    gameTick();
 
                     gamePanel.repaint();
                     fps++;

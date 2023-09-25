@@ -1,3 +1,31 @@
-Thistry Plant Textures:
+TODO: Put this into order of the most > least difficult & needed changes
 
-Each plant need a thirtsy and dead texture
+- Game pause isn't working
+- Add other languages ( czech )
+- Add a background video to the main menu of the main character walking in a full garden
+- Redesign the options menu
+- Outline for objects that are in range and can be interacted with
+- On the first start, on the right side add a panel in the alert design describing the game controls and what it's all about
+- Only use LMB
+- Change the blue button for a green check flag
+- Replace the doormat with a hole in the wall and add a symbolicly open door
+- If interaction is not possible, do not show error popups
+- If the player is outside, he should be holding a green watering can
+- Remove the inventory panel and use a hotbar system ( Like minecraft )
+- Make it impossible to block the house entrance
+- An option to place down concrete tiles which increase the maximum movement speed
+- The bird can spawn only if the player is in the garden ( For some reason he has a chance of spawning in the house the first time )
+- While in movement add a walking animation
+- Add player stamina ( copy and mirror the HP gauge and make it yellow )
+- Add lightning symbol to the stamina gauge
+- Dying flower will 10 seconds before dying become highlighted ( red ) and sound a sound effect
+- Upon clicking on the well, the player's water storage will automatically refill
+- If in the flower planting mode, add a block outline to the block the mouse is currently hovering over
+- Make a better wardrobe texture
+- Add a gardener level ( each flower alive will give you 1 point, and each flower death fill subtract 50 )
+- Add gardener lever rewards ( movable fater storage system )
+- Add more flowers based on the gardener level
+- Add a computer inside the house which shows the character stats window ( Same design as the alert / save menu )
+- Add a shovel which will on click force the flower to enter the next stage ( It effectively kills the flower on 3 clicks )
+- Add a berry bush
+- Replenish HP by eating berries
