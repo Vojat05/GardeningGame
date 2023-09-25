@@ -356,18 +356,6 @@ public class Game implements Runnable {
 
         /*
          * --------------------------------------------------------------------------------
-         * Player Movement & colision logic
-         * --------------------------------------------------------------------------------
-         */
-
-        // Y coordinate colision logic
-        if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
-        
-        // X coordinate colision logic
-        if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap)))) gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
-        
-        /*
-         * --------------------------------------------------------------------------------
          * Bird flight logic
          * --------------------------------------------------------------------------------
          */
@@ -488,6 +476,18 @@ public class Game implements Runnable {
                 // Repaints 120 times per second
                 if (deltaF >= 1) {
 
+                    /*
+                     * --------------------------------------------------------------------------------
+                     * Player Movement & colision logic
+                     * --------------------------------------------------------------------------------
+                     */
+                            
+                    // Y coordinate colision logic
+                    if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
+                            
+                    // X coordinate colision logic
+                    if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap)))) gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
+        
                     gameTick();
 
                     gamePanel.repaint();
