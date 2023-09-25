@@ -205,3 +205,9 @@ JAR file is made for every update documented here<br>
     <li> * The wardrobe texture changed to better fit into the perspective</li>
     <li> * The save menu was updated to fit the current alert design</li>
 <ul>
+
+## 25/9/2023
+<ul>
+    <li> + Added a minimum resolution protection. If the user has a device display with a resolution lower than FullHD, the game won't start</li>
+    <li> + Added a heart symbol into the HP gauge</li>
+</ul>

@@ -124,12 +124,28 @@ public class InventoryPanel extends JPanel{
         */
 
         g2d.setPaint(new Color(239, 244, 245, 180));
-        
+
         // The icon block in front
-        int[] iconX = {20, 44, 44, 20, 20, 30, 32, 32, 30, 20};
-        int[] iconY = {15, 15, 63, 63, 51, 50, 48, 29, 27, 27};
+        int[] iconX = {10, 12, 28, 30, 30, 28, 12, 10};
+        int[] iconY = {31, 29, 29, 31, 46, 48, 48, 46};
 
         g2d.fillPolygon(iconX, iconY, iconX.length);
+        
+        // Drawing the heart symbolinside the block
+        g2d.setPaint(new Color(0xfa2311));
+
+        int[] heartX = {12, 14, 18, 20, 22, 26, 28, 28, 20, 12};
+        int[] heratY = {34, 32, 32, 34, 32, 32, 34, 37, 45, 37};
+
+        g2d.fillPolygon(heartX, heratY, heartX.length);
+
+        // The icon border block in front
+        g2d.setPaint(new Color(239, 244, 245, 180));
+
+        int[] iconBlockX = {20, 44, 44, 20, 20, 30, 32, 32, 30, 20};
+        int[] iconBlockY = {15, 15, 63, 63, 51, 50, 48, 29, 27, 27};
+
+        g2d.fillPolygon(iconBlockX, iconBlockY, iconBlockX.length);
 
         // The HP bar background
         int[] barBgX = {46, 402, 382, 262, 260, 260, 46};

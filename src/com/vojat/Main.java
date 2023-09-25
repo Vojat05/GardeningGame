@@ -14,6 +14,13 @@ public class Main {
 
         GraphicsDevice gDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
+        if (gDevice.getDisplayMode().getWidth() < sizeX || gDevice.getDisplayMode().getHeight() < sizeY) {
+
+            System.out.println("Your display resolution is too low // FullHD ( 1920x1080 ) is minimum");
+            return;
+            
+        }
+
         Window frame = new Window(gDevice.getDisplayMode().getWidth(), gDevice.getDisplayMode().getHeight());
         window = frame;
         new MenuPanel(window);
