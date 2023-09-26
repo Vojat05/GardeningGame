@@ -104,6 +104,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                         gamePanel.hideSaveMenu();
                         gamePanel.dad.LOCATION_X = 208;
                         gamePanel.dad.LOCATION_Y = 120;
+                        gamePanel.dad.setMove(true);
                         Game.alertMessage = "None";
                         Game.pauseGame();
 
@@ -137,6 +138,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                     gamePanel.hideSaveMenu();
                     gamePanel.dad.LOCATION_X = 208;
                     gamePanel.dad.LOCATION_Y = 120;
+                    gamePanel.dad.setMove(true);
                     Game.alertMessage = "None";
                     Game.pauseGame();
 
@@ -161,6 +163,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
         switch (e.getButton()) {
 
+            // LMB
             case MouseEvent.BUTTON1:
 
                 // Too far and close checks
@@ -275,47 +278,6 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                 }
 
                 break;
-
-            case MouseEvent.BUTTON3:
-
-                if (gamePanel.dad.level == 1) {
-
-                    if (!gamePanel.dad.canMove()) {
-
-                        // This means he is sitting ( currently only in his couch )
-                        if (gamePanel.dad.LOCATION_X == 894) {
-                            
-                            gamePanel.dad.LOCATION_X = 825;
-                            gamePanel.dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_L" + gamePanel.dad.getTextureModifier() + ".png");
-                        
-                        }
-                        else {
-                            
-                            gamePanel.dad.LOCATION_Y = 335;
-                            gamePanel.dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_F" + gamePanel.dad.getTextureModifier() + ".png");
-                        
-                        }
-
-                        gamePanel.dad.setMove(true);
-
-                    }
-                }
-                else {
-
-                    if (Math.abs(1 - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) <= gamePanel.dad.reach && Math.abs(5 - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) <= gamePanel.dad.reach) {
-
-                        gamePanel.dad.waterRefill();
-                        Game.playSound("res/Audio/WaterPour.wav");
-
-                    } else {
-
-                        System.err.println(ErrorList.ERR_WELL.message);
-                        Game.error("The well is too far", 3);
-
-                    }
-                }
-
-                break;
         }
     }
 
@@ -371,6 +333,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                 // The bed interaction
                 gamePanel.dad.LOCATION_X = 118;
                 gamePanel.dad.LOCATION_Y = 120;
+                gamePanel.dad.setMove(false);
                 gamePanel.showSaveMenu();
                 Game.alertMessage = "";
                 Game.playSound("res/Audio/BedSqueak.wav");

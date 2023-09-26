@@ -526,6 +526,38 @@ public class Game implements Runnable {
 
                     }
 
+                    /*
+                     * --------------------------------------------------------------------------------
+                     * Flower life-ending logic
+                     * --------------------------------------------------------------------------------
+                     */
+
+                    for (int j=0; j<flowers.size(); j++) {
+                    
+                        Flower plant = flowers.get(j);
+                    
+                        if (plant.STATUS.equals("Alive") && plant.TIME_TO_DIE - System.currentTimeMillis() <= flowerChange) {
+                        
+                            plant.STATUS = "Thirsty";
+                            plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
+                            continue;
+                        
+                        } else if (plant.STATUS.equals("Thirsty") && plant.TIME_TO_DIE <= System.currentTimeMillis()) {
+                        
+                            plant.STATUS = "Dead";
+                            plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
+                            playSound("res/Audio/MagicSound.wav");
+                            continue;
+                        
+                        } else if (plant.STATUS.equals("Dead") && plant.TIME_TO_DISSAPEAR <= System.currentTimeMillis()) {
+                        
+                            flowers.remove(plant);
+                            map[plant.LOCATION_Y][plant.LOCATION_X] = '0';
+                            continue;
+                        
+                        }
+                    }
+
                     // Resets the FPS counter each second
                     fps = 0;
                     seconds++;
