@@ -52,7 +52,7 @@ public class KeyboardInput implements KeyListener {
 
             // Sets up the JSON Objects from the controls JSON
             jEditor = new JSONEditor("src/com/vojat/Data/Controls.json");
-            jEditor.readFile();
+            jEditor.readFile(true);
             jEditor.readData(jEditor.JSONObjects.get(1), "up");
             jEditor.readData(jEditor.JSONObjects.get(1), "down");
 

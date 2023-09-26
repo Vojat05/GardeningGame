@@ -211,3 +211,9 @@ JAR file is made for every update documented here<br>
     <li> + Added a minimum resolution protection. If the user has a device display with a resolution lower than FullHD, the game won't start</li>
     <li> + Added a heart symbol into the HP gauge</li>
 </ul>
+
+## 26/9/2023
+<ul>
+    <li> + Added different language files</li>
+    <li> *  Added the tutorial box on the first start of a game instance</li>
+</ul>

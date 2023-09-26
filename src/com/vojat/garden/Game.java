@@ -36,6 +36,8 @@ public class Game implements Runnable {
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}, {"Cactus", "400000"}};                                           // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 60000;                                                                                                                                   // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
+    public static String tutorialStringPulledData = "";                                                                                                                             // Data to be displayed in the current tutorial screen box
+    public static ArrayList<String> tutorialStrings = new ArrayList<String>();                                                                                                      // Every element of this arraylist is a single line to be printed to the output box
     public static boolean alert = false;                                                                                                                                            // Is some type of a alert up?
     public static String alertMessage = "None";                                                                                                                                     // The latest alert message
     public static boolean warning = false;                                                                                                                                          // Is some type of a warning up?
@@ -50,6 +52,8 @@ public class Game implements Runnable {
     public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
     public static boolean pause = false;                                                                                                                                            // Determines wheather the game should be paused or not
     public static byte save = -1;                                                                                                                                                   // The current game save number to be plugged into the respawn
+    public static boolean firstStart = true;                                                                                                                                        // Is this the first time the game instance is played? // Shows the help menu inside the house
+    public static String langFileName = "lang-en";                                                                                                                                  // Name of the language file currently being used
     private final int FPS_SET = 120;                                                                                                                                                // Frame-Rate cap
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
@@ -116,6 +120,50 @@ public class Game implements Runnable {
             if (i == 8 || i == 7) continue;
             else if (i != 3) invisibleWalls.add(i);
         
+        }
+
+        /*
+         * --------------------------------------------------------------------------------
+         * Compleating the tutorial box content
+         * --------------------------------------------------------------------------------
+         */
+
+        // Sets / Re-sets the tutorial box with every instance
+        firstStart = true;
+        tutorialStrings.clear();
+
+        try {
+
+            JSONEditor jse = new JSONEditor("res/Language/" + langFileName + ".json");
+            tutorialStringPulledData = jse.readData("Tutorial-Data");
+
+        } catch (FileNotFoundException e) {
+            
+            e.printStackTrace();
+
+        }
+
+        // Get the number of lines for the tutorial box to draw them
+        boolean sliced = false;
+        for (int i=0; i<tutorialStringPulledData.length(); i++) {
+
+            if (tutorialStringPulledData.charAt(i) == '\\' && tutorialStringPulledData.charAt(i + 1) == 'n' || i == tutorialStringPulledData.length()-1) {
+
+                if (sliced) {
+
+                    tutorialStrings.add(tutorialStringPulledData.substring(1, i));
+
+                } else {
+
+                    tutorialStrings.add(tutorialStringPulledData.substring(0, i));
+                    sliced = true;
+
+                }
+
+                tutorialStringPulledData = tutorialStringPulledData.substring(i+1, tutorialStringPulledData.length());
+                i = 0;
+
+            }
         }
 
         /*
@@ -613,6 +661,7 @@ public class Game implements Runnable {
     public static void loadGame(String saveFilePath, byte saveNumber) throws FileNotFoundException {
         
         // Loads the map
+        firstStart = false;
         save = saveNumber;
         JSONEditor jEditor = new JSONEditor(saveFilePath);
         String[][] strMap = jEditor.read2DArr();

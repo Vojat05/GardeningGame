@@ -158,6 +158,16 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
         }
 
+        if (Game.firstStart) {
+            // Should show the tutorial
+
+            if ( (e.getX() >= 1550 && e.getX() <= 1600) && (e.getY() <=923 && e.getY() >= 875) ) {
+
+                Game.firstStart = false;
+
+            }
+        }
+
         // Pause intercation protection
         if (Game.pause || gamePanel.dad.HP == 0) return;
 

@@ -566,6 +566,50 @@ public class GamePanel extends JPanel {
 
     }
 
+    private void drawHelpScreen(Graphics2D g2d) {
+        // Drawing the Help screen insode the house if it's started for the first time
+
+        // The first block // White
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(1245, 50, 650, 100);
+
+        // The second block // Gray
+        g2d.setPaint(new Color(210, 210, 210, 245));
+        g2d.fillRect(1245, 150, 650, 700);
+
+        // The third block // White
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(1245, 850, 650, 100);
+
+        // The Help text in the first white block
+        g2d.setPaint(new Color(30, 30, 30, 240));
+        g2d.setFont(inventoryPanel.HPfont.deriveFont(48f));
+        g2d.drawString("Tutorial", 1500, 120);
+
+        // Tutorial box content
+        g2d.setFont(inventoryPanel.HPfont.deriveFont(24f));
+
+        for (int i=0; i<Game.tutorialStrings.size(); i++) {
+
+            g2d.drawString(Game.tutorialStrings.get(i), 1275, 200 + 30*i);
+        }
+
+        g2d.drawString(Game.tutorialStringPulledData, 1275, 200);
+
+        // Rejct button
+        g2d.setPaint(new Color(236, 9, 68, 250));
+        g2d.fillOval(1450 + 100, 480 + 395, 50, 50);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillOval(1450 + 103, 480 + 398, 44, 44);
+        g2d.setPaint(new Color(236, 9, 68, 250));
+        g2d.fillOval(1450 + 106, 480 + 401, 38, 38);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.setStroke(new BasicStroke(4));
+        g2d.drawLine(1450 + 118, 480 + 413, 1450 + 130, 480 + 426);
+        g2d.drawLine(1450 + 130, 480 + 413, 1450 + 118, 480 + 426);
+
+    }
+
 
     
 
@@ -590,6 +634,13 @@ public class GamePanel extends JPanel {
 
         // Drawing the player character in 128 x 128
         g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
+
+        // Drawing the help menu box
+        if (dad.level == 1 && Game.firstStart) {
+
+            drawHelpScreen(g2d);
+
+        }
 
         // Drawing the death screen
         if (dad.HP == 0) {
