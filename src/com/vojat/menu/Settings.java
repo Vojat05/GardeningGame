@@ -55,7 +55,7 @@ public class Settings extends JPanel {
 
         try {
             jEditor = new JSONEditor("src/com/vojat/Data/Controls.json");
-            jEditor.readFile();
+            jEditor.readFile(true);
         } catch(FileNotFoundException fne) {
             System.err.println(ErrorList.ERR_404.message);
             Game.error("File not found", 3);
@@ -122,7 +122,7 @@ public class Settings extends JPanel {
             restore.addActionListener((e) -> {
                 try {
                     JSONEditor jEditor2 = new JSONEditor("src/com/vojat/Data/ControlsDefault.json");
-                    jEditor2.readFile();
+                    jEditor2.readFile(true);
                     int picker = 0;
                     for (int i=0; i<keys.size(); i++) {
                         if (i == 1 || i == 5) {
