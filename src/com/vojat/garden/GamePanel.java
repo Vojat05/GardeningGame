@@ -334,31 +334,9 @@ public class GamePanel extends JPanel {
 
                     Flower plant = Game.flowers.get(i);
 
-                    // Flower life-ending logic
-                    if (plant.TIME_TO_DISSAPEAR >= System.currentTimeMillis()) {
-
-                        if (plant.TIME_TO_DIE <= System.currentTimeMillis()) {
-
-                            if (plant.STATUS.equals("Alive")) {
-
-                                plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
-                                plant.STATUS = "Dead";
-                                Game.playSound("res/Audio/MagicSound.wav");
-
-                            }
-
-                        } else if (plant.TIME_TO_DIE - System.currentTimeMillis() <= Game.flowerChange) plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
-
-                        // Draw the flower
-                        g.drawImage(plant.baseTexture, plant.LOCATION_X * 128, plant.LOCATION_Y * 128, 128, 128, null);
-                        g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X * 128, plant.LOCATION_Y * 128, 128, 128, null);
-
-                    } else {
-
-                        Game.flowers.remove(plant);
-                        map[plant.LOCATION_Y][plant.LOCATION_X] = '0';
-
-                    }
+                    // Draw the flower
+                    g.drawImage(plant.baseTexture, plant.LOCATION_X * 128, plant.LOCATION_Y * 128, 128, 128, null);
+                    g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X * 128, plant.LOCATION_Y * 128, 128, 128, null);
                 }
 
                 // Drawing the side fence poles

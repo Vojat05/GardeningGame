@@ -117,6 +117,30 @@ public class KeyboardInput implements KeyListener {
 
         }
 
+        // Exit couch via using a shift key
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+
+            System.out.println("Shift pressed");
+
+            if (gamePanel.dad.level == 0) return;
+            if (gamePanel.dad.canMove()) return;
+
+            if (gamePanel.dad.LOCATION_X == 894) {
+                            
+                gamePanel.dad.LOCATION_X = 825;
+                gamePanel.dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_L" + gamePanel.dad.getTextureModifier() + ".png");
+            
+            }
+            else {
+                
+                gamePanel.dad.LOCATION_Y = 335;
+                gamePanel.dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_F" + gamePanel.dad.getTextureModifier() + ".png");
+            
+            }
+
+            gamePanel.dad.setMove(true);
+        }
+
         if (!dad.canMove()) return;
 
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {

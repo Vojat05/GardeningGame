@@ -79,6 +79,7 @@ public class Player {
     public void water(Flower flower) {
 
         gamePanel.waterFlower(flower);
+        flower.STATUS = "Alive";
 
     }
 
