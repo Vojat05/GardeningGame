@@ -21,7 +21,7 @@ public class Player {
     public byte selectedItem = 0;                                           // Index of a specific item from the inventory
     public byte reach = 1;                                                  // Player reach
     public byte level = 1;                                                  // Level on which the player is located  0 == outside ; 1 == inside house
-    public int speed = 1;                                                   // Player's movement speed
+    public double speed = 1;                                                // Player's movement speed
     public int HP = 100;                                                    // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
     private char textureModifier = '0';                                     // Changes the players skin
     private boolean canMove = true;                                         // Can player can move around or not?
