@@ -158,14 +158,17 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
         }
 
-        if (Game.firstStart) {
-            // Should show the tutorial
+        if (Game.firstStart && gamePanel.dad.level == 1) {
+            // Turns off the tutorial panel
 
             if ( (e.getX() >= 1550 && e.getX() <= 1600) && (e.getY() <=923 && e.getY() >= 875) ) {
 
                 Game.firstStart = false;
 
             }
+
+            return;
+
         }
 
         // Pause intercation protection
@@ -176,22 +179,6 @@ public class MouseInput implements MouseListener, MouseMotionListener {
             // LMB
             case MouseEvent.BUTTON1:
 
-                // Too far and close checks
-                if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
-
-                    
-                    System.err.println(ErrorList.ERR_RANGE_FAR.message);
-                    Game.error("Out of reach", 3);
-                    return;
-
-                } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
-
-                    System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
-                    Game.error("Too close", 3);
-                    return;
-
-                }
-
                 // Player level check  |  0 == outside & 1 == inside
                 if (gamePanel.dad.level == 1) {
 
@@ -201,43 +188,80 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
                     if ((gamePanel.dad.selectedItem > 0 && gamePanel.dad.selectedItem <= Game.flowerTypes.length) && controlVariableY != 7) {
 
-                        // Checks if the desired area is occupied or not
-                        if ((int) Game.map[controlVariableY][controlVariableX] >= 50) {
+                        // Distance checks
+                        if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
 
+                            System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                            Game.error("Out of reach", 3);
+                            return;
+
+                        } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+                        
+                            System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
+                            Game.error("Too close", 3);
+                            return;
+                        
+                        } else if ((int) Game.map[controlVariableY][controlVariableX] >= 50) {
+                            
+                            // Checks if the desired area is occupied or not
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
                             Game.error("Area occupied", 3);
-
-                        } else {
-
-                            // Creates a flower object if the area isn't being occupied
-                            Game.playSound("res/" + Game.texturePack + "/Audio/Plant.wav");
-                            flower = new Flower(gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", Game.flowers.size());
-                            gamePanel.dad.plant(flower);
-
-                            // Writes it's value into map
-                            Game.wirteIntoMap(controlVariableY, controlVariableX, 2);
+                            return;
 
                         }
+
+                        // Creates a flower object if the area isn't being occupied or out of reach
+                        Game.playSound("res/" + Game.texturePack + "/Audio/Plant.wav");
+                        flower = new Flower(gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", Game.flowers.size());
+                        gamePanel.dad.plant(flower);
+
+                        // Writes it's value into map
+                        Game.wirteIntoMap(controlVariableY, controlVariableX, 2);
 
                     } else if(gamePanel.dad.selectedItem == 0) {
 
                         // Stop the watering if water isn't selected or if the water is empty or is out of reach
-                        
-                        if ((int) Game.map[controlVariableY][controlVariableX] == '4') {
+                        if (Game.map[controlVariableY][controlVariableX] == '4') {
+
+                            // Distance check
+                            if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+
+                                System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                                Game.error("Out of reach", 3);
+                                return;
+
+                            } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+                            
+                                System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
+                                Game.error("Too close", 3);
+                                return;
+                            
+                            }
 
                             gamePanel.dad.waterRefill();
                             Game.playSound("res/" + Game.texturePack + "/Audio/WaterPour.wav");
                             
-                        } else if ((int) Game.map[controlVariableY][controlVariableX] != 50) {
-
-                            System.err.println(ErrorList.ERR_NOPLANT.message);
-                            Game.error("There isn't a plant", 3);
-
                         } else if (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
+
+                            if (!(Game.map[controlVariableY][controlVariableX] == '2')) return;
+                            // Distance check
+                            if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+
+                                System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                                Game.error("Out of reach", 3);
+                                return;
+
+                            } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+                            
+                                System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
+                                Game.error("Too close", 3);
+                                return;
+                            
+                            }
 
                             Game.playSound("res/" + Game.texturePack + "/Audio/WaterPlant.wav");
 
-                            // Checks selects the plant based on clicked location
+                            // Checks & selects the plant based on clicked location
                             for (Flower plant : Game.flowers) {
 
                                 if (plant.LOCATION_X == controlVariableX && plant.LOCATION_Y == controlVariableY) {
@@ -342,6 +366,20 @@ public class MouseInput implements MouseListener, MouseMotionListener {
             case 4:
 
                 // The bed interaction
+                if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+
+                    System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                    Game.error("Out of reach", 3);
+                    return;
+
+                } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+
+                    System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
+                    Game.error("Too close", 3);
+                    return;
+
+                }
+
                 gamePanel.dad.LOCATION_X = 118;
                 gamePanel.dad.LOCATION_Y = 120;
                 gamePanel.dad.setMove(false);
@@ -354,6 +392,20 @@ public class MouseInput implements MouseListener, MouseMotionListener {
             case 5:
 
                 // The closet interaction
+                if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+
+                    System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                    Game.error("Out of reach", 3);
+                    return;
+                    
+                } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+
+                    System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
+                    Game.error("Too close", 3);
+                    return;
+
+                }
+
                 Game.alert("Do you want to change your clothes?", gamePanel);
                 Game.pauseGame();
                 break;
@@ -361,6 +413,20 @@ public class MouseInput implements MouseListener, MouseMotionListener {
             case 9:
 
                 // The couch interaction
+                if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+
+                    System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                    Game.error("Out of reach", 3);
+                    return;
+                    
+                } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+
+                    System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
+                    Game.error("Too close", 3);
+                    return;
+
+                }
+
                 Game.playSound("res/" + Game.texturePack + "/Audio/BedSqueak.wav");
                 System.out.println(controlVariableX*128 + " | " + controlVariableY*128);
 
