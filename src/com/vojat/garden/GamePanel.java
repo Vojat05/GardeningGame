@@ -207,7 +207,7 @@ public class GamePanel extends JPanel {
                     // Draw everything except flowers and house
                     if ((int) map[i][j] - 48 != 3 || (int) map[i][j] - 48 != 2) {
 
-                        g.drawImage(new ImageIcon("res/Pics/" + Game.groundTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
+                        g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + Game.groundTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
 
                     }
                 }
@@ -221,7 +221,7 @@ public class GamePanel extends JPanel {
 
                 for (int j=0; j<Game.houseMap[0].length; j++) {
     
-                    g.drawImage(new ImageIcon("res/Pics/" + Game.groundTextures[0]).getImage(), 128*j, 128*i, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + Game.groundTextures[0]).getImage(), 128*j, 128*i, 128, 128, null);
     
                 }
             }
@@ -231,7 +231,7 @@ public class GamePanel extends JPanel {
 
                 for (int j=1; j<9; j++) {
     
-                    g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[0]).getImage(), 128*j, 128*i, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[0]).getImage(), 128*j, 128*i, 128, 128, null);
     
                 }
             }
@@ -244,32 +244,32 @@ public class GamePanel extends JPanel {
 
                 if (i == 0) {
 
-                    g.drawImage(new ImageIcon("res/Pics/House/cornerTL.png").getImage(), 128*i, 0, 128, 128, null);
-                    g.drawImage(new ImageIcon("res/Pics/House/cornerBL.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/cornerTL.png").getImage(), 128*i, 0, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/cornerBL.png").getImage(), 128*i, 128*7, 128, 128, null);
                     continue;
 
                 } else if (i == 2) {
 
-                    g.drawImage(new ImageIcon("res/Pics/House/window.png").getImage(), 128*i, 128*7, 128, 128, null);
-                    g.drawImage(new ImageIcon("res/Pics/House/wallT.png").getImage(), 128*i, 0, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/window.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/wallT.png").getImage(), 128*i, 0, 128, 128, null);
                     continue;
 
                 } else if (i == 5) {
 
-                    g.drawImage(new ImageIcon("res/Pics/House/door.png").getImage(), 128*i, 128*7, 128, 128, null);
-                    g.drawImage(new ImageIcon("res/Pics/House/wallT.png").getImage(), 128*i, 0, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/door.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/wallT.png").getImage(), 128*i, 0, 128, 128, null);
                     continue;
 
                 } else if (i == 9) {
 
-                    g.drawImage(new ImageIcon("res/Pics/House/cornerTR.png").getImage(), 128*i, 0, 128, 128, null);
-                    g.drawImage(new ImageIcon("res/Pics/House/cornerBR.png").getImage(), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/cornerTR.png").getImage(), 128*i, 0, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/cornerBR.png").getImage(), 128*i, 128*7, 128, 128, null);
                     continue;
 
                 }
 
-                g.drawImage(new ImageIcon("res/Pics/House/wallB.png").getImage(), 128*i, 128*7, 128, 128, null);
-                g.drawImage(new ImageIcon("res/Pics/House/wallT.png").getImage(), 128*i, 0, 128, 128, null);
+                g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/wallB.png").getImage(), 128*i, 128*7, 128, 128, null);
+                g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/wallT.png").getImage(), 128*i, 0, 128, 128, null);
 
             }
 
@@ -278,8 +278,8 @@ public class GamePanel extends JPanel {
                 Game.houseMap[i][0] = '2';
                 Game.houseMap[i][9] = '2';
 
-                g.drawImage(new ImageIcon("res/Pics/House/wallL.png").getImage(), 0, 128*i, 128, 128, null);
-                g.drawImage(new ImageIcon("res/Pics/House/wallR.png").getImage(), 128*9, 128*i, 128, 128, null);
+                g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/wallL.png").getImage(), 0, 128*i, 128, 128, null);
+                g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/wallR.png").getImage(), 128*9, 128*i, 128, 128, null);
 
             }
 
@@ -293,27 +293,27 @@ public class GamePanel extends JPanel {
                         if (map[i][j] == '8') {
 
                             // The TV - wall offset
-                            g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i-30, 128, 128, null);
+                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i-30, 128, 128, null);
 
                         } else if (i == 5 && ( j == 1 || j == 4 )) {
 
                             // Draws the chairs with their respective orientation
-                            if (j == 1) g.drawImage(new ImageIcon("res/Pics/House/" + (Game.houseTextures[(int) map[i][j] - 48]).substring(0, 5) + "_left.png").getImage(), 128*j+60, 128*i+20, 128, 128, null);
-                            else g.drawImage(new ImageIcon("res/Pics/House/" + (Game.houseTextures[(int) map[i][j] - 48]).substring(0, 5) + "_right.png").getImage(), 128*j-40, 128*i+20, 128, 128, null);
+                            if (j == 1) g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/" + (Game.houseTextures[(int) map[i][j] - 48]).substring(0, 5) + "_left.png").getImage(), 128*j+60, 128*i+20, 128, 128, null);
+                            else g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/" + (Game.houseTextures[(int) map[i][j] - 48]).substring(0, 5) + "_right.png").getImage(), 128*j-40, 128*i+20, 128, 128, null);
 
                         } else if (map[i][j] == '6') {
 
                             // The table resizing
-                            g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i-52, 256, 256, null);
+                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i-52, 256, 256, null);
 
                         } else if (map[i][j] == '5') {
 
                             // The wardrobe - wall offset
-                            g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j+40, 128*i-30, 128, 128, null);
+                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j+40, 128*i-30, 128, 128, null);
 
                         } else {
     
-                            g.drawImage(new ImageIcon("res/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
+                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
     
                         }
                     }
@@ -326,7 +326,7 @@ public class GamePanel extends JPanel {
             if (dad.level == 0) {
                 
                 // Draw the house itself
-                g.drawImage(new ImageIcon("res/Pics/" + Game.groundTextures[(int) map[0][1] - 48]).getImage(), 128, 0, 256, 256, null);
+                g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + Game.groundTextures[(int) map[0][1] - 48]).getImage(), 128, 0, 256, 256, null);
                 changeGrass = false;
 
                 // Drawing all the placed plants by a for loop to allow editing the plants
@@ -342,7 +342,7 @@ public class GamePanel extends JPanel {
                 // Drawing the side fence poles
                 for (int i=2; i<32; i++) {
 
-                    g.drawImage(new ImageIcon("res/Pics/FencePole.png").getImage(), 1877, i*30, 22, 96, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/FencePole.png").getImage(), 1877, i*30, 22, 96, null);
 
                 }
 
@@ -386,7 +386,7 @@ public class GamePanel extends JPanel {
             // Drawing the bird shit splat on the ground
             if (!bird.drawShit && bird.splat && System.currentTimeMillis() < bird.timeToCleanShit) {
 
-                if (bird.audio) Game.playSound("res/Audio/Splash.wav");
+                if (bird.audio) Game.playSound("res/" + Game.texturePack + "/Audio/Splash.wav");
                 bird.audio = false;
                 
                 g.setPaint(new Color(236, 236, 236));

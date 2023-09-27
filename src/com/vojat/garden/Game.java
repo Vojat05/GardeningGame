@@ -54,6 +54,7 @@ public class Game implements Runnable {
     public static byte save = -1;                                                                                                                                                   // The current game save number to be plugged into the respawn
     public static boolean firstStart = true;                                                                                                                                        // Is this the first time the game instance is played? // Shows the help menu inside the house
     public static String langFileName = "lang-en";                                                                                                                                  // Name of the language file currently being used
+    public static String texturePack = "DefaultPack";                                                                                                                               // The texture pack file path
     private final int FPS_SET = 120;                                                                                                                                                // Frame-Rate cap
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
@@ -417,18 +418,18 @@ public class Game implements Runnable {
             // Bird flapping wings
             if (intoMapX(bird.positionX) % 2 == 0) {
 
-                bird.texture = setTexture("res/Pics/Pigeon1.png");
+                bird.texture = setTexture("res/" + texturePack + "/Pics/Pigeon1.png");
 
             } else {
 
-                bird.texture = setTexture("res/Pics/Pigeon2.png");
+                bird.texture = setTexture("res/" + texturePack + "/Pics/Pigeon2.png");
 
             }
 
             // Bird shit detection
             if (bird.drawShit && intoMapY(bird.shitPositionY - 30) == intoMapY(gamePanel.dad.LOCATION_Y + 64) && intoMapX(bird.shitPositionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) {
 
-                if (gamePanel.dad.HP == 0) gamePanel.dad.currentTexture = setTexture("res/Pics/Player/GraveShit.png");
+                if (gamePanel.dad.HP == 0) gamePanel.dad.currentTexture = setTexture("res/" + texturePack + "/Pics/Player/GraveShit.png");
                 if (gamePanel.dad.HP != 0) gamePanel.dad.hurt(5);
 
                 bird.shitPositionY = Window.height;
@@ -460,7 +461,7 @@ public class Game implements Runnable {
         // Enter house logic
         if (gamePanel.dad.level == 0 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
 
-            playSound("res/Audio/DoorInteract.wav");
+            playSound("res/" + texturePack + "/Audio/DoorInteract.wav");
             gamePanel.dad.level = 1;
             gamePanel.dad.LOCATION_X = 638;
             gamePanel.dad.LOCATION_Y = 810;
@@ -471,7 +472,7 @@ public class Game implements Runnable {
         // Exit house logic
         if (gamePanel.dad.level == 1 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 5 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
 
-            playSound("res/Audio/DoorInteract.wav");
+            playSound("res/" + texturePack +  "/Audio/DoorInteract.wav");
             gamePanel.dad.level = 0;
             gamePanel.dad.LOCATION_X = 240;
             gamePanel.dad.LOCATION_Y = 200;
@@ -499,7 +500,7 @@ public class Game implements Runnable {
         // The in-game audio player
         try {
 
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("res/Audio/GameMusic.wav"));
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("res/" + texturePack + "/Audio/GameMusic.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.setFramePosition(0);
@@ -594,7 +595,7 @@ public class Game implements Runnable {
                         
                             plant.STATUS = "Dead";
                             plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
-                            playSound("res/Audio/MagicSound.wav");
+                            playSound("res/" + texturePack + "/Audio/MagicSound.wav");
                             continue;
                         
                         } else if (plant.STATUS.equals("Dead") && plant.TIME_TO_DISSAPEAR <= System.currentTimeMillis()) {

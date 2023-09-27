@@ -110,7 +110,7 @@ public class Load extends JPanel {
                 JLabel saveFilePicture = new JLabel();
                 JButton deleteSaveButton = new JButton("Delete");
                 {
-                    InventoryPanel.repaintItem(saveFilePicture, "res/Pics/save.png");
+                    InventoryPanel.repaintItem(saveFilePicture, "res/" + Game.texturePack + "/Pics/save.png");
                     spacer.add(saveFilePicture);
 
                     // Deletes the save file and "restarts" the panel
@@ -155,7 +155,7 @@ public class Load extends JPanel {
 
     // Creates a button to be passed to the block
     public void createButton(JPanel panel, Window window) {
-        JButton button = new JButton(InventoryPanel.createIcon("res/Pics/Buttons/Load.png", 150, 40));
+        JButton button = new JButton(InventoryPanel.createIcon("res/" + Game.texturePack + "/Pics/Buttons/Load.png", 150, 40));
         int saveNumber = blocks.indexOf(panel)+1;
         button.addActionListener((e) -> buttonPress(button, saveNumber, window));
         button.setPreferredSize(new Dimension(150, 40));

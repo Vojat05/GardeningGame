@@ -1,10 +1,8 @@
 TODO: Put this into order of the most > least difficult & needed changes
 
-- Add other languages ( czech )
 - Add a background video to the main menu of the main character walking in a full garden
 - Redesign the options menu
 - Outline for objects that are in range and can be interacted with
-- On the first start, on the right side add a panel in the alert design describing the game controls and what it's all about
 - Change the blue button for a green check flag
 - Replace the doormat with a hole in the wall and add a symbolicly open door
 - If interaction is not possible, do not show error popups

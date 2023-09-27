@@ -24,8 +24,8 @@ public class MouseInput implements MouseListener, MouseMotionListener {
     private short controlVariableX;                                                     // Theoretical mouse X coordinate in the game map 
     private short controlVariableY;                                                     // Theoretical mouse Y coordiante in the game map
     private Flower flower;                                                              // Flower object that's set on each click on some flower
-    private int mouseX = 0;
-    private int mouseY = 0;
+    private int mouseX = 0;                                                             // X variable used for the hover effect in the save menu
+    private int mouseY = 0;                                                             // Y variable used for the hover effect in the save menu
 
     /*
      * --------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                     if (e.getY() >= 185 + i * 60 && e.getY() <= 235 + i * 60) {
                         
                         gamePanel.setSaveNumber(i);
-                        Game.playSound("res/Audio/Button.wav");
+                        Game.playSound("res/" + Game.texturePack + "/Audio/Button.wav");
                         break;
                     
                     }
@@ -114,7 +114,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
                     }
 
-                    Game.playSound("res/Audio/Button.wav");
+                    Game.playSound("res/" + Game.texturePack + "/Audio/Button.wav");
 
                 } catch (FileNotFoundException fne) {
                     
@@ -150,7 +150,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                     
                 }
 
-                Game.playSound("res/Audio/Button.wav");
+                Game.playSound("res/" + Game.texturePack + "/Audio/Button.wav");
 
             }
 
@@ -179,6 +179,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                 // Too far and close checks
                 if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
 
+                    
                     System.err.println(ErrorList.ERR_RANGE_FAR.message);
                     Game.error("Out of reach", 3);
                     return;
@@ -209,7 +210,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                         } else {
 
                             // Creates a flower object if the area isn't being occupied
-                            Game.playSound("res/Audio/Plant.wav");
+                            Game.playSound("res/" + Game.texturePack + "/Audio/Plant.wav");
                             flower = new Flower(gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", Game.flowers.size());
                             gamePanel.dad.plant(flower);
 
@@ -225,7 +226,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                         if ((int) Game.map[controlVariableY][controlVariableX] == '4') {
 
                             gamePanel.dad.waterRefill();
-                            Game.playSound("res/Audio/WaterPour.wav");
+                            Game.playSound("res/" + Game.texturePack + "/Audio/WaterPour.wav");
                             
                         } else if ((int) Game.map[controlVariableY][controlVariableX] != 50) {
 
@@ -234,7 +235,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
                         } else if (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
 
-                            Game.playSound("res/Audio/WaterPlant.wav");
+                            Game.playSound("res/" + Game.texturePack + "/Audio/WaterPlant.wav");
 
                             // Checks selects the plant based on clicked location
                             for (Flower plant : Game.flowers) {
@@ -346,7 +347,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                 gamePanel.dad.setMove(false);
                 gamePanel.showSaveMenu();
                 Game.alertMessage = "";
-                Game.playSound("res/Audio/BedSqueak.wav");
+                Game.playSound("res/" + Game.texturePack + "/Audio/BedSqueak.wav");
                 Game.pauseGame();
                 break;
             
@@ -360,7 +361,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
             case 9:
 
                 // The couch interaction
-                Game.playSound("res/Audio/BedSqueak.wav");
+                Game.playSound("res/" + Game.texturePack + "/Audio/BedSqueak.wav");
                 System.out.println(controlVariableX*128 + " | " + controlVariableY*128);
 
                 if (gamePanel.dad.LOCATION_X < 845) {
@@ -376,7 +377,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                 }
 
                 gamePanel.dad.setMove(false);
-                gamePanel.dad.currentTexture = Game.setTexture("res/Pics/Player/Dad_Texture_Sitting.png");
+                gamePanel.dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_Sitting.png");
                 break;
             
             default:
