@@ -41,7 +41,7 @@ public class Main {
 
         try {
 
-            JSONEditor jsonEditor = new JSONEditor("src/com/vojat/Data/Config.json");
+            JSONEditor jsonEditor = new JSONEditor("res/Config.json");
             Game.langFileName = jsonEditor.readData("Language");
             Game.texturePack = jsonEditor.readData("Texture-Pack");
             
