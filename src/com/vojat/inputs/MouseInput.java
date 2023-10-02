@@ -208,7 +208,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                             Game.error("Area occupied", 3);
                             return;
 
-                        }
+                        } else if (controlVariableX == 2 && controlVariableY == 2) return;
 
                         // Creates a flower object if the area isn't being occupied or out of reach
                         Game.playSound("res/" + Game.texturePack + "/Audio/Plant.wav");
