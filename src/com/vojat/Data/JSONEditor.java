@@ -213,7 +213,7 @@ public class JSONEditor {
     public String readData(String request) throws FileNotFoundException{
 
         readFile(false);
-        boolean writeData = false;
+        boolean write = false;
         boolean bKey = true;
         String key = "";
         String data = "";
@@ -225,20 +225,20 @@ public class JSONEditor {
             switch (jsonData.charAt(i)) {
 
                 case '"':
-                    writeData = writeData ? false : true;
+                    write = write ? false : true;
                     break;
                 
                 case ':':
-                    if (!writeData) bKey = false;
+                    if (!write) bKey = false;
                     else data += jsonData.charAt(i);
                     break;
 
-                case '}':
-                    map.put(key, data);
+                case ',', '}':
+                    if (!write) map.put(key, data);
                     break;
 
                 default:
-                    if (writeData) {
+                    if (write) {
 
                         if (bKey) {
 
