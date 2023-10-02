@@ -1,5 +1,6 @@
 package com.vojat.garden;
 
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,8 +54,9 @@ public class Game implements Runnable {
     public static boolean pause = false;                                                                                                                                            // Determines wheather the game should be paused or not
     public static byte save = -1;                                                                                                                                                   // The current game save number to be plugged into the respawn
     public static boolean firstStart = true;                                                                                                                                        // Is this the first time the game instance is played? // Shows the help menu inside the house
-    public static String langFileName = "lang-en";                                                                                                                                  // Name of the language file currently being used
-    public static String texturePack = "DefaultPack";                                                                                                                               // The texture pack file path
+    public static String langFileName;                                                                                                                                              // Name of the language file currently being used
+    public static String texturePack;                                                                                                                                               // The texture pack file path
+    public static Font font;                                                                                                                                                        // The custom font used in the game
     private final int FPS_SET = 120;                                                                                                                                                // Frame-Rate cap
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
@@ -124,26 +126,9 @@ public class Game implements Runnable {
         
         }
 
-        /*
-         * --------------------------------------------------------------------------------
-         * Compleating the tutorial box content
-         * --------------------------------------------------------------------------------
-         */
-
         // Sets / Re-sets the tutorial box with every instance
         firstStart = true;
         tutorialStrings.clear();
-
-        try {
-
-            JSONEditor jse = new JSONEditor("res/Language/" + langFileName + ".json");
-            tutorialStringPulledData = jse.readData("Tutorial-Data");
-
-        } catch (FileNotFoundException e) {
-            
-            e.printStackTrace();
-
-        }
 
         // Get the number of lines for the tutorial box to draw them
         boolean sliced = false;
@@ -466,6 +451,7 @@ public class Game implements Runnable {
             gamePanel.dad.level = 1;
             gamePanel.dad.LOCATION_X = 638;
             gamePanel.dad.LOCATION_Y = 810;
+            gamePanel.dad.speed = 1;
             invisibleWalls.remove(invisibleWalls.indexOf(3));
             invisibleWalls.add(6);
 
@@ -478,8 +464,9 @@ public class Game implements Runnable {
             gamePanel.dad.level = 0;
             gamePanel.dad.LOCATION_X = 240;
             gamePanel.dad.LOCATION_Y = 200;
+            gamePanel.dad.speed = 1.5;
             invisibleWalls.add(3);
-            invisibleWalls.remove((Object) 6); // Has to be an index
+            invisibleWalls.remove((Object) 6);
 
         }
 
@@ -488,8 +475,14 @@ public class Game implements Runnable {
          * Check if the player is located on the tiles and increases his movement speed
          * --------------------------------------------------------------------------------
          */
+
+        if (gamePanel.dad.VECTORX > 0) gamePanel.dad.VECTORX = gamePanel.dad.speed;
+        else if (gamePanel.dad.VECTORX < 0) gamePanel.dad.VECTORX = -gamePanel.dad.speed;
+
+        if (gamePanel.dad.VECTORY > 0) gamePanel.dad.VECTORY = gamePanel.dad.speed;
+        else if (gamePanel.dad.VECTORY < 0) gamePanel.dad.VECTORY = -gamePanel.dad.speed;
         
-        if (map[intoMapY(gamePanel.dad.LOCATION_Y + 64)][intoMapX(gamePanel.dad.LOCATION_X + 64)] == '6') gamePanel.dad.speed = 1.5; 
+        if (map[intoMapY(gamePanel.dad.LOCATION_Y + 64)][intoMapX(gamePanel.dad.LOCATION_X + 64)] == '6' && gamePanel.dad.level == 0) gamePanel.dad.speed = 1.5; 
         else gamePanel.dad.speed = 1;
     }
 

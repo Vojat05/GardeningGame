@@ -164,6 +164,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
             if ( (e.getX() >= 1550 && e.getX() <= 1600) && (e.getY() <=923 && e.getY() >= 875) ) {
 
                 Game.firstStart = false;
+                Game.playSound("res/" + Game.texturePack + "/Audio/Button.wav");
 
             }
 

@@ -224,6 +224,9 @@ public class JSONEditor {
 
             switch (jsonData.charAt(i)) {
 
+                case '{':
+                    break;
+
                 case '"':
                     write = write ? false : true;
                     break;
@@ -234,7 +237,14 @@ public class JSONEditor {
                     break;
 
                 case ',', '}':
-                    if (!write) map.put(key, data);
+                    if (!write) {
+
+                        map.put(key, data);
+                        bKey = true;
+                        key = "";
+                        data = "";
+
+                    }
                     break;
 
                 default:

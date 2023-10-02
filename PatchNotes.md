@@ -215,5 +215,14 @@ JAR file is made for every update documented here<br>
 ## 26/9/2023
 <ul>
     <li> + Added different language files</li>
-    <li> *  Added the tutorial box on the first start of a game instance</li>
+    <li> * Added the tutorial box on the first start of a game instance</li>
+</ul>
+
+## 2/10/2023
+<ul>
+    <li> + Added the tile space</li>
+    <li> + Added the tile texture</li>
+    <li> * Fixed the tile movement speed glitch</li>
+    <li> * Errors now use the texture pack font</li>
+    <li> + Added a JSON config file for the language and texture pack files</li>
 </ul>
