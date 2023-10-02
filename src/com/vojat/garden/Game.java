@@ -48,7 +48,7 @@ public class Game implements Runnable {
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
     public static char[][] map = new char[8][15];                                                                                                                                   // [Y][X] coords
     public static char[][] houseMap = new char[8][15];                                                                                                                              // [Y][X] coords
-    public static ArrayList<Integer> invisibleWalls = new ArrayList<Integer>();                                                                                                     // ArrayList of map objects that are collidable
+    public static ArrayList<Character> invisibleWalls = new ArrayList<Character>();                                                                                                     // ArrayList of map objects that are collidable
     public static ArrayList<Bird> birdList = new ArrayList<Bird>();                                                                                                                 // The list of birds currently in game for drawing
     public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
     public static boolean pause = false;                                                                                                                                            // Determines wheather the game should be paused or not
@@ -73,7 +73,8 @@ public class Game implements Runnable {
 
     public Game(int panelWidth, int panelHeight, Window window) {
 
-        // Cleares the maps and flowers
+        // Cleares the maps, flowers and InvisibleWalls
+        invisibleWalls.clear();
         flowers.clear();
         clearMap(map);
         clearMap(houseMap);
@@ -121,12 +122,28 @@ public class Game implements Runnable {
 
         for (int i=2; i<( houseTextures.length > groundTextures.length ? houseTextures.length : groundTextures.length ); i++) {
             
-            if (i == 8 || i == 7) continue;
-            else if (i != 3) invisibleWalls.add(i);
+            if (i == 8 || i == 7 || i == 3) continue;
+            invisibleWalls.add((char) (i + 48));
         
         }
 
+        /*
+         * --------------------------------------------------------------------------------
+         * Setting up the tutorial text
+         * --------------------------------------------------------------------------------
+         */
         // Sets / Re-sets the tutorial box with every instance
+        try {
+
+            JSONEditor jsonEditor = new JSONEditor("res/Language/" + langFileName);
+            tutorialStringPulledData = jsonEditor.readData("Tutorial-Data");
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
         firstStart = true;
         tutorialStrings.clear();
 
@@ -452,8 +469,8 @@ public class Game implements Runnable {
             gamePanel.dad.LOCATION_X = 638;
             gamePanel.dad.LOCATION_Y = 810;
             gamePanel.dad.speed = 1;
-            invisibleWalls.remove(invisibleWalls.indexOf(3));
-            invisibleWalls.add(6);
+            invisibleWalls.remove(invisibleWalls.indexOf('3'));
+            invisibleWalls.add('6');
 
         }
 
@@ -465,8 +482,8 @@ public class Game implements Runnable {
             gamePanel.dad.LOCATION_X = 240;
             gamePanel.dad.LOCATION_Y = 200;
             gamePanel.dad.speed = 1.5;
-            invisibleWalls.add(3);
-            invisibleWalls.remove((Object) 6);
+            invisibleWalls.add('3');
+            invisibleWalls.remove(invisibleWalls.indexOf('6'));
 
         }
 
@@ -537,10 +554,10 @@ public class Game implements Runnable {
                      */
                             
                     // Y coordinate colision logic
-                    if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
+                    if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
                             
                     // X coordinate colision logic
-                    if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains(intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap)))) gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
+                    if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
         
                     gameTick();
 
