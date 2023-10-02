@@ -31,7 +31,7 @@ public class Game implements Runnable {
     public static final String ANSI_GREEN = "\u001B[32m";                                                                                                                           // Set the console text color to green
     public static final String ANSI_RED = "\u001B[31m";                                                                                                                             // Set the console text color to red
     public static final String ANSI_RESET = "\u001B[0m";                                                                                                                            // Reset the console text color
-    public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png"};                                                          // Texture array for outside
+    public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png", "Tiles.png"};                                             // Texture array for outside
     public static final String[] houseTextures = {"Plank.png", "", "", "doormat.png", "bed.png", "Wardrobe.png", "table.png", "chair.png", "tv.png", "couch.png"};                  // Texture array for the inside of the house
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}, {"Cactus", "400000"}};                                           // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 60000;                                                                                                                                   // The time each flower has for being thirsty before they die
@@ -94,10 +94,11 @@ public class Game implements Runnable {
 
         }
         
-        // Fill with house spaces
-        map[0][2] = '3';
-        map[1][1] = '3';
-        map[1][2] = '3';
+        // Fill the outside map data
+        map[0][2] = '3'; // House block
+        map[1][1] = '3'; // House block
+        map[1][2] = '3'; // House block
+        map[2][2] = '6'; // Tile
 
         // Fill the house map
         houseMap[5][3] = '2'; // Empty box to make up for the tabe size
@@ -466,6 +467,7 @@ public class Game implements Runnable {
             gamePanel.dad.LOCATION_X = 638;
             gamePanel.dad.LOCATION_Y = 810;
             invisibleWalls.remove(invisibleWalls.indexOf(3));
+            invisibleWalls.add(6);
 
         }
 
@@ -477,8 +479,18 @@ public class Game implements Runnable {
             gamePanel.dad.LOCATION_X = 240;
             gamePanel.dad.LOCATION_Y = 200;
             invisibleWalls.add(3);
+            invisibleWalls.remove((Object) 6); // Has to be an index
 
         }
+
+        /*
+         * --------------------------------------------------------------------------------
+         * Check if the player is located on the tiles and increases his movement speed
+         * --------------------------------------------------------------------------------
+         */
+        
+        if (map[intoMapY(gamePanel.dad.LOCATION_Y + 64)][intoMapX(gamePanel.dad.LOCATION_X + 64)] == '6') gamePanel.dad.speed = 1.5; 
+        else gamePanel.dad.speed = 1;
     }
 
     /*

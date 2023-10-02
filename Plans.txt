@@ -8,7 +8,6 @@ TODO: Put this into order of the most > least difficult & needed changes
 - If interaction is not possible, do not show error popups
 - If the player is outside, he should be holding a green watering can
 - Remove the inventory panel and use a hotbar system ( Like minecraft )
-- Make it impossible to block the house entrance
 - An option to place down concrete tiles which increase the maximum movement speed
 - The bird can spawn only if the player is in the garden ( For some reason he has a chance of spawning in the house the first time )
 - While in movement add a walking animation
