@@ -1,5 +1,6 @@
 TODO: Put this into order of the most > least difficult & needed changes
 
+- Fix the load save issue of the doormat ID being in the invisible walls list
 - Fix error popups inside the house
 - An option to place down concrete tiles which increase the maximum movement speed
 - Upon clicking on the well, the player's water storage will automatically refill
