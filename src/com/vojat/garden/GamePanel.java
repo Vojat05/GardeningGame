@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.Random;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
@@ -207,6 +206,14 @@ public class GamePanel extends JPanel {
                     // Draw everything except flowers and house
                     if ((int) map[i][j] - 48 != 3 || (int) map[i][j] - 48 != 2) {
 
+                        if (map[i][j] == '6') {
+
+                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Grass1.png").getImage(), 128*j, 128*i, 128, 128, null);
+                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Tiles.png").getImage(), 128*j, 128*i, 128, 128, null);
+                            continue;
+
+                        }
+
                         g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + Game.groundTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
 
                     }
@@ -356,9 +363,9 @@ public class GamePanel extends JPanel {
             }
 
             // Drawing the errors
-            g.setFont(new Font("Monospaced", Font.BOLD, 20));
+            g.setFont(Game.font.deriveFont(24f));
             g.setColor(new Color(238, 16, 16));
-            g.drawString(Game.errorMessage, (int) dad.LOCATION_X - 60, (int) dad.LOCATION_Y + 10);
+            g.drawString(Game.errorMessage, (int) dad.LOCATION_X, (int) dad.LOCATION_Y + 10);
 
         } catch(NullPointerException npe) {
 
@@ -437,7 +444,7 @@ public class GamePanel extends JPanel {
         g2d.drawPolygon(backgroundX, backgroundY, backgroundX.length);
 
         // Drawing the text inside
-        g2d.setFont(inventoryPanel.HPfont.deriveFont(64f));
+        g2d.setFont(Game.font.deriveFont(64f));
         g2d.drawString(Game.warningMessage, middleX - Game.warningMessage.length() * 11, (int) (middleY - middleY / 2 + 86 * 1.25));
 
     }
@@ -461,11 +468,11 @@ public class GamePanel extends JPanel {
         
 
         // Alert box title
-        g2d.setFont(inventoryPanel.HPfont.deriveFont(42f));
+        g2d.setFont(Game.font.deriveFont(42f));
         g2d.setPaint(new Color(30, 30, 30, 240));
         g2d.drawString("Alert", middleX - 35, middleY - middleY / 2 + 240);
 
-        g2d.setFont(inventoryPanel.HPfont.deriveFont(24f));
+        g2d.setFont(Game.font.deriveFont(24f));
         g2d.drawString(Game.alertMessage, middleX - Game.alertMessage.length() * 4, middleY - middleY / 2 + 330);
 
 
@@ -516,7 +523,7 @@ public class GamePanel extends JPanel {
         
 
         // Save box title
-        g2d.setFont(inventoryPanel.HPfont.deriveFont(42f));
+        g2d.setFont(Game.font.deriveFont(42f));
         g2d.setPaint(new Color(30, 30, 30, 240));
         g2d.drawString("Save", middleX - 35, middleY - middleY / 2 - 40);
 
@@ -531,7 +538,7 @@ public class GamePanel extends JPanel {
             g2d.fillRect(middleX - 179, middleY - middleY / 2 - 64 + ( 60 * i + marginTopPx ), 358, 48);
             
             // Drawing the slot text
-            g2d.setFont(inventoryPanel.HPfont.deriveFont(36f));
+            g2d.setFont(Game.font.deriveFont(36f));
             g2d.setPaint(new Color(30, 30, 30, 240));
             g2d.drawString("Slot " + i, middleX - 36, middleY / 2 - 25 + ( 60 * i + marginTopPx ));
 
@@ -583,11 +590,11 @@ public class GamePanel extends JPanel {
 
         // The Help text in the first white block
         g2d.setPaint(new Color(30, 30, 30, 240));
-        g2d.setFont(inventoryPanel.HPfont.deriveFont(48f));
+        g2d.setFont(Game.font.deriveFont(48f));
         g2d.drawString("Tutorial", 1500, 120);
 
         // Tutorial box content
-        g2d.setFont(inventoryPanel.HPfont.deriveFont(24f));
+        g2d.setFont(Game.font.deriveFont(24f));
 
         for (int i=0; i<Game.tutorialStrings.size(); i++) {
 

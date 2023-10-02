@@ -148,44 +148,44 @@ public class KeyboardInput implements KeyListener {
             if (up) {
 
                 dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_B" + dad.getTextureModifier() + ".png");
+                dad.VECTORY = -dad.speed;
                 up = false;
 
             }
 
-            dad.VECTORY = -dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
 
             if (down) {
 
                 dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + dad.getTextureModifier() + ".png");
+                dad.VECTORY = dad.speed;
                 down = false;
 
             }
 
-            dad.VECTORY = dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
 
             if (left) {
 
                 dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_L" + dad.getTextureModifier() + ".png");
+                dad.VECTORX = -dad.speed;
                 left = false;
 
             }
 
-            dad.VECTORX = -dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
 
             if (right) {
 
                 dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_R" + dad.getTextureModifier() + ".png");
+                dad.VECTORX = dad.speed;
                 right = false;
 
             }
 
-            dad.VECTORX = dad.speed;
 
         }
     }

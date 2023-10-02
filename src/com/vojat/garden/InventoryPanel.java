@@ -2,15 +2,10 @@ package com.vojat.garden;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import java.io.File;
-import java.io.IOException;
-
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -26,7 +21,6 @@ public class InventoryPanel extends JPanel{
      * --------------------------------------------------------------------------------
      */
 
-    public Font HPfont;                                                     // Custom font for the HP value text
     private Color HPBorderColor = Color.WHITE;                              // The color of the outer HP border
     private JLabel item = new JLabel();                                     // The label for the selected item
     private Player dad;                                                     // The player character
@@ -43,17 +37,6 @@ public class InventoryPanel extends JPanel{
         {
             setBackground(new Color(40, 40, 40));
             setBounds(0, windowHeight-75, windowWidth, 75);
-        }
-
-        // Sets up the custom HP font
-        try {
-
-            HPfont = Font.createFont(Font.TRUETYPE_FONT, new File("res/" + Game.texturePack + "/Fonts/customFont.ttf"));
-
-        } catch (FontFormatException | IOException e) {
-
-            e.printStackTrace();
-
         }
 
         item.setBorder(BorderFactory.createEtchedBorder(Color.BLACK, Color.RED));
@@ -224,7 +207,7 @@ public class InventoryPanel extends JPanel{
         g2d.setPaint(Color.white);
         g2d.setStroke(new BasicStroke(1));
 
-        g2d.setFont(HPfont.deriveFont(15f));
+        g2d.setFont(Game.font.deriveFont(15f));
         g2d.drawString((dad.HP == 100 ? "100" : " " + dad.HP) + " / 100" , 298, 66);
         
     }

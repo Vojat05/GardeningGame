@@ -1,8 +1,14 @@
 package com.vojat;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
 
+import com.vojat.Data.JSONEditor;
+import com.vojat.garden.Game;
 import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Window;
 
@@ -12,6 +18,12 @@ public class Main {
     public static Window window;
     public static void main(String[] args) {
 
+        /*
+         * --------------------------------------------------------------------------------
+         * System monitor resolution check
+         * --------------------------------------------------------------------------------
+         */
+
         GraphicsDevice gDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         if (gDevice.getDisplayMode().getWidth() < sizeX || gDevice.getDisplayMode().getHeight() < sizeY) {
@@ -19,6 +31,29 @@ public class Main {
             System.out.println("Your display resolution is too low // FullHD ( 1920x1080 ) is minimum");
             return;
             
+        }
+
+        /*
+         * --------------------------------------------------------------------------------
+         * Getting the essential game settings from the config file
+         * --------------------------------------------------------------------------------
+         */
+
+        try {
+
+            JSONEditor jsonEditor = new JSONEditor("src/com/vojat/Data/Config.json");
+            Game.langFileName = jsonEditor.readData("Language");
+            Game.texturePack = jsonEditor.readData("Texture-Pack");
+            
+            jsonEditor.setFile("res/Language/" + Game.langFileName);
+            Game.tutorialStringPulledData = jsonEditor.readData("Tutorial-Data");
+
+            Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("res/" + Game.texturePack + "/Fonts/customFont.ttf"));
+
+        } catch (FontFormatException | IOException e) {
+            
+            e.printStackTrace();
+
         }
 
         Window frame = new Window(gDevice.getDisplayMode().getWidth(), gDevice.getDisplayMode().getHeight());
