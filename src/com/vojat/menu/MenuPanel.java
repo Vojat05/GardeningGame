@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -136,10 +137,16 @@ public class MenuPanel extends JPanel{
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
+        // Smoothening render hint
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // Drawing the background
         g2d.setPaint(Color.DARK_GRAY);
         g2d.fillRect(0, 0, Window.width, Window.height);
 
+        // Drawing the Game version
         g2d.setPaint(Color.WHITE);
-        g2d.drawString(Game.version, 1800, 1000);
+        g2d.setFont(Game.font.deriveFont(24f));
+        g2d.drawString(Game.version, 1800, 1040);
     }
 }
