@@ -170,7 +170,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
         }
 
         // Pause intercation protection
-        if (Game.pause || gamePanel.dad.HP == 0) return;
+        if (Game.pause || gamePanel.dad.HP == 0 || gamePanel.dad.selectedItem > gamePanel.dad.inventory.size()-1) return;
 
         switch (e.getButton()) {
 
