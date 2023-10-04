@@ -44,6 +44,7 @@ public class Main {
             JSONEditor jsonEditor = new JSONEditor("res/Config.json");
             Game.langFileName = jsonEditor.readData("Language");
             Game.texturePack = jsonEditor.readData("Texture-Pack");
+            Game.version = jsonEditor.readData("Version");
 
             Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("res/" + Game.texturePack + "/Fonts/customFont.ttf"));
 

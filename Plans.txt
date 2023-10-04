@@ -1,10 +1,7 @@
 TODO: Put this into order of the most > least difficult & needed changes
 
-- Fix interactions while the tutorial is open ( You can't interact with anything snice the mouselistener is only checking for the close button )
 - An option to place down concrete tiles which increase the maximum movement speed
-- Upon clicking on the well, the player's water storage will automatically refill
 - Redesign the options menu
-- Add a version label at the bottom of the main menu
 - Remove the inventory panel and use a hotbar system ( Like minecraft )
 - Add a shovel which will on click force the flower to enter the next stage ( It effectively kills the flower on 3 clicks )
 - Add a background video to the main menu of the main character walking in a full garden
