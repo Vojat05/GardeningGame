@@ -2,6 +2,8 @@ package com.vojat.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -128,5 +130,16 @@ public class MenuPanel extends JPanel{
         button.setFocusPainted(false);
         button.setFocusable(false);
         if (border) button.setBorder(null);
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setPaint(Color.DARK_GRAY);
+        g2d.fillRect(0, 0, Window.width, Window.height);
+
+        g2d.setPaint(Color.WHITE);
+        g2d.drawString(Game.version, 1800, 1000);
     }
 }

@@ -37,6 +37,7 @@ public class Game implements Runnable {
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}, {"Cactus", "400000"}};                                           // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 60000;                                                                                                                                   // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
+    public static String version = "";                                                                                                                                              // Current game version
     public static String tutorialStringPulledData = "";                                                                                                                             // Data to be displayed in the current tutorial screen box
     public static ArrayList<String> tutorialStrings = new ArrayList<String>();                                                                                                      // Every element of this arraylist is a single line to be printed to the output box
     public static boolean alert = false;                                                                                                                                            // Is some type of a alert up?
@@ -84,9 +85,6 @@ public class Game implements Runnable {
          * Building the main game objects (house, well, etc.)
          * --------------------------------------------------------------------------------
          */
-        
-        map[0][1] = '3';      // Builds the house
-        map[5][1] = '4';      // Builds the well
 
         // Building the fence around the garden
         for (int i=0; i<map[0].length; i++) {
@@ -101,6 +99,8 @@ public class Game implements Runnable {
         map[0][2] = '3'; // House block
         map[1][1] = '3'; // House block
         map[1][2] = '3'; // House block
+        map[0][1] = '3'; // House block
+        map[5][1] = '4'; // The well
         map[2][2] = '6'; // Tile
 
         // Fill the house map
