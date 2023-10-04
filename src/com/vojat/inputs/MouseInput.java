@@ -207,7 +207,35 @@ public class MouseInput implements MouseListener, MouseMotionListener {
                         
                     }
 
-                    if ((gamePanel.dad.selectedItem > 0 && gamePanel.dad.selectedItem <= Game.flowerTypes.length) && controlVariableY != 7) {
+                    if (gamePanel.dad.selectedItem == 1) {
+
+                        // The tile placement
+                        // Distance checks
+                        if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+
+                            System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                            Game.error("Out of reach", 3);
+                            return;
+
+                        } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+                        
+                            System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
+                            Game.error("Too close", 3);
+                            return;
+                        
+                        } else if ((int) Game.map[controlVariableY][controlVariableX] == 52) return;
+                        else if ((int) Game.map[controlVariableY][controlVariableX] >= 50) {
+                            
+                            // Checks if the desired area is occupied or not
+                            System.err.println(ErrorList.ERR_CANTPLANT.message);
+                            Game.error("Area occupied", 3);
+                            return;
+
+                        } else if (controlVariableX == 2 && controlVariableY == 2) return;
+
+                        Game.map[controlVariableY][controlVariableX] = '6';
+
+                    } else if (gamePanel.dad.selectedItem > 1 && gamePanel.dad.selectedItem <= Game.flowerTypes.length+1 /* TODO: This has to be fixed */ && controlVariableY != 7) {
 
                         // Distance checks
                         if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
@@ -293,26 +321,27 @@ public class MouseInput implements MouseListener, MouseMotionListener {
             
             gamePanel.dad.hurt(10);
             if (gamePanel.dad.level == 1) System.out.println("Interaction 2"); 
-                else {
+            else {
 
-                    Game.getMapData("print");
+                Game.getMapData("print");
 
-                    if (Main.debug) {
+                if (Main.debug) {
 
-                        try {
+                    try {
 
-                            Game.saveGame("src/com/vojat/Data/Saves/Save3.json", gamePanel.dad, (byte) 3);
+                        Game.saveGame("src/com/vojat/Data/Saves/Save3.json", gamePanel.dad, (byte) 3);
 
-                        } catch (FileNotFoundException f) {
+                    } catch (FileNotFoundException f) {
 
-                            System.err.println(ErrorList.ERR_404.message);
-                            Game.error("File not found", 3);
+                        System.err.println(ErrorList.ERR_404.message);
+                        Game.error("File not found", 3);
 
-                        }
                     }
                 }
+            }
 
-                break;
+            break;
+
         }
     }
 

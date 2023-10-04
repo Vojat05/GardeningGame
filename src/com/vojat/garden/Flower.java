@@ -43,7 +43,7 @@ public class Flower {
             }
         }
 
-        this.baseTexture = setTexture("res/" + Game.texturePack + "/Pics/Grass" + Game.random.nextInt(1, 3) + ".png");
+        this.baseTexture = setTexture("res/" + Game.texturePack + "/Pics/Garden/Grass" + Game.random.nextInt(1, 3) + ".png");
         this.ALIVE_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + ".png";
         this.THIRSTY_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + "_thirsty.png";
         this.DEAD_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + "_dead.png";
@@ -64,7 +64,7 @@ public class Flower {
 
     public Flower(String type, int locationX, int locationY, String status, int number, int dieTime) {
 
-        this.baseTexture = setTexture("res/" + Game.texturePack + "/Pics/Grass" + Game.random.nextInt(1, 3) + ".png");
+        this.baseTexture = setTexture("res/" + Game.texturePack + "/Pics/Garden/Grass" + Game.random.nextInt(1, 3) + ".png");
         this.ALIVE_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + ".png";
         this.THIRSTY_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + "_thirsty.png";
         this.DEAD_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + "_dead.png";

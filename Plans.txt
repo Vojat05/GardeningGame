@@ -1,6 +1,5 @@
 TODO: Put this into order of the most > least difficult & needed changes
 
-- An option to place down concrete tiles which increase the maximum movement speed
 - Redesign the options menu
 - Add a shovel which will on click force the flower to enter the next stage ( It effectively kills the flower on 3 clicks )
 - Add a background video to the main menu of the main character walking in a full garden
