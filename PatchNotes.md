@@ -226,3 +226,9 @@ JAR file is made for every update documented here<br>
     <li> * Errors now use the texture pack font</li>
     <li> + Added a JSON config file for the language and texture pack files</li>
 </ul>
+
+## 4/10/2023
+<ul>
+    <li> * Changed player hotbar for items</li>
+</ul>
+

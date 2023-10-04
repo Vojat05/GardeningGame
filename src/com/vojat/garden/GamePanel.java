@@ -177,6 +177,7 @@ public class GamePanel extends JPanel {
 
         // Resets the flower texture
         flower.CURRENT_TEXTURE = flower.setTexture(flower.ALIVE_TEXTURE);
+        this.inventoryPanel.repaint();
     }
 
     /*
