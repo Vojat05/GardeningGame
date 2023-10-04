@@ -15,6 +15,7 @@ import com.vojat.menu.Window;
 public class Main {
     public static final boolean debug = false;
     public static final int sizeX = 1920, sizeY = 1080;
+    public static boolean maximize = false;
     public static Window window;
     public static void main(String[] args) {
 
@@ -31,7 +32,7 @@ public class Main {
             System.out.println("Your display resolution is too low // FullHD ( 1920x1080 ) is minimum");
             return;
             
-        }
+        } else if (gDevice.getDisplayMode().getWidth() == 1920 && gDevice.getDisplayMode().getHeight() == 1080) maximize = true;
 
         /*
          * --------------------------------------------------------------------------------
@@ -54,7 +55,7 @@ public class Main {
 
         }
 
-        Window frame = new Window(gDevice.getDisplayMode().getWidth(), gDevice.getDisplayMode().getHeight());
+        Window frame = new Window(sizeX, sizeY);
         window = frame;
         new MenuPanel(window);
 

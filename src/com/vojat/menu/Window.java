@@ -39,7 +39,7 @@ public class Window extends JFrame {
         pack();
         setSize(new Dimension(Main.sizeX, Main.sizeY));
 
-        if (width == Main.sizeX && height == Main.sizeY) setExtendedState(JFrame.MAXIMIZED_BOTH);
+        if (Main.maximize) setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         setResizable(false);
     }
