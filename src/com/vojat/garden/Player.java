@@ -54,6 +54,7 @@ public class Player {
     private void inventorySetup() {
 
         this.inventory.add("water9");
+        this.inventory.add("Tiles");
 
         for (int i=0; i<Game.flowerTypes.length; i++) this.inventory.add(Game.flowerTypes[i][0]);
 

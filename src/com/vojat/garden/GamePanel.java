@@ -209,13 +209,13 @@ public class GamePanel extends JPanel {
 
                         if (map[i][j] == '6') {
 
-                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Grass1.png").getImage(), 128*j, 128*i, 128, 128, null);
-                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Tiles.png").getImage(), 128*j, 128*i, 128, 128, null);
+                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/Grass1.png").getImage(), 128*j, 128*i, 128, 128, null);
+                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/Tiles.png").getImage(), 128*j, 128*i, 128, 128, null);
                             continue;
 
                         }
 
-                        g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + Game.groundTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
+                        g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/" + Game.groundTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
 
                     }
                 }
@@ -229,7 +229,7 @@ public class GamePanel extends JPanel {
 
                 for (int j=0; j<Game.houseMap[0].length; j++) {
     
-                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + Game.groundTextures[0]).getImage(), 128*j, 128*i, 128, 128, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/" + Game.groundTextures[0]).getImage(), 128*j, 128*i, 128, 128, null);
     
                 }
             }
@@ -331,10 +331,11 @@ public class GamePanel extends JPanel {
         
 
         try {
+
             if (dad.level == 0) {
                 
                 // Draw the house itself
-                g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + Game.groundTextures[(int) map[0][1] - 48]).getImage(), 128, 0, 256, 256, null);
+                g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/" + Game.groundTextures[(int) map[0][1] - 48]).getImage(), 128, 0, 256, 256, null);
                 changeGrass = false;
 
                 // Drawing all the placed plants by a for loop to allow editing the plants
@@ -342,7 +343,7 @@ public class GamePanel extends JPanel {
 
                     Flower plant = Game.flowers.get(i);
 
-                    // Draw the flower
+                    // Draw the flowers
                     g.drawImage(plant.baseTexture, plant.LOCATION_X * 128, plant.LOCATION_Y * 128, 128, 128, null);
                     g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X * 128, plant.LOCATION_Y * 128, 128, 128, null);
                 }
@@ -350,7 +351,7 @@ public class GamePanel extends JPanel {
                 // Drawing the side fence poles
                 for (int i=2; i<32; i++) {
 
-                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/FencePole.png").getImage(), 1877, i*30, 22, 96, null);
+                    g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/FencePole.png").getImage(), 1877, i*30, 22, 96, null);
 
                 }
 
