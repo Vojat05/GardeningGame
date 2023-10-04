@@ -38,10 +38,10 @@ public class InventoryPanel extends JPanel{
 
         {
             setBackground(new Color(40, 40, 40));
-            setBounds(0, Window.height-75, Window.width, 75);
+            setBounds(0, Window.height-75, Window.width, 80);
         }
 
-        spacer.setPreferredSize(new Dimension(10, 65));
+        spacer.setPreferredSize(new Dimension(10, 70));
         spacer.setOpaque(false);
         add(spacer);
     }
@@ -224,9 +224,6 @@ public class InventoryPanel extends JPanel{
 
             g2d.drawRect(Window.width/2 - 300 + 60*i, 10, 60, 60);
             if (i < dad.inventory.size()) g2d.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + (i == 0 ? "Player" : "Flowers") + "/" + dad.inventory.get(i) + ".png").getImage(), Window.width/2 - 300 + 60*i, 10, 60, 60, null);
-
-            // TODO: Fix the white line at the bottom
-        }
-        
+        }        
     }
 }

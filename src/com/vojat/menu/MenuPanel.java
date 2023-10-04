@@ -147,6 +147,6 @@ public class MenuPanel extends JPanel{
         // Drawing the Game version
         g2d.setPaint(Color.WHITE);
         g2d.setFont(Game.font.deriveFont(24f));
-        g2d.drawString(Game.version, 1886 - (6 * Game.version.length()), 1040);
+        g2d.drawString(Game.version, 1880 - (6 * Game.version.length()), 1035);
     }
 }
