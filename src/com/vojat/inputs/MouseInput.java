@@ -275,7 +275,6 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
                             gamePanel.dad.water(flower);
                             gamePanel.dad.inventory.set(0, "water" + (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1));
-                            gamePanel.inventoryPanel.repaintItem(gamePanel.dad);
 
                         } else {
 

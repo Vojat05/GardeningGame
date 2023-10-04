@@ -2,16 +2,18 @@ package com.vojat.garden;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+
+import com.vojat.menu.Window;
 
 public class InventoryPanel extends JPanel{
     
@@ -22,7 +24,7 @@ public class InventoryPanel extends JPanel{
      */
 
     private Color HPBorderColor = Color.WHITE;                              // The color of the outer HP border
-    private JLabel item = new JLabel();                                     // The label for the selected item
+    private JPanel spacer = new JPanel();                                   // Sizing for the inventory panel, later find better solution
     private Player dad;                                                     // The player character
 
     /*
@@ -36,11 +38,12 @@ public class InventoryPanel extends JPanel{
 
         {
             setBackground(new Color(40, 40, 40));
-            setBounds(0, windowHeight-75, windowWidth, 75);
+            setBounds(0, Window.height-75, Window.width, 75);
         }
 
-        item.setBorder(BorderFactory.createEtchedBorder(Color.BLACK, Color.RED));
-        repaintItem(dad);
+        spacer.setPreferredSize(new Dimension(10, 65));
+        spacer.setOpaque(false);
+        add(spacer);
     }
 
     /*
@@ -48,14 +51,6 @@ public class InventoryPanel extends JPanel{
      * Static repaint methods used throughout the game
      * --------------------------------------------------------------------------------
      */
-
-    // Repaint the selected item
-    public void repaintItem(Player dad) {
-
-        item.setIcon(new ImageIcon(new ImageIcon("res/" + Game.texturePack + "/Pics/" + (dad.selectedItem == 0 ? "Player" : "Flowers") + "/" + dad.inventory.get(dad.selectedItem) + ".png").getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
-        add(item);
-
-    }
 
     // Repaint the inventory ( T )
     public static void repaintItem(int index, JLabel label, Player dad) {
@@ -101,10 +96,10 @@ public class InventoryPanel extends JPanel{
 
 
         /*
-        * --------------------------------------------------------------------------------
-        * Drawing the HP bar
-        * --------------------------------------------------------------------------------
-        */
+         * --------------------------------------------------------------------------------
+         * Drawing the HP bar
+         * --------------------------------------------------------------------------------
+         */
 
         g2d.setPaint(new Color(239, 244, 245, 180));
 
@@ -190,10 +185,10 @@ public class InventoryPanel extends JPanel{
 
 
         /*
-        * --------------------------------------------------------------------------------
-        * Drawing the HP integer values
-        * --------------------------------------------------------------------------------
-        */
+         * --------------------------------------------------------------------------------
+         * Drawing the HP bar integer values
+         * --------------------------------------------------------------------------------
+         */
 
         g2d.setPaint(new Color(239, 244, 245, 120));
 
@@ -209,6 +204,29 @@ public class InventoryPanel extends JPanel{
 
         g2d.setFont(Game.font.deriveFont(15f));
         g2d.drawString((dad.HP == 100 ? "100" : " " + dad.HP) + " / 100" , 298, 66);
+
+        /*
+         * --------------------------------------------------------------------------------
+         * Drawing the inventory spaces
+         * --------------------------------------------------------------------------------
+         */
+
+        for (int i=0; i<10; i++) {
+
+            g2d.setPaint(new Color(227, 231, 234, 220));
+            g2d.setStroke(new BasicStroke(2));
+
+            if (i == dad.selectedItem) {
+
+                g2d.setStroke(new BasicStroke(6));
+
+            }
+
+            g2d.drawRect(Window.width/2 - 300 + 60*i, 10, 60, 60);
+            if (i < dad.inventory.size()) g2d.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + (i == 0 ? "Player" : "Flowers") + "/" + dad.inventory.get(i) + ".png").getImage(), Window.width/2 - 300 + 60*i, 10, 60, 60, null);
+
+            // TODO: Fix the white line at the bottom
+        }
         
     }
 }
