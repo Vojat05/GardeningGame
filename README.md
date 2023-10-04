@@ -9,6 +9,10 @@ The objective of this game is to plant flowers and not let them die.
 Sometimes pigeons will come flying across the garden, you must try to dodge their bombardment.<br>
 If you take too much damage, you'll die. And every time that happens, you will be forced to load your previous save file to continue playing.<br>
 
+# Modding
+To use a custom made texture pack, add the texture pack folder inside the res folder, then <br>
+change the "Texture-Pack" value in Config.json.
+
 # Controls
 
 ## Movement
