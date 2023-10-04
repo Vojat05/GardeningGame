@@ -88,7 +88,6 @@ public class Player {
     public void waterRefill() {
 
         inventory.set(0, "water9");
-        gamePanel.inventoryPanel.repaintItem(this);
 
     }
 

@@ -216,17 +216,17 @@ public class KeyboardInput implements KeyListener {
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "next")) && !Game.pause) {
 
-            if (dad.selectedItem+1 < dad.inventory.size()) dad.selectedItem++; 
+            if (dad.selectedItem+1 < 10) dad.selectedItem++; 
             else dad.selectedItem = 0;
+            gamePanel.inventoryPanel.repaint();
 
-            gamePanel.inventoryPanel.repaintItem(dad);
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "previous")) && !Game.pause) {
 
-            if (dad.selectedItem > 0) dad.selectedItem--; 
-            else dad.selectedItem = (byte) (dad.inventory.size() - 1);
+            if (dad.selectedItem == 0) dad.selectedItem = 9;
+            else dad.selectedItem--;
+            gamePanel.inventoryPanel.repaint();
 
-            gamePanel.inventoryPanel.repaintItem(dad);
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
 
