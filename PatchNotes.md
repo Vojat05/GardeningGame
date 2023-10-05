@@ -232,3 +232,7 @@ JAR file is made for every update documented here<br>
     <li> * Changed player hotbar for items</li>
 </ul>
 
+## 5/10/2023
+<ul>
+    <li> + Added a player stamina system</li>
+</ul>

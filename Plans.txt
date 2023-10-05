@@ -7,8 +7,6 @@ TODO: Put this into order of the most > least difficult & needed changes
 - Replace the doormat with a hole in the wall and add a symbolicly open door
 - If the player is outside, he should be holding a green watering can
 - While in movement add a walking animation
-- Add player stamina ( copy and mirror the HP gauge and make it yellow )
-- Add lightning symbol to the stamina gauge
 - Dying flower will 10 seconds before dying become highlighted ( red ) and sound a sound effect
 - If in the flower planting mode, add a block outline to the block the mouse is currently hovering over
 - Make a better wardrobe texture

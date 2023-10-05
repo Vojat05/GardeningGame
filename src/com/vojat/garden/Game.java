@@ -635,6 +635,23 @@ public class Game implements Runnable {
                     if (errorTime != 0) errorTime--;
                     if (errorTime == 0) errorMessage = "";
 
+                    /*
+                     * --------------------------------------------------------------------------------
+                     * Stamina depleeting logic
+                     * --------------------------------------------------------------------------------
+                     */
+
+                    if (gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) gamePanel.dad.tire(2);
+                    else gamePanel.dad.tire(-10);
+
+                    /*
+                     * --------------------------------------------------------------------------------
+                     * 0 Stamina penalty
+                     * --------------------------------------------------------------------------------
+                     */
+                    if (gamePanel.dad.stamina == 0) gamePanel.dad.setMove(false);
+                    else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100) gamePanel.dad.setMove(true);
+
                 }
             } else {
 
