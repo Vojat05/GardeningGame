@@ -235,4 +235,5 @@ JAR file is made for every update documented here<br>
 ## 5/10/2023
 <ul>
     <li> + Added a player stamina system</li>
+    <li> + Added custom icons for the inventory objects</li>
 </ul>

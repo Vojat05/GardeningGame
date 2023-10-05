@@ -226,7 +226,7 @@ public class InventoryPanel extends JPanel{
             }
 
             g2d.drawRect(Window.width/2 - 300 + 60*i, 10, 60, 60);
-            if (i < dad.inventory.size()) g2d.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + (i == 0 ? "Player" : i == 1 ? "Garden" : "Flowers") + "/" + dad.inventory.get(i) + ".png").getImage(), Window.width/2 - 300 + 60*i, 10, 60, 60, null);
+            if (i < dad.inventory.size()) g2d.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + (i == 0 ? "Player" : "Icons") + "/" + dad.inventory.get(i) + ".png").getImage(), Window.width/2 - 300 + 60*i, 10, 60, 60, null);
         }
 
         /*
