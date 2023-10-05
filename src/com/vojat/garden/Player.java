@@ -131,6 +131,7 @@ public class Player {
 
         Game.clip.stop();
         Game.playSound("res/" + Game.texturePack + "/Audio/Death.wav");
+        gamePanel.inventoryPanel.repaint();
 
     }
 
@@ -139,6 +140,17 @@ public class Player {
         if (HP == 0) kill();
         gamePanel.inventoryPanel.repaint();
         return this.HP = HP;
+
+    }
+
+    public int tire(int value) {
+
+        if (this.stamina - value <= 0) this.stamina = 0;
+        else if (this.stamina - value >= 100) this.stamina = 100;
+        else this.stamina = this.stamina - value;
+        gamePanel.inventoryPanel.repaint();
+
+        return this.stamina;
 
     }
 
@@ -162,6 +174,13 @@ public class Player {
     }
 
     public boolean setMove(boolean value) {
+
+        if (!value) {
+
+            this.VECTORX = 0;
+            this.VECTORY = 0;
+
+        }
 
         return this.canMove = value;
         
