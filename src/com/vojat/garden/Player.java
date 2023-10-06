@@ -24,8 +24,9 @@ public class Player {
     public double speed = 1;                                                // Player's movement speed
     public int HP = 100;                                                    // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
     public int stamina = 100;                                               // Player stamina for the player to run on the tiles
-    private char textureModifier = '0';                                     // Changes the players skin
+    public boolean outOfStamina = false;                                    // Does the player have a 0 stamina penalty
     private boolean canMove = true;                                         // Can player can move around or not?
+    private char textureModifier = '0';                                     // Changes the players skin
 
     /*
      * --------------------------------------------------------------------------------

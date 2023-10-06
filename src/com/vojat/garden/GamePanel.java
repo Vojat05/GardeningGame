@@ -69,6 +69,7 @@ public class GamePanel extends JPanel {
             addKeyListener(new KeyboardInput(this, dad));
             addMouseListener(mouseInput);
             addMouseMotionListener(mouseInput);
+            addMouseWheelListener(mouseInput);
         }
 
         /*
@@ -647,7 +648,7 @@ public class GamePanel extends JPanel {
 
         if (Game.stage.equals("Night")) {
 
-            g2d.setPaint(new Color(16, 24, 44, 120 - easeDayNight));
+            g2d.setPaint(new Color(16, 24, 44, 160 - easeDayNight));
             g2d.fillRect(0, 0, Window.width, Window.height);
 
         }

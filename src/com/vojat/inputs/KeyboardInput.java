@@ -198,35 +198,25 @@ public class KeyboardInput implements KeyListener {
 
             up = true;
             if (down) dad.VECTORY = .0;
+            else dad.VECTORY = dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
 
             down = true;
             if (up) dad.VECTORY = .0;
+            else dad.VECTORY = -dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
 
             left = true;
             if (right) dad.VECTORX = .0;
+            else dad.VECTORX = dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
 
             right = true;
             if (left) dad.VECTORX = .0;
-
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "next")) && !Game.pause) {
-
-            if (dad.selectedItem+1 < 10) dad.selectedItem++; 
-            else dad.selectedItem = 0;
-            gamePanel.inventoryPanel.repaint();
-
-
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "previous")) && !Game.pause) {
-
-            if (dad.selectedItem == 0) dad.selectedItem = 9;
-            else dad.selectedItem--;
-            gamePanel.inventoryPanel.repaint();
-
+            else dad.VECTORX = -dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
 
