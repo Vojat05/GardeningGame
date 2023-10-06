@@ -1,5 +1,6 @@
 package com.vojat.garden;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -653,10 +654,17 @@ public class Game implements Runnable {
                     if (gamePanel.dad.stamina == 0) {
 
                         gamePanel.dad.setMove(false);
+                        gamePanel.dad.outOfStamina = true;
                         error("Out of stamina", 3);
 
+                    } else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100) {
+
+                        gamePanel.dad.setMove(true);
+                        gamePanel.dad.outOfStamina = false;
+                        
                     }
-                    else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100) gamePanel.dad.setMove(true);
+
+                    if (gamePanel.dad.outOfStamina) gamePanel.inventoryPanel.SBorderColor = gamePanel.inventoryPanel.SBorderColor == Color.WHITE ? Color.RED : Color.WHITE;
 
                     /*
                      * --------------------------------------------------------------------------------
@@ -667,7 +675,7 @@ public class Game implements Runnable {
                     // Day -> Night ease in
                     if (seconds <=6) {
 
-                        if (seconds <3) gamePanel.easeDayNight = 80;
+                        if (seconds < 3) gamePanel.easeDayNight = 80;
                         else if (seconds < 6) gamePanel.easeDayNight = 40;
                         else gamePanel.easeDayNight = 0;
 
@@ -682,10 +690,10 @@ public class Game implements Runnable {
                     }
 
                     // The Day / Night change
-                    if (seconds >= 60) {
+                    if (seconds >= (stage.equals("Night") ? 60 : 120)) {
 
                         stage = stage.equals("Day") ? "Night" : "Day";
-                        seconds -= 60;
+                        seconds -= (stage.equals("Night") ? 120 : 60);
 
                     }
 

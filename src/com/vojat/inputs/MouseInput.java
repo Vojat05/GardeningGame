@@ -373,7 +373,19 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
 
-        System.out.println(e.getScrollType() + " | " + e.getScrollAmount());
+        if (e.getWheelRotation() > 0) {
+
+            if (gamePanel.dad.selectedItem+1 < 10) gamePanel.dad.selectedItem++; 
+            else gamePanel.dad.selectedItem = 0;
+
+        } else {
+
+            if (gamePanel.dad.selectedItem == 0) gamePanel.dad.selectedItem = 9;
+            else gamePanel.dad.selectedItem--;
+
+        }
+
+        gamePanel.inventoryPanel.repaint();
 
     }
 
