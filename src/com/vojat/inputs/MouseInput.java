@@ -42,8 +42,11 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {;}
 
+    @Override
+    public void mousePressed(MouseEvent e) {
+        
         controlVariableX = gardenerX(e);
         controlVariableY = gardenerY(e);
 
@@ -346,9 +349,6 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
         }
     }
-
-    @Override
-    public void mousePressed(MouseEvent e) {;}
 
     @Override
     public void mouseReleased(MouseEvent e) {;}
