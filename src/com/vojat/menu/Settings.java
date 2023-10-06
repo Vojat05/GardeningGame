@@ -27,6 +27,7 @@ public class Settings extends JPanel {
      */
 
     public static boolean visible = false;                                          // Determines wheather the settings menu is visible
+    public static MenuPanel menuPanel;                                              // Menu panel on which it runs
     private static KeyboardInput in;                                                // The keyboard input for the controls changes
     private static JSONEditor jEditor;                                              // JSON Editor for saving the controls changes
     private static ArrayList<JPanel> blocks = new ArrayList<>();                    // ArrayList for the control blocks
@@ -48,7 +49,9 @@ public class Settings extends JPanel {
      * --------------------------------------------------------------------------------
      */
 
-    public Settings(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer) {
+    public Settings(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer, MenuPanel manuPanel) {
+        menuPanel = manuPanel;
+
         setBackground(null);
         setVisible(visible);
         setFocusable(true);
@@ -235,5 +238,6 @@ public class Settings extends JPanel {
         setVisible(visible);
         buttonPanel.setVisible(!visible);
         spacer.setVisible(!visible);
+        menuPanel.repaint();
     }
 }

@@ -648,7 +648,7 @@ public class GamePanel extends JPanel {
 
         if (Game.stage.equals("Night")) {
 
-            g2d.setPaint(new Color(24, 33, 42, 200 - easeDayNight));
+            g2d.setPaint(new Color(13, 20, 22, 200 - easeDayNight));
             g2d.fillRect(0, 0, Window.width, Window.height);
 
         }
