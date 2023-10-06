@@ -64,7 +64,7 @@ public class Game implements Runnable {
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
     private GamePanel gamePanel;                                                                                                                                                    // The panel that shows the game window
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
-    private int seconds = 0;                                                                                                                                                        // Seconds since the game started
+    private int seconds = 10;                                                                                                                                                       // Seconds since the game started
 
 
     /*
@@ -664,11 +664,28 @@ public class Game implements Runnable {
                      * --------------------------------------------------------------------------------
                      */
 
+                    // Day -> Night ease in
+                    if (seconds <=6) {
+
+                        if (seconds <3) gamePanel.easeDayNight = 80;
+                        else if (seconds < 6) gamePanel.easeDayNight = 40;
+                        else gamePanel.easeDayNight = 0;
+
+                    }
+
+                    // Night -> Day ease out
+                    if (seconds >= 54) {
+
+                        if (seconds < 57) gamePanel.easeDayNight = 40;
+                        else gamePanel.easeDayNight = 80;
+
+                    }
+
+                    // The Day / Night change
                     if (seconds >= 60) {
 
                         stage = stage.equals("Day") ? "Night" : "Day";
                         seconds -= 60;
-                        System.out.println("Stage: " + stage);
 
                     }
 

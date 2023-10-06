@@ -30,6 +30,7 @@ public class GamePanel extends JPanel {
     public JPanel fullInv = new JPanel();                                                   // Player inventory panel visible after pressing "T"
     public boolean changeGrass = true;                                                      // Determines wheather the grass should have a wind effect applied
     public boolean saveMenuOpen = false;                                                    // Should the save menu be shown
+    public int easeDayNight = 0;                                                            // Makes the Day -> Night cycle more fluent
     private int hoverSaveSlotNumber = 0;                                                    // Number of a save slot that is currently in hover
     private MouseInput mouseInput = new MouseInput(this);                                   // The mouse input class ( Used for the save box hover effect )
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
@@ -646,7 +647,7 @@ public class GamePanel extends JPanel {
 
         if (Game.stage.equals("Night")) {
 
-            g2d.setPaint(new Color(16, 24, 44, 120));
+            g2d.setPaint(new Color(16, 24, 44, 120 - easeDayNight));
             g2d.fillRect(0, 0, Window.width, Window.height);
 
         }
