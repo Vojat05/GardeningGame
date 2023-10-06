@@ -641,7 +641,7 @@ public class Game implements Runnable {
                      * --------------------------------------------------------------------------------
                      */
 
-                    if (gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) gamePanel.dad.tire(2);
+                    if (gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) gamePanel.dad.tire(5);
                     else gamePanel.dad.tire(-10);
 
                     /*
@@ -649,7 +649,12 @@ public class Game implements Runnable {
                      * 0 Stamina penalty
                      * --------------------------------------------------------------------------------
                      */
-                    if (gamePanel.dad.stamina == 0) gamePanel.dad.setMove(false);
+                    if (gamePanel.dad.stamina == 0) {
+
+                        gamePanel.dad.setMove(false);
+                        error("Out of stamina", 3);
+
+                    }
                     else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100) gamePanel.dad.setMove(true);
 
                 }

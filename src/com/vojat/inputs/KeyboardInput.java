@@ -148,44 +148,44 @@ public class KeyboardInput implements KeyListener {
             if (up) {
 
                 dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_B" + dad.getTextureModifier() + ".png");
-                dad.VECTORY = -dad.speed;
                 up = false;
-
+                
             }
-
+            
+            dad.VECTORY = -dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
 
             if (down) {
 
                 dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + dad.getTextureModifier() + ".png");
-                dad.VECTORY = dad.speed;
                 down = false;
-
+                
             }
-
+            
+            dad.VECTORY = dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
 
             if (left) {
 
                 dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_L" + dad.getTextureModifier() + ".png");
-                dad.VECTORX = -dad.speed;
                 left = false;
-
+                
             }
-
+            
+            dad.VECTORX = -dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
 
             if (right) {
 
                 dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_R" + dad.getTextureModifier() + ".png");
-                dad.VECTORX = dad.speed;
                 right = false;
-
+                
             }
-
+            
+            dad.VECTORX = dad.speed;
 
         }
     }
@@ -197,22 +197,22 @@ public class KeyboardInput implements KeyListener {
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
 
             up = true;
-            dad.VECTORY = .0;
+            if (down) dad.VECTORY = .0;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
 
             down = true;
-            dad.VECTORY = .0;
+            if (up) dad.VECTORY = .0;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
 
             left = true;
-            dad.VECTORX = .0;
+            if (right) dad.VECTORX = .0;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
 
             right = true;
-            dad.VECTORX = .0;
+            if (left) dad.VECTORX = .0;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "next")) && !Game.pause) {
 
