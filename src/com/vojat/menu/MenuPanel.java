@@ -15,6 +15,8 @@ import com.vojat.garden.Game;
 import com.vojat.garden.InventoryPanel;
 
 public class MenuPanel extends JPanel{
+    private Settings settings;
+    private Load loadMenu;
     
     /*
      * --------------------------------------------------------------------------------
@@ -41,8 +43,8 @@ public class MenuPanel extends JPanel{
             spacer.setBackground(null);
         }
 
-        Settings settings = new Settings(Main.sizeX, Main.sizeY, buttonPanel, spacer);
-        Load loadMenu = new Load(Main.sizeX, Main.sizeY, buttonPanel, spacer);
+        settings = new Settings(Main.sizeX, Main.sizeY, buttonPanel, spacer);
+        loadMenu = new Load(Main.sizeX, Main.sizeY, buttonPanel, spacer);
         
         // Create the start new game button
         JButton start = new JButton(InventoryPanel.createIcon("res/" + Game.texturePack + "/Pics/Buttons/New.png", 150, 40));
@@ -59,6 +61,7 @@ public class MenuPanel extends JPanel{
             load.addActionListener((e) -> {
                 loadMenu.changeVisibility(buttonPanel, spacer);
                 loadMenu.createDataBlocks(window);
+                this.repaint();
             });
             buttonSetup(load, 150, 40, true);
         }
@@ -69,6 +72,7 @@ public class MenuPanel extends JPanel{
             options.addActionListener((e) -> {
                 settings.changeVisibility(buttonPanel, spacer);
                 settings.createDataBlocks();
+                this.repaint();
             });
             buttonSetup(options, 150, 40, true);
         }
@@ -145,8 +149,12 @@ public class MenuPanel extends JPanel{
         g2d.fillRect(0, 0, Window.width, Window.height);
 
         // Drawing the Game version
-        g2d.setPaint(Color.WHITE);
-        g2d.setFont(Game.font.deriveFont(24f));
-        g2d.drawString(Game.version, 1880 - (int) (6.5 * Game.version.length()), 1035);
+        if (!(settings.isVisible() || loadMenu.isVisible())) {
+
+            g2d.setPaint(Color.WHITE);
+            g2d.setFont(Game.font.deriveFont(24f));
+            g2d.drawString(Game.version, 1880 - (int) (6.5 * Game.version.length()), 1035);
+
+        }
     }
 }
