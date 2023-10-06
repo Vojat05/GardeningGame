@@ -43,7 +43,7 @@ public class MenuPanel extends JPanel{
             spacer.setBackground(null);
         }
 
-        settings = new Settings(Main.sizeX, Main.sizeY, buttonPanel, spacer);
+        settings = new Settings(Main.sizeX, Main.sizeY, buttonPanel, spacer, this);
         loadMenu = new Load(Main.sizeX, Main.sizeY, buttonPanel, spacer);
         
         // Create the start new game button

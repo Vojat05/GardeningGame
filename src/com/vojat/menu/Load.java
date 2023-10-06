@@ -175,5 +175,6 @@ public class Load extends JPanel {
             saves.remove(blocks.get(i));
         }
         blocks.clear();
+        Settings.menuPanel.repaint();
     }
 }
