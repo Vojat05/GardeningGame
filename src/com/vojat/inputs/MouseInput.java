@@ -3,6 +3,8 @@ package com.vojat.inputs;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.io.FileNotFoundException;
 
 import com.vojat.Main;
@@ -12,7 +14,7 @@ import com.vojat.garden.Game;
 import com.vojat.garden.GamePanel;
 import com.vojat.menu.MenuPanel;
 
-public class MouseInput implements MouseListener, MouseMotionListener {
+public class MouseInput implements MouseListener, MouseMotionListener, MouseWheelListener {
 
     /*
      * --------------------------------------------------------------------------------
@@ -365,6 +367,13 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 
         mouseX = e.getX();
         mouseY = e.getY();
+
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+
+        System.out.println(e.getScrollType() + " | " + e.getScrollAmount());
 
     }
 
