@@ -237,3 +237,9 @@ JAR file is made for every update documented here<br>
     <li> + Added a player stamina system</li>
     <li> + Added custom icons for the inventory objects</li>
 </ul>
+
+## 6/10/2023
+<ul>
+    <li> * Quick side movement change fixed</li>
+    <li> + Added day / night cycle</li>
+</ul>

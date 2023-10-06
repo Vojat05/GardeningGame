@@ -644,6 +644,13 @@ public class GamePanel extends JPanel {
         // Drawing the player character in 128 x 128
         g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
 
+        if (Game.stage.equals("Night")) {
+
+            g2d.setPaint(new Color(16, 24, 44, 120));
+            g2d.fillRect(0, 0, Window.width, Window.height);
+
+        }
+
         // Drawing the help menu box
         if (dad.level == 1 && Game.firstStart) {
 

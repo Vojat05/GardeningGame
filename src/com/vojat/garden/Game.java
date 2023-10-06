@@ -37,6 +37,7 @@ public class Game implements Runnable {
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}, {"Cactus", "400000"}};                                           // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 60000;                                                                                                                                   // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
+    public static String stage = "Day";                                                                                                                                             // Current stage of the game ( Night / Day )
     public static String version = "";                                                                                                                                              // Current game version
     public static String tutorialStringPulledData = "";                                                                                                                             // Data to be displayed in the current tutorial screen box
     public static ArrayList<String> tutorialStrings = new ArrayList<String>();                                                                                                      // Every element of this arraylist is a single line to be printed to the output box
@@ -49,7 +50,7 @@ public class Game implements Runnable {
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
     public static char[][] map = new char[8][15];                                                                                                                                   // [Y][X] coords
     public static char[][] houseMap = new char[8][15];                                                                                                                              // [Y][X] coords
-    public static ArrayList<Character> invisibleWalls = new ArrayList<Character>();                                                                                                     // ArrayList of map objects that are collidable
+    public static ArrayList<Character> invisibleWalls = new ArrayList<Character>();                                                                                                 // ArrayList of map objects that are collidable
     public static ArrayList<Bird> birdList = new ArrayList<Bird>();                                                                                                                 // The list of birds currently in game for drawing
     public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
     public static boolean pause = false;                                                                                                                                            // Determines wheather the game should be paused or not
@@ -656,6 +657,20 @@ public class Game implements Runnable {
 
                     }
                     else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100) gamePanel.dad.setMove(true);
+
+                    /*
+                     * --------------------------------------------------------------------------------
+                     * Day -> Night cycle
+                     * --------------------------------------------------------------------------------
+                     */
+
+                    if (seconds >= 60) {
+
+                        stage = stage.equals("Day") ? "Night" : "Day";
+                        seconds -= 60;
+                        System.out.println("Stage: " + stage);
+
+                    }
 
                 }
             } else {
