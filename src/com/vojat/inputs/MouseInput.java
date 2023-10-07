@@ -134,6 +134,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 if (gamePanel.dad.HP == 0) {
 
                     Main.window.setElements(new MenuPanel(Main.window));
+                    Game.killGame();
                     Game.alert = false;
                     Game.alertMessage = "None";
                     Game.warning = false;
@@ -234,7 +235,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                         Game.map[controlVariableY][controlVariableX] = '6';
 
-                    } else if (gamePanel.dad.selectedItem > 1 && gamePanel.dad.selectedItem <= Game.flowerTypes.length+1 /* TODO: This should to be fixed */ && controlVariableY != 7) {
+                    } else if (gamePanel.dad.selectedItem > gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && gamePanel.dad.selectedItem <= Game.flowerTypes.length + gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && controlVariableY != 7) {
 
                         // Distance checks
                         if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {

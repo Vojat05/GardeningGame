@@ -30,7 +30,7 @@ public class GamePanel extends JPanel {
     public JPanel fullInv = new JPanel();                                                   // Player inventory panel visible after pressing "T"
     public boolean changeGrass = true;                                                      // Determines wheather the grass should have a wind effect applied
     public boolean saveMenuOpen = false;                                                    // Should the save menu be shown
-    public int easeDayNight = 0;                                                            // Makes the Day -> Night cycle more fluent
+    public double easeDayNight = .0;                                                        // Makes the Day -> Night cycle more fluent
     private int hoverSaveSlotNumber = 0;                                                    // Number of a save slot that is currently in hover
     private MouseInput mouseInput = new MouseInput(this);                                   // The mouse input class ( Used for the save box hover effect )
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
@@ -156,6 +156,13 @@ public class GamePanel extends JPanel {
     public int getHoverSaveNumber() {
         
         return this.hoverSaveSlotNumber;
+
+    }
+
+    // Gets the mouseInput used in this panel
+    public MouseInput getMouseInput() {
+
+        return this.mouseInput;
 
     }
 
@@ -443,7 +450,7 @@ public class GamePanel extends JPanel {
         g2d.fillPolygon(backgroundX, backgroundY, backgroundX.length);
 
         // Drawing the red hexagon border
-        g2d.setPaint(new Color(185, 7, 7, 220));
+        g2d.setPaint(new Color(105, 7, 7, 220));
         g2d.setStroke(new BasicStroke(4));
         g2d.drawPolygon(backgroundX, backgroundY, backgroundX.length);
 
@@ -646,10 +653,16 @@ public class GamePanel extends JPanel {
         // Drawing the player character in 128 x 128
         g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
 
-        if (Game.stage.equals("Night")) {
+        if (easeDayNight > 0) {
 
-            g2d.setPaint(new Color(13, 20, 22, 200 - easeDayNight));
-            g2d.fillRect(0, 0, Window.width, Window.height);
+            g2d.setPaint(new Color(13, 20, 22, (int) easeDayNight));
+
+            if (dad.selectedItem == 2) {
+
+                // Player has the light selected
+                g2d.fillRect(0, 0, Window.width, Window.height);
+
+            } else g2d.fillRect(0, 0, Window.width, Window.height);
 
         }
 

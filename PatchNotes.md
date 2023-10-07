@@ -243,3 +243,11 @@ JAR file is made for every update documented here<br>
     <li> * Quick side movement change fixed</li>
     <li> + Added day / night cycle</li>
 </ul>
+
+## 7/10/2023
+<ul>
+    <li> * Day / Night fadeout effect is now smooth</li>
+    <li> * Day / Night length in seconds can now be set in the config file</li>
+    <li> * Tile movement speed is now applied only when the character feet are on the tile square</li>
+    <li> * Mouse & keyboard input is improved, no longer has issues with registering clicks</li>
+</ul>

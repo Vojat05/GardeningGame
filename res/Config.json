@@ -1,5 +1,7 @@
 {
     "Language":"lang-en.json",
     "Texture-Pack":"DefaultPack",
-    "Version":"Dev Build 0.4"
+    "Version":"Dev-Build 0.4.1",
+    "Day-Lasts":"120",
+    "Night-Lasts":"60"
 }
