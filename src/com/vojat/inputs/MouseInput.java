@@ -222,12 +222,6 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                             Game.error("Out of reach", 3);
                             return;
 
-                        } else if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) == 0) {
-                        
-                            System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
-                            Game.error("Too close", 3);
-                            return;
-                        
                         } else if ((int) Game.map[controlVariableY][controlVariableX] == 52) return;
                         else if ((int) Game.map[controlVariableY][controlVariableX] >= 50) {
                             
