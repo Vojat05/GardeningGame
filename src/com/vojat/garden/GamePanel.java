@@ -197,42 +197,9 @@ public class GamePanel extends JPanel {
 
     private void drawTerrain(char[][] map, Graphics2D g) {
 
-        // Drawing the grass textures and other static objects (well, house, etc.)
-        if (dad.level == 0) {
+        // Draws the interior of the house
+        if (dad.level == 1) {
 
-            for (int i=0; i<map.length; i++) {
-
-                for (int j=0; j<map[0].length; j++) {
-
-                    // Interaction with map done via ASCII table values | 49 == '1'
-                    if ((int) map[i][j] - 48 <= 1 && changeGrass) {
-
-                        // Changes the grass in map value if the player is outside
-                        Random rnd = new Random();
-                        map[i][j] = (char) (48 + rnd.nextInt(2));
-
-                    }
-                    
-                    // Draw everything except flowers and house
-                    if ((int) map[i][j] - 48 != 3 || (int) map[i][j] - 48 != 2) {
-
-                        if (map[i][j] == '6') {
-
-                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/Grass1.png").getImage(), 128*j, 128*i, 128, 128, null);
-                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/Tiles.png").getImage(), 128*j, 128*i, 128, 128, null);
-                            continue;
-
-                        }
-
-                        g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/" + Game.groundTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
-
-                    }
-                }
-            }
-
-        } else {
-
-            // Draws the interior of the house
             // Drawing the grass background
             for (int i=0; i<Game.houseMap.length; i++) {
 
@@ -342,6 +309,37 @@ public class GamePanel extends JPanel {
         try {
 
             if (dad.level == 0) {
+
+                // Drawing the grass textures and other static objects (well, house, etc.)
+                for (int i=0; i<map.length; i++) {
+
+                    for (int j=0; j<map[0].length; j++) {
+
+                        // Interaction with map done via ASCII table values | 49 == '1'
+                        if ((int) map[i][j] - 48 <= 1 && changeGrass) {
+
+                            // Changes the grass in map value if the player is outside
+                            Random rnd = new Random();
+                            map[i][j] = (char) (48 + rnd.nextInt(2));
+
+                        }
+
+                        // Draw everything except flowers and house
+                        if ((int) map[i][j] - 48 != 3 || (int) map[i][j] - 48 != 2) {
+
+                            if (map[i][j] == '6') {
+
+                                g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/Grass1.png").getImage(), 128*j, 128*i, 128, 128, null);
+                                g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/Tiles.png").getImage(), 128*j, 128*i, 128, 128, null);
+                                continue;
+
+                            }
+
+                            g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/" + Game.groundTextures[(int) map[i][j] - 48]).getImage(), 128*j, 128*i, 128, 128, null);
+
+                        }
+                    }
+                }
                 
                 // Draw the house itself
                 g.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/Garden/" + Game.groundTextures[(int) map[0][1] - 48]).getImage(), 128, 0, 256, 256, null);
@@ -655,7 +653,7 @@ public class GamePanel extends JPanel {
 
         if (easeDayNight > 0) {
 
-            g2d.setPaint(new Color(13, 20, 22, (int) easeDayNight));
+            g2d.setPaint(new Color(6, 10, 12, (int) easeDayNight));
 
             if (dad.selectedItem == 2) {
 
@@ -690,6 +688,5 @@ public class GamePanel extends JPanel {
             mouseInput.hoverEffect();
 
         }
-
     }
 }

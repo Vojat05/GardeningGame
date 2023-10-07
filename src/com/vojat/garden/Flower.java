@@ -33,25 +33,20 @@ public class Flower {
      */
 
     public Flower(String type, int locationX, int locationY, String status, int number) {
-
-        // Sets the die & disappear times based on the flower type
-        for (int i=0; i<Game.flowerTypes.length; i++) {
-            if (type == Game.flowerTypes[i][0]) {
-                this.TIME_TO_DIE = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]);
-                this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]) + 20000;
-                break;
-            }
-        }
-
-        this.baseTexture = setTexture("res/" + Game.texturePack + "/Pics/Garden/Grass" + Game.random.nextInt(1, 3) + ".png");
-        this.ALIVE_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + ".png";
-        this.THIRSTY_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + "_thirsty.png";
-        this.DEAD_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + "_dead.png";
+        
         this.TYPE = type;
         this.LOCATION_X = locationX;
         this.LOCATION_Y = locationY;
         this.STATUS = status;
         this.PLANT_NUMBER = number;
+
+        // Sets the die & disappear times based on the flower type
+        resetTime();
+
+        this.baseTexture = setTexture("res/" + Game.texturePack + "/Pics/Garden/Grass" + Game.random.nextInt(1, 3) + ".png");
+        this.ALIVE_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + ".png";
+        this.THIRSTY_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + "_thirsty.png";
+        this.DEAD_TEXTURE = "res/" + Game.texturePack + "/Pics/Flowers/" + type + "_dead.png";
         this.CURRENT_TEXTURE = setTexture(this.ALIVE_TEXTURE);
         
     }
@@ -81,10 +76,11 @@ public class Flower {
 
     /*
      * --------------------------------------------------------------------------------
-     * Sets the flower texture
+     * Flower modification methods
      * --------------------------------------------------------------------------------
      */
 
+    // Sets the flower texture
     public BufferedImage setTexture(String path) {
 
         try {
@@ -97,6 +93,18 @@ public class Flower {
             Game.error("Texture not found", 3);
             return null;
 
+        }
+    }
+
+    // Resets the flower death & dissapear times
+    public void resetTime() {
+
+        for (int i=0; i<Game.flowerTypes.length; i++) {
+            if (this.TYPE == Game.flowerTypes[i][0]) {
+                this.TIME_TO_DIE = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]);
+                this.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]) + 20000;
+                break;
+            }
         }
     }
 }

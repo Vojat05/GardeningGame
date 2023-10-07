@@ -422,12 +422,6 @@ public class Game implements Runnable {
 
     }
 
-    public int getRunTime() {
-
-        return this.seconds;
-
-    }
-
     /*
      * --------------------------------------------------------------------------------
      * Methods for controlling the game audio
@@ -571,7 +565,7 @@ public class Game implements Runnable {
          */
 
         // Day -> Night fade in
-        if (stage.equals("Night") && gamePanel.easeDayNight < 240) gamePanel.easeDayNight += 0.2;
+        if (stage.equals("Night") && gamePanel.easeDayNight < 245) gamePanel.easeDayNight += 0.2;
 
         // Night -> Day fade out
         if (stage.equals("Day") && gamePanel.easeDayNight > 0) gamePanel.easeDayNight -= 0.2;
@@ -611,158 +605,157 @@ public class Game implements Runnable {
 
         // While this loop runs, the game updates (game loop)
         while (run) {
-
-            if (!pause) {
-
+            
+            if (pause) {
+                
                 now = System.nanoTime();
                 deltaF += (now - previousTime) / timePerFrame;
                 previousTime = now;
-
-                // Repaints 120 times per second
-                if (deltaF >= 1) {
-
-                    /*
-                     * --------------------------------------------------------------------------------
-                     * Player Movement & colision logic
-                     * --------------------------------------------------------------------------------
-                     */
-                            
-                    // Y coordinate colision logic
-                    if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
-                            
-                    // X coordinate colision logic
-                    if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
-        
-                    gameTick();
-
-                    gamePanel.repaint();
-                    fps++;
-                    deltaF--;
-                }
-
-                // The FPS counter. This occures ever second
-                if (System.currentTimeMillis() - lastCheck >= 1000) {
-
-                    lastCheck = System.currentTimeMillis();
-                    System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET);
-                    System.out.println("Secs < " + getRunTime() + " >");
-
-                    if (Main.debug) System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY + "\nNo. Birds: " + birdList.size());
-                    
-                    // Checks if the player is on level 0 "outside"
-                    if (gamePanel.dad.level == 0) gamePanel.changeGrass = true;
-
-                    // Spawns the birb
-                    if (gamePanel.dad.level == 0 && random.nextInt(100) == 0) spawnBird();
-
-                    // Bird shitting logic
-                    for (int i=0; i<birdList.size(); i++) {
-
-                        Bird bird = birdList.get(i);
-                        if (gamePanel.dad.level == 0 && intoMapX(bird.positionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) bird.shit();
-
-                    }
-                    
-                    // Replays the in-game music if it had reached the end.
-                    if (!clip.isRunning() && gamePanel.dad.HP != 0) {
-
-                        clip.setFramePosition(0);
-                        clip.start();
-
-                    }
-
-                    /*
-                     * --------------------------------------------------------------------------------
-                     * Flower life-ending logic
-                     * --------------------------------------------------------------------------------
-                     */
-
-                    for (int j=0; j<flowers.size(); j++) {
-                    
-                        Flower plant = flowers.get(j);
-                    
-                        if (plant.STATUS.equals("Alive") && plant.TIME_TO_DIE - System.currentTimeMillis() <= flowerChange) {
-                        
-                            plant.STATUS = "Thirsty";
-                            plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
-                            continue;
-                        
-                        } else if (plant.STATUS.equals("Thirsty") && plant.TIME_TO_DIE <= System.currentTimeMillis()) {
-                        
-                            plant.STATUS = "Dead";
-                            plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
-                            playSound("res/" + texturePack + "/Audio/MagicSound.wav");
-                            continue;
-                        
-                        } else if (plant.STATUS.equals("Dead") && plant.TIME_TO_DISSAPEAR <= System.currentTimeMillis()) {
-                        
-                            flowers.remove(plant);
-                            map[plant.LOCATION_Y][plant.LOCATION_X] = '0';
-                            continue;
-                        
-                        }
-                    }
-
-                    // Resets the FPS counter each second
-                    fps = 0;
-                    seconds++;
-                    if (errorTime != 0) errorTime--;
-                    if (errorTime == 0) errorMessage = "";
-
-                    /*
-                     * --------------------------------------------------------------------------------
-                     * Stamina depleeting logic
-                     * --------------------------------------------------------------------------------
-                     */
-
-                    if (gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) gamePanel.dad.tire(5);
-                    else gamePanel.dad.tire(-10);
-
-                    /*
-                     * --------------------------------------------------------------------------------
-                     * 0 Stamina penalty
-                     * --------------------------------------------------------------------------------
-                     */
-                    if (gamePanel.dad.stamina == 0) {
-
-                        gamePanel.dad.setMove(false);
-                        gamePanel.dad.outOfStamina = true;
-                        error("Out of stamina", 3);
-
-                    } else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100) {
-
-                        gamePanel.dad.setMove(true);
-                        gamePanel.dad.outOfStamina = false;
-                        
-                    }
-
-                    if (gamePanel.dad.outOfStamina) gamePanel.inventoryPanel.SColor = gamePanel.inventoryPanel.SColor == Color.RED ? new Color(0xfadc05) : Color.RED;
-
-                    /*
-                     * --------------------------------------------------------------------------------
-                     * Day -> Night cycle
-                     * --------------------------------------------------------------------------------
-                     */
-
-                    // The Day / Night change
-                    if (seconds >= (stage.equals("Day") ? dayLasts() : nightLasts())) {
-
-                        stage = stage.equals("Day") ? "Night" : "Day";
-                        seconds = 0;
-                        System.out.println("Stage change: " + stage);
-                        System.out.println("Day-Lasts: " + dayLasts() + " | Night-Lasts: " + nightLasts());
-
-                    }
-
-                }
-            } else {
-
-                now = System.nanoTime();
-                deltaF += (now - previousTime) / timePerFrame;
-                previousTime = now;
-    
+                
                 if (deltaF >= 1) { gamePanel.repaint(); deltaF--; }
+                continue;
+                
+            }
 
+            now = System.nanoTime();
+            deltaF += (now - previousTime) / timePerFrame;
+            previousTime = now;
+
+            // Repaints 120 times per second
+            if (deltaF >= 1) {
+
+                /*
+                 * --------------------------------------------------------------------------------
+                 * Player Movement & colision logic
+                 * --------------------------------------------------------------------------------
+                 */
+                        
+                // Y coordinate colision logic
+                if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
+                        
+                // X coordinate colision logic
+                if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
+    
+                gameTick();
+
+                gamePanel.repaint();
+                fps++;
+                deltaF--;
+            }
+
+            // The FPS counter. This occures ever second
+            if (System.currentTimeMillis() - lastCheck >= 1000) {
+
+                lastCheck = System.currentTimeMillis();
+                System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET + "\nSecs < " + seconds + " >");
+
+                if (Main.debug) System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY + "\nNo. Birds: " + birdList.size());
+                
+                // Checks if the player is on level 0 "outside"
+                if (gamePanel.dad.level == 0) gamePanel.changeGrass = true;
+
+                // Spawns the birb
+                if (gamePanel.dad.level == 0 && random.nextInt(100) == 0) spawnBird();
+
+                // Bird shitting logic
+                for (int i=0; i<birdList.size(); i++) {
+
+                    Bird bird = birdList.get(i);
+                    if (gamePanel.dad.level == 0 && intoMapX(bird.positionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) bird.shit();
+
+                }
+                
+                // Replays the in-game music if it had reached the end.
+                if (!clip.isRunning() && gamePanel.dad.HP != 0) {
+
+                    clip.setFramePosition(0);
+                    clip.start();
+
+                }
+
+                /*
+                 * --------------------------------------------------------------------------------
+                 * Flower life-ending logic
+                 * --------------------------------------------------------------------------------
+                 */
+
+                for (int j=0; j<flowers.size(); j++) {
+                
+                    Flower plant = flowers.get(j);
+                
+                    if (plant.STATUS.equals("Alive") && plant.TIME_TO_DIE - System.currentTimeMillis() <= flowerChange) {
+                    
+                        plant.STATUS = "Thirsty";
+                        plant.CURRENT_TEXTURE = plant.setTexture(plant.THIRSTY_TEXTURE);
+                        continue;
+                    
+                    } else if (plant.STATUS.equals("Thirsty") && plant.TIME_TO_DIE <= System.currentTimeMillis()) {
+                    
+                        plant.STATUS = "Dead";
+                        plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
+                        playSound("res/" + texturePack + "/Audio/MagicSound.wav");
+                        continue;
+                    
+                    } else if (plant.STATUS.equals("Dead") && plant.TIME_TO_DISSAPEAR <= System.currentTimeMillis()) {
+                    
+                        flowers.remove(plant);
+                        map[plant.LOCATION_Y][plant.LOCATION_X] = '0';
+                        continue;
+                    
+                    }
+
+                    if (isRaining()) plant.resetTime();
+                }
+
+                // Resets the FPS counter each second
+                fps = 0;
+                seconds++;
+                if (errorTime != 0) errorTime--;
+                if (errorTime == 0) errorMessage = "";
+
+                /*
+                 * --------------------------------------------------------------------------------
+                 * Stamina depleeting logic
+                 * --------------------------------------------------------------------------------
+                 */
+
+                if (gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) gamePanel.dad.tire(5);
+                else gamePanel.dad.tire(-10);
+
+                /*
+                 * --------------------------------------------------------------------------------
+                 * 0 Stamina penalty
+                 * --------------------------------------------------------------------------------
+                 */
+                if (gamePanel.dad.stamina == 0) {
+
+                    gamePanel.dad.setMove(false);
+                    gamePanel.dad.outOfStamina = true;
+                    error("Out of stamina", 3);
+
+                } else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100) {
+
+                    gamePanel.dad.setMove(true);
+                    gamePanel.dad.outOfStamina = false;
+                    
+                }
+
+                if (gamePanel.dad.outOfStamina) gamePanel.inventoryPanel.SColor = gamePanel.inventoryPanel.SColor == Color.RED ? new Color(0xfadc05) : Color.RED;
+
+                /*
+                 * --------------------------------------------------------------------------------
+                 * Day -> Night cycle
+                 * --------------------------------------------------------------------------------
+                 */
+
+                // The Day / Night change
+                if (seconds >= (stage.equals("Day") ? dayLasts() : nightLasts())) {
+
+                    stage = stage.equals("Day") ? "Night" : "Day";
+                    seconds = 0;
+                    System.out.println("Stage change: " + stage);
+                    System.out.println("Day-Lasts: " + dayLasts() + " | Night-Lasts: " + nightLasts());
+                }
             }
         }
 
@@ -809,9 +802,8 @@ public class Game implements Runnable {
         String[][] strMap = jEditor.read2DArr();
         String mapValues = strMap[0][1];
         String value = "";
-        int num = 0;
 
-        for (int i=0; i<mapValues.length(); i++) {
+        for (int i=0, num = 0; i<mapValues.length(); i++) {
 
             if (mapValues.charAt(i) == '!' && i != mapValues.length()-1) {
 
@@ -851,32 +843,38 @@ public class Game implements Runnable {
 
             value = strMap[i][1];
             String data = "";
-            byte symbols = 0;
 
-            for (int j=0; j<value.length(); j++) {
+            for (int j=0, symbols = 0; j<value.length(); j++) {
 
-                if (value.charAt(j) == '!') {
+                if (value.charAt(j) != '!') {
 
-                    symbols++;
-                    switch (symbols) {
+                    data += value.charAt(j);
+                    continue;
 
-                        case 1:
-                            timeToDie = data;
-                            break;
+                }
 
-                        case 2:
-                            posX = data;
-                            break;
+                symbols++;
+                switch (symbols) {
 
-                        case 3:
-                            posY = data;
-                            break;
+                    case 1:
+                        timeToDie = data;
+                        break;
 
-                    }
+                    case 2:
+                        posX = data;
+                        break;
 
-                    data = "";
+                    case 3:
+                        posY = data;
+                        break;
 
-                } else data += value.charAt(j);
+                    default:
+                        break;
+
+                }
+
+                data = "";
+
             }
 
             flowers.add(new Flower(
