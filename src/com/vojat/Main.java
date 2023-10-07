@@ -46,6 +46,8 @@ public class Main {
             Game.langFileName = jsonEditor.readData("Language");
             Game.texturePack = jsonEditor.readData("Texture-Pack");
             Game.version = jsonEditor.readData("Version");
+            Game.setDayLasts(Integer.parseInt(jsonEditor.readData("Day-Lasts")));
+            Game.setNightLasts(Integer.parseInt(jsonEditor.readData("Night-Lasts")));
 
             Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("res/" + Game.texturePack + "/Fonts/customFont.ttf"));
 

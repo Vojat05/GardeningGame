@@ -26,7 +26,7 @@ public class InventoryPanel extends JPanel{
      * --------------------------------------------------------------------------------
      */
 
-    public Color SBorderColor = Color.WHITE;                                // Color for the stamina border to flash red when out of stamina
+    public Color SColor = new Color(0xfadc05);                              // Color for the stamina border to flash red when out of stamina
     private Color HPBorderColor = Color.WHITE;                              // The color of the outer HP border
     private JPanel spacer = new JPanel();                                   // Sizing for the inventory panel, later find better solution
     private Player dad;                                                     // The player character
@@ -41,6 +41,7 @@ public class InventoryPanel extends JPanel{
         this.dad = dad;
 
         {
+            addMouseWheelListener(gamePanel.getMouseInput());
             setBackground(new Color(40, 40, 40));
             setBounds(0, Window.height-75, Window.width, 80);
         }
@@ -279,7 +280,7 @@ public class InventoryPanel extends JPanel{
         // The HP bar value
         if (dad.stamina != 0) {
 
-            g2d.setPaint(new Color(0xfadc05));
+            g2d.setPaint(SColor);
     
             int[] staminaBarX = {Window.width - 75, Window.width - 388, Window.width - 381, Window.width - 259, Window.width - 254, Window.width - 75};
             int[] staminaBarY = {28, 28, 37, 37, 47, 47};
@@ -314,7 +315,7 @@ public class InventoryPanel extends JPanel{
 
         // The Stamina bar border white
         g2d.setStroke(new BasicStroke(1));
-        g2d.setPaint(SBorderColor);
+        g2d.setPaint(Color.WHITE);
 
         int[] borderWhiteXS = {Window.width - 72, Window.width - 392, Window.width - 383, Window.width - 260, Window.width - 255, Window.width - 72};
         int[] borderWhiteYS = {25, 25, 39, 39, 49, 49};

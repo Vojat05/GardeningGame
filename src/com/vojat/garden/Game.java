@@ -43,10 +43,10 @@ public class Game implements Runnable {
     public static String tutorialStringPulledData = "";                                                                                                                             // Data to be displayed in the current tutorial screen box
     public static ArrayList<String> tutorialStrings = new ArrayList<String>();                                                                                                      // Every element of this arraylist is a single line to be printed to the output box
     public static boolean alert = false;                                                                                                                                            // Is some type of a alert up?
-    public static String alertMessage = "None";                                                                                                                                     // The latest alert message
     public static boolean warning = false;                                                                                                                                          // Is some type of a warning up?
-    public static String warningMessage = "";                                                                                                                                       // The latest warning message
     public static byte errorTime = 0;                                                                                                                                               // Number of secodns for the latest error to be visible
+    public static String alertMessage = "None";                                                                                                                                     // The latest alert message
+    public static String warningMessage = "";                                                                                                                                       // The latest warning message
     public static String errorMessage = "";                                                                                                                                         // The lastet error message
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
     public static char[][] map = new char[8][15];                                                                                                                                   // [Y][X] coords
@@ -60,12 +60,16 @@ public class Game implements Runnable {
     public static String langFileName;                                                                                                                                              // Name of the language file currently being used
     public static String texturePack;                                                                                                                                               // The texture pack file path
     public static Font font;                                                                                                                                                        // The custom font used in the game
-    private final int FPS_SET = 120;                                                                                                                                                // Frame-Rate cap
+    private static final byte FPS_SET = 120;                                                                                                                                        // Frame-Rate cap
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
+    private static boolean isRaining = false;                                                                                                                                       // Is the current weather raining
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
+    private static int dayLasts = 120;                                                                                                                                              // How long does the day last in seconds
+    private static int nightLasts = 60;                                                                                                                                             // How long does the night last in seconds
+    private static int dayNumber = 0;                                                                                                                                               // How many days have past since the game started
     private GamePanel gamePanel;                                                                                                                                                    // The panel that shows the game window
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
-    private int seconds = 10;                                                                                                                                                       // Seconds since the game started
+    private byte seconds = 0;                                                                                                                                                       // Seconds since the game started
 
 
     /*
@@ -291,6 +295,62 @@ public class Game implements Runnable {
         }
     }
 
+    // Gets the is raining value
+    public static boolean isRaining() {
+
+        return isRaining;
+
+    }
+
+    // Gets how long the day should last in seconds
+    public static int dayLasts() {
+
+        return dayLasts;
+
+    }
+
+    // Sets how long the day should last in seconds
+    public static int setDayLasts(int value) {
+
+        return dayLasts = value;
+
+    }
+
+    // Gets how long the night should last in seconds
+    public static int nightLasts() {
+
+        return nightLasts;
+
+    }
+
+    // Sets how long the night should last in seconds
+    public static int setNightLasts(int value) {
+
+        return nightLasts = value;
+
+    }
+
+    // Gets the number of days passed since the game started
+    public static int getDays() {
+
+        return dayNumber;
+
+    }
+
+    // Adds a number to the number of days passed the game started
+    public static int addDays(int value) {
+
+        return dayNumber += value;
+
+    }
+
+    // Sets the number of days passed since the game started to a select value
+    public static int setDays(int value) {
+
+        return dayNumber = value;
+
+    }
+
     // Cleares a given 2D array
     public static void clearMap(char[][] map) {
 
@@ -501,8 +561,20 @@ public class Game implements Runnable {
         if (gamePanel.dad.VECTORY > 0) gamePanel.dad.VECTORY = gamePanel.dad.speed;
         else if (gamePanel.dad.VECTORY < 0) gamePanel.dad.VECTORY = -gamePanel.dad.speed;
         
-        if (map[intoMapY(gamePanel.dad.LOCATION_Y + 64)][intoMapX(gamePanel.dad.LOCATION_X + 64)] == '6' && gamePanel.dad.level == 0) gamePanel.dad.speed = 1.5; 
+        if (map[intoMapY(gamePanel.dad.LOCATION_Y + 100)][intoMapX(gamePanel.dad.LOCATION_X + 64)] == '6' && gamePanel.dad.level == 0) gamePanel.dad.speed = 1.5;
         else gamePanel.dad.speed = 1;
+
+        /*
+         * --------------------------------------------------------------------------------
+         * Day -> Night fade in / out
+         * --------------------------------------------------------------------------------
+         */
+
+        // Day -> Night fade in
+        if (stage.equals("Night") && gamePanel.easeDayNight < 240) gamePanel.easeDayNight += 0.2;
+
+        // Night -> Day fade out
+        if (stage.equals("Day") && gamePanel.easeDayNight > 0) gamePanel.easeDayNight -= 0.2;
     }
 
     /*
@@ -664,7 +736,7 @@ public class Game implements Runnable {
                         
                     }
 
-                    if (gamePanel.dad.outOfStamina) gamePanel.inventoryPanel.SBorderColor = gamePanel.inventoryPanel.SBorderColor == Color.WHITE ? Color.RED : Color.WHITE;
+                    if (gamePanel.dad.outOfStamina) gamePanel.inventoryPanel.SColor = gamePanel.inventoryPanel.SColor == Color.RED ? new Color(0xfadc05) : Color.RED;
 
                     /*
                      * --------------------------------------------------------------------------------
@@ -672,28 +744,13 @@ public class Game implements Runnable {
                      * --------------------------------------------------------------------------------
                      */
 
-                    // Day -> Night ease in
-                    if (seconds <=6) {
-
-                        if (seconds < 3) gamePanel.easeDayNight = 80;
-                        else if (seconds < 6) gamePanel.easeDayNight = 40;
-                        else gamePanel.easeDayNight = 0;
-
-                    }
-
-                    // Night -> Day ease out
-                    if (seconds >= 54) {
-
-                        if (seconds < 57) gamePanel.easeDayNight = 40;
-                        else gamePanel.easeDayNight = 80;
-
-                    }
-
                     // The Day / Night change
-                    if (seconds >= (stage.equals("Night") ? 60 : 120)) {
+                    if (seconds >= (stage.equals("Day") ? dayLasts() : nightLasts())) {
 
                         stage = stage.equals("Day") ? "Night" : "Day";
-                        seconds -= (stage.equals("Night") ? 120 : 60);
+                        seconds = 0;
+                        System.out.println("Stage change: " + stage);
+                        System.out.println("Day-Lasts: " + dayLasts() + " | Night-Lasts: " + nightLasts());
 
                     }
 
