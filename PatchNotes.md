@@ -251,3 +251,8 @@ JAR file is made for every update documented here<br>
     <li> * Tile movement speed is now applied only when the character feet are on the tile square</li>
     <li> * Mouse & keyboard input is improved, no longer has issues with registering clicks</li>
 </ul>
+
+## 8/10/2023
+<ul>
+    <li> * Night is now darker</li>
+</ul>

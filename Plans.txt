@@ -1,6 +1,7 @@
 TODO: Put this into order of the most > least difficult & needed changes
 
 - Make a single space in map 9 spaces
+- Make weather ( rain ) when it's night, when it rains the flowers don't need to be watered ( Big .png file with only raindrops with a repetitive patern is slowly moved down and at the end teleported back up )
 - Redesign the options menu
 - Add a shovel which will on click force the flower to enter the next stage ( It effectively kills the flower on 3 clicks )
 - Add a background video to the main menu of the main character walking in a full garden
@@ -15,6 +16,7 @@ TODO: Put this into order of the most > least difficult & needed changes
 - Add gardener lever rewards ( movable fater storage system )
 - Add more flowers based on the gardener level
 - Add a computer inside the house which shows the character stats window ( Same design as the alert / save menu )
+- The dad will say that the night is closing in and you should go hide
 - Add a berry bush
 - Replenish HP by eating berries
 - Change the blue button for a green check flag
