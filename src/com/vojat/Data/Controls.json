@@ -1,1 +1,1 @@
-{"game":{"exit":"Escape", "pause":"P"},"movement":{"up":"W","down":"S","left":"A","right":"D"},"inventory":{"open":"T","next":"E","previous":"Q"}}
+{"game":{"exit":"Escape", "pause":"P"},"movement":{"up":"W","down":"S","left":"A","right":"D"},"inventory":{"open":"T","slot0":"1","slot1":"2", "slot2":"3", "slot3":"4", "slot4":"5", "slot5":"6", "slot6":"7", "slot7":"8", "slot8":"9", "slot9":"0"}}

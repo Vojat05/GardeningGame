@@ -40,8 +40,16 @@ public class Settings extends JPanel {
         {"left", "Move Left"}, 
         {"right", "Move Right"}, 
         {"open", "Open inventory"}, 
-        {"next", "Select next inventory item"}, 
-        {"previous", "Select previous inventory item"}};
+        {"slot0", "Selects 1st inventory slot"}, 
+        {"slot1", "Selects 2nd inventory slot"},
+        {"slot2", "Selects 3rd inventory slot"},
+        {"slot3", "Selcets 4th inventory slot"},
+        {"slot4", "Selects 5th inventory slot"},
+        {"slot5", "Selects 6th inventory slot"},
+        {"slot6", "Selects 7th inventory slot"},
+        {"slot7", "Selects 8th inventory slot"},
+        {"slot8", "Selects 9th inventory slot"},
+        {"slot9", "Selects 10th inventory slot"}};
 
     /*
      * --------------------------------------------------------------------------------
