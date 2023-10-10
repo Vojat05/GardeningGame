@@ -41,4 +41,49 @@ public class JSONObject {
         }
         return number;
     }
+
+    // Returns a 2D array of keys and values
+    public String[][] getData() {
+
+        String[][] data = new String[getNumberOfValues()][2];
+
+        String rawData = getValue();
+        String key = "";
+        String value = "";
+        boolean writeKey = true;
+        boolean write = false;
+
+        for (int i=0, x=0; i<getValue().length(); i++) {
+
+            char letter = rawData.charAt(i);
+
+            switch (letter) {
+
+                case ':':
+                    writeKey = write ? writeKey : false;
+                    break;
+
+                case '"':
+                    write = write ? false : true;
+                    break;
+
+                case ',':
+                    data[x][0] = key;
+                    data[x][1] = value;
+                    x++;
+                    key = "";
+                    value = "";
+                    writeKey = true;
+                    break;
+
+                default:
+                    if (writeKey && write) key += letter;
+                    else if (write) value += letter;
+                    break;
+            }
+        }
+
+        return data;
+
+    }
 }

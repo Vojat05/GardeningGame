@@ -2,6 +2,7 @@ package com.vojat.inputs;
 
 import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -36,6 +37,7 @@ public class KeyboardInput implements KeyListener {
     private JButton button;                                                                 // Button for the settings change key
     private JLabel label;                                                                   // The label to be repainted after the key is changed
     private JSONEditor jEditor;                                                             // JSON Editor for getting the control keys
+    private HashMap<String, String> keyMap = new HashMap<>();                               // A hash map of the currently binded keys
 
     /*
      * --------------------------------------------------------------------------------
@@ -192,6 +194,7 @@ public class KeyboardInput implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
 
         if (dad == null || dad.HP == 0) return;
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
@@ -218,7 +221,17 @@ public class KeyboardInput implements KeyListener {
             if (left) dad.VECTORX = .0;
             else dad.VECTORX = -dad.speed;
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot0"))) dad.selectedItem = 0;
+        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot1"))) dad.selectedItem = 1;
+        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot2"))) dad.selectedItem = 2;
+        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot3"))) dad.selectedItem = 3;
+        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot4"))) dad.selectedItem = 4;
+        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot5"))) dad.selectedItem = 5;
+        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot6"))) dad.selectedItem = 6;
+        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot7"))) dad.selectedItem = 7;
+        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot8"))) dad.selectedItem = 8;
+        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot9"))) dad.selectedItem = 9;
+        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
 
         if (dad.VECTORX != .0 || dad.VECTORY != .0) {
 
@@ -238,7 +251,7 @@ public class KeyboardInput implements KeyListener {
 
     /*
      * --------------------------------------------------------------------------------
-     * Determines the new controls key
+     * Determines the new controls key and saves the information into memory
      * --------------------------------------------------------------------------------
      */
 
@@ -248,7 +261,17 @@ public class KeyboardInput implements KeyListener {
         if (settings != null) settings.setKey(e.getKeyChar(), button, this, label);
 
     }
+/*
+    public void loadKeys() throws FileNotFoundException {
 
+        JSONEditor jse = new JSONEditor("src/com/vojat/Data/Controls.json");
+
+        for (int i=0; i<jse.JSONObjects.get(0).getNumberOfValues(); i++) {
+
+            keyMap.put(null, null)
+        }
+    }
+*/
     /*
      * --------------------------------------------------------------------------------
      * Changes the player texture
