@@ -39,6 +39,7 @@ public class GamePanel extends JPanel {
     private int hoverSaveSlotNumber = 0;                                                    // Number of a save slot that is currently in hover
     private MouseInput mouseInput = new MouseInput(this);                                   // The mouse input class ( Used for the save box hover effect )
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
+    private BufferedImage raingImg;                                                         // The full image of rain
 
     /*
      * --------------------------------------------------------------------------------
@@ -99,6 +100,14 @@ public class GamePanel extends JPanel {
             fullInv.setVisible(false);
             add(fullInv);
         }
+
+        /*
+         * --------------------------------------------------------------------------------
+         * Variable setup
+         * --------------------------------------------------------------------------------
+         */
+
+        
     }
 
     // Sets the inventory panel field (just for the repaint method to be functional in the listener)
@@ -653,24 +662,27 @@ public class GamePanel extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g2d);
-        drawBirdShit(g2d);
+        if (dad.level == 0) drawBirdShit(g2d);
 
         // Drawing the player character in 128 x 128
         g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
 
         if (Game.isRaining()) {
 
-            try {
-
-                BufferedImage raingImg = ImageIO.read(new File("res/" + Game.texturePack + "/Pics/Rain.png"));
-                raingImg = raingImg.getSubimage(0, (int) rainPositionY, 384, 216);
-                g2d.drawImage(raingImg, dad.level == 0 ? 0 : 1200, 0, 1920, 1080, null);
-
-            } catch (IOException e) {
+            
+        try {
                 
-                Game.error("Raing texture error", 3);
+            raingImg = ImageIO.read(new File("res/" + Game.texturePack + "/Pics/Rain.png"));
+            raingImg = raingImg.getSubimage(0, (int) rainPositionY, 384, 216);
+            g2d.drawImage(raingImg, dad.level == 0 ? 0 : 1200, 0, 1920, 1080, null);
 
-            }
+        } catch (IOException e) {
+            
+            Game.error("Rain texture error", 3);
+            e.printStackTrace();
+
+        }
+
         }
 
         if (easeDayNight > 0) {
