@@ -34,6 +34,7 @@ public class JSONEditor {
     public JSONEditor(String filePath) throws FileNotFoundException {
 
         setFile(filePath);
+        System.out.println(this.file.getName());
 
     }
 
@@ -41,6 +42,7 @@ public class JSONEditor {
     public void setFile(String path) {
 
         this.file = new File(path);
+        System.out.println(this.file.getName());
 
     }
 
