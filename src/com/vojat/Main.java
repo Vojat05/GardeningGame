@@ -52,21 +52,13 @@ public class Main {
             JSONEditor jsonEditor = new JSONEditor("res/Config.json");
             
             Game.langFileName = jsonEditor.readData("Language");
-            System.out.println("Language: " + Game.langFileName);
             Game.texturePack = jsonEditor.readData("Texture-Pack");
-            System.out.println("Texture-Pack: " + Game.texturePack);
             Game.version = jsonEditor.readData("Version");
-            System.out.println("Version: " + Game.version);
             Game.FPS_SET = Byte.parseByte(jsonEditor.readData("FPS"));
-            System.out.println("FPS: " + Game.FPS_SET);
             Game.setDayLasts(Integer.parseInt(jsonEditor.readData("Day-Lasts")));
-            System.out.println("Day-Lasts: " + Game.dayLasts());
             Game.setNightLasts(Integer.parseInt(jsonEditor.readData("Night-Lasts")));
-            System.out.println("Night-Lasts: " + Game.nightLasts());
             Game.dayNightTransitionSpeed = Double.parseDouble(jsonEditor.readData("Cycle-Transition-Value"));
-            System.out.println("Cycle-Transition-Value: " + Game.dayNightTransitionSpeed);
             Game.volumeTransitionSpeed = Float.parseFloat(jsonEditor.readData("Volume-Transition-Value"));
-            System.out.println("Volume-Transition-Value: " + Game.volumeTransitionSpeed);
 
             Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("res/" + Game.texturePack + "/Fonts/customFont.ttf"));
 
