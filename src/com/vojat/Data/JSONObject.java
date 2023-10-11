@@ -18,34 +18,44 @@ public class JSONObject {
      */
 
     public JSONObject(String name) {
+        
         this.NAME = name;
+        
     }
 
     // Adds to the current JSON objects value
     public void addValue(char letter) {
+        
         this.VALUE += letter;
+        
     }
 
     // Returns the current JSON object value
     public String getValue() {
+
         return this.VALUE;
+
     }
 
     // Returns the number of elements in the JSON object value list
     public int getNumberOfValues() {
+
         int number = 0;
+
         for (int i=0; i<VALUE.length(); i++) {
-            if (VALUE.charAt(i) == ':') {
-                number++;
-            }
+
+            if (VALUE.charAt(i) == ':') number++;
+
         }
+
         return number;
+
     }
 
     // Returns a 2D array of keys and values
     public String[][] getData() {
 
-        String[][] data = new String[getNumberOfValues()][2];
+        String[][] data = new String[getNumberOfValues()+1][2];
 
         String rawData = getValue();
         String key = "";
@@ -67,7 +77,7 @@ public class JSONObject {
                     write = write ? false : true;
                     break;
 
-                case ',':
+                case ',', '}':
                     data[x][0] = key;
                     data[x][1] = value;
                     x++;

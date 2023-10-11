@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 
 import java.awt.event.KeyEvent;
 
+import com.vojat.Main;
 import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Game;
@@ -55,8 +56,7 @@ public class KeyboardInput implements KeyListener {
             // Sets up the JSON Objects from the controls JSON
             jEditor = new JSONEditor("src/com/vojat/Data/Controls.json");
             jEditor.readFile(true);
-            jEditor.readData(jEditor.JSONObjects.get(1), "up");
-            jEditor.readData(jEditor.JSONObjects.get(1), "down");
+            loadKeys();
 
         } catch (FileNotFoundException e) {
 
@@ -91,7 +91,7 @@ public class KeyboardInput implements KeyListener {
 
         if (dad == null || dad.HP == 0) return;
 
-        if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "exit"))) {
+        if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("exit"))) {
 
             if (gamePanel.saveMenuOpen) {
 
@@ -113,7 +113,7 @@ public class KeyboardInput implements KeyListener {
 
             } else if (Game.pause && !Game.alert) Game.alert("Are you sure you want to quit?", gamePanel);
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(0), "pause"))) {
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("pause"))) {
 
             if (!Game.alert) Game.pauseGame();
 
@@ -124,8 +124,7 @@ public class KeyboardInput implements KeyListener {
 
             System.out.println("Shift pressed");
 
-            if (gamePanel.dad.level == 0) return;
-            if (gamePanel.dad.canMove()) return;
+            if (gamePanel.dad.level == 0 || gamePanel.dad.canMove()) return;
 
             if (gamePanel.dad.LOCATION_X == 894) {
                             
@@ -145,7 +144,7 @@ public class KeyboardInput implements KeyListener {
 
         if (!dad.canMove()) return;
 
-        if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
+        if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("up"))) {
 
             if (up) {
 
@@ -156,7 +155,7 @@ public class KeyboardInput implements KeyListener {
             
             dad.VECTORY = -dad.speed;
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("down"))) {
 
             if (down) {
 
@@ -167,7 +166,7 @@ public class KeyboardInput implements KeyListener {
             
             dad.VECTORY = dad.speed;
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("left"))) {
 
             if (left) {
 
@@ -178,7 +177,7 @@ public class KeyboardInput implements KeyListener {
             
             dad.VECTORX = -dad.speed;
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("right"))) {
 
             if (right) {
 
@@ -189,49 +188,49 @@ public class KeyboardInput implements KeyListener {
             
             dad.VECTORX = dad.speed;
 
+        } else {
+
+            for (byte i=0; i<10; i++) {
+
+                if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("slot" + i))) {
+
+                    dad.selectedItem = i;
+                    gamePanel.inventoryPanel.repaint();
+
+                }
+            }
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
 
         if (dad == null || dad.HP == 0) return;
-        if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "up"))) {
+        if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("up"))) {
 
             up = true;
             if (down) dad.VECTORY = .0;
             else dad.VECTORY = dad.speed;
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "down"))) {
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("down"))) {
 
             down = true;
             if (up) dad.VECTORY = .0;
             else dad.VECTORY = -dad.speed;
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "left"))) {
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("left"))) {
 
             left = true;
             if (right) dad.VECTORX = .0;
             else dad.VECTORX = dad.speed;
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(1), "right"))) {
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("right"))) {
 
             right = true;
             if (left) dad.VECTORX = .0;
             else dad.VECTORX = -dad.speed;
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot0"))) dad.selectedItem = 0;
-        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot1"))) dad.selectedItem = 1;
-        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot2"))) dad.selectedItem = 2;
-        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot3"))) dad.selectedItem = 3;
-        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot4"))) dad.selectedItem = 4;
-        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot5"))) dad.selectedItem = 5;
-        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot6"))) dad.selectedItem = 6;
-        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot7"))) dad.selectedItem = 7;
-        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot8"))) dad.selectedItem = 8;
-        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "slot9"))) dad.selectedItem = 9;
-        else if (KeyEvent.getKeyText(e.getKeyCode()).equals(jEditor.readData(jEditor.JSONObjects.get(2), "open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
 
         if (dad.VECTORX != .0 || dad.VECTORY != .0) {
 
@@ -261,17 +260,26 @@ public class KeyboardInput implements KeyListener {
         if (settings != null) settings.setKey(e.getKeyChar(), button, this, label);
 
     }
-/*
+
     public void loadKeys() throws FileNotFoundException {
 
         JSONEditor jse = new JSONEditor("src/com/vojat/Data/Controls.json");
+        jse.readFile(true);
+        if (Main.debug) System.out.println("DEBUG:\nJSON Objects NO.: " + jse.getNumberOfJSONObjects() + "\n");
 
-        for (int i=0; i<jse.JSONObjects.get(0).getNumberOfValues(); i++) {
+        for (int i=0; i<jse.getNumberOfJSONObjects(); i++) {
 
-            keyMap.put(null, null)
+            String[][] data = jse.JSONObjects.get(i).getData();
+
+            for (int j=0; j<jse.JSONObjects.get(i).getNumberOfValues(); j++) {
+    
+                keyMap.put(data[j][0], data[j][1]);
+                if (Main.debug) System.out.println("I: " + i + "\nJ: " + j + "\nObject: " + jse.JSONObjects.get(i).NAME + "\nValues number: " + jse.JSONObjects.get(i).getNumberOfValues() + "\nKey: " + data[j][0] + " | Value: " + data[j][1] + "\n");
+
+            }
         }
     }
-*/
+
     /*
      * --------------------------------------------------------------------------------
      * Changes the player texture
