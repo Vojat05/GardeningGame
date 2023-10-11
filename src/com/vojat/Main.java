@@ -63,11 +63,6 @@ public class Main {
 
             Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("./res/" + Game.texturePack + "/Fonts/customFont.ttf"));
 
-        } catch (NumberFormatException e) {
-
-            System.err.println("Number format exception!!\n\n");
-            e.printStackTrace();
-
         } catch (FontFormatException | IOException e) {
             
             e.printStackTrace();
