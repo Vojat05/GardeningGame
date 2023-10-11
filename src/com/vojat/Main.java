@@ -49,7 +49,7 @@ public class Main {
 
         try {
 
-            JSONEditor jsonEditor = new JSONEditor("res/Config.json");
+            JSONEditor jsonEditor = new JSONEditor("./res/Config.json");
             
             Game.langFileName = jsonEditor.readData("Language");
             Game.texturePack = jsonEditor.readData("Texture-Pack");
@@ -60,12 +60,12 @@ public class Main {
             Game.dayNightTransitionSpeed = Double.parseDouble(jsonEditor.readData("Cycle-Transition-Value"));
             Game.volumeTransitionSpeed = Float.parseFloat(jsonEditor.readData("Volume-Transition-Value"));
 
-            Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("res/" + Game.texturePack + "/Fonts/customFont.ttf"));
+            Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("./res/" + Game.texturePack + "/Fonts/customFont.ttf"));
 
         } catch (FontFormatException | IOException e) {
             
             e.printStackTrace();
-            error("Config Error");
+            error("Config.json file not found");
 
         }
 
