@@ -34,19 +34,7 @@ public class Main {
 
         if (gDevice.getDisplayMode().getWidth() < sizeX || gDevice.getDisplayMode().getHeight() < sizeY) {
 
-            JFrame lowResFrame = new JFrame("ERROR: Low resolution");
-            lowResFrame.setSize(500, 300);
-            lowResFrame.getContentPane().setBackground(new Color(48, 48, 48));
-            lowResFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            JLabel errMsg1 = new JLabel("Your display resolution is too low, FullHD ( 1920x1080 ) is minimum", SwingConstants.CENTER);
-            errMsg1.setForeground(Color.RED);
-            errMsg1.setFont(new Font("Helvetica", 0, 15));
-
-            lowResFrame.add(errMsg1);
-
-            lowResFrame.setLocationRelativeTo(null);
-            lowResFrame.setVisible(true);
+            error("Your display resolution is too low, FullHD ( 1920x1080 ) is minimum");
 
             System.out.println("Your display resolution is too low // FullHD ( 1920x1080 ) is minimum");
             return;
@@ -77,12 +65,30 @@ public class Main {
         } catch (FontFormatException | IOException e) {
             
             e.printStackTrace();
+            error("Config Error");
 
         }
 
         Window frame = new Window(sizeX, sizeY);
         window = frame;
         new MenuPanel(window);
+
+    }
+
+    private static void error(String message) {
+
+        JFrame lowResFrame = new JFrame("ERROR::");
+        lowResFrame.setSize(500, 300);
+        lowResFrame.getContentPane().setBackground(new Color(48, 48, 48));
+        lowResFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel errMsg1 = new JLabel(message, SwingConstants.CENTER);
+        errMsg1.setForeground(Color.RED);
+        errMsg1.setFont(new Font("Helvetica", 0, 15));
+
+        lowResFrame.add(errMsg1);
+        lowResFrame.setLocationRelativeTo(null);
+        lowResFrame.setVisible(true);
 
     }
 }
