@@ -473,7 +473,6 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 }
 
                 Game.playSound("res/" + Game.texturePack + "/Audio/BedSqueak.wav");
-                System.out.println(controlVariableX*128 + " | " + controlVariableY*128);
 
                 if (gamePanel.dad.LOCATION_X < 845) {
 

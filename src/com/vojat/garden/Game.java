@@ -63,7 +63,7 @@ public class Game implements Runnable {
     public static Font font;                                                                                                                                                        // The custom font used in the game
     public static double dayNightTransitionSpeed = .0;                                                                                                                              // The value that is added to the night block
     public static float volumeTransitionSpeed = .0f;                                                                                                                                // The value that is added to the volume gain
-    private static final byte FPS_SET = 120;                                                                                                                                        // Frame-Rate cap
+    public static byte FPS_SET = 120;                                                                                                                                               // Frame-Rate cap
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static boolean isRaining = false;                                                                                                                                       // Is the current weather raining
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
@@ -85,11 +85,18 @@ public class Game implements Runnable {
 
     public Game(int panelWidth, int panelHeight, Window window) {
 
-        // Cleares the maps, flowers and InvisibleWalls
+        /*
+         * --------------------------------------------------------------------------------
+         * Clear old data from previsou game instances
+         * --------------------------------------------------------------------------------
+         */
+
         invisibleWalls.clear();
         flowers.clear();
         clearMap(map);
         clearMap(houseMap);
+        stage = "Day";
+        isRaining = false;
         
         /*
          * --------------------------------------------------------------------------------
@@ -246,8 +253,17 @@ public class Game implements Runnable {
         pause = pause ? false : true;
 
         // Pauses the game music
-        if (pause) clip.stop(); 
-        else clip.start();
+        if (pause) {
+
+            stopClip(clip);
+            stopClip(rainClip);
+
+        } else {
+
+            clip.start();
+            if (isRaining()) rainClip.start();
+
+        }
 
         // Saves the flower death times into the array list if paused and resets the die times when resumed
         if (pause) {
@@ -460,10 +476,9 @@ public class Game implements Runnable {
         }
     }
 
-    public static void stopMusic() {
+    public static void stopClip(Clip clip) {
 
         clip.stop();
-        clip.flush();
 
     }
 
@@ -552,7 +567,6 @@ public class Game implements Runnable {
             gamePanel.dad.level = 1;
             gamePanel.dad.LOCATION_X = 638;
             gamePanel.dad.LOCATION_Y = 810;
-            gamePanel.dad.speed = 1;
             invisibleWalls.remove(invisibleWalls.indexOf('3'));
             invisibleWalls.add('6');
 
@@ -565,7 +579,6 @@ public class Game implements Runnable {
             gamePanel.dad.level = 0;
             gamePanel.dad.LOCATION_X = 240;
             gamePanel.dad.LOCATION_Y = 200;
-            gamePanel.dad.speed = 1.5;
             invisibleWalls.add('3');
             invisibleWalls.remove(invisibleWalls.indexOf('6'));
 
@@ -593,7 +606,7 @@ public class Game implements Runnable {
          */
 
         // Day -> Night fade in
-        if (stage.equals("Night") && gamePanel.easeDayNight < 238) {
+        if (stage.equals("Night") && gamePanel.easeDayNight < 245) {
 
             gamePanel.easeDayNight += dayNightTransitionSpeed;
             if (volumeGain > -15.0f) {
@@ -812,7 +825,7 @@ public class Game implements Runnable {
 
                 }
 
-                if (isRaining() || stage.equals("Night") && !rainClip.isRunning() && seconds >= nightLasts() * Math.pow(10, -1)) {
+                if (isRaining() || stage.equals("Night") && !rainClip.isRunning() && (int) gamePanel.easeDayNight == 245) {
 
                     if (!isRaining()) isRaining = true;
 
