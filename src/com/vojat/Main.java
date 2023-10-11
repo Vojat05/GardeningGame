@@ -50,7 +50,7 @@ public class Main {
 
         try {
 
-            JSONEditor jsonEditor = new JSONEditor("./res/Config.json");
+            JSONEditor jsonEditor = new JSONEditor("res/Config.json");
             
             Game.langFileName = jsonEditor.readData("Language");
             System.out.println("Language: " + Game.langFileName);
@@ -69,7 +69,7 @@ public class Main {
             Game.volumeTransitionSpeed = Float.parseFloat(jsonEditor.readData("Volume-Transition-Value"));
             System.out.println("Volume-Transition-Value: " + Game.volumeTransitionSpeed);
 
-            Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("./res/" + Game.texturePack + "/Fonts/customFont.ttf"));
+            Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("res/" + Game.texturePack + "/Fonts/customFont.ttf"));
 
         } catch (FontFormatException | IOException e) {
             
