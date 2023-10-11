@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -60,16 +61,20 @@ public class Game implements Runnable {
     public static String langFileName;                                                                                                                                              // Name of the language file currently being used
     public static String texturePack;                                                                                                                                               // The texture pack file path
     public static Font font;                                                                                                                                                        // The custom font used in the game
+    public static double dayNightTransitionSpeed = .0;                                                                                                                              // The value that is added to the night block
+    public static float volumeTransitionSpeed = .0f;                                                                                                                                // The value that is added to the volume gain
     private static final byte FPS_SET = 120;                                                                                                                                        // Frame-Rate cap
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static boolean isRaining = false;                                                                                                                                       // Is the current weather raining
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
     private static int dayLasts = 120;                                                                                                                                              // How long does the day last in seconds
     private static int nightLasts = 60;                                                                                                                                             // How long does the night last in seconds
-    private static int dayNumber = 0;                                                                                                                                               // How many days have past since the game started
+    private static float dayNumber = 0;                                                                                                                                             // How many days have past since the game started
+    private static Clip rainClip;                                                                                                                                                   // The rain audio
     private GamePanel gamePanel;                                                                                                                                                    // The panel that shows the game window
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
     private byte seconds = 0;                                                                                                                                                       // Seconds since the game started
+    private float volumeGain = 0f;                                                                                                                                                  // The default music volume
 
 
     /*
@@ -211,6 +216,10 @@ public class Game implements Runnable {
         gameLoop = new Thread(this);
         gameLoop.start();
 
+        rainClip = playSound("res/" + texturePack + "/Audio/Rain.wav");
+        rainClip.stop();
+        rainClip.setFramePosition(0);
+
     }
 
     // Stops the game
@@ -218,6 +227,7 @@ public class Game implements Runnable {
 
         run = false;
         clip.stop();
+        rainClip.stop();
 
     }
 
@@ -331,23 +341,23 @@ public class Game implements Runnable {
     }
 
     // Gets the number of days passed since the game started
-    public static int getDays() {
+    public static int getDay() {
 
-        return dayNumber;
+        return (int) dayNumber;
 
     }
 
     // Adds a number to the number of days passed the game started
     public static int addDays(int value) {
 
-        return dayNumber += value;
+        return (int) (dayNumber += value);
 
     }
 
     // Sets the number of days passed since the game started to a select value
     public static int setDays(int value) {
 
-        return dayNumber = value;
+        return (int) (dayNumber = value);
 
     }
 
@@ -429,20 +439,23 @@ public class Game implements Runnable {
      */
 
     // Plays the wav file at a given path
-    public static void playSound(String path) {
+    public static Clip playSound(String path) {
         try {
 
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(path));
             Clip sound = AudioSystem.getClip();
             sound.open(audioStream);
+            sound.setFramePosition(0);
             sound.start();
             System.gc();
+            return sound;
 
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 
             System.err.println("Audio error has occured!");
             e.printStackTrace();
             error("Audio Error", 3);
+            return null;
 
         }
     }
@@ -451,6 +464,21 @@ public class Game implements Runnable {
 
         clip.stop();
         clip.flush();
+
+    }
+
+    // Sets the volume of a given clip between 0 ( mute ) and 1 ( original volume )
+    public static void setClipVolume(Clip clip, float volume) {
+
+        if (volume < -80.0f || volume > 6.0f) {
+
+            error("Audio volume error", 3);
+            return;
+
+        }
+
+        FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        fc.setValue(volume);
 
     }
 
@@ -565,10 +593,36 @@ public class Game implements Runnable {
          */
 
         // Day -> Night fade in
-        if (stage.equals("Night") && gamePanel.easeDayNight < 245) gamePanel.easeDayNight += 0.2;
+        if (stage.equals("Night") && gamePanel.easeDayNight < 238) {
+
+            gamePanel.easeDayNight += dayNightTransitionSpeed;
+            if (volumeGain > -15.0f) {
+
+                volumeGain -= volumeTransitionSpeed;
+                setClipVolume(clip, volumeGain);
+
+            }
+        }
 
         // Night -> Day fade out
-        if (stage.equals("Day") && gamePanel.easeDayNight > 0) gamePanel.easeDayNight -= 0.2;
+        if (stage.equals("Day") && gamePanel.easeDayNight > 0) {
+
+            gamePanel.easeDayNight -= dayNightTransitionSpeed;
+            if (volumeGain < 0.0f) {
+
+                volumeGain += volumeTransitionSpeed;
+                setClipVolume(clip, volumeGain);
+
+            }
+        }
+
+        // Move the rain img
+        if (stage.equals("Night") && isRaining()) {
+
+            gamePanel.rainPositionY -= .5f;
+            if ((int) gamePanel.rainPositionY <= 0) gamePanel.rainPositionY = 432f;
+
+        }
     }
 
     /*
@@ -753,9 +807,27 @@ public class Game implements Runnable {
 
                     stage = stage.equals("Day") ? "Night" : "Day";
                     seconds = 0;
-                    System.out.println("Stage change: " + stage);
-                    System.out.println("Day-Lasts: " + dayLasts() + " | Night-Lasts: " + nightLasts());
+                    dayNumber += 0.5;
+                    System.out.println("Stage change: " + stage + "\nDay-Lasts: " + dayLasts() + " | Night-Lasts: " + nightLasts() + " | Day: " + getDay());
+
                 }
+
+                if (isRaining() || stage.equals("Night") && !rainClip.isRunning() && seconds >= nightLasts() * Math.pow(10, -1)) {
+
+                    if (!isRaining()) isRaining = true;
+
+                    rainClip.setFramePosition(0);
+                    rainClip.start();
+
+                } else if (!isRaining()) {
+
+                    rainClip.setFramePosition(0);
+                    rainClip.stop();
+
+                }
+
+                if (isRaining() && stage.equals("Day")) isRaining = false;
+
             }
         }
 

@@ -168,7 +168,7 @@ public class Settings extends JPanel {
     public void createDataBlocks() {
         int getter = 0;
         
-        for (int i=0; i<8; i++) {
+        for (int i=0; i<inputs.length; i++) {
             if (i == 1 || i == 5) {
                 getter++;
             }

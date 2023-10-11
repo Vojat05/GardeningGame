@@ -34,9 +34,9 @@ public class Player {
      * --------------------------------------------------------------------------------
      */
 
-    public Player(GamePanel gamePanel, int positionX, int positionY) {
+    public Player(GamePanel gamepanel, int positionX, int positionY) {
 
-        this.gamePanel = gamePanel;
+        this.gamePanel = gamepanel;
         this.LOCATION_X = positionX;
         this.LOCATION_Y = positionY;
 
@@ -83,7 +83,6 @@ public class Player {
     public void water(Flower flower) {
 
         gamePanel.waterFlower(flower);
-        flower.STATUS = "Alive";
 
     }
 

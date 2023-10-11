@@ -256,3 +256,9 @@ JAR file is made for every update documented here<br>
 <ul>
     <li> * Night is now darker</li>
 </ul>
+
+## 11/10/2023
+<ul>
+    <li> + Selecting slots in the inventory by clicking 1...10 hotbar keys</li>
+    <li> + Added rain that waters flowers for you</li>
+</ul>

@@ -32,17 +32,30 @@ public class JSONEditor {
 
     // Sets the initial JSON file
     public JSONEditor(String filePath) throws FileNotFoundException {
+
         setFile(filePath);
+
     }
 
     // Allows the reset of the JSON file
     public void setFile(String path) {
+
         this.file = new File(path);
+
     }
 
     // Returns the current JSON file
     public File getFile() {
+
         return this.file;
+
+    }
+
+    // Returns the number of JSON objects
+    public int getNumberOfJSONObjects() {
+
+        return JSONObjects.size();
+
     }
 
     // Returns the number of elements in the JSON file

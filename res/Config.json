@@ -1,7 +1,9 @@
 {
     "Language":"lang-en.json",
     "Texture-Pack":"DefaultPack",
-    "Version":"Dev-Build 0.4.2",
+    "Version":"Dev-Build 0.5",
     "Day-Lasts":"120",
-    "Night-Lasts":"60"
+    "Night-Lasts":"60",
+    "Cycle-Transition-Value":"0.2",
+    "Volume-Transition-Value":"0.025"
 }

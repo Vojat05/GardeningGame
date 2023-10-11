@@ -3,11 +3,15 @@ package com.vojat.garden;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.awt.Dimension;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,6 +35,7 @@ public class GamePanel extends JPanel {
     public boolean changeGrass = true;                                                      // Determines wheather the grass should have a wind effect applied
     public boolean saveMenuOpen = false;                                                    // Should the save menu be shown
     public double easeDayNight = .0;                                                        // Makes the Day -> Night cycle more fluent
+    public float rainPositionY = 432f;                                                      // Vertical position of the rain
     private int hoverSaveSlotNumber = 0;                                                    // Number of a save slot that is currently in hover
     private MouseInput mouseInput = new MouseInput(this);                                   // The mouse input class ( Used for the save box hover effect )
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
@@ -179,6 +184,8 @@ public class GamePanel extends JPanel {
 
                 flower.TIME_TO_DIE = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]);
                 flower.TIME_TO_DISSAPEAR = System.currentTimeMillis() + Integer.parseInt(Game.flowerTypes[i][1]) + 5000;
+                flower.CURRENT_TEXTURE = flower.setTexture(flower.ALIVE_TEXTURE);
+                flower.STATUS = "Alive";
                 break;
 
             }
@@ -650,6 +657,21 @@ public class GamePanel extends JPanel {
 
         // Drawing the player character in 128 x 128
         g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
+
+        if (Game.isRaining()) {
+
+            try {
+
+                BufferedImage raingImg = ImageIO.read(new File("res/" + Game.texturePack + "/Pics/Rain.png"));
+                raingImg = raingImg.getSubimage(0, (int) rainPositionY, 384, 216);
+                g2d.drawImage(raingImg, dad.level == 0 ? 0 : 1200, 0, 1920, 1080, null);
+
+            } catch (IOException e) {
+                
+                Game.error("Raing texture error", 3);
+
+            }
+        }
 
         if (easeDayNight > 0) {
 
