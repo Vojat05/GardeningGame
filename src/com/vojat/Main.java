@@ -23,6 +23,7 @@ public class Main {
     public static boolean maximize = false;
     public static Window window;
     public static void main(String[] args) {
+        System.out.println("Game started");
 
         /*
          * --------------------------------------------------------------------------------
@@ -54,7 +55,7 @@ public class Main {
             Game.langFileName = jsonEditor.readData("Language");
             Game.texturePack = jsonEditor.readData("Texture-Pack");
             Game.version = jsonEditor.readData("Version");
-            Game.FPS_SET = (byte) Integer.parseInt(jsonEditor.readData("FPS"));
+            Game.FPS_SET = Byte.parseByte(jsonEditor.readData("FPS"));
             Game.setDayLasts(Integer.parseInt(jsonEditor.readData("Day-Lasts")));
             Game.setNightLasts(Integer.parseInt(jsonEditor.readData("Night-Lasts")));
             Game.dayNightTransitionSpeed = Double.parseDouble(jsonEditor.readData("Cycle-Transition-Value"));
