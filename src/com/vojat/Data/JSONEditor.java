@@ -42,6 +42,7 @@ public class JSONEditor {
 
         this.file = new File(path);
         System.out.println("ABS Path: " + this.file.getAbsolutePath());
+        System.out.println("Exists: " + this.file.exists());
 
     }
 

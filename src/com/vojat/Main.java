@@ -23,7 +23,6 @@ public class Main {
     public static boolean maximize = false;
     public static Window window;
     public static void main(String[] args) {
-        System.out.println("Game started");
 
         /*
          * --------------------------------------------------------------------------------
