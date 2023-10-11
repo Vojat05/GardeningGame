@@ -41,8 +41,6 @@ public class JSONEditor {
     public void setFile(String path) {
 
         this.file = new File(path);
-        System.out.println("ABS Path: " + this.file.getAbsolutePath());
-        System.out.println("Exists: " + this.file.exists());
 
     }
 
@@ -94,6 +92,7 @@ public class JSONEditor {
     
             }
     
+            System.out.println(jsonData);
             reader.close();
 
             // Processes the Sting variable to make JSON Objects with name and content
@@ -178,7 +177,6 @@ public class JSONEditor {
         boolean writeData = false;
         boolean write = false;
         HashMap<String, String> map = new HashMap<>();
-        System.out.println(jsonData);
 
         for (int i=0; i<object.VALUE.length(); i++) {
     
