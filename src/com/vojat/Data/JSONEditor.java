@@ -178,6 +178,7 @@ public class JSONEditor {
         boolean writeData = false;
         boolean write = false;
         HashMap<String, String> map = new HashMap<>();
+        System.out.println(jsonData);
 
         for (int i=0; i<object.VALUE.length(); i++) {
     
