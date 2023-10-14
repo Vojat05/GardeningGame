@@ -91,8 +91,7 @@ public class JSONEditor {
                 data = reader.read();
     
             }
-    
-            System.out.println(jsonData);
+            
             reader.close();
 
             // Processes the Sting variable to make JSON Objects with name and content

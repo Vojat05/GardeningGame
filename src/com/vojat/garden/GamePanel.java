@@ -3,6 +3,9 @@ package com.vojat.garden;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -659,7 +662,9 @@ public class GamePanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         // Smoothening render hint
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_DEFAULT);
+        g2d.setRenderingHints(rh);
         
         drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g2d);
         if (dad.level == 0) drawBirdShit(g2d);
@@ -692,7 +697,27 @@ public class GamePanel extends JPanel {
             if (dad.selectedItem == 2) {
 
                 // Player has the light selected
-                g2d.fillRect(0, 0, Window.width, Window.height);
+                Area background = new Area(new Rectangle2D.Double(0, 0, Window.width, Window.height));
+                Area lightCircle = new Area(new Ellipse2D.Double(dad.LOCATION_X + 64 - 150, dad.LOCATION_Y + 64 - 150, 300, 300));
+                Area light6 = new Area(new Ellipse2D.Double(dad.LOCATION_X + 64 - 125, dad.LOCATION_Y + 64 - 125, 250, 250));
+                Area light5 = new Area(new Ellipse2D.Double(dad.LOCATION_X + 64 - 100, dad.LOCATION_Y + 64 - 100, 200, 200));
+                Area light4 = new Area(new Ellipse2D.Double(dad.LOCATION_X + 64 - 75, dad.LOCATION_Y + 64 - 75, 150, 150));
+
+                background.subtract(lightCircle);
+                lightCircle.subtract(light6);
+                light6.subtract(light5);
+                light5.subtract(light4);
+
+
+                g2d.fill(background);
+                g2d.setPaint(new Color(20, 15, 5, (int) (easeDayNight - easeDayNight / 10)));
+                g2d.fill(lightCircle);
+                g2d.setPaint(new Color(40, 31, 8, (int) (easeDayNight - easeDayNight / 9)));
+                g2d.fill(light6);
+                g2d.setPaint(new Color(65, 51, 14, (int) (easeDayNight - easeDayNight / 7)));
+                g2d.fill(light5);
+                g2d.setPaint(new Color(100, 80, 20, (int) (easeDayNight - easeDayNight / 5)));
+                g2d.fill(light4);
 
             } else g2d.fillRect(0, 0, Window.width, Window.height);
 
