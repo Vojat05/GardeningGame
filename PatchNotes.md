@@ -262,3 +262,8 @@ EXE file is made for every update documented here<br>
     <li> + Selecting slots in the inventory by clicking 1...10 hotbar keys</li>
     <li> + Added rain that waters flowers for you</li>
 </ul>
+
+## 15/10/2023
+<ul>
+    <li> * Player light is now functional</li>
+</ul>
