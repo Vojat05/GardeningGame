@@ -657,6 +657,8 @@ public class GamePanel extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        if (!this.hasFocus()) return;
+        
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
