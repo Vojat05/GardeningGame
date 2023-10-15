@@ -606,7 +606,7 @@ public class Game implements Runnable {
          */
 
         // Day -> Night fade in
-        if (stage.equals("Night") && gamePanel.easeDayNight < 245) {
+        if (stage.equals("Night") && gamePanel.easeDayNight < 248) {
 
             gamePanel.easeDayNight += dayNightTransitionSpeed;
             if (volumeGain > -15.0f) {
@@ -825,7 +825,7 @@ public class Game implements Runnable {
 
                 }
 
-                if (isRaining() || stage.equals("Night") && !rainClip.isRunning() && (int) gamePanel.easeDayNight == 245) {
+                if (isRaining() || stage.equals("Night") && !rainClip.isRunning() && (int) gamePanel.easeDayNight == 248) {
 
                     if (!isRaining()) isRaining = true;
 
