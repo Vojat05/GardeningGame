@@ -90,7 +90,7 @@ public class Player {
     public void waterRefill() {
 
         inventory.set(0, "water9");
-        gamePanel.inventoryPanel.repaint();
+        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
 
     }
 
@@ -113,7 +113,7 @@ public class Player {
 
         }
 
-        gamePanel.inventoryPanel.repaint();
+        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
         return this.HP;
 
     }
@@ -132,14 +132,14 @@ public class Player {
 
         Game.clip.stop();
         Game.playSound("res/" + Game.texturePack + "/Audio/Death.wav");
-        gamePanel.inventoryPanel.repaint();
+        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
 
     }
 
     public int setHealth(int HP) {
 
         if (HP == 0) kill();
-        gamePanel.inventoryPanel.repaint();
+        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
         return this.HP = HP;
 
     }
@@ -149,7 +149,7 @@ public class Player {
         if (this.stamina - value <= 0) this.stamina = 0;
         else if (this.stamina - value >= 100) this.stamina = 100;
         else this.stamina = this.stamina - value;
-        gamePanel.inventoryPanel.repaint();
+        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
 
         return this.stamina;
 

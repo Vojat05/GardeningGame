@@ -380,7 +380,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
         }
 
-        gamePanel.inventoryPanel.repaint();
+        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
 
     }
 

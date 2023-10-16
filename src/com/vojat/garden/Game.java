@@ -436,7 +436,7 @@ public class Game implements Runnable {
     public static void alertUpdate(String message, GamePanel gamePanel) {
 
         alertMessage = message;
-        gamePanel.repaint();
+        if (gamePanel.hasFocus()) gamePanel.repaint();
 
     }
 
@@ -444,7 +444,7 @@ public class Game implements Runnable {
 
         alert = true;
         alertMessage = message;
-        gamePanel.repaint();
+        if (gamePanel.hasFocus()) gamePanel.repaint();
 
     }
 
@@ -676,16 +676,16 @@ public class Game implements Runnable {
             if (pause) {
                 
                 now = System.nanoTime();
-                deltaF += (now - previousTime) / timePerFrame;
+                deltaF += (now - previousTime) * Math.pow(timePerFrame, -1);
                 previousTime = now;
                 
-                if (deltaF >= 1) { gamePanel.repaint(); deltaF--; }
+                if (deltaF >= 1) deltaF--;
                 continue;
                 
             }
 
             now = System.nanoTime();
-            deltaF += (now - previousTime) / timePerFrame;
+            deltaF += (now - previousTime) * Math.pow(timePerFrame, -1);
             previousTime = now;
 
             // Repaints 120 times per second
@@ -705,7 +705,7 @@ public class Game implements Runnable {
     
                 gameTick();
 
-                gamePanel.repaint();
+                if (gamePanel.hasFocus()) gamePanel.repaint();
                 fps++;
                 deltaF--;
             }
