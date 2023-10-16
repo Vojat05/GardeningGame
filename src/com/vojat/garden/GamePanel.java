@@ -103,14 +103,6 @@ public class GamePanel extends JPanel {
             fullInv.setVisible(false);
             add(fullInv);
         }
-
-        /*
-         * --------------------------------------------------------------------------------
-         * Variable setup
-         * --------------------------------------------------------------------------------
-         */
-
-        
     }
 
     // Sets the inventory panel field (just for the repaint method to be functional in the listener)
@@ -205,7 +197,7 @@ public class GamePanel extends JPanel {
 
         // Resets the flower texture
         flower.CURRENT_TEXTURE = flower.setTexture(flower.ALIVE_TEXTURE);
-        this.inventoryPanel.repaint();
+        if (this.hasFocus()) this.inventoryPanel.repaint();
     }
 
     /*
@@ -458,11 +450,11 @@ public class GamePanel extends JPanel {
         // Drawing the red hexagon background
         g2d.setPaint(new Color(231, 44, 22, 155));
 
-        int middleX = this.getWidth() / 2;
-        int middleY = this.getHeight() / 2;
+        int middleX = (int) (this.getWidth() * Math.pow(2, -1));
+        int middleY = (int) (this.getHeight() * Math.pow(2, -1));
 
         int[] backgroundX = {middleX - 200, middleX + 200, middleX + 250, middleX + 200, middleX - 200, middleX - 250};
-        int[] backgroundY = {middleY - middleY / 2, middleY - middleY / 2, middleY - middleY / 2 + 86, middleY - middleY / 2 + 86 * 2, middleY - middleY / 2 + 86 * 2, middleY - middleY / 2 + 86};
+        int[] backgroundY = {(int) (middleY - middleY * Math.pow(2, -1)), (int) (middleY - middleY * Math.pow(2, -1)), (int) (middleY - middleY * Math.pow(2, -1)) + 86, (int) (middleY - middleY * Math.pow(2, -1)) + 172, (int) (middleY - middleY * Math.pow(2, -1)) + 172, (int) (middleY - middleY * Math.pow(2, -1)) + 86};
 
         g2d.fillPolygon(backgroundX, backgroundY, backgroundX.length);
 
@@ -473,87 +465,87 @@ public class GamePanel extends JPanel {
 
         // Drawing the text inside
         g2d.setFont(Game.font.deriveFont(64f));
-        g2d.drawString(Game.warningMessage, middleX - Game.warningMessage.length() * 11, (int) (middleY - middleY / 2 + 86 * 1.25));
+        g2d.drawString(Game.warningMessage, middleX - Game.warningMessage.length() * 11, (int) ((int) (middleY - middleY * Math.pow(2, -1)) + 107.5));
 
     }
 
     private void drawAlert(Graphics2D g2d) {
 
-        int middleX = this.getWidth() / 2;
-        int middleY = this.getHeight() / 2;
+        int middleX = (int) (this.getWidth() * Math.pow(2, -1));
+        int middleY = (int) (this.getHeight() * Math.pow(2, -1));
 
         // The upper white rectangle
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillRect(middleX - 200, middleY - middleY / 2 + 90 * 2, 400, 80);
+        g2d.fillRect(middleX - 200, (int) (middleY - middleY * Math.pow(2, -1)) + 180, 400, 80);
 
         // The middle gray rectangle
         g2d.setPaint(new Color(210, 210, 210, 245));
-        g2d.fillRect(middleX - 200, middleY - middleY / 2 + 260, 400, 120);
+        g2d.fillRect(middleX - 200, (int) (middleY - middleY * Math.pow(2, -1)) + 260, 400, 120);
         
         // The bottom white rectangle
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillRect(middleX - 200, middleY - middleY / 2 + 380, 400, 80);
+        g2d.fillRect(middleX - 200, (int) (middleY - middleY * Math.pow(2, -1)) + 380, 400, 80);
         
 
         // Alert box title
         g2d.setFont(Game.font.deriveFont(42f));
         g2d.setPaint(new Color(30, 30, 30, 240));
-        g2d.drawString("Alert", middleX - 35, middleY - middleY / 2 + 240);
+        g2d.drawString("Alert", middleX - 35, (int) (middleY - middleY * Math.pow(2, -1)) + 240);
 
         g2d.setFont(Game.font.deriveFont(24f));
-        g2d.drawString(Game.alertMessage, middleX - Game.alertMessage.length() * 4, middleY - middleY / 2 + 330);
+        g2d.drawString(Game.alertMessage, middleX - Game.alertMessage.length() * 4, (int) (middleY - middleY * Math.pow(2, -1)) + 330);
 
 
         // The selection buttons
 
         // Agree button
         g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 150, middleY - middleY / 2 + 395, 50, 50);
+        g2d.fillOval(middleX - 150, (int) (middleY - middleY * Math.pow(2, -1)) + 395, 50, 50);
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX - 147, middleY - middleY / 2 + 398, 44, 44);
+        g2d.fillOval(middleX - 147, (int) (middleY - middleY * Math.pow(2, -1)) + 398, 44, 44);
         g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 144, middleY - middleY / 2 + 401, 38, 38);
+        g2d.fillOval(middleX - 144, (int) (middleY - middleY * Math.pow(2, -1)) + 401, 38, 38);
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX - 137, middleY - middleY / 2 + 408, 24, 24);
+        g2d.fillOval(middleX - 137, (int) (middleY - middleY * Math.pow(2, -1)) + 408, 24, 24);
         g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 133, middleY - middleY / 2 + 412, 16, 16);
+        g2d.fillOval(middleX - 133, (int) (middleY - middleY * Math.pow(2, -1)) + 412, 16, 16);
 
         // Rejct button
         g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(middleX + 100, middleY - middleY / 2 + 395, 50, 50);
+        g2d.fillOval(middleX + 100, (int) (middleY - middleY * Math.pow(2, -1)) + 395, 50, 50);
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX + 103, middleY - middleY / 2 + 398, 44, 44);
+        g2d.fillOval(middleX + 103, (int) (middleY - middleY * Math.pow(2, -1)) + 398, 44, 44);
         g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(middleX + 106, middleY - middleY / 2 + 401, 38, 38);
+        g2d.fillOval(middleX + 106, (int) (middleY - middleY * Math.pow(2, -1)) + 401, 38, 38);
         g2d.setPaint(new Color(245, 245, 245, 245));
         g2d.setStroke(new BasicStroke(4));
-        g2d.drawLine(middleX + 118, middleY - middleY / 2 + 413, middleX + 130, middleY - middleY / 2 + 426);
-        g2d.drawLine(middleX + 130, middleY - middleY / 2 + 413, middleX + 118, middleY - middleY / 2 + 426);
+        g2d.drawLine(middleX + 118, (int) (middleY - middleY * Math.pow(2, -1)) + 413, middleX + 130, (int) (middleY - middleY * Math.pow(2, -1)) + 426);
+        g2d.drawLine(middleX + 130, (int) (middleY - middleY * Math.pow(2, -1)) + 413, middleX + 118, (int) (middleY - middleY * Math.pow(2, -1)) + 426);
 
     }
 
     private void drawSaveBox(Graphics2D g2d, int marginTopPx) {
         
-        int middleX = this.getWidth() / 2;
-        int middleY = this.getHeight() / 2;
+        int middleX = (int) (this.getWidth() * Math.pow(2, -1));
+        int middleY = (int) (this.getHeight() * Math.pow(2, -1));
 
         // The upper white rectangle
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillRect(middleX - 200, middleY - middleY / 2 - 100, 400, 80);
+        g2d.fillRect(middleX - 200, (int) (middleY - middleY * Math.pow(2, -1)) - 100, 400, 80);
 
         // The middle gray rectangle
         g2d.setPaint(new Color(210, 210, 210, 245));
-        g2d.fillRect(middleX - 200, middleY - middleY / 2 - 20, 400, 400);
+        g2d.fillRect(middleX - 200, (int) (middleY - middleY * Math.pow(2, -1)) - 20, 400, 400);
         
         // The bottom white rectangle
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillRect(middleX - 200, middleY - middleY / 2 + 380, 400, 80);
+        g2d.fillRect(middleX - 200, (int) (middleY - middleY * Math.pow(2, -1)) + 380, 400, 80);
         
 
         // Save box title
         g2d.setFont(Game.font.deriveFont(42f));
         g2d.setPaint(new Color(30, 30, 30, 240));
-        g2d.drawString("Save", middleX - 35, middleY - middleY / 2 - 40);
+        g2d.drawString("Save", middleX - 35, (int) (middleY - middleY * Math.pow(2, -1)) - 40);
 
         // The save slots
         for (int i=1; i<=6; i++) {
@@ -561,14 +553,14 @@ public class GamePanel extends JPanel {
             // Drawing the box
             g2d.setPaint(new Color(30, 30, 30, 240));
             g2d.setStroke(new BasicStroke(1));
-            g2d.drawRect(middleX - 180, middleY - middleY / 2 - 65 + ( 60 * i + marginTopPx ), 360, 50);
+            g2d.drawRect(middleX - 180, (int) (middleY - middleY * Math.pow(2, -1)) - 65 + ( 60 * i + marginTopPx ), 360, 50);
             g2d.setPaint(i == hoverSaveSlotNumber ? new Color(255, 217, 29) : i == selectedSaveSlotNumber ? new Color(48, 222, 17) : new Color(245, 245, 245, 245));
-            g2d.fillRect(middleX - 179, middleY - middleY / 2 - 64 + ( 60 * i + marginTopPx ), 358, 48);
+            g2d.fillRect(middleX - 179, (int) (middleY - middleY * Math.pow(2, -1)) - 64 + ( 60 * i + marginTopPx ), 358, 48);
             
             // Drawing the slot text
             g2d.setFont(Game.font.deriveFont(36f));
             g2d.setPaint(new Color(30, 30, 30, 240));
-            g2d.drawString("Slot " + i, middleX - 36, middleY / 2 - 25 + ( 60 * i + marginTopPx ));
+            g2d.drawString("Slot " + i, middleX - 36, (int) (middleY * Math.pow(2, -1)) - 25 + ( 60 * i + marginTopPx ));
 
         }
 
@@ -577,27 +569,27 @@ public class GamePanel extends JPanel {
 
         // Agree button
         g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 150, middleY - middleY / 2 + 395, 50, 50);
+        g2d.fillOval(middleX - 150, (int) (middleY - middleY * Math.pow(2, -1)) + 395, 50, 50);
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX - 147, middleY - middleY / 2 + 398, 44, 44);
+        g2d.fillOval(middleX - 147, (int) (middleY - middleY * Math.pow(2, -1)) + 398, 44, 44);
         g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 144, middleY - middleY / 2 + 401, 38, 38);
+        g2d.fillOval(middleX - 144, (int) (middleY - middleY * Math.pow(2, -1)) + 401, 38, 38);
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX - 137, middleY - middleY / 2 + 408, 24, 24);
+        g2d.fillOval(middleX - 137, (int) (middleY - middleY * Math.pow(2, -1)) + 408, 24, 24);
         g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 133, middleY - middleY / 2 + 412, 16, 16);
+        g2d.fillOval(middleX - 133, (int) (middleY - middleY * Math.pow(2, -1)) + 412, 16, 16);
 
         // Rejct button
         g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(middleX + 100, middleY - middleY / 2 + 395, 50, 50);
+        g2d.fillOval(middleX + 100, (int) (middleY - middleY * Math.pow(2, -1)) + 395, 50, 50);
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX + 103, middleY - middleY / 2 + 398, 44, 44);
+        g2d.fillOval(middleX + 103, (int) (middleY - middleY * Math.pow(2, -1)) + 398, 44, 44);
         g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(middleX + 106, middleY - middleY / 2 + 401, 38, 38);
+        g2d.fillOval(middleX + 106, (int) (middleY - middleY * Math.pow(2, -1)) + 401, 38, 38);
         g2d.setPaint(new Color(245, 245, 245, 245));
         g2d.setStroke(new BasicStroke(4));
-        g2d.drawLine(middleX + 118, middleY - middleY / 2 + 413, middleX + 130, middleY - middleY / 2 + 426);
-        g2d.drawLine(middleX + 130, middleY - middleY / 2 + 413, middleX + 118, middleY - middleY / 2 + 426);
+        g2d.drawLine(middleX + 118, (int) (middleY - middleY * Math.pow(2, -1)) + 413, middleX + 130, (int) (middleY - middleY * Math.pow(2, -1)) + 426);
+        g2d.drawLine(middleX + 130, (int) (middleY - middleY * Math.pow(2, -1)) + 413, middleX + 118, (int) (middleY - middleY * Math.pow(2, -1)) + 426);
 
     }
 
@@ -657,8 +649,6 @@ public class GamePanel extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        if (!this.hasFocus()) return;
-        
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
@@ -700,10 +690,10 @@ public class GamePanel extends JPanel {
 
                 // Player has the light selected
                 Area background = new Area(new Rectangle2D.Double(0, 0, Window.width, Window.height));
-                Area lightCircle = new Area(new Ellipse2D.Double(dad.LOCATION_X + 64 - 150, dad.LOCATION_Y + 64 - 150, 300, 300));
-                Area light6 = new Area(new Ellipse2D.Double(dad.LOCATION_X + 64 - 125, dad.LOCATION_Y + 64 - 125, 250, 250));
-                Area light5 = new Area(new Ellipse2D.Double(dad.LOCATION_X + 64 - 100, dad.LOCATION_Y + 64 - 100, 200, 200));
-                Area light4 = new Area(new Ellipse2D.Double(dad.LOCATION_X + 64 - 75, dad.LOCATION_Y + 64 - 75, 150, 150));
+                Area lightCircle = new Area(new Ellipse2D.Double(dad.LOCATION_X - 86, dad.LOCATION_Y - 86, 300, 300));
+                Area light6 = new Area(new Ellipse2D.Double(dad.LOCATION_X - 61, dad.LOCATION_Y - 61, 250, 250));
+                Area light5 = new Area(new Ellipse2D.Double(dad.LOCATION_X - 36, dad.LOCATION_Y - 36, 200, 200));
+                Area light4 = new Area(new Ellipse2D.Double(dad.LOCATION_X - 11, dad.LOCATION_Y - 11, 150, 150));
 
                 background.subtract(lightCircle);
                 lightCircle.subtract(light6);
@@ -712,13 +702,13 @@ public class GamePanel extends JPanel {
 
 
                 g2d.fill(background);
-                g2d.setPaint(new Color(20, 15, 5, (int) (easeDayNight - easeDayNight / 10)));
+                g2d.setPaint(new Color(20, 15, 5, (int) (easeDayNight - easeDayNight * Math.pow(10, -1))));
                 g2d.fill(lightCircle);
-                g2d.setPaint(new Color(40, 31, 8, (int) (easeDayNight - easeDayNight / 9)));
+                g2d.setPaint(new Color(40, 31, 8, (int) (easeDayNight - easeDayNight * Math.pow(9, -1))));
                 g2d.fill(light6);
-                g2d.setPaint(new Color(65, 51, 14, (int) (easeDayNight - easeDayNight / 7)));
+                g2d.setPaint(new Color(65, 51, 14, (int) (easeDayNight - easeDayNight * Math.pow(7, -1))));
                 g2d.fill(light5);
-                g2d.setPaint(new Color(100, 80, 20, (int) (easeDayNight - easeDayNight / 5)));
+                g2d.setPaint(new Color(100, 80, 20, (int) (easeDayNight - easeDayNight * Math.pow(5, -1))));
                 g2d.fill(light4);
 
             } else g2d.fillRect(0, 0, Window.width, Window.height);

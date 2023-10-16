@@ -193,7 +193,7 @@ public class KeyboardInput implements KeyListener {
                 if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("slot" + i))) {
 
                     dad.selectedItem = i;
-                    gamePanel.inventoryPanel.repaint();
+                    if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
 
                 }
             }
