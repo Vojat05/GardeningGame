@@ -3,7 +3,6 @@ package com.vojat.menu;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -33,6 +32,7 @@ public class Settings extends JPanel {
     private static ArrayList<JPanel> blocks = new ArrayList<>();                    // ArrayList for the control blocks
     private static ArrayList<JLabel> keys = new ArrayList<>();                      // Arraylist for the set key labels
     private static JPanel options = new JPanel();                                   // The panel on which all the controls live on
+    private static int startIndexControlButtons = 1;                                // Index at which the buttons should strt being picked out of the inputs array
     private static String[][] inputs = {                                            // The inputs for control message
         {"pause", "Pause the game"}, 
         {"up", "Move Up"}, 
@@ -49,7 +49,8 @@ public class Settings extends JPanel {
         {"slot6", "Selects 7th inventory slot"},
         {"slot7", "Selects 8th inventory slot"},
         {"slot8", "Selects 9th inventory slot"},
-        {"slot9", "Selects 10th inventory slot"}};
+        {"slot9", "Selects 10th inventory slot"}
+    };
 
     /*
      * --------------------------------------------------------------------------------
@@ -80,7 +81,6 @@ public class Settings extends JPanel {
             buttons.setVisible(true);
         }
         {
-            options.setLayout(new GridLayout(7, 1));
             options.setPreferredSize(new Dimension(sizeX-300, sizeY-60));
             options.setBackground(null);
             options.setVisible(true);
@@ -167,9 +167,11 @@ public class Settings extends JPanel {
     // Creates each block in the options for the text to be Re-rendered for each opening
     public void createDataBlocks() {
         int getter = 0;
+        if (startIndexControlButtons >= 5) getter += 2;
+        else if (startIndexControlButtons >= 1) getter++;
         
-        for (int i=0; i<inputs.length; i++) {
-            if (i == 1 || i == 5) {
+        for (int i=startIndexControlButtons; i<inputs.length; i++) {
+            if (i == 1 && startIndexControlButtons != 1 || i == 5 && startIndexControlButtons != 5) {
                 getter++;
             }
             JPanel block = new JPanel();
