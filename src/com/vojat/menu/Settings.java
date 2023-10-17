@@ -32,7 +32,7 @@ public class Settings extends JPanel {
     private static ArrayList<JPanel> blocks = new ArrayList<>();                    // ArrayList for the control blocks
     private static ArrayList<JLabel> keys = new ArrayList<>();                      // Arraylist for the set key labels
     private static JPanel options = new JPanel();                                   // The panel on which all the controls live on
-    private static int startIndexControlButtons = 1;                                // Index at which the buttons should strt being picked out of the inputs array
+    private static int startIndexControlButtons = 0;                                // Index at which the buttons should strt being picked out of the inputs array
     private static String[][] inputs = {                                            // The inputs for control message
         {"pause", "Pause the game"}, 
         {"up", "Move Up"}, 
@@ -237,9 +237,9 @@ public class Settings extends JPanel {
     }
 
     // Ends the keyboard listening and changes the label text
-    public void setKey(char data, JButton button, KeyboardInput in, JLabel label) {
+    public void setKey(String data, JButton button, KeyboardInput in, JLabel label) {
         button.removeKeyListener(in);
-        label.setText(("" + data).toUpperCase());
+        label.setText(data.toUpperCase());
     }
 
     // Changes the visibility of this panel and it's interactability
