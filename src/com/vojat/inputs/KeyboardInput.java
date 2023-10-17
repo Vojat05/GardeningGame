@@ -89,6 +89,8 @@ public class KeyboardInput implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
+        if (settings != null) settings.setKey(KeyEvent.getKeyText(e.getKeyCode()), button, this, label);
+
         if (dad == null || dad.HP == 0) return;
 
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("exit"))) {
@@ -253,11 +255,7 @@ public class KeyboardInput implements KeyListener {
      */
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-        if (settings != null) settings.setKey(e.getKeyChar(), button, this, label);
-
-    }
+    public void keyTyped(KeyEvent e) {;}
 
     public void loadKeys() throws FileNotFoundException {
 
