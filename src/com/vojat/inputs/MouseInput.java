@@ -13,6 +13,7 @@ import com.vojat.garden.Flower;
 import com.vojat.garden.Game;
 import com.vojat.garden.GamePanel;
 import com.vojat.menu.MenuPanel;
+import com.vojat.menu.Settings;
 
 public class MouseInput implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -23,6 +24,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
      */
 
     private GamePanel gamePanel;                                                        // Game panel
+    private Settings settings;                                                          // Settings panel
     private short controlVariableX;                                                     // Theoretical mouse X coordinate in the game map 
     private short controlVariableY;                                                     // Theoretical mouse Y coordiante in the game map
     private Flower flower;                                                              // Flower object that's set on each click on some flower
@@ -41,11 +43,19 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
     }
 
+    public MouseInput(Settings settings) {
+
+        this.settings = settings;
+
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {;}
 
     @Override
     public void mousePressed(MouseEvent e) {
+
+        if (gamePanel == null) return;
         
         controlVariableX = gardenerX(e);
         controlVariableY = gardenerY(e);
@@ -363,10 +373,45 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
         mouseX = e.getX();
         mouseY = e.getY();
 
+        if (gamePanel != null) return;
+
+        if (mouseX >= 1055 && mouseX <= 1835 && mouseY >= 18 && mouseY <= 936) Settings.cursorOverControls = true;
+        else Settings.cursorOverControls = false;
+
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
+
+        if (Settings.cursorOverControls) {
+
+            if (e.getWheelRotation() > 0 && Settings.startIndexControlButtons < Settings.inputs.length - 6) Settings.startIndexControlButtons++;
+            else if (e.getWheelRotation() < 0 && Settings.startIndexControlButtons > 0) Settings.startIndexControlButtons--;
+            
+            /*
+            settings.changeVisibility(Settings.buttonPanel, Settings.spacer);
+
+            for (int i=0; i<Settings.blocks.size(); i++) {
+
+                // Removes the key labels from each block & the block from the options panel
+                Settings.blocks.get(i).remove(Settings.keys.get(i));
+                Settings.buttonsOptions.remove(Settings.blocks.get(i));
+
+            }
+
+            // Clears the JLabel & JPanel ArrayLists
+            Settings.keys.clear();
+            Settings.blocks.clear();
+
+            settings.changeVisibility(Settings.buttonPanel, Settings.spacer);*/
+            settings.createDataBlocks();
+            settings.repaint();
+
+            System.out.println("Settings index: " + Settings.startIndexControlButtons + "\nRotation: " + e.getWheelRotation());
+            return;
+        }
+
+        if (gamePanel == null) return;
 
         if (e.getWheelRotation() > 0) {
 
