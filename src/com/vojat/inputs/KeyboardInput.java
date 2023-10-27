@@ -54,7 +54,7 @@ public class KeyboardInput implements KeyListener {
         try {
 
             // Sets up the JSON Objects from the controls JSON
-            jEditor = new JSONEditor("src/com/vojat/Data/Controls.json");
+            jEditor = new JSONEditor("../com/vojat/Data/Controls.json");
             jEditor.readFile(true);
             loadKeys();
 
@@ -129,13 +129,13 @@ public class KeyboardInput implements KeyListener {
             if (gamePanel.dad.LOCATION_X == 894) {
                             
                 gamePanel.dad.LOCATION_X = 825;
-                gamePanel.dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_L" + gamePanel.dad.getTextureModifier() + ".png");
+                gamePanel.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_L" + gamePanel.dad.getTextureModifier() + ".png");
             
             }
             else {
                 
                 gamePanel.dad.LOCATION_Y = 335;
-                gamePanel.dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + gamePanel.dad.getTextureModifier() + ".png");
+                gamePanel.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + gamePanel.dad.getTextureModifier() + ".png");
             
             }
 
@@ -148,7 +148,7 @@ public class KeyboardInput implements KeyListener {
 
             if (up) {
 
-                dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_B" + dad.getTextureModifier() + ".png");
+                dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_B" + dad.getTextureModifier() + ".png");
                 up = false;
                 
             }
@@ -159,7 +159,7 @@ public class KeyboardInput implements KeyListener {
 
             if (down) {
 
-                dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + dad.getTextureModifier() + ".png");
+                dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + dad.getTextureModifier() + ".png");
                 down = false;
                 
             }
@@ -170,7 +170,7 @@ public class KeyboardInput implements KeyListener {
 
             if (left) {
 
-                dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_L" + dad.getTextureModifier() + ".png");
+                dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_L" + dad.getTextureModifier() + ".png");
                 left = false;
                 
             }
@@ -181,7 +181,7 @@ public class KeyboardInput implements KeyListener {
 
             if (right) {
 
-                dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_R" + dad.getTextureModifier() + ".png");
+                dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_R" + dad.getTextureModifier() + ".png");
                 right = false;
                 
             }
@@ -259,7 +259,7 @@ public class KeyboardInput implements KeyListener {
 
     public void loadKeys() throws FileNotFoundException {
 
-        JSONEditor jse = new JSONEditor("src/com/vojat/Data/Controls.json");
+        JSONEditor jse = new JSONEditor("../com/vojat/Data/Controls.json");
         jse.readFile(true);
         if (Main.debug) System.out.println("DEBUG:\nJSON Objects NO.: " + jse.getNumberOfJSONObjects() + "\n");
 
@@ -287,19 +287,19 @@ public class KeyboardInput implements KeyListener {
         switch (direction) {
 
             case "up":
-                dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_B" + dad.getTextureModifier() + ".png");
+                dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_B" + dad.getTextureModifier() + ".png");
                 break;
 
             case "down":
-                dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + dad.getTextureModifier() + ".png");
+                dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + dad.getTextureModifier() + ".png");
                 break;
 
             case "left":
-                dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_L" + dad.getTextureModifier() + ".png");
+                dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_L" + dad.getTextureModifier() + ".png");
                 break;
 
             case "right":
-                dad.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_R" + dad.getTextureModifier() + ".png");
+                dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_R" + dad.getTextureModifier() + ".png");
                 break;
                 
         }

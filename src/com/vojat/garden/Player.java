@@ -68,7 +68,7 @@ public class Player {
         windowLimitY = limitY-170;
 
         // Sets the default player texture on startup to look forward
-        currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + getTextureModifier() + ".png");
+        currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + getTextureModifier() + ".png");
 
     }
 
@@ -96,7 +96,7 @@ public class Player {
 
     public int hurt(int dmg) {
 
-        if (dmg > 0 && this.HP - dmg > 0) Game.playSound("res/" + Game.texturePack + "/Audio/Damage.wav");
+        if (dmg > 0 && this.HP - dmg > 0) Game.playSound("../../res/" + Game.texturePack + "/Audio/Damage.wav");
 
         if (this.HP - dmg <= 0) {
 
@@ -123,7 +123,7 @@ public class Player {
         this.HP = 0;
         this.VECTORX = .0;
         this.VECTORY = .0;
-        this.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Grave.png");
+        this.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Grave.png");
 
         Game.alert = true;
         Game.alertMessage = "Do you want to reload your last save?";
@@ -131,7 +131,7 @@ public class Player {
         Game.warningMessage = "You are dead";
 
         Game.clip.stop();
-        Game.playSound("res/" + Game.texturePack + "/Audio/Death.wav");
+        Game.playSound("../../res/" + Game.texturePack + "/Audio/Death.wav");
         if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
 
     }
@@ -164,7 +164,7 @@ public class Player {
     public void setTextureModifier(char newTextureModifier) {
 
         this.textureModifier = newTextureModifier;
-        this.currentTexture = Game.setTexture("res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + getTextureModifier() + ".png");
+        this.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + getTextureModifier() + ".png");
 
     }
 

@@ -61,7 +61,7 @@ public class InventoryPanel extends JPanel{
     public static void repaintItem(int index, JLabel label, Player dad) {
 
         // Terrible fix, repair later
-        label.setIcon(new ImageIcon(new ImageIcon("res/" + Game.texturePack + "/Pics/" + (dad.inventory.get(index).charAt(0) == 'w' ? "Player" : "Flowers") + "/" + dad.inventory.get(index) + ".png").getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
+        label.setIcon(new ImageIcon(new ImageIcon("../../res/" + Game.texturePack + "/Pics/" + (dad.inventory.get(index).charAt(0) == 'w' ? "Player" : "Flowers") + "/" + dad.inventory.get(index) + ".png").getImage().getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH)));
         label.setBorder(new LineBorder(Color.BLACK, 2));
 
     }
@@ -228,7 +228,7 @@ public class InventoryPanel extends JPanel{
             }
 
             g2d.drawRect(Window.width/2 - 300 + 60*i, 10, 60, 60);
-            if (i < dad.inventory.size()) g2d.drawImage(new ImageIcon("res/" + Game.texturePack + "/Pics/" + (i == 0 ? "Player" : "Icons") + "/" + dad.inventory.get(i) + ".png").getImage(), Window.width/2 - 300 + 60*i, 10, 60, 60, null);
+            if (i < dad.inventory.size()) g2d.drawImage(new ImageIcon("../../res/" + Game.texturePack + "/Pics/" + (i == 0 ? "Player" : "Icons") + "/" + dad.inventory.get(i) + ".png").getImage(), Window.width/2 - 300 + 60*i, 10, 60, 60, null);
         }
 
         /*
