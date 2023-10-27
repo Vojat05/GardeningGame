@@ -273,4 +273,5 @@ EXE file is made for every update documented here<br>
     <li> + Added .exe game launcher made in C++</li>
     <li> + Added Build.exe to build the game yourself</li>
     <li> + Added game icon</li>
+    <li> * Save menu hover and selected slot effect fixed</li>
 </ul>
