@@ -1,5 +1,5 @@
 # Gardening Game
-<b>DO NOT MOVE THE JAR FILE!!</b> 
+<b>DO NOT MOVE THE EXE FILE!!</b> 
 Otherwise it won't load the images<br>
 Compiled on the <code>Java 17.0.1</code> version
 
