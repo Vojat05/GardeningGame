@@ -1,10 +1,8 @@
 #include <stdlib.h>
-#include <iostream>
-
-using namespace std;
+#include <stdio.h>
 
 int main() {
-	cout << endl << "Running GargeningGame" << endl;
+	printf("Running GardeningGame\n");
 	system("cd src/build & java com/vojat/Main & cd ../..");
 	return 0;
 }
