@@ -7,12 +7,12 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Random;
 import java.awt.Dimension;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -144,6 +144,7 @@ public class GamePanel extends JPanel {
     public void setSaveNumber(int value) {
 
         this.selectedSaveSlotNumber = value;
+        this.repaint();
 
     }
 

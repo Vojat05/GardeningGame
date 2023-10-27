@@ -680,6 +680,7 @@ public class Game implements Runnable {
                 previousTime = now;
                 
                 if (deltaF >= 1) deltaF--;
+                if (gamePanel.hasFocus() && gamePanel.saveMenuOpen) gamePanel.repaint();
                 continue;
                 
             }

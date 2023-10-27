@@ -64,6 +64,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
         if (Game.alert || gamePanel.saveMenuOpen) {
 
             if (gamePanel.saveMenuOpen) {
+                // Save menu interaction
 
                 if ( !(e.getX() >= 772 && e.getX() <= 1132) ) return;
 
