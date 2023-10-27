@@ -153,7 +153,7 @@ public class Game implements Runnable {
         // Sets / Re-sets the tutorial box with every instance
         try {
 
-            JSONEditor jsonEditor = new JSONEditor("../../res/Language/" + langFileName);
+            JSONEditor jsonEditor = new JSONEditor("./res/Language/" + langFileName);
             tutorialStringPulledData = jsonEditor.readData("Tutorial-Data");
 
         } catch (IOException e) {
@@ -223,7 +223,7 @@ public class Game implements Runnable {
         gameLoop = new Thread(this);
         gameLoop.start();
 
-        rainClip = playSound("../../res/" + texturePack + "/Audio/Rain.wav");
+        rainClip = playSound("./res/" + texturePack + "/Audio/Rain.wav");
         rainClip.stop();
         rainClip.setFramePosition(0);
 
@@ -520,18 +520,18 @@ public class Game implements Runnable {
             // Bird flapping wings
             if (intoMapX(bird.positionX) % 2 == 0) {
 
-                bird.texture = setTexture("../../res/" + texturePack + "/Pics/Pigeon1.png");
+                bird.texture = setTexture("./res/" + texturePack + "/Pics/Pigeon1.png");
 
             } else {
 
-                bird.texture = setTexture("../../res/" + texturePack + "/Pics/Pigeon2.png");
+                bird.texture = setTexture("./res/" + texturePack + "/Pics/Pigeon2.png");
 
             }
 
             // Bird shit detection
             if (bird.drawShit && intoMapY(bird.shitPositionY - 30) == intoMapY(gamePanel.dad.LOCATION_Y + 64) && intoMapX(bird.shitPositionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) {
 
-                if (gamePanel.dad.HP == 0) gamePanel.dad.currentTexture = setTexture("../../res/" + texturePack + "/Pics/Player/GraveShit.png");
+                if (gamePanel.dad.HP == 0) gamePanel.dad.currentTexture = setTexture("./res/" + texturePack + "/Pics/Player/GraveShit.png");
                 if (gamePanel.dad.HP != 0) gamePanel.dad.hurt(5);
 
                 bird.shitPositionY = Window.height;
@@ -563,7 +563,7 @@ public class Game implements Runnable {
         // Enter house logic
         if (gamePanel.dad.level == 0 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
 
-            playSound("../../res/" + texturePack + "/Audio/DoorInteract.wav");
+            playSound("./res/" + texturePack + "/Audio/DoorInteract.wav");
             gamePanel.dad.level = 1;
             gamePanel.dad.LOCATION_X = 638;
             gamePanel.dad.LOCATION_Y = 810;
@@ -575,7 +575,7 @@ public class Game implements Runnable {
         // Exit house logic
         if (gamePanel.dad.level == 1 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 5 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
 
-            playSound("../../res/" + texturePack +  "/Audio/DoorInteract.wav");
+            playSound("./res/" + texturePack +  "/Audio/DoorInteract.wav");
             gamePanel.dad.level = 0;
             gamePanel.dad.LOCATION_X = 240;
             gamePanel.dad.LOCATION_Y = 200;
@@ -657,7 +657,7 @@ public class Game implements Runnable {
         // The in-game audio player
         try {
 
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("../../res/" + texturePack + "/Audio/GameMusic.wav"));
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("./res/" + texturePack + "/Audio/GameMusic.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.setFramePosition(0);
@@ -761,7 +761,7 @@ public class Game implements Runnable {
                     
                         plant.STATUS = "Dead";
                         plant.CURRENT_TEXTURE = plant.setTexture(plant.DEAD_TEXTURE);
-                        playSound("../../res/" + texturePack + "/Audio/MagicSound.wav");
+                        playSound("./res/" + texturePack + "/Audio/MagicSound.wav");
                         continue;
                     
                     } else if (plant.STATUS.equals("Dead") && plant.TIME_TO_DISSAPEAR <= System.currentTimeMillis()) {

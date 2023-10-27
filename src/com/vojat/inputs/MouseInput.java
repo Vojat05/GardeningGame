@@ -73,7 +73,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     if (e.getY() >= 185 + i * 60 && e.getY() <= 235 + i * 60) {
                         
                         gamePanel.setSaveNumber(i);
-                        Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
+                        Game.playSound("./res/" + Game.texturePack + "/Audio/Button.wav");
                         break;
                     
                     }
@@ -90,7 +90,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     if (Game.save != -1 && Game.alertMessage.equals("Do you want to reload your last save?")) {
                         
                         new Game(1920, 1075, Main.window);
-                        Game.loadGame("../com/vojat/Data/Saves/Save" + Game.save + ".json", Game.save);
+                        Game.loadGame("src/com/vojat/Data/Saves/Save" + Game.save + ".json", Game.save);
                         Game.alert = false;
                         Game.warning = false;
                     
@@ -116,7 +116,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     } else if (Game.alertMessage.equals("")) {
 
                         // The save box options
-                        Game.saveGame("../com/vojat/Data/Saves/Save" + gamePanel.getSaveNumber() + ".json", gamePanel.dad, (byte) gamePanel.getSaveNumber());
+                        Game.saveGame("src/com/vojat/Data/Saves/Save" + gamePanel.getSaveNumber() + ".json", gamePanel.dad, (byte) gamePanel.getSaveNumber());
                         gamePanel.hideSaveMenu();
                         gamePanel.dad.LOCATION_X = 208;
                         gamePanel.dad.LOCATION_Y = 120;
@@ -130,7 +130,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                     }
 
-                    Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
+                    Game.playSound("./res/" + Game.texturePack + "/Audio/Button.wav");
 
                 } catch (FileNotFoundException fne) {
                     
@@ -167,7 +167,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     
                 }
 
-                Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
+                Game.playSound("./res/" + Game.texturePack + "/Audio/Button.wav");
 
             }
 
@@ -181,7 +181,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             if ( (e.getX() >= 1550 && e.getX() <= 1600) && (e.getY() <=923 && e.getY() >= 875) ) {
 
                 Game.firstStart = false;
-                Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
+                Game.playSound("./res/" + Game.texturePack + "/Audio/Button.wav");
 
             }
         }
@@ -220,7 +220,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         }
 
                         gamePanel.dad.waterRefill();
-                        Game.playSound("../../res/" + Game.texturePack + "/Audio/WaterPour.wav");
+                        Game.playSound("./res/" + Game.texturePack + "/Audio/WaterPour.wav");
                         
                     }
 
@@ -272,7 +272,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         } else if (controlVariableX == 2 && controlVariableY == 2) return;
 
                         // Creates a flower object if the area isn't being occupied or out of reach
-                        Game.playSound("../../res/" + Game.texturePack + "/Audio/Plant.wav");
+                        Game.playSound("./res/" + Game.texturePack + "/Audio/Plant.wav");
                         flower = new Flower(gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", Game.flowers.size());
                         gamePanel.dad.plant(flower);
 
@@ -299,7 +299,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                             
                             }
 
-                            Game.playSound("../../res/" + Game.texturePack + "/Audio/WaterPlant.wav");
+                            Game.playSound("./res/" + Game.texturePack + "/Audio/WaterPlant.wav");
 
                             // Checks & selects the plant based on clicked location
                             for (Flower plant : Game.flowers) {
@@ -340,7 +340,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                     try {
 
-                        Game.saveGame("../com/vojat/Data/Saves/Save3.json", gamePanel.dad, (byte) 3);
+                        Game.saveGame("src/com/vojat/Data/Saves/Save3.json", gamePanel.dad, (byte) 3);
 
                     } catch (FileNotFoundException f) {
 
@@ -457,7 +457,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 gamePanel.dad.setMove(false);
                 gamePanel.showSaveMenu();
                 Game.alertMessage = "";
-                Game.playSound("../../res/" + Game.texturePack + "/Audio/BedSqueak.wav");
+                Game.playSound("./res/" + Game.texturePack + "/Audio/BedSqueak.wav");
                 Game.pauseGame();
                 break;
             
@@ -499,7 +499,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                 }
 
-                Game.playSound("../../res/" + Game.texturePack + "/Audio/BedSqueak.wav");
+                Game.playSound("./res/" + Game.texturePack + "/Audio/BedSqueak.wav");
 
                 if (gamePanel.dad.LOCATION_X < 845) {
 
@@ -514,7 +514,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 }
 
                 gamePanel.dad.setMove(false);
-                gamePanel.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_Sitting.png");
+                gamePanel.dad.currentTexture = Game.setTexture("./res/" + Game.texturePack + "/Pics/Player/Dad_Texture_Sitting.png");
                 break;
             
             default:
