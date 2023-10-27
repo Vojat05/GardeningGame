@@ -1,2 +1,3 @@
 *.jar binary
 *.exe binary
+*.class binary
