@@ -79,7 +79,7 @@ public class Settings extends JPanel {
         addMouseListener(mi);
 
         try {
-            jEditor = new JSONEditor("src/com/vojat/Data/Controls.json");
+            jEditor = new JSONEditor("../com/vojat/Data/Controls.json");
             jEditor.readFile(true);
         } catch(FileNotFoundException fne) {
             System.err.println(ErrorList.ERR_404.message);
@@ -162,7 +162,7 @@ public class Settings extends JPanel {
             MenuPanel.buttonSetup(restore, 150, 40, false);
             restore.addActionListener((e) -> {
                 try {
-                    JSONEditor jEditor2 = new JSONEditor("src/com/vojat/Data/ControlsDefault.json");
+                    JSONEditor jEditor2 = new JSONEditor("../com/vojat/Data/ControlsDefault.json");
                     jEditor2.readFile(true);
                     int picker = 0;
                     
