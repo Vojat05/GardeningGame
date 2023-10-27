@@ -231,7 +231,7 @@ public class JSONEditor {
         String key = "";
         String data = "";
         HashMap<String, String> map = new HashMap<>();
-        jsonData = jsonData.substring(7, jsonData.length());
+        jsonData = jsonData.substring(6, jsonData.length());
         System.out.println(jsonData);
 
         for (int i=0; i<jsonData.length(); i++) {
