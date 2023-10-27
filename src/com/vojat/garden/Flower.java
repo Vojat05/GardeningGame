@@ -34,10 +34,10 @@ public class Flower {
 
     public Flower(String type, int locationX, int locationY, String status, int number) {
         
-        this.baseTexture = setTexture("./res/" + Game.texturePack + "/Pics/Garden/Grass" + Game.random.nextInt(1, 3) + ".png");
-        this.ALIVE_TEXTURE = "./res/" + Game.texturePack + "/Pics/Flowers/" + type + ".png";
-        this.THIRSTY_TEXTURE = "./res/" + Game.texturePack + "/Pics/Flowers/" + type + "_thirsty.png";
-        this.DEAD_TEXTURE = "./res/" + Game.texturePack + "/Pics/Flowers/" + type + "_dead.png";
+        this.baseTexture = setTexture("../../res/" + Game.texturePack + "/Pics/Garden/Grass" + Game.random.nextInt(1, 3) + ".png");
+        this.ALIVE_TEXTURE = "../../res/" + Game.texturePack + "/Pics/Flowers/" + type + ".png";
+        this.THIRSTY_TEXTURE = "../../res/" + Game.texturePack + "/Pics/Flowers/" + type + "_thirsty.png";
+        this.DEAD_TEXTURE = "../../res/" + Game.texturePack + "/Pics/Flowers/" + type + "_dead.png";
         this.TYPE = type;
         this.LOCATION_X = locationX;
         this.LOCATION_Y = locationY;
@@ -58,10 +58,10 @@ public class Flower {
 
     public Flower(String type, int locationX, int locationY, String status, int number, int dieTime) {
 
-        this.baseTexture = setTexture("./res/" + Game.texturePack + "/Pics/Garden/Grass" + Game.random.nextInt(1, 3) + ".png");
-        this.ALIVE_TEXTURE = "./res/" + Game.texturePack + "/Pics/Flowers/" + type + ".png";
-        this.THIRSTY_TEXTURE = "./res/" + Game.texturePack + "/Pics/Flowers/" + type + "_thirsty.png";
-        this.DEAD_TEXTURE = "./res/" + Game.texturePack + "/Pics/Flowers/" + type + "_dead.png";
+        this.baseTexture = setTexture("../../res/" + Game.texturePack + "/Pics/Garden/Grass" + Game.random.nextInt(1, 3) + ".png");
+        this.ALIVE_TEXTURE = "../../res/" + Game.texturePack + "/Pics/Flowers/" + type + ".png";
+        this.THIRSTY_TEXTURE = "../../res/" + Game.texturePack + "/Pics/Flowers/" + type + "_thirsty.png";
+        this.DEAD_TEXTURE = "../../res/" + Game.texturePack + "/Pics/Flowers/" + type + "_dead.png";
         this.TIME_TO_DIE = dieTime + System.currentTimeMillis();
         this.TIME_TO_DISSAPEAR = dieTime + 20000 + System.currentTimeMillis();
         this.TYPE = type;

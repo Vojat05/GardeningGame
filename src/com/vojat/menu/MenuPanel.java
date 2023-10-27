@@ -47,7 +47,7 @@ public class MenuPanel extends JPanel{
         loadMenu = new Load(Main.sizeX, Main.sizeY, buttonPanel, spacer);
         
         // Create the start new game button
-        JButton start = new JButton(InventoryPanel.createIcon("./res/" + Game.texturePack + "/Pics/Buttons/New.png", 150, 40));
+        JButton start = new JButton(InventoryPanel.createIcon("../../res/" + Game.texturePack + "/Pics/Buttons/New.png", 150, 40));
         {
             start.addActionListener((e) -> {
                 new Game(1920, 1075, window);
@@ -56,7 +56,7 @@ public class MenuPanel extends JPanel{
         }
 
         // Create the load game button
-        JButton load = new JButton(InventoryPanel.createIcon("./res/" + Game.texturePack + "/Pics/Buttons/Load.png", 150, 40));
+        JButton load = new JButton(InventoryPanel.createIcon("../../res/" + Game.texturePack + "/Pics/Buttons/Load.png", 150, 40));
         {
             load.addActionListener((e) -> {
                 loadMenu.changeVisibility(buttonPanel, spacer);
@@ -67,7 +67,7 @@ public class MenuPanel extends JPanel{
         }
 
         // Create the options button
-        JButton options = new JButton(InventoryPanel.createIcon("./res/" + Game.texturePack + "/Pics/Buttons/Options.png", 150, 40));
+        JButton options = new JButton(InventoryPanel.createIcon("../../res/" + Game.texturePack + "/Pics/Buttons/Options.png", 150, 40));
         {
             options.addActionListener((e) -> {
                 settings.changeVisibility(buttonPanel, spacer);
@@ -78,7 +78,7 @@ public class MenuPanel extends JPanel{
         }
 
         // Exit button
-        JButton exit = new JButton(InventoryPanel.createIcon("./res/" + Game.texturePack + "/Pics/Buttons/Exit.png", 150, 40));
+        JButton exit = new JButton(InventoryPanel.createIcon("../../res/" + Game.texturePack + "/Pics/Buttons/Exit.png", 150, 40));
         {
             exit.addActionListener((e) -> {
                 window.dispose();
@@ -95,7 +95,7 @@ public class MenuPanel extends JPanel{
 
         {
             JLabel logo = new JLabel();
-            InventoryPanel.repaintItem(logo, "./res/" + Game.texturePack + "/Pics/Game_Logo.png");
+            InventoryPanel.repaintItem(logo, "../../res/" + Game.texturePack + "/Pics/Game_Logo.png");
 
             JPanel spacer1 = new JPanel();
             spacer1.setBackground(null);
