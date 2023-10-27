@@ -106,18 +106,18 @@ public class Load extends JPanel {
             }
 
             // If the specific file has a save point, it shows a floppy icon
-            if (new File("../com/vojat/Data/Saves/Save" + (i+1) + ".json").isFile()) {
+            if (new File("src/com/vojat/Data/Saves/Save" + (i+1) + ".json").isFile()) {
                 JLabel saveFilePicture = new JLabel();
                 JButton deleteSaveButton = new JButton("Delete");
                 {
-                    InventoryPanel.repaintItem(saveFilePicture, "../../res/" + Game.texturePack + "/Pics/save.png");
+                    InventoryPanel.repaintItem(saveFilePicture, "./res/" + Game.texturePack + "/Pics/save.png");
                     spacer.add(saveFilePicture);
 
                     // Deletes the save file and "restarts" the panel
                     deleteSaveButton.setPreferredSize(new Dimension(150, 40));
                     deleteSaveButton.setName(String.valueOf(i));
                     deleteSaveButton.addActionListener((e) -> {
-                        new File("../com/vojat/Data/Saves/Save" + (Integer.parseInt(deleteSaveButton.getName())+1) + ".json").delete();
+                        new File("src/com/vojat/Data/Saves/Save" + (Integer.parseInt(deleteSaveButton.getName())+1) + ".json").delete();
                         changeVisibility(buttonPanelT, spacerT);
                         changeVisibility(buttonPanelT, spacerT);
                         createDataBlocks(window);
@@ -137,15 +137,15 @@ public class Load extends JPanel {
     // This method is called when the load button is pressed
     private void buttonPress(JButton button, int saveNumber, Window window) {
         try {
-            if (!(new File("../com/vojat/Data/Saves/Save" + saveNumber + ".json").isFile())) {
+            if (!(new File("src/com/vojat/Data/Saves/Save" + saveNumber + ".json").isFile())) {
                 if (Main.debug) {
                     System.out.println("Creating File");
-                    JSONEditor.createFile("../com/vojat/Data/Saves/Save" + saveNumber + ".json");
+                    JSONEditor.createFile("src/com/vojat/Data/Saves/Save" + saveNumber + ".json");
                 }
             } else {
                 changeVisibility(buttonPanelT, spacerT);
                 new Game(1920, 1075, window);
-                Game.loadGame("../com/vojat/Data/Saves/Save" + saveNumber + ".json", (byte) saveNumber);
+                Game.loadGame("src/com/vojat/Data/Saves/Save" + saveNumber + ".json", (byte) saveNumber);
             }
         } catch (IOException e) {
             System.err.println(ErrorList.ERR_404.message);
@@ -155,7 +155,7 @@ public class Load extends JPanel {
 
     // Creates a button to be passed to the block
     public void createButton(JPanel panel, Window window) {
-        JButton button = new JButton(InventoryPanel.createIcon("../../res/" + Game.texturePack + "/Pics/Buttons/Load.png", 150, 40));
+        JButton button = new JButton(InventoryPanel.createIcon("./res/" + Game.texturePack + "/Pics/Buttons/Load.png", 150, 40));
         int saveNumber = blocks.indexOf(panel)+1;
         button.addActionListener((e) -> buttonPress(button, saveNumber, window));
         button.setPreferredSize(new Dimension(150, 40));

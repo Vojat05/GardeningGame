@@ -37,7 +37,7 @@ public class Window extends JFrame {
         
         setTitle("Dad The Gardener");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setIconImage(new ImageIcon("../../res/" + Game.texturePack + "/Pics/Icons/tulip.png").getImage());
+        setIconImage(new ImageIcon("./res/" + Game.texturePack + "/Pics/Icons/tulip.png").getImage());
 
         pack();
         setSize(new Dimension(Main.sizeX, Main.sizeY));
