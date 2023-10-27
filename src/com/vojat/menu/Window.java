@@ -3,10 +3,12 @@ package com.vojat.menu;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import com.vojat.Main;
+import com.vojat.garden.Game;
 import com.vojat.garden.MainPanel;
 import com.vojat.garden.Player;
 
@@ -35,6 +37,7 @@ public class Window extends JFrame {
         
         setTitle("Dad The Gardener");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setIconImage(new ImageIcon("../../res/" + Game.texturePack + "/Pics/Icons/tulip.png").getImage());
 
         pack();
         setSize(new Dimension(Main.sizeX, Main.sizeY));
