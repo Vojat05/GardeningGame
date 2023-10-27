@@ -267,3 +267,9 @@ EXE file is made for every update documented here<br>
 <ul>
     <li> * Player light is now functional</li>
 </ul>
+
+## 27/10/2023
+<ul>
+    <li> + Added .exe game launcher made in C++</li>
+    <li> + Added Build.exe to build the game yourself</li>
+</ul>
