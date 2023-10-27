@@ -232,6 +232,7 @@ public class JSONEditor {
         String data = "";
         HashMap<String, String> map = new HashMap<>();
         jsonData = jsonData.substring(7, jsonData.length());
+        System.out.println(jsonData);
 
         for (int i=0; i<jsonData.length(); i++) {
 
@@ -278,6 +279,7 @@ public class JSONEditor {
             }
         }
         
+        System.out.println(map.get(request));
         return map.get(request);
     }
 
