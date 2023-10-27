@@ -3,6 +3,8 @@ package com.vojat.menu;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -64,6 +66,7 @@ public class Settings extends JPanel {
      * --------------------------------------------------------------------------------
      */
 
+
     public Settings(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer, MenuPanel manuPanel) {
         menuPanel = manuPanel;
 
@@ -76,7 +79,7 @@ public class Settings extends JPanel {
         addMouseListener(mi);
 
         try {
-            jEditor = new JSONEditor("src/com/vojat/Data/Controls.json");
+            jEditor = new JSONEditor("../com/vojat/Data/Controls.json");
             jEditor.readFile(true);
         } catch(FileNotFoundException fne) {
             System.err.println(ErrorList.ERR_404.message);
@@ -159,7 +162,7 @@ public class Settings extends JPanel {
             MenuPanel.buttonSetup(restore, 150, 40, false);
             restore.addActionListener((e) -> {
                 try {
-                    JSONEditor jEditor2 = new JSONEditor("src/com/vojat/Data/ControlsDefault.json");
+                    JSONEditor jEditor2 = new JSONEditor("../com/vojat/Data/ControlsDefault.json");
                     jEditor2.readFile(true);
                     int picker = 0;
                     
@@ -303,5 +306,12 @@ public class Settings extends JPanel {
         buttonPanel.setVisible(!visible);
         spacer.setVisible(!visible);
         menuPanel.repaint();
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        
     }
 }
