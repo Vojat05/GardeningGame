@@ -270,8 +270,9 @@ EXE file is made for every update documented here<br>
 
 ## 27/10/2023
 <ul>
-    <li> + Added .exe game launcher made in C++</li>
-    <li> + Added Build.exe to build the game yourself</li>
+    <li> + Added .exe game launcher made in C</li>
+    <li> + Added Build.exe to build the game yourself made in C</li>
     <li> + Added game icon</li>
     <li> * Save menu hover and selected slot effect fixed</li>
+    <li> * Night lamp is now a gradient circle</li>
 </ul>

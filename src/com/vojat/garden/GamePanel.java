@@ -2,9 +2,11 @@ package com.vojat.garden;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RadialGradientPaint;
 import java.awt.RenderingHints;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
@@ -685,32 +687,28 @@ public class GamePanel extends JPanel {
 
         if (easeDayNight > 0) {
 
-            g2d.setPaint(new Color(6, 10, 12, (int) easeDayNight));
+            Color nightColor = new Color(6, 10, 12, (int) easeDayNight);
+            g2d.setPaint(nightColor);
 
             if (dad.selectedItem == 2) {
+
+                Point2D center = new Point2D.Float((float) (dad.LOCATION_X + 64), (float) (dad.LOCATION_Y + 64));
+                float radius = 150f;
+                float[] dist = {0.0f, 1.0f};
+                Color[] colors = {new Color(100, 80, 20, (int) (easeDayNight - easeDayNight * Math.pow(5, -1))), nightColor};
+
+                RadialGradientPaint gradient = new RadialGradientPaint(center, radius, dist, colors);
 
                 // Player has the light selected
                 Area background = new Area(new Rectangle2D.Double(0, 0, Window.width, Window.height));
                 Area lightCircle = new Area(new Ellipse2D.Double(dad.LOCATION_X - 86, dad.LOCATION_Y - 86, 300, 300));
-                Area light6 = new Area(new Ellipse2D.Double(dad.LOCATION_X - 61, dad.LOCATION_Y - 61, 250, 250));
-                Area light5 = new Area(new Ellipse2D.Double(dad.LOCATION_X - 36, dad.LOCATION_Y - 36, 200, 200));
-                Area light4 = new Area(new Ellipse2D.Double(dad.LOCATION_X - 11, dad.LOCATION_Y - 11, 150, 150));
 
                 background.subtract(lightCircle);
-                lightCircle.subtract(light6);
-                light6.subtract(light5);
-                light5.subtract(light4);
 
-
-                g2d.fill(background);
-                g2d.setPaint(new Color(20, 15, 5, (int) (easeDayNight - easeDayNight * Math.pow(10, -1))));
-                g2d.fill(lightCircle);
-                g2d.setPaint(new Color(40, 31, 8, (int) (easeDayNight - easeDayNight * Math.pow(9, -1))));
-                g2d.fill(light6);
-                g2d.setPaint(new Color(65, 51, 14, (int) (easeDayNight - easeDayNight * Math.pow(7, -1))));
-                g2d.fill(light5);
-                g2d.setPaint(new Color(100, 80, 20, (int) (easeDayNight - easeDayNight * Math.pow(5, -1))));
-                g2d.fill(light4);
+                //g2d.fill(background);
+                g2d.setPaint(gradient);
+                g2d.fillArc((int) (dad.LOCATION_X - Window.width), (int) (dad.LOCATION_Y - Window.width), Window.width * 2, Window.width * 2, 0, 360);
+                //g2d.fill(lightCircle);
 
             } else g2d.fillRect(0, 0, Window.width, Window.height);
 
