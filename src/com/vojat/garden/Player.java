@@ -25,6 +25,7 @@ public class Player {
     public int HP = 100;                                                    // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
     public int stamina = 100;                                               // Player stamina for the player to run on the tiles
     public boolean outOfStamina = false;                                    // Does the player have a 0 stamina penalty
+    public boolean isSitting = false;                                       // Is the player character sitting?
     private boolean canMove = true;                                         // Can player can move around or not?
     private char textureModifier = '0';                                     // Changes the players skin
 

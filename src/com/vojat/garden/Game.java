@@ -772,7 +772,7 @@ public class Game implements Runnable {
                     
                     }
 
-                    if (isRaining()) plant.resetTime();
+                    if (isRaining() && !plant.STATUS.equals("Dead")) plant.resetTime();
                 }
 
                 // Resets the FPS counter each second
@@ -801,7 +801,7 @@ public class Game implements Runnable {
                     gamePanel.dad.outOfStamina = true;
                     error("Out of stamina", 3);
 
-                } else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100) {
+                } else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100 && !gamePanel.dad.isSitting) {
 
                     gamePanel.dad.setMove(true);
                     gamePanel.dad.outOfStamina = false;

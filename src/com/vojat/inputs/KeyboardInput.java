@@ -122,9 +122,9 @@ public class KeyboardInput implements KeyListener {
         }
 
         // Exit couch via using a shift key
-        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT && !gamePanel.dad.canMove()) {
 
-            if (gamePanel.dad.level == 0 || gamePanel.dad.canMove()) return;
+            if (gamePanel.dad.level == 0) return;
 
             if (gamePanel.dad.LOCATION_X == 894) {
                             
@@ -205,7 +205,7 @@ public class KeyboardInput implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
-        if (dad == null || dad.HP == 0) return;
+        if (dad == null || dad.HP == 0 || !dad.canMove()) return;
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("up"))) {
 
             up = true;
