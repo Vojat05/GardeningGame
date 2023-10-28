@@ -1,5 +1,6 @@
 TODO: Put this into order of the most > least difficult & needed changes
 
+- Make flower info stick that behaves like bino in ARK
 - Make a single space in map 9 spaces
 - Make weather ( rain ) when it's night, when it rains the flowers don't need to be watered ( Big .png file with only raindrops with a repetitive patern is slowly moved down and at the end teleported back up )
 - Redesign the options menu
