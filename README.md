@@ -3,6 +3,9 @@
 Otherwise it won't load the images<br>
 Compiled on the <code>Java 17.0.1</code> version
 
+To keep the terminal open, run the GardeningGame.exe with an argument <code>cmd</code>.
+This can be done by opening the directory in a terminal and writing <code>./GardeningGame.exe cmd</code>.
+
 This game is about a father watering plants.<br>
 The objective of this game is to plant flowers and not let them die.
 

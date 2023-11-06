@@ -276,3 +276,8 @@ EXE file is made for every update documented here<br>
     <li> * Save menu hover and selected slot effect fixed</li>
     <li> * Night lamp is now a gradient circle</li>
 </ul>
+
+## 6/11/2023
+<ul>
+    <li> * The run script in C closes the terminal on default, but keeps it open with the "cmd" argument</li>
+</ul>
