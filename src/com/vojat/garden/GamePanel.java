@@ -4,10 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RadialGradientPaint;
 import java.awt.RenderingHints;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import java.awt.BasicStroke;
@@ -696,19 +693,10 @@ public class GamePanel extends JPanel {
                 float radius = 150f;
                 float[] dist = {0.0f, 1.0f};
                 Color[] colors = {new Color(100, 80, 20, (int) (easeDayNight - easeDayNight * Math.pow(5, -1))), nightColor};
-
                 RadialGradientPaint gradient = new RadialGradientPaint(center, radius, dist, colors);
 
-                // Player has the light selected
-                Area background = new Area(new Rectangle2D.Double(0, 0, Window.width, Window.height));
-                Area lightCircle = new Area(new Ellipse2D.Double(dad.LOCATION_X - 86, dad.LOCATION_Y - 86, 300, 300));
-
-                background.subtract(lightCircle);
-
-                //g2d.fill(background);
                 g2d.setPaint(gradient);
                 g2d.fillArc((int) (dad.LOCATION_X - Window.width), (int) (dad.LOCATION_Y - Window.width), Window.width * 2, Window.width * 2, 0, 360);
-                //g2d.fill(lightCircle);
 
             } else g2d.fillRect(0, 0, Window.width, Window.height);
 
