@@ -95,6 +95,7 @@ public class Player {
 
     }
 
+    // Deals damage to the player // negative dmg heals the player
     public int hurt(int dmg) {
 
         if (dmg > 0 && this.HP - dmg > 0) Game.playSound("../../res/" + Game.texturePack + "/Audio/Damage.wav");
@@ -119,6 +120,7 @@ public class Player {
 
     }
 
+    // Instantly kills the player
     public void kill() {
 
         this.HP = 0;
@@ -137,6 +139,7 @@ public class Player {
 
     }
 
+    // Sets the player health to a certian value
     public int setHealth(int HP) {
 
         if (HP == 0) kill();
@@ -145,6 +148,7 @@ public class Player {
 
     }
 
+    // Removes the player stamina tiring him // The same as hurt, just for stamina
     public int tire(int value) {
 
         if (this.stamina - value <= 0) this.stamina = 0;
@@ -156,12 +160,14 @@ public class Player {
 
     }
 
+    // Returns the currently used texture modifier for selecting player texture
     public char getTextureModifier() {
 
         return this.textureModifier;
 
     }
 
+    // Sets the player texture modifier
     public void setTextureModifier(char newTextureModifier) {
 
         this.textureModifier = newTextureModifier;
@@ -169,12 +175,14 @@ public class Player {
 
     }
 
+    // Returns the player move value
     public boolean canMove() {
 
         return this.canMove;
 
     }
 
+    // Sets the player move value
     public boolean setMove(boolean value) {
 
         if (!value) {

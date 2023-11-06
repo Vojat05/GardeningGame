@@ -653,6 +653,7 @@ public class Game implements Runnable {
         short fps = 0;
         long lastCheck = System.currentTimeMillis();
         double deltaF = 0;
+        short animationTick = 100;
 
         // The in-game audio player
         try {
@@ -709,6 +710,11 @@ public class Game implements Runnable {
                 if (gamePanel.hasFocus()) gamePanel.repaint();
                 fps++;
                 deltaF--;
+            }
+
+            // Happens animationTick times per second ( default 100 / 10 )
+            if (System.currentTimeMillis() - lastCheck >= animationTick) {
+                animationTick += 100;
             }
 
             // The FPS counter. This occures ever second
@@ -778,6 +784,7 @@ public class Game implements Runnable {
                 // Resets the FPS counter each second
                 fps = 0;
                 seconds++;
+                animationTick = 100;
                 if (errorTime != 0) errorTime--;
                 if (errorTime == 0) errorMessage = "";
 
@@ -987,14 +994,14 @@ public class Game implements Runnable {
     // Gets the theoretical X location in the map
     public static int intoMapX(double positionX) {
 
-        return (int) positionX/128;
+        return (int) (positionX * .0078125);
 
     }
 
     // Gets the theoretical Y location in the map
     public static int intoMapY(double positionY) {
 
-        return (int) positionY/128;
+        return (int) (positionY * .0078125);
 
     }
 
