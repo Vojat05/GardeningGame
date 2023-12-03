@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 	if (argc > 1 && ( strcmp(argv[1], "cmd") == 0 )) {
 
 		printf("Running GardeningGame\n");
-		system("cd src/build & java com/vojat/Main & cd ../..");
+		system("cd src/build & java.exe com/vojat/Main & cd ../..");
 
 	} else {
 
@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 		ShowWindow(hWind, SW_MINIMIZE);
 		ShowWindow(hWind, SW_HIDE);
 
-		system("cd src/build & java com/vojat/Main & cd ../..");
+		system("cd src/build & java.exe com/vojat/Main & cd ../..");
 	
 	}
 

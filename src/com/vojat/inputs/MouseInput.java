@@ -197,12 +197,12 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 // Player level check  |  0 == outside & 1 == inside
                 if (gamePanel.dad.level == 1) {
 
-                    interact((int) Game.houseMap[controlVariableY][controlVariableX] - 48);
+                    interact((int) Game.houseMap.read(controlVariableX, controlVariableY) - 48);
 
                 } else {
 
                     // Stop the watering if water isn't selected or if the water is empty or is out of reach
-                    if (Game.map[controlVariableY][controlVariableX] == '4') {
+                    if (Game.map.read(controlVariableX, controlVariableY) == '4') {
 
                         // Distance check
                         if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
@@ -234,8 +234,8 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                             Game.error("Out of reach", 3);
                             return;
 
-                        } else if ((int) Game.map[controlVariableY][controlVariableX] == 52) return;
-                        else if ((int) Game.map[controlVariableY][controlVariableX] >= 50) {
+                        } else if ((int) Game.map.read(controlVariableX, controlVariableY) == 52) return;
+                        else if ((int) Game.map.read(controlVariableX, controlVariableY) >= 50) {
                             
                             // Checks if the desired area is occupied or not
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
@@ -244,7 +244,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                         } else if (controlVariableX == 2 && controlVariableY == 2) return;
 
-                        Game.map[controlVariableY][controlVariableX] = '6';
+                        Game.map.write(controlVariableX, controlVariableY, '6');
 
                     } else if (gamePanel.dad.selectedItem > gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && gamePanel.dad.selectedItem <= Game.flowerTypes.length + gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && controlVariableY != 7) {
 
@@ -261,8 +261,8 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                             Game.error("Too close", 3);
                             return;
                         
-                        } else if ((int) Game.map[controlVariableY][controlVariableX] == 52) return;
-                        else if ((int) Game.map[controlVariableY][controlVariableX] >= 50) {
+                        } else if ((int) Game.map.read(controlVariableX, controlVariableY) == 52) return;
+                        else if ((int) Game.map.read(controlVariableX, controlVariableY) >= 50) {
                             
                             // Checks if the desired area is occupied or not
                             System.err.println(ErrorList.ERR_CANTPLANT.message);
@@ -277,13 +277,13 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         gamePanel.dad.plant(flower);
 
                         // Writes it's value into map
-                        Game.wirteIntoMap(controlVariableY, controlVariableX, 2);
+                        Game.map.write(controlVariableX, controlVariableY, 2);
 
                     } else if(gamePanel.dad.selectedItem == 0) {
 
                         if (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
 
-                            if (!(Game.map[controlVariableY][controlVariableX] == '2')) return;
+                            if (!(Game.map.read(controlVariableX, controlVariableY) == '2')) return;
                             // Distance check
                             if (Math.abs(controlVariableX - Game.intoMapX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Game.intoMapY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
 
@@ -328,7 +328,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             if (gamePanel.dad.level == 1) System.out.println("Interaction 2"); 
             else {
 
-                Game.getMapData("print");
+                Game.map.getData("print");
 
                 if (Main.debug) {
 
