@@ -281,3 +281,8 @@ EXE file is made for every update documented here<br>
 <ul>
     <li> * The run script in C closes the terminal on default, but keeps it open with the "cmd" argument</li>
 </ul>
+
+## 3/12/2023
+<ul>
+    <li> * Fixed the night circle size</li>
+</ul>

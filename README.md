@@ -1,7 +1,7 @@
 # Gardening Game
 <b>DO NOT MOVE THE EXE FILE!!</b> 
 Otherwise it won't load the images<br>
-Compiled on the <code>Java 17.0.1</code> version
+Compiled on the <code>Java 17.0.9</code> version
 
 To keep the terminal open, run the GardeningGame.exe with an argument <code>cmd</code>.
 This can be done by opening the directory in a terminal and writing <code>./GardeningGame.exe cmd</code>.
@@ -14,7 +14,7 @@ If you take too much damage, you'll die. And every time that happens, you will b
 
 # Modding
 To use a custom made texture pack, add the texture pack folder inside the res folder, then <br>
-change the "Texture-Pack" value in Config.json.
+change the <code>"Texture-Pack"</code> value in <code>Config.json</code>.
 
 # Controls
 

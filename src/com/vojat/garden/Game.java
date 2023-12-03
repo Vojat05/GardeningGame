@@ -50,8 +50,8 @@ public class Game implements Runnable {
     public static String warningMessage = "";                                                                                                                                       // The latest warning message
     public static String errorMessage = "";                                                                                                                                         // The lastet error message
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
-    public static char[][] map = new char[8][15];                                                                                                                                   // [Y][X] coords
-    public static char[][] houseMap = new char[8][15];                                                                                                                              // [Y][X] coords
+    public static Map map = new Map(new char[8][15]);                                                                                                                               // [Y][X] coords
+    public static Map houseMap = new Map(new char[8][15]);                                                                                                                          // [Y][X] coords
     public static ArrayList<Character> invisibleWalls = new ArrayList<Character>();                                                                                                 // ArrayList of map objects that are collidable
     public static ArrayList<Bird> birdList = new ArrayList<Bird>();                                                                                                                 // The list of birds currently in game for drawing
     public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
@@ -93,8 +93,8 @@ public class Game implements Runnable {
 
         invisibleWalls.clear();
         flowers.clear();
-        clearMap(map);
-        clearMap(houseMap);
+        Map.clear(map.getMap());
+        Map.clear(houseMap.getMap());
         stage = "Day";
         isRaining = false;
         
@@ -105,32 +105,32 @@ public class Game implements Runnable {
          */
 
         // Building the fence around the garden
-        for (int i=0; i<map[0].length; i++) {
+        for (int i=0; i<map.getMap()[0].length; i++) {
 
-            if (i == 0) map[0][i] = '5';
-            if (i >= 3) map[0][i] = '5';
-            map[7][i] = '5';
+            if (i == 0) map.write(i, 0, '5');
+            if (i >= 3) map.write(i, 0, '5');
+            map.write(i, 7, '5');
 
         }
         
         // Fill the outside map data
-        map[0][2] = '3'; // House block
-        map[1][1] = '3'; // House block
-        map[1][2] = '3'; // House block
-        map[0][1] = '3'; // House block
-        map[5][1] = '4'; // The well
-        map[2][2] = '6'; // Tile
+        map.write(1, 0, '3'); // House block
+        map.write(2, 0, '3'); // House block
+        map.write(1, 1, '3'); // House block
+        map.write(2, 1, '3'); // House block
+        map.write(1, 5, '4'); // The well
+        map.write(2, 2, '6'); // Tile
 
         // Fill the house map
-        houseMap[5][3] = '2'; // Empty box to make up for the tabe size
-        houseMap[6][5] = '3'; // Doormat
-        houseMap[1][1] = '4'; // Bed
-        houseMap[3][8] = '5'; // Wardrobe
-        houseMap[5][2] = '6'; // Table
-        houseMap[5][1] = '7'; // Chair Left
-        houseMap[5][4] = '7'; // Chair Right
-        houseMap[1][6] = '8'; // TV
-        houseMap[2][7] = '9'; // Couch
+        houseMap.write(3, 5, '2'); // Empty box to make up for the tabe size
+        houseMap.write(5, 6, '3'); // Doormat
+        houseMap.write(1, 1, '4'); // Bed
+        houseMap.write(8, 3, '5'); // Wardrobe
+        houseMap.write(2, 5, '6'); // Table
+        houseMap.write(1, 5, '7'); // Chair Left
+        houseMap.write(4, 5, '7'); // Chair Right
+        houseMap.write(6, 1, '8'); // TV
+        houseMap.write(7, 2, '9'); // Couch
         
         /*
          * --------------------------------------------------------------------------------
@@ -216,7 +216,9 @@ public class Game implements Runnable {
      * --------------------------------------------------------------------------------
      */
 
-    // Method to start the Game Loop
+    /**
+     * Method to start the game loop
+     */
     private void startGame() {
 
         run = true;
@@ -229,7 +231,9 @@ public class Game implements Runnable {
 
     }
 
-    // Stops the game
+    /**
+     * Stops the game
+     */
     public static void killGame() {
 
         run = false;
@@ -238,7 +242,9 @@ public class Game implements Runnable {
 
     }
 
-    // Pauses the game
+    /**
+     * Pauses the game
+     */
     public static void pauseGame() {
         try {
 
@@ -284,113 +290,103 @@ public class Game implements Runnable {
         }
     }
 
-    // Writes data into map at specified location
-    public static void wirteIntoMap(int i, int j, int value) {
-
-        map[i][j] = (char) (48 + value);
-
-    }
-
-    // Retrieves all data from map and prints it into console if desired
-    public static String getMapData(String type) {
-
-        if (type.equals("print")) {
-
-            for (int i=0; i<map.length; i++) {
-
-                for (int j=0; j<map[0].length; j++) System.out.print(" | " + map[i][j] + " | ");
-                System.out.println("");
-
-            }
-
-            return "";
-
-        } else {
-
-            String value = "";
-
-            for (int i=0; i<map.length; i++) {
-
-                for (int j=0; j<map[0].length; j++) value += map[i][j];
-                value += "!";
-
-            }
-
-            return value;
-
-        }
-    }
-
-    // Gets the is raining value
+    /**
+     * Figures out if it's raining or not
+     * @return The isRaining value
+     */
     public static boolean isRaining() {
 
         return isRaining;
 
     }
 
-    // Gets how long the day should last in seconds
+    /**
+     * Gets how long the day should last in seconds
+     * @return The number of seconds a day lasts
+     * 
+     */
     public static int dayLasts() {
 
         return dayLasts;
 
     }
 
-    // Sets how long the day should last in seconds
+    /**
+     * Sets how long the day should last in seconds
+     * @param value int
+     * @return The new number of seconds a day lasts
+     * 
+     */
     public static int setDayLasts(int value) {
 
         return dayLasts = value;
 
     }
 
-    // Gets how long the night should last in seconds
+    /**
+     * Gets how long the night should last in seconds
+     * @return The number of seconds the night lasts
+     * 
+     */
     public static int nightLasts() {
 
         return nightLasts;
 
     }
 
-    // Sets how long the night should last in seconds
+    /**
+     * Sets how long the night should last in seconds
+     * @param value
+     * @return The new number of seconds the night lasts
+     * 
+     */
     public static int setNightLasts(int value) {
 
         return nightLasts = value;
 
     }
 
-    // Gets the number of days passed since the game started
+    /**
+     * Gets the number of days passed since the game started
+     * @return The number of days that have passed
+     * 
+     */
     public static int getDay() {
 
         return (int) dayNumber;
 
     }
 
-    // Adds a number to the number of days passed the game started
+    /**
+     * Adds a number to the number of days passed the game started
+     * @param value
+     * @return The number of days that have passed so far
+     * 
+     */
     public static int addDays(int value) {
 
         return (int) (dayNumber += value);
 
     }
 
-    // Sets the number of days passed since the game started to a select value
+    /**
+     * Sets the number of days passed since the game started to a select value
+     * @param value int
+     * @return The number of days that have passed so far
+     * 
+     */
     public static int setDays(int value) {
 
         return (int) (dayNumber = value);
 
     }
 
-    // Cleares a given 2D array
-    public static void clearMap(char[][] map) {
-
-        for (int i=0; i<map.length; i++) {
-
-            for (int j=0; j<map[0].length; j++) {
-
-                map[i][j] = '0';
-
-            }
-        }
-    }
-
-    // Allows an error to be displayed for a certian amount of time
+    /**
+     * Allows an error to be displayed for a certian amount of time
+     * @param message string error message
+     * @param duration int duration of the error being shown
+     * 
+     */
     public static void error(String message, int duration) {
 
         if (message.length() < 22) {
@@ -411,6 +407,9 @@ public class Game implements Runnable {
         errorTime = (byte) duration;
     }
 
+    /**
+     * Spawns a bird
+     */
     public void spawnBird() {
 
         System.out.println("Spawn Birb");
@@ -418,6 +417,12 @@ public class Game implements Runnable {
 
     }
 
+    /**
+     * Set texture to a specified image
+     * @param path string path to the image
+     * @return BufferedImage of the texture
+     * 
+     */
     public static BufferedImage setTexture(String path) {
 
         try {
@@ -433,6 +438,12 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * Updates the alert that is currently shown
+     * @param message the new message string
+     * @param gamePanel GamePanel to be repainted (scene)
+     * 
+     */
     public static void alertUpdate(String message, GamePanel gamePanel) {
 
         alertMessage = message;
@@ -440,6 +451,12 @@ public class Game implements Runnable {
 
     }
 
+    /**
+     * Shows a game alert and repaints the scene
+     * @param message string
+     * @param gamePanel GamePanel to be repainted (scene)
+     * 
+     */
     public static void alert(String message, GamePanel gamePanel) {
 
         alert = true;
@@ -454,7 +471,12 @@ public class Game implements Runnable {
      * --------------------------------------------------------------------------------
      */
 
-    // Plays the wav file at a given path
+    /**
+     * Plays the wav file at a given path
+     * @param path string
+     * @return The clpi that is being played
+     * 
+     */
     public static Clip playSound(String path) {
         try {
 
@@ -476,24 +498,36 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * Stops a provided clip
+     * @param clip
+     * 
+     */
     public static void stopClip(Clip clip) {
 
         clip.stop();
 
     }
 
-    // Sets the volume of a given clip between 0 ( mute ) and 1 ( original volume )
-    public static void setClipVolume(Clip clip, float volume) {
+    /**
+     * Sets the volume of a given clip
+     * @param clip Audio clip
+     * @param volume float value between 0 (mute) - 1 (original volume)
+     * @return The new volume
+     * 
+     */
+    public static float setClipVolume(Clip clip, float volume) {
 
         if (volume < -80.0f || volume > 6.0f) {
 
             error("Audio volume error", 3);
-            return;
+            return volume;
 
         }
 
         FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         fc.setValue(volume);
+        return volume;
 
     }
 
@@ -503,6 +537,9 @@ public class Game implements Runnable {
      * --------------------------------------------------------------------------------
      */
 
+    /**
+     * Calculates the game logic tick
+     */
     private void gameTick() {
 
         /*
@@ -596,7 +633,7 @@ public class Game implements Runnable {
         if (gamePanel.dad.VECTORY > 0) gamePanel.dad.VECTORY = gamePanel.dad.speed;
         else if (gamePanel.dad.VECTORY < 0) gamePanel.dad.VECTORY = -gamePanel.dad.speed;
         
-        if (map[intoMapY(gamePanel.dad.LOCATION_Y + 100)][intoMapX(gamePanel.dad.LOCATION_X + 64)] == '6' && gamePanel.dad.level == 0) gamePanel.dad.speed = 1.5;
+        if (map.read(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 100)) == '6' && gamePanel.dad.level == 0) gamePanel.dad.speed = 1.5;
         else gamePanel.dad.speed = 1;
 
         /*
@@ -773,7 +810,7 @@ public class Game implements Runnable {
                     } else if (plant.STATUS.equals("Dead") && plant.TIME_TO_DISSAPEAR <= System.currentTimeMillis()) {
                     
                         flowers.remove(plant);
-                        map[plant.LOCATION_Y][plant.LOCATION_X] = '0';
+                        map.write(plant.LOCATION_X, plant.LOCATION_Y, '0');
                         continue;
                     
                     }
@@ -862,10 +899,17 @@ public class Game implements Runnable {
      * -------------------------------------------------------------------------
      */
 
-    // Saves the game progress into a seperate JSON file
+    /**
+     * Saves the game progress into a seperate JSON file
+     * @param saveFilePath string
+     * @param dad Player
+     * @param saveNumber byte
+     * @throws FileNotFoundException
+     * 
+     */
     public static void saveGame(String saveFilePath, Player dad, byte saveNumber) throws FileNotFoundException {
         save = saveNumber;
-        String map = "\"map\":\"" + getMapData("") + "\"";
+        String mapData = "\"map\":\"" + map.getData("") + "\"";
         String value = "";
 
         // Foramts the flower information to be saved | {plant_number + plant_type : time_to_die | location X | location Y |}
@@ -876,7 +920,7 @@ public class Game implements Runnable {
         }
 
         JSONEditor jEditor = new JSONEditor(saveFilePath);
-        jEditor.write(map + value);
+        jEditor.write(mapData + value);
 
         if (Main.debug) System.out.println("Game saved succesfully into \"" + saveFilePath + "\"");
 
@@ -885,7 +929,13 @@ public class Game implements Runnable {
         dad.LOCATION_Y = 120;
     }
 
-    // Loads the game progress from a given save
+    /**
+     * Loads the game progress from a given save
+     * @param saveFilePath string
+     * @param saveNumber byte
+     * @throws FileNotFoundException
+     * 
+     */
     public static void loadGame(String saveFilePath, byte saveNumber) throws FileNotFoundException {
         
         // Loads the map
@@ -902,7 +952,7 @@ public class Game implements Runnable {
 
                 for (int j=0; j<value.length(); j++) {
 
-                    wirteIntoMap(num, j, (int) value.charAt(j) - 48);      // [8][15] is the max size
+                    map.write(num, j, (int) value.charAt(j) - 48);
 
                 }
 
@@ -991,24 +1041,41 @@ public class Game implements Runnable {
      * --------------------------------------------------------------------------------
      */
 
-    // Gets the theoretical X location in the map
+    /**
+     * Gets the theoretical X location in the map
+     * @param positoinX
+     * @return Integer value of a horizontal position translated into the map
+     * 
+     */
     public static int intoMapX(double positionX) {
 
         return (int) (positionX * .0078125);
 
     }
 
-    // Gets the theoretical Y location in the map
+    /**
+     * Gets the theoretical Y location in the map
+     * @param positionY
+     * @return Integer value of a vertical position translated into the map
+     * 
+     */
     public static int intoMapY(double positionY) {
 
         return (int) (positionY * .0078125);
 
     }
 
-    // Gets the object in located in the map at the specific location
-    public static int intoMap(int x, int y, char[][] map) {
+    /**
+     * Gets the object in located in the map at the specific location
+     * @param x position
+     * @param y position
+     * @param map to search in
+     * @return The value stored in a specified location in the given map
+     * 
+     */
+    public static int intoMap(int x, int y, Map map) {
 
-        return (int) map[y][x] - 48;
+        return (int) map.read(x, y) - 48;
 
     }
 }
