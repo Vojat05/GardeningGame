@@ -286,3 +286,9 @@ EXE file is made for every update documented here<br>
 <ul>
     <li> * Fixed the night circle size</li>
 </ul>
+
+## 6/12/2023
+<ul>
+    <li> * Fixed the stamina penalty bug, the player can no longer get stuck in the stamina penalty</li>
+    <li> * Textures are now stored in memory as images, to limit disk read</li>
+</ul>

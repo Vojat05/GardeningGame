@@ -1,9 +1,9 @@
 {
     "Language":"lang-en.json",
     "Texture-Pack":"ProgrammerPack",
-    "Version":"Dev-Build 0.6.1",
+    "Version":"Dev-Build 0.6.3",
     "FPS":"120",
-    "Day-Lasts":"120",
+    "Day-Lasts":"180",
     "Night-Lasts":"60",
     "Cycle-Transition-Value":"0.2",
     "Volume-Transition-Value":"0.025"
