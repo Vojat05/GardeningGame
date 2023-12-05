@@ -1,7 +1,6 @@
 TODO: Put this into order of the most > least difficult & needed changes
 
 - Vectors are calculated incorrectly ( you keep moving when you shouldn't in some times )
-- you can get stuck in the stamina penalty
 
 - Make flower info stick that behaves like bino in ARK
 - Make a single space in map 9 spaces

@@ -34,7 +34,7 @@ public class Game implements Runnable {
     public static final String ANSI_GREEN = "\u001B[32m";                                                                                                                           // Set the console text color to green
     public static final String ANSI_RED = "\u001B[31m";                                                                                                                             // Set the console text color to red
     public static final String ANSI_RESET = "\u001B[0m";                                                                                                                            // Reset the console text color
-    public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png", "Tiles.png"};                                             // Texture array for outside
+    public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png", "Tiles.png", "FencePole.png"};                            // Texture array for outside
     public static final String[] houseTextures = {"Plank.png", "", "", "doormat.png", "bed.png", "Wardrobe.png", "table.png", "chair.png", "tv.png", "couch.png"};                  // Texture array for the inside of the house
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}, {"Cactus", "400000"}};                                           // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 60000;                                                                                                                                   // The time each flower has for being thirsty before they die
@@ -67,13 +67,13 @@ public class Game implements Runnable {
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static boolean isRaining = false;                                                                                                                                       // Is the current weather raining
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
-    private static int dayLasts = 120;                                                                                                                                              // How long does the day last in seconds
-    private static int nightLasts = 60;                                                                                                                                             // How long does the night last in seconds
+    private static int dayLasts = 0;                                                                                                                                                // How long does the day last in seconds
+    private static int nightLasts = 0;                                                                                                                                              // How long does the night last in seconds
     private static float dayNumber = 0;                                                                                                                                             // How many days have past since the game started
     private static Clip rainClip;                                                                                                                                                   // The rain audio
     private GamePanel gamePanel;                                                                                                                                                    // The panel that shows the game window
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
-    private byte seconds = 0;                                                                                                                                                       // Seconds since the game started
+    private int seconds = 0;                                                                                                                                                        // Seconds since the game started
     private float volumeGain = 0f;                                                                                                                                                  // The default music volume
 
 
@@ -845,7 +845,7 @@ public class Game implements Runnable {
                     gamePanel.dad.outOfStamina = true;
                     error("Out of stamina", 3);
 
-                } else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100 && !gamePanel.dad.isSitting) {
+                } else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100) {
 
                     gamePanel.dad.setMove(true);
                     gamePanel.dad.outOfStamina = false;
