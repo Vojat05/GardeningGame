@@ -210,25 +210,25 @@ public class KeyboardInput implements KeyListener {
 
             up = true;
             if (down) dad.VECTORY = .0;
-            else dad.VECTORY = dad.speed;
+            else if (dad.VECTORY < 0) dad.VECTORY = dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("down"))) {
 
             down = true;
             if (up) dad.VECTORY = .0;
-            else dad.VECTORY = -dad.speed;
+            else if (dad.VECTORY > 0) dad.VECTORY = -dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("left"))) {
 
             left = true;
             if (right) dad.VECTORX = .0;
-            else dad.VECTORX = dad.speed;
+            else if (dad.VECTORX < 0) dad.VECTORX = dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("right"))) {
 
             right = true;
             if (left) dad.VECTORX = .0;
-            else dad.VECTORX = -dad.speed;
+            else if (dad.VECTORX > 0) dad.VECTORX = -dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
 

@@ -24,7 +24,7 @@ public class Player {
     public double speed = 1;                                                // Player's movement speed
     public int HP = 100;                                                    // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
     public int stamina = 100;                                               // Player stamina for the player to run on the tiles
-    public boolean outOfStamina = false;                                    // Does the player have a 0 stamina penalty
+    public boolean outOfStamina = false;                                    // Does the player have a 0 stamina penalty ( tells the bar to change color as it regenerates )
     public boolean isSitting = false;                                       // Is the player character sitting?
     private boolean canMove = true;                                         // Can player can move around or not?
     private char textureModifier = '0';                                     // Changes the players skin
@@ -167,7 +167,10 @@ public class Player {
 
     }
 
-    // Sets the player texture modifier
+    /**
+     * Sets the player texture modifier
+     * @param newTextureModifier char new texture modifier
+     */
     public void setTextureModifier(char newTextureModifier) {
 
         this.textureModifier = newTextureModifier;
@@ -175,24 +178,22 @@ public class Player {
 
     }
 
-    // Returns the player move value
-    public boolean canMove() {
-
-        return this.canMove;
+    /**
+     * Sets the player texture to the texture at the specified path.
+     * @param path file path from the <code>../../res/{TexturePack}/Pics/</code> point.
+     */
+    public void setTexture(String path) {
+        
+        this.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/" + path);
 
     }
+
+    /**
+     * Determines wheather the player can move or not
+     * @return The player move value
+     */
+    public boolean canMove() { return this.canMove; }
 
     // Sets the player move value
-    public boolean setMove(boolean value) {
-
-        if (!value) {
-
-            this.VECTORX = 0;
-            this.VECTORY = 0;
-
-        }
-
-        return this.canMove = value;
-        
-    }
+    public boolean setMove(boolean value) { return this.canMove = value; }
 }

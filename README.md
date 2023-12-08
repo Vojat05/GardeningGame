@@ -36,3 +36,8 @@ Right Click - Refills the water storage
 ## Game Options
 Esc - Returns to the main menu<br>
 P - Pauses the game
+
+# Credits
+Programming - Vojat05
+Textures - Vojat05, Mateoz
+Audio - Vojat05

@@ -57,7 +57,7 @@ public class Game implements Runnable {
     public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
     public static boolean pause = false;                                                                                                                                            // Determines wheather the game should be paused or not
     public static byte save = -1;                                                                                                                                                   // The current game save number to be plugged into the respawn
-    public static boolean firstStart = true;                                                                                                                                        // Is this the first time the game instance is played? // Shows the help menu inside the house
+    public static boolean firstStart = true;                                                                                                                                        // Is this the first time the game instance is played? // Shows the tutorial menu inside the house
     public static String langFileName;                                                                                                                                              // Name of the language file currently being used
     public static String texturePack;                                                                                                                                               // The texture pack file path
     public static Font font;                                                                                                                                                        // The custom font used in the game
@@ -156,13 +156,15 @@ public class Game implements Runnable {
             JSONEditor jsonEditor = new JSONEditor("../../res/Language/" + langFileName);
             tutorialStringPulledData = jsonEditor.readData("Tutorial-Data");
 
+            jsonEditor.setFile("../../res/Config.json");
+            firstStart = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
+
         } catch (IOException e) {
 
             e.printStackTrace();
 
         }
 
-        firstStart = true;
         tutorialStrings.clear();
 
         // Get the number of lines for the tutorial box to draw them
@@ -550,9 +552,7 @@ public class Game implements Runnable {
 
         for (int i=0; i<birdList.size(); i++) {
 
-            // Bird flight
             Bird bird = birdList.get(i);
-            bird.positionX += bird.vectorX;
 
             // Bird flapping wings
             if (intoMapX(bird.positionX) % 2 == 0) {
@@ -577,7 +577,6 @@ public class Game implements Runnable {
             }
 
             // Bird shit movement and bird removal after out of map
-            if (bird.shitPositionY < bird.positionY + 500) bird.shitPositionY += Bird.shitSpeed;
             if (bird.shitPositionY >= bird.positionY + 500) {
 
                 if (!bird.splat) bird.audio = true;
@@ -635,44 +634,6 @@ public class Game implements Runnable {
         
         if (map.read(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 100)) == '6' && gamePanel.dad.level == 0) gamePanel.dad.speed = 1.5;
         else gamePanel.dad.speed = 1;
-
-        /*
-         * --------------------------------------------------------------------------------
-         * Day -> Night fade in / out
-         * --------------------------------------------------------------------------------
-         */
-
-        // Day -> Night fade in
-        if (stage.equals("Night") && gamePanel.easeDayNight < 248) {
-
-            gamePanel.easeDayNight += dayNightTransitionSpeed;
-            if (volumeGain > -15.0f) {
-
-                volumeGain -= volumeTransitionSpeed;
-                setClipVolume(clip, volumeGain);
-
-            }
-        }
-
-        // Night -> Day fade out
-        if (stage.equals("Day") && gamePanel.easeDayNight > 0) {
-
-            gamePanel.easeDayNight -= dayNightTransitionSpeed;
-            if (volumeGain < 0.0f) {
-
-                volumeGain += volumeTransitionSpeed;
-                setClipVolume(clip, volumeGain);
-
-            }
-        }
-
-        // Move the rain img
-        if (stage.equals("Night") && isRaining()) {
-
-            gamePanel.rainPositionY -= .5f;
-            if ((int) gamePanel.rainPositionY <= 0) gamePanel.rainPositionY = 432f;
-
-        }
     }
 
     /*
@@ -685,11 +646,14 @@ public class Game implements Runnable {
     public void run() {
 
         double timePerFrame = 1_000_000_000.0 / FPS_SET;
+        double timePerTick = 1_000_000_000.0 / 20;
         long now;
         long previousTime = System.nanoTime();
         short fps = 0;
+        short tick = 0;
         long lastCheck = System.currentTimeMillis();
         double deltaF = 0;
+        double deltaT = 0;
         short animationTick = 100;
 
         // The in-game audio player
@@ -715,9 +679,11 @@ public class Game implements Runnable {
                 
                 now = System.nanoTime();
                 deltaF += (now - previousTime) * Math.pow(timePerFrame, -1);
+                deltaT += (now - previousTime) * Math.pow(timePerTick, -1);
                 previousTime = now;
                 
                 if (deltaF >= 1) deltaF--;
+                if (deltaT >= 1) deltaT--;
                 if (gamePanel.hasFocus() && gamePanel.saveMenuOpen) gamePanel.repaint();
                 continue;
                 
@@ -725,6 +691,7 @@ public class Game implements Runnable {
 
             now = System.nanoTime();
             deltaF += (now - previousTime) * Math.pow(timePerFrame, -1);
+            deltaT += (now - previousTime) * Math.pow(timePerTick, -1);
             previousTime = now;
 
             // Repaints 120 times per second
@@ -737,30 +704,85 @@ public class Game implements Runnable {
                  */
                         
                 // Y coordinate colision logic
-                if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.VECTORY;
+                if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.canMove() ? gamePanel.dad.VECTORY : 0;
                         
                 // X coordinate colision logic
-                if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_X += gamePanel.dad.VECTORX;
-    
-                gameTick();
+                if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_X += gamePanel.dad.canMove() ? gamePanel.dad.VECTORX : 0;
+
+                // Bird & shit flight logic
+                for (Bird bird : birdList) { bird.positionX += bird.vectorX; if (bird.shitPositionY < bird.positionY + 500) bird.shitPositionY += 2; }
+
+                /*
+                 * --------------------------------------------------------------------------------
+                 * Day -> Night fade in / out
+                 * --------------------------------------------------------------------------------
+                 */
+
+                // Day -> Night fade in
+                if (stage.equals("Night") && gamePanel.easeDayNight < 248) {
+                    
+                    gamePanel.easeDayNight += dayNightTransitionSpeed;
+                    if (volumeGain > -15.0f) {
+                    
+                        volumeGain -= volumeTransitionSpeed;
+                        setClipVolume(clip, volumeGain);
+                    
+                    }
+                }
+
+                // Night -> Day fade out
+                if (stage.equals("Day") && gamePanel.easeDayNight > 0) {
+                
+                    gamePanel.easeDayNight -= dayNightTransitionSpeed;
+                    if (volumeGain < 0.0f) {
+                    
+                        volumeGain += volumeTransitionSpeed;
+                        setClipVolume(clip, volumeGain);
+                    
+                    }
+                }
+
+                // Move the rain img
+                if (isRaining()) {
+
+                    gamePanel.rainPositionY -= .5f;
+                    if ((int) gamePanel.rainPositionY <= 0) gamePanel.rainPositionY = 432f;
+
+                }
 
                 if (gamePanel.hasFocus()) gamePanel.repaint();
                 fps++;
                 deltaF--;
             }
 
+            if (deltaT >= 1) {
+                
+                /*
+                 * --------------------------------------------------------------------------------
+                 * Game logic calculations
+                 * --------------------------------------------------------------------------------
+                 */
+
+                gameTick();
+
+                tick++;
+                deltaT--;
+            }
+
             // Happens animationTick times per second ( default 100 / 10 )
             if (System.currentTimeMillis() - lastCheck >= animationTick) {
+
                 animationTick += 100;
+
             }
 
             // The FPS counter. This occures ever second
             if (System.currentTimeMillis() - lastCheck >= 1000) {
 
                 lastCheck = System.currentTimeMillis();
-                System.out.println(ANSI_GREEN + "FPS: " + fps + ANSI_RESET + "\nSecs < " + seconds + " >");
+                System.out.println(ANSI_GREEN + "FPS: " + fps + " | TICK: " + tick + ANSI_RESET + "\nSecs < " + seconds + " >");
 
-                if (Main.debug) System.out.println("LOC X: " + gamePanel.dad.LOCATION_X + " | LOC Y: " + gamePanel.dad.LOCATION_Y + " | SPEED: " + gamePanel.dad.VECTORY + "\nNo. Birds: " + birdList.size());
+                if (Main.debug) System.out.println("LOCATION:\n\tX: " + gamePanel.dad.LOCATION_X + "\n\tY: " + gamePanel.dad.LOCATION_Y + "\nSPEED:\n\tX: " + gamePanel.dad.VECTORX + "\n\tY: " + gamePanel.dad.VECTORY + "\nNo. Birds: " + birdList.size());
                 
                 // Checks if the player is on level 0 "outside"
                 if (gamePanel.dad.level == 0) gamePanel.changeGrass = true;
@@ -820,6 +842,7 @@ public class Game implements Runnable {
 
                 // Resets the FPS counter each second
                 fps = 0;
+                tick = 0;
                 seconds++;
                 animationTick = 100;
                 if (errorTime != 0) errorTime--;
@@ -831,7 +854,7 @@ public class Game implements Runnable {
                  * --------------------------------------------------------------------------------
                  */
 
-                if (gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) gamePanel.dad.tire(5);
+                if ((gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) && gamePanel.dad.canMove()) gamePanel.dad.tire(5);
                 else gamePanel.dad.tire(-10);
 
                 /*
@@ -841,14 +864,18 @@ public class Game implements Runnable {
                  */
                 if (gamePanel.dad.stamina == 0) {
 
-                    gamePanel.dad.setMove(false);
                     gamePanel.dad.outOfStamina = true;
+                    gamePanel.dad.setTexture("Player/Dad_Texture_Low_Stamina_" + (gamePanel.dad.VECTORX > 0 ? "R" : "L") + gamePanel.dad.getTextureModifier() + ".png");
+                    gamePanel.dad.setMove(false);
                     error("Out of stamina", 3);
 
                 } else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100) {
 
-                    gamePanel.dad.setMove(true);
                     gamePanel.dad.outOfStamina = false;
+                    gamePanel.dad.setTexture("Player/Dad_Texture_" + (gamePanel.dad.VECTORX > 0 ? "R" : "L") + gamePanel.dad.getTextureModifier() + ".png");
+                    gamePanel.dad.setMove(true);
+                    gamePanel.dad.VECTORX = .0;
+                    gamePanel.dad.VECTORY = .0;
                     
                 }
 
