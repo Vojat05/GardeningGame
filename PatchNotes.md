@@ -292,3 +292,10 @@ EXE file is made for every update documented here<br>
     <li> * Fixed the stamina penalty bug, the player can no longer get stuck in the stamina penalty</li>
     <li> * Textures are now stored in memory as images, to limit disk read</li>
 </ul>
+
+## 9/12/2023
+<ul>
+    <li> + Added the stmina penalty texture ( character tired texture )</li>
+    <li> + Added more settings into the <code>Config.json</code></li>
+    <li> * Fixed vectors for movement so they no longer have an offset after some actions</li>
+</ul>

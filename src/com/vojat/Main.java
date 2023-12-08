@@ -18,7 +18,7 @@ import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Window;
 
 public class Main {
-    public static final boolean debug = false;
+    public static boolean debug = false;
     public static final int sizeX = 1920, sizeY = 1080;
     public static boolean maximize = false;
     public static Window window;
@@ -51,6 +51,9 @@ public class Main {
 
             JSONEditor jsonEditor = new JSONEditor("../../res/Config.json");
             
+            Main.debug = Boolean.parseBoolean(jsonEditor.readData("Debugging"));
+
+            Game.firstStart = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
             Game.langFileName = jsonEditor.readData("Language");
             Game.texturePack = jsonEditor.readData("Texture-Pack");
             Game.version = jsonEditor.readData("Version");

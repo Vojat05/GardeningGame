@@ -38,11 +38,13 @@ public class GamePanel extends JPanel {
     public JPanel fullInv = new JPanel();                                                   // Player inventory panel visible after pressing "T"
     public boolean changeGrass = true;                                                      // Determines wheather the grass should have a wind effect applied
     public boolean saveMenuOpen = false;                                                    // Should the save menu be shown
+    public boolean skinMenuOpen = false;                                                    // Determines if the wardrobe is open
     public double easeDayNight = .0;                                                        // Makes the Day -> Night cycle more fluent
     public float rainPositionY = 432f;                                                      // Vertical position of the rain
     private int hoverSaveSlotNumber = 0;                                                    // Number of a save slot that is currently in hover
     private MouseInput mouseInput = new MouseInput(this);                                   // The mouse input class ( Used for the save box hover effect )
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
+    private int selectedSkinSlot = 0;                                                       // The number of a selected skin slot
     private BufferedImage raingImg;                                                         // The full image of rain
     private HashMap<String, Image> textures = new HashMap<String, Image>();                 // A Hash Map containing all ground textures | structure: <Key:path | Value:image>
 
@@ -134,16 +136,9 @@ public class GamePanel extends JPanel {
             
             }
 
-            textures.put("cornerTL.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/cornerTL.png").getImage());
-            textures.put("cornerBL.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/cornerBL.png").getImage());
-            textures.put("window.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/window.png").getImage());
-            textures.put("wallT.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/wallT.png").getImage());
-            textures.put("wallB.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/wallB.png").getImage());
-            textures.put("wallL.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/wallL.png").getImage());
-            textures.put("wallR.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/wallR.png").getImage());
-            textures.put("cornerTR.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/cornerTR.png").getImage());
-            textures.put("cornerBR.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/cornerBR.png").getImage());
-            textures.put("door.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/door.png").getImage());
+            String[] textureNames = {"cornerTL", "cornerBL", "window", "wallT", "wallB", "wallL", "wallR", "cornerTR", "cornerBR", "door"};
+
+            for (String texture : textureNames) { textures.put(texture + ".png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png").getImage()); }
         }
     }
 
