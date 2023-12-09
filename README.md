@@ -38,6 +38,6 @@ Esc - Returns to the main menu<br>
 P - Pauses the game
 
 # Credits
-Programming - Vojat05
-Textures - Vojat05, Mateoz
-Audio - Vojat05
+Programming - <a href="https://github.com/Vojat05">@Vojat05</a><br>
+Textures - <a href="https://github.com/Vojat05">@Vojat05</a>, Mateoz<br>
+Audio - <a href="https://github.com/Vojat05">@Vojat05</a><br>
