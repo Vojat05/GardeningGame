@@ -27,11 +27,11 @@ D - Move right
 ## Inventory Management
 T - Toggles the inventory panel<br>
 Q - Selects the previous item<br>
-E - Selects the next item
+E - Selects the next item<br>
+1 ... 0 - Selects hotbar spaces<br>
 
 ## Planting
 Left Click - Plants a currently selected plant / water a targeted plant<br>
-Right Click - Refills the water storage
 
 ## Game Options
 Esc - Returns to the main menu<br>
