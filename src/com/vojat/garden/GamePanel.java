@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import com.vojat.Data.Map;
 import com.vojat.Enums.ErrorList;
 import com.vojat.inputs.*;
 import com.vojat.menu.Window;
@@ -675,6 +676,25 @@ public class GamePanel extends JPanel {
 
     }
 
+    private void drawSkinBox(Graphics2D g2d) {
+
+        int middleX = (int) (this.getWidth() * 0.5);
+        int middleY = (int) (this.getHeight() * 0.5);
+
+        // The upper white rectangle
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(middleX - 400, (int) (middleY - middleY * 0.5), 800, 80);
+
+        // The middle gray rectangle
+        g2d.setPaint(new Color(210, 210, 210, 245));
+        g2d.fillRect(middleX - 400, (int) (middleY - middleY * 0.5 + 80), 800, 400);
+
+        // The bottom white rectangle
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(middleX - 400, (int) (middleY - middleY * 0.5 + 480), 800, 80);
+
+    }
+
 
     
 
@@ -705,21 +725,22 @@ public class GamePanel extends JPanel {
         if (Game.isRaining()) {
 
             
-        try {
-                
-            raingImg = ImageIO.read(new File("../../res/" + Game.texturePack + "/Pics/Rain.png"));
-            raingImg = raingImg.getSubimage(0, (int) rainPositionY, 384, 216);
-            g2d.drawImage(raingImg, dad.level == 0 ? 0 : 1200, 0, 1920, 1080, null);
+            try {
 
-        } catch (IOException e) {
-            
-            Game.error("Rain texture error", 3);
-            e.printStackTrace();
+                raingImg = ImageIO.read(new File("../../res/" + Game.texturePack + "/Pics/Rain.png"));
+                raingImg = raingImg.getSubimage(0, (int) rainPositionY, 384, 216);
+                g2d.drawImage(raingImg, dad.level == 0 ? 0 : 1200, 0, 1920, 1080, null);
+
+            } catch (IOException e) {
+
+                Game.error("Rain texture error", 3);
+                e.printStackTrace();
+
+            }
 
         }
 
-        }
-
+        // Draw night
         if (easeDayNight > 0) {
 
             Color nightColor = new Color(6, 10, 12, (int) easeDayNight);
@@ -757,8 +778,8 @@ public class GamePanel extends JPanel {
         else if (saveMenuOpen) {
 
             drawSaveBox(g2d, 10);
-            mouseInput.hoverEffect();
+            mouseInput.saveHoverEffect();
 
-        }
+        } else if (skinMenuOpen) drawSkinBox(g2d);
     }
 }

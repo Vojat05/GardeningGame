@@ -1,6 +1,8 @@
 package com.vojat.garden;
 
 import java.awt.image.BufferedImage;
+
+import com.vojat.Data.Map;
 import com.vojat.menu.Window;
 
 public class Bird {
@@ -37,7 +39,7 @@ public class Bird {
         if (drawShit) return;
 
         this.drawShit = true;
-        this.shitPositionX = Game.intoMapX(this.positionX) * 128 + 59;
+        this.shitPositionX = Map.translateX(this.positionX) * 128 + 59;
         this.shitPositionY = this.positionY + 32;
         this.timeToCleanShit = System.currentTimeMillis() + 10_000;
         this.vectorX = -2;

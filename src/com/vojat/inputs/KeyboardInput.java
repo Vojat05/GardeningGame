@@ -106,14 +106,14 @@ public class KeyboardInput implements KeyListener {
             } else if (!Game.pause && !Game.alert) {
 
                 Game.pauseGame();
-                Game.alert("Are you sure you want to quit?", gamePanel);
+                Game.alert("Are you sure you want to quit?");
 
             } else if (Game.pause && Game.alert) {
 
                 Game.pauseGame();
                 Game.alert = false;
 
-            } else if (Game.pause && !Game.alert) Game.alert("Are you sure you want to quit?", gamePanel);
+            } else if (Game.pause && !Game.alert) Game.alert("Are you sure you want to quit?");
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("pause"))) {
 
