@@ -20,6 +20,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.vojat.Main;
 import com.vojat.Data.JSONEditor;
+import com.vojat.Data.Map;
 import com.vojat.Enums.ErrorList;
 import com.vojat.menu.Window;
 
@@ -39,6 +40,8 @@ public class Game implements Runnable {
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}, {"Cactus", "400000"}};                                           // {"flower type", "time for it to die in millis"}
     public static final int flowerChange = 60000;                                                                                                                                   // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
+    public static Map map = new Map(new char[8][15]);                                                                                                                               // [Y][X] coords
+    public static Map houseMap = new Map(new char[8][15]);                                                                                                                          // [Y][X] coords
     public static String stage = "Day";                                                                                                                                             // Current stage of the game ( Night / Day )
     public static String version = "";                                                                                                                                              // Current game version
     public static String tutorialStringPulledData = "";                                                                                                                             // Data to be displayed in the current tutorial screen box
@@ -50,8 +53,6 @@ public class Game implements Runnable {
     public static String warningMessage = "";                                                                                                                                       // The latest warning message
     public static String errorMessage = "";                                                                                                                                         // The lastet error message
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
-    public static Map map = new Map(new char[8][15]);                                                                                                                               // [Y][X] coords
-    public static Map houseMap = new Map(new char[8][15]);                                                                                                                          // [Y][X] coords
     public static ArrayList<Character> invisibleWalls = new ArrayList<Character>();                                                                                                 // ArrayList of map objects that are collidable
     public static ArrayList<Bird> birdList = new ArrayList<Bird>();                                                                                                                 // The list of birds currently in game for drawing
     public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
@@ -71,7 +72,7 @@ public class Game implements Runnable {
     private static int nightLasts = 0;                                                                                                                                              // How long does the night last in seconds
     private static float dayNumber = 0;                                                                                                                                             // How many days have past since the game started
     private static Clip rainClip;                                                                                                                                                   // The rain audio
-    private GamePanel gamePanel;                                                                                                                                                    // The panel that shows the game window
+    private static GamePanel gamePanel;                                                                                                                                                    // The panel that shows the game window
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
     private int seconds = 0;                                                                                                                                                        // Seconds since the game started
     private float volumeGain = 0f;                                                                                                                                                  // The default music volume
@@ -446,7 +447,7 @@ public class Game implements Runnable {
      * @param gamePanel GamePanel to be repainted (scene)
      * 
      */
-    public static void alertUpdate(String message, GamePanel gamePanel) {
+    public static void alertUpdate(String message) {
 
         alertMessage = message;
         if (gamePanel.hasFocus()) gamePanel.repaint();
@@ -459,7 +460,7 @@ public class Game implements Runnable {
      * @param gamePanel GamePanel to be repainted (scene)
      * 
      */
-    public static void alert(String message, GamePanel gamePanel) {
+    public static void alert(String message) {
 
         alert = true;
         alertMessage = message;
@@ -555,7 +556,7 @@ public class Game implements Runnable {
             Bird bird = birdList.get(i);
 
             // Bird flapping wings
-            if (intoMapX(bird.positionX) % 2 == 0) {
+            if (Map.translateX(bird.positionX) % 2 == 0) {
 
                 bird.texture = setTexture("../../res/" + texturePack + "/Pics/Pigeon1.png");
 
@@ -566,7 +567,7 @@ public class Game implements Runnable {
             }
 
             // Bird shit detection
-            if (bird.drawShit && intoMapY(bird.shitPositionY - 30) == intoMapY(gamePanel.dad.LOCATION_Y + 64) && intoMapX(bird.shitPositionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) {
+            if (bird.drawShit && Map.translateY(bird.shitPositionY - 30) == Map.translateY(gamePanel.dad.LOCATION_Y + 64) && Map.translateX(bird.shitPositionX) == Map.translateX(gamePanel.dad.LOCATION_X + 64)) {
 
                 if (gamePanel.dad.HP == 0) gamePanel.dad.currentTexture = setTexture("../../res/" + texturePack + "/Pics/Player/GraveShit.png");
                 if (gamePanel.dad.HP != 0) gamePanel.dad.hurt(5);
@@ -597,7 +598,7 @@ public class Game implements Runnable {
          */
 
         // Enter house logic
-        if (gamePanel.dad.level == 0 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 2 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
+        if (gamePanel.dad.level == 0 && Map.translateX(gamePanel.dad.LOCATION_X + 64) == 2 && Map.translateY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
 
             playSound("../../res/" + texturePack + "/Audio/DoorInteract.wav");
             gamePanel.dad.level = 1;
@@ -609,7 +610,7 @@ public class Game implements Runnable {
         }
 
         // Exit house logic
-        if (gamePanel.dad.level == 1 && intoMapX(gamePanel.dad.LOCATION_X + 64) == 5 && intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
+        if (gamePanel.dad.level == 1 && Map.translateX(gamePanel.dad.LOCATION_X + 64) == 5 && Map.translateY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
 
             playSound("../../res/" + texturePack +  "/Audio/DoorInteract.wav");
             gamePanel.dad.level = 0;
@@ -632,7 +633,7 @@ public class Game implements Runnable {
         if (gamePanel.dad.VECTORY > 0) gamePanel.dad.VECTORY = gamePanel.dad.speed;
         else if (gamePanel.dad.VECTORY < 0) gamePanel.dad.VECTORY = -gamePanel.dad.speed;
         
-        if (map.read(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 100)) == '6' && gamePanel.dad.level == 0) gamePanel.dad.speed = 1.5;
+        if (map.read(Map.translateX(gamePanel.dad.LOCATION_X + 64), Map.translateY(gamePanel.dad.LOCATION_Y + 100)) == '6' && gamePanel.dad.level == 0) gamePanel.dad.speed = 1.5;
         else gamePanel.dad.speed = 1;
     }
 
@@ -704,10 +705,10 @@ public class Game implements Runnable {
                  */
                         
                 // Y coordinate colision logic
-                if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64), intoMapY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.canMove() ? gamePanel.dad.VECTORY : 0;
+                if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains((char) (Map.translate(Map.translateX(gamePanel.dad.LOCATION_X + 64), Map.translateY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.canMove() ? gamePanel.dad.VECTORY : 0;
                         
                 // X coordinate colision logic
-                if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains((char) (intoMap(intoMapX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), intoMapY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_X += gamePanel.dad.canMove() ? gamePanel.dad.VECTORX : 0;
+                if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains((char) (Map.translate(Map.translateX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), Map.translateY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_X += gamePanel.dad.canMove() ? gamePanel.dad.VECTORX : 0;
 
                 // Bird & shit flight logic
                 for (Bird bird : birdList) { bird.positionX += bird.vectorX; if (bird.shitPositionY < bird.positionY + 500) bird.shitPositionY += 2; }
@@ -794,7 +795,7 @@ public class Game implements Runnable {
                 for (int i=0; i<birdList.size(); i++) {
 
                     Bird bird = birdList.get(i);
-                    if (gamePanel.dad.level == 0 && intoMapX(bird.positionX) == intoMapX(gamePanel.dad.LOCATION_X + 64)) bird.shit();
+                    if (gamePanel.dad.level == 0 && Map.translateX(bird.positionX) == Map.translateX(gamePanel.dad.LOCATION_X + 64)) bird.shit();
 
                 }
                 
@@ -1059,50 +1060,6 @@ public class Game implements Runnable {
         }
 
         System.gc();
-
-    }
-
-    /*
-     * --------------------------------------------------------------------------------
-     * Methods for translating coordinates into the game map
-     * --------------------------------------------------------------------------------
-     */
-
-    /**
-     * Gets the theoretical X location in the map
-     * @param positoinX
-     * @return Integer value of a horizontal position translated into the map
-     * 
-     */
-    public static int intoMapX(double positionX) {
-
-        return (int) (positionX * .0078125);
-
-    }
-
-    /**
-     * Gets the theoretical Y location in the map
-     * @param positionY
-     * @return Integer value of a vertical position translated into the map
-     * 
-     */
-    public static int intoMapY(double positionY) {
-
-        return (int) (positionY * .0078125);
-
-    }
-
-    /**
-     * Gets the object in located in the map at the specific location
-     * @param x position
-     * @param y position
-     * @param map to search in
-     * @return The value stored in a specified location in the given map
-     * 
-     */
-    public static int intoMap(int x, int y, Map map) {
-
-        return (int) map.read(x, y) - 48;
 
     }
 }

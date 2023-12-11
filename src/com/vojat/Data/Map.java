@@ -1,4 +1,4 @@
-package com.vojat.garden;
+package com.vojat.Data;
 
 import java.util.ArrayList;
 
@@ -151,4 +151,30 @@ public class Map {
         return values;
 
     }
+
+    /**
+     * Gets the theoretical X location in the map
+     * @param posX
+     * @return Integer value of a horizontal position translated into the map
+     * 
+     */
+    public static int translateX(double posX) { return (int) (posX * .0078125); }
+
+    /**
+     * Gets the theoretical Y location in the map
+     * @param posY
+     * @return Integer value of a vertical position translated into the map
+     * 
+     */
+    public static int translateY(double posY) { return (int) (posY * .0078125); }
+
+    /**
+     * Gets the object in located in the map at the specific location
+     * @param x position
+     * @param y position
+     * @param map to search in
+     * @return The value stored in a specified location in the given map
+     * 
+     */
+    public static int translate(int x, int y, Map map) { return (int) map.read(x, y) - 48; }
 }

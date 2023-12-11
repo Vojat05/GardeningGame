@@ -1,8 +1,10 @@
 package com.vojat.garden;
 
 import java.awt.image.BufferedImage;
-
+import java.io.IOException;
 import java.util.ArrayList;
+
+import com.vojat.Data.JSONEditor;
 
 public class Player {
 
@@ -40,6 +42,18 @@ public class Player {
         this.gamePanel = gamepanel;
         this.LOCATION_X = positionX;
         this.LOCATION_Y = positionY;
+        
+        try {
+
+            JSONEditor jEditor = new JSONEditor("../../res/Config.json");
+            this.reach = Byte.parseByte(jEditor.readData("Player-Reach"));
+            this.speed = Double.parseDouble(jEditor.readData("Player-Default-Speed"));
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            
+        }
 
         inventorySetup();
 
