@@ -249,6 +249,7 @@ public class Game implements Runnable {
      * Pauses the game
      */
     public static void pauseGame() {
+
         try {
 
             Thread.sleep(100);
@@ -685,7 +686,7 @@ public class Game implements Runnable {
                 
                 if (deltaF >= 1) deltaF--;
                 if (deltaT >= 1) deltaT--;
-                if (gamePanel.hasFocus() && gamePanel.saveMenuOpen) gamePanel.repaint();
+                if (gamePanel.hasFocus()) gamePanel.repaint();
                 continue;
                 
             }
