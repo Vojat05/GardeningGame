@@ -103,6 +103,11 @@ public class KeyboardInput implements KeyListener {
                 Game.alertMessage = "None";
                 Game.pauseGame();
 
+            } else if (gamePanel.skinMenuOpen) {
+
+                gamePanel.skinMenuOpen = false;
+                Game.pauseGame();
+
             } else if (!Game.pause && !Game.alert) {
 
                 Game.pauseGame();

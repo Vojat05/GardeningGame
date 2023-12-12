@@ -62,7 +62,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
         controlVariableY = gardenerY(e);
 
         // Alert button interaction
-        if (Game.alert || gamePanel.saveMenuOpen) {
+        if (Game.alert || gamePanel.saveMenuOpen || gamePanel.skinMenuOpen) {
 
             if (gamePanel.saveMenuOpen) {
                 // Save menu interaction
@@ -80,6 +80,36 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     }
 
                 }
+            }
+
+            if (gamePanel.skinMenuOpen) {
+
+                // Selecting a skin in the menu
+                if ((mouseX >= 655 && mouseX <= 808) && (mouseY >= 345 && mouseY <= 497)) { gamePanel.setSelectedSkinNumber(0); }
+                else if ((mouseX >= 1106 && mouseX <= 1257) && (mouseY >= 345 && mouseY <= 497)) { gamePanel.setSelectedSkinNumber(1); }
+                else if ((mouseX >= 655 && mouseX <= 808) && (mouseY >= 545 && mouseY <= 697)) { gamePanel.setSelectedSkinNumber(2); }
+                else if ((mouseX >= 1106 && mouseX <= 1257) && (mouseY >= 545 && mouseY <= 697)) { gamePanel.setSelectedSkinNumber(3); }
+
+                // Reaction buttons
+                if ((e.getX() >= 702 && e.getX() <= 752) && (e.getY() >= 736 && e.getY() <= 786)) {
+                    
+                    // The accept button
+                    gamePanel.dad.setTextureModifier((char) (gamePanel.selectedSkinSlot + 48));
+                    gamePanel.skinMenuOpen = false;
+                    Game.pauseGame();
+                    Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
+
+                } else if ((e.getX() >= 1152 && e.getX() <= 1202) && (e.getY() >= 736 && e.getY() <= 786)) {
+
+                    // The reject button
+                    gamePanel.skinMenuOpen = false;
+                    Game.pauseGame();
+                    Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
+
+                }
+
+                return;
+
             }
 
             if ( (e.getX() >= 802 && e.getX() <= 852) && (e.getY() >= 636 && e.getY() <= 685) ) {
@@ -257,7 +287,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                             Game.error("Out of reach", 3);
                             return;
 
-                        } else if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+                        } else if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+80)) == 0) {
                         
                             System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
                             Game.error("Too close", 3);
@@ -370,7 +400,14 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
         mouseX = e.getX();
         mouseY = e.getY();
 
-        if (gamePanel != null) return;
+        if (gamePanel != null) {
+
+            if (gamePanel.skinMenuOpen) skinHoverEffect();
+            else if (gamePanel.saveMenuOpen) saveHoverEffect();
+
+            return;
+
+        }
 
         if (mouseX >= 1055 && mouseX <= 1835 && mouseY >= 18 && mouseY <= 936) Settings.cursorOverControls = true;
         else Settings.cursorOverControls = false;
@@ -474,9 +511,10 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                 }
 
-                Game.alert("Do you want to change your clothes?");
+                // Game.alert("Do you want to change your clothes?");
                 Game.pauseGame();
                 gamePanel.skinMenuOpen = true;
+                gamePanel.selectedSkinSlot = (int) gamePanel.dad.getTextureModifier() - 48;
                 break;
 
             case 9:
@@ -531,9 +569,13 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
     }
 
+    // Highlites the skin slot blocks on hover
     public void skinHoverEffect() {
 
-
+        if ((mouseX >= 655 && mouseX <= 808) && (mouseY >= 345 && mouseY <= 497)) { gamePanel.setHoverSkinNumber(0); }
+        else if ((mouseX >= 1106 && mouseX <= 1257) && (mouseY >= 345 && mouseY <= 497)) { gamePanel.setHoverSkinNumber(1); }
+        else if ((mouseX >= 655 && mouseX <= 808) && (mouseY >= 545 && mouseY <= 697)) { gamePanel.setHoverSkinNumber(2); }
+        else if ((mouseX >= 1106 && mouseX <= 1257) && (mouseY >= 545 && mouseY <= 697)) { gamePanel.setHoverSkinNumber(3); }
 
     }
 }

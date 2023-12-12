@@ -299,3 +299,14 @@ EXE file is made for every update documented here<br>
     <li> + Added more settings into the <code>Config.json</code></li>
     <li> * Fixed vectors for movement so they no longer have an offset after some actions</li>
 </ul>
+
+## 11/12/2023
+<ul>
+    <li> + Added 2 other skins to chose from</li>
+</ul>
+
+## 12/12/2023
+<ul>
+    <li> + Added a skin selecting menu as the wardrobe interface</li>
+    <li> * Fixed a bug where you could get yourself stuck by planting a flower below yourself</li>
+</ul>
