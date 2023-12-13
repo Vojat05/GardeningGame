@@ -451,7 +451,6 @@ public class Game implements Runnable {
     public static void alertUpdate(String message) {
 
         alertMessage = message;
-        if (gamePanel.hasFocus()) gamePanel.repaint();
 
     }
 
@@ -465,7 +464,6 @@ public class Game implements Runnable {
 
         alert = true;
         alertMessage = message;
-        if (gamePanel.hasFocus()) gamePanel.repaint();
 
     }
 
@@ -686,7 +684,6 @@ public class Game implements Runnable {
                 
                 if (deltaF >= 1) deltaF--;
                 if (deltaT >= 1) deltaT--;
-                if (gamePanel.hasFocus()) gamePanel.repaint();
                 continue;
                 
             }
@@ -752,6 +749,7 @@ public class Game implements Runnable {
 
                 }
 
+                // The main scene repaint DO NOT DELETE !!!
                 if (gamePanel.hasFocus()) gamePanel.repaint();
                 fps++;
                 deltaF--;

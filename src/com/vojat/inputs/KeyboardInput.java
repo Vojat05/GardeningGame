@@ -211,6 +211,7 @@ public class KeyboardInput implements KeyListener {
     public void keyReleased(KeyEvent e) {
 
         if (dad == null || dad.HP == 0 || !dad.canMove()) return;
+        if (up && down && left && right) { gamePanel.dad.VECTORX = 0; gamePanel.dad.VECTORY = 0; }
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("up"))) {
 
             up = true;
