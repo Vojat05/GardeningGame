@@ -43,11 +43,11 @@ public class GamePanel extends JPanel {
     public double easeDayNight = .0;                                                        // Makes the Day -> Night cycle more fluent
     public float rainPositionY = 432f;                                                      // Vertical position of the rain
     public int selectedSkinSlot = 0;                                                        // The number of a selected skin slot
+    private static BufferedImage rainBase;                                                  // A base image for the rain to create a subimage from
     private int hoverSaveSlotNumber = 0;                                                    // Number of a save slot that is currently in hover
     private int hoverSkinSlot = 0;                                                          // Number of a skin slot that is currently in hover
     private MouseInput mouseInput = new MouseInput(this);                                   // The mouse input class ( Used for the save box hover effect )
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
-    private BufferedImage raingImg;                                                         // The full image of rain
     private HashMap<String, Image> textures = new HashMap<String, Image>();                 // A Hash Map containing all ground textures | structure: <Key:path | Value:image>
 
     /*
@@ -141,6 +141,22 @@ public class GamePanel extends JPanel {
             String[] textureNames = {"cornerTL", "cornerBL", "window", "wallT", "wallB", "wallL", "wallR", "cornerTR", "cornerBR", "door"};
 
             for (String texture : textureNames) { textures.put(texture + ".png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png").getImage()); }
+        }
+
+        /*
+         * --------------------------------------------------------------------------------
+         * Initialize the rain base image
+         * --------------------------------------------------------------------------------
+         */
+
+        try {
+
+            rainBase = ImageIO.read(new File("../../res/" + Game.texturePack + "/Pics/Rain.png"));
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
         }
     }
 
@@ -494,7 +510,53 @@ public class GamePanel extends JPanel {
 
     /*
      * --------------------------------------------------------------------------------
-     * Drawing the alert panel
+     * Drawing the agree button
+     * --------------------------------------------------------------------------------
+     */
+
+
+    private void drawAgreeButton(Graphics2D g2d, int x, int y) {
+
+        g2d.setPaint(new Color(10, 126, 236, 250));
+        g2d.fillOval(x - 17, y, 50, 50);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillOval(x - 14, y + 3, 44, 44);
+        g2d.setPaint(new Color(10, 126, 236, 250));
+        g2d.fillOval(x - 11, y + 6, 38, 38);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillOval(x - 4, y + 13, 24, 24);
+        g2d.setPaint(new Color(10, 126, 236, 250));
+        g2d.fillOval(x, y + 17, 16, 16);
+
+    }
+
+
+    /*
+     * --------------------------------------------------------------------------------
+     * Drawing the reject button
+     * --------------------------------------------------------------------------------
+     */
+
+
+    private void drawRejectButton(Graphics2D g2d, int x, int y) {
+
+        g2d.setPaint(new Color(236, 9, 68, 250));
+        g2d.fillOval(x, y, 50, 50);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillOval(x + 3, y + 3, 44, 44);
+        g2d.setPaint(new Color(236, 9, 68, 250));
+        g2d.fillOval(x + 6, y + 6, 38, 38);
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.setStroke(new BasicStroke(4));
+        g2d.drawLine(x + 18, y + 18, x + 30, y + 31);
+        g2d.drawLine(x + 30, y + 18, x + 18, y + 31);
+
+    }
+
+
+    /*
+     * --------------------------------------------------------------------------------
+     * Drawing the warning panel
      * --------------------------------------------------------------------------------
      */
 
@@ -521,7 +583,17 @@ public class GamePanel extends JPanel {
         g2d.setFont(Game.font.deriveFont(64f));
         g2d.drawString(Game.warningMessage, middleX - Game.warningMessage.length() * 11, (int) ((int) (middleY - middleY * 0.5) + 107.5));
 
+        if (this.hasFocus()) this.repaint();
+
     }
+
+
+    /*
+     * --------------------------------------------------------------------------------
+     * Drawing the alert panel
+     * --------------------------------------------------------------------------------
+     */
+
 
     private void drawAlert(Graphics2D g2d) {
 
@@ -553,30 +625,22 @@ public class GamePanel extends JPanel {
         // The selection buttons
 
         // Agree button
-        g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 150, (int) (middleY - middleY * 0.5) + 395, 50, 50);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX - 147, (int) (middleY - middleY * 0.5) + 398, 44, 44);
-        g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 144, (int) (middleY - middleY * 0.5) + 401, 38, 38);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX - 137, (int) (middleY - middleY * 0.5) + 408, 24, 24);
-        g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 133, (int) (middleY - middleY * 0.5) + 412, 16, 16);
+        drawAgreeButton(g2d, middleX - 133, (int) (middleY - middleY * 0.5) + 395);
 
         // Rejct button
-        g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(middleX + 100, (int) (middleY - middleY * 0.5) + 395, 50, 50);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX + 103, (int) (middleY - middleY * 0.5) + 398, 44, 44);
-        g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(middleX + 106, (int) (middleY - middleY * 0.5) + 401, 38, 38);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.setStroke(new BasicStroke(4));
-        g2d.drawLine(middleX + 118, (int) (middleY - middleY * 0.5) + 413, middleX + 130, (int) (middleY - middleY * 0.5) + 426);
-        g2d.drawLine(middleX + 130, (int) (middleY - middleY * 0.5) + 413, middleX + 118, (int) (middleY - middleY * 0.5) + 426);
+        drawRejectButton(g2d, middleX + 100, (int) (middleY - middleY * 0.5) + 395);
+
+        if (this.hasFocus()) this.repaint();
 
     }
+
+
+    /*
+     * --------------------------------------------------------------------------------
+     * Drawing the save panel
+     * --------------------------------------------------------------------------------
+     */
+
 
     private void drawSaveBox(Graphics2D g2d, int marginTopPx) {
         
@@ -622,33 +686,25 @@ public class GamePanel extends JPanel {
         // The selection buttons
 
         // Agree button
-        g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 150, (int) (middleY - middleY * 0.5) + 395, 50, 50);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX - 147, (int) (middleY - middleY * 0.5) + 398, 44, 44);
-        g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 144, (int) (middleY - middleY * 0.5) + 401, 38, 38);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX - 137, (int) (middleY - middleY * 0.5) + 408, 24, 24);
-        g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 133, (int) (middleY - middleY * 0.5) + 412, 16, 16);
+        drawAgreeButton(g2d, middleX - 150, (int) (middleY - middleY * 0.5) + 395);
 
         // Rejct button
-        g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(middleX + 100, (int) (middleY - middleY * 0.5) + 395, 50, 50);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX + 103, (int) (middleY - middleY * 0.5) + 398, 44, 44);
-        g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(middleX + 106, (int) (middleY - middleY * 0.5) + 401, 38, 38);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.setStroke(new BasicStroke(4));
-        g2d.drawLine(middleX + 118, (int) (middleY - middleY * 0.5) + 413, middleX + 130, (int) (middleY - middleY * 0.5) + 426);
-        g2d.drawLine(middleX + 130, (int) (middleY - middleY * 0.5) + 413, middleX + 118, (int) (middleY - middleY * 0.5) + 426);
+        drawRejectButton(g2d, middleX + 100, (int) (middleY - middleY * 0.5) + 395);
+
+        if (this.hasFocus()) this.repaint();
 
     }
 
+
+    /*
+     * --------------------------------------------------------------------------------
+     * Drawing the tutorial panel
+     * --------------------------------------------------------------------------------
+     */
+
+
     private void drawHelpScreen(Graphics2D g2d) {
-        // Drawing the Help screen insode the house if it's started for the first time
+        // Drawing the Help screen inside the house if it's started for the first time
 
         // The first block // White
         g2d.setPaint(new Color(245, 245, 245, 245));
@@ -678,18 +734,17 @@ public class GamePanel extends JPanel {
         g2d.drawString(Game.tutorialStringPulledData, 1275, 200);
 
         // Rejct button
-        g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(1450 + 100, 480 + 395, 50, 50);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(1450 + 103, 480 + 398, 44, 44);
-        g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(1450 + 106, 480 + 401, 38, 38);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.setStroke(new BasicStroke(4));
-        g2d.drawLine(1450 + 118, 480 + 413, 1450 + 130, 480 + 426);
-        g2d.drawLine(1450 + 130, 480 + 413, 1450 + 118, 480 + 426);
+        drawRejectButton(g2d, 1550, 875);
 
     }
+
+
+    /*
+     * --------------------------------------------------------------------------------
+     * Drawing the skin selection panel
+     * --------------------------------------------------------------------------------
+     */
+
 
     private void drawSkinBox(Graphics2D g2d) {
 
@@ -733,28 +788,12 @@ public class GamePanel extends JPanel {
         // Action buttons
 
         // Agree button
-        g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 250, (int) (middleY - middleY * 0.5) + 495, 50, 50);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX - 247, (int) (middleY - middleY * 0.5) + 498, 44, 44);
-        g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 244, (int) (middleY - middleY * 0.5) + 501, 38, 38);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX - 237, (int) (middleY - middleY * 0.5) + 508, 24, 24);
-        g2d.setPaint(new Color(10, 126, 236, 250));
-        g2d.fillOval(middleX - 233, (int) (middleY - middleY * 0.5) + 512, 16, 16);
+        drawAgreeButton(g2d, middleX - 250, (int) (middleY - middleY * 0.5) + 495);
 
         // Rejct button
-        g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(middleX + 200, (int) (middleY - middleY * 0.5) + 495, 50, 50);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillOval(middleX + 203, (int) (middleY - middleY * 0.5) + 498, 44, 44);
-        g2d.setPaint(new Color(236, 9, 68, 250));
-        g2d.fillOval(middleX + 206, (int) (middleY - middleY * 0.5) + 501, 38, 38);
-        g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.setStroke(new BasicStroke(4));
-        g2d.drawLine(middleX + 218, (int) (middleY - middleY * 0.5) + 513, middleX + 230, (int) (middleY - middleY * 0.5) + 526);
-        g2d.drawLine(middleX + 230, (int) (middleY - middleY * 0.5) + 513, middleX + 218, (int) (middleY - middleY * 0.5) + 526);
+        drawRejectButton(g2d, middleX + 200, (int) (middleY - middleY * 0.5) + 495);
+
+        if (this.hasFocus()) this.repaint();
 
     }
 
@@ -787,19 +826,8 @@ public class GamePanel extends JPanel {
 
         if (Game.isRaining()) {
 
-            
-            try {
-
-                raingImg = ImageIO.read(new File("../../res/" + Game.texturePack + "/Pics/Rain.png"));
-                raingImg = raingImg.getSubimage(0, (int) rainPositionY, 384, 216);
-                g2d.drawImage(raingImg, dad.level == 0 ? 0 : 1200, 0, 1920, 1080, null);
-
-            } catch (IOException e) {
-
-                Game.error("Rain texture error", 3);
-                e.printStackTrace();
-
-            }
+            BufferedImage raingImg = rainBase.getSubimage(0, (int) rainPositionY, 384, 216);
+            g2d.drawImage(raingImg, dad.level == 0 ? 0 : 1200, 0, 1920, 1080, null);
 
         }
 
