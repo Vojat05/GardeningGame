@@ -874,8 +874,9 @@ public class Game implements Runnable {
                     gamePanel.dad.outOfStamina = false;
                     gamePanel.dad.setTexture("Player/Dad_Texture_" + (gamePanel.dad.VECTORX > 0 ? "R" : "L") + gamePanel.dad.getTextureModifier() + ".png");
                     gamePanel.dad.setMove(true);
-                    gamePanel.dad.VECTORX = .0;
-                    gamePanel.dad.VECTORY = .0;
+                    gamePanel.getKeyboardInput().resetMovement();
+                    gamePanel.dad.VECTORX = 0;
+                    gamePanel.dad.VECTORY = 0;
                     
                 }
 

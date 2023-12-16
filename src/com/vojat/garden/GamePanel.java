@@ -47,6 +47,7 @@ public class GamePanel extends JPanel {
     private int hoverSaveSlotNumber = 0;                                                    // Number of a save slot that is currently in hover
     private int hoverSkinSlot = 0;                                                          // Number of a skin slot that is currently in hover
     private MouseInput mouseInput = new MouseInput(this);                                   // The mouse input class ( Used for the save box hover effect )
+    private KeyboardInput keyboardInput = new KeyboardInput(this, dad);                     // The keyboard input class
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
     private HashMap<String, Image> textures = new HashMap<String, Image>();                 // A Hash Map containing all ground textures | structure: <Key:path | Value:image>
 
@@ -81,7 +82,7 @@ public class GamePanel extends JPanel {
          */
         
         {
-            addKeyListener(new KeyboardInput(this, dad));
+            addKeyListener(keyboardInput);
             addMouseListener(mouseInput);
             addMouseMotionListener(mouseInput);
             addMouseWheelListener(mouseInput);
@@ -243,6 +244,12 @@ public class GamePanel extends JPanel {
 
         return this.mouseInput;
 
+    }
+
+    public KeyboardInput getKeyboardInput() {
+
+        return this.keyboardInput;
+        
     }
 
     // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer

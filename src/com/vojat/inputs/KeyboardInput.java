@@ -144,6 +144,11 @@ public class KeyboardInput implements KeyListener {
             
             }
 
+            up = true;
+            down = true;
+            left = true;
+            right = true;
+
             gamePanel.dad.setMove(true);
         }
 
@@ -309,5 +314,14 @@ public class KeyboardInput implements KeyListener {
                 break;
                 
         }
+    }
+
+    public void resetMovement() {
+
+        up = true;
+        down = true;
+        left = true;
+        right = true;
+        
     }
 }
