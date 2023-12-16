@@ -310,3 +310,8 @@ EXE file is made for every update documented here<br>
     <li> + Added a skin selecting menu as the wardrobe interface</li>
     <li> * Fixed a bug where you could get yourself stuck by planting a flower below yourself</li>
 </ul>
+
+## 17/12/2023
+<ul>
+    <li> * Fixed the automatic movement after stamina penalty expires</li>
+</li>
