@@ -34,6 +34,7 @@ public class GamePanel extends JPanel {
      * --------------------------------------------------------------------------------
      */
 
+    public static Boolean overlay;                                                          // The FPS & Tick overlay
     public Player dad = new Player(this, 240, 200);                                         // The player instance
     public InventoryPanel inventoryPanel;                                                   // Inventory panel used to display selected item
     public JPanel fullInv = new JPanel();                                                   // Player inventory panel visible after pressing "T"
@@ -249,7 +250,7 @@ public class GamePanel extends JPanel {
     public KeyboardInput getKeyboardInput() {
 
         return this.keyboardInput;
-        
+
     }
 
     // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
@@ -869,6 +870,14 @@ public class GamePanel extends JPanel {
             drawAlert(g2d);
             return;
 
+        }
+
+        // Drawing the overlay
+        if (GamePanel.overlay) {
+
+            g2d.setFont(g2d.getFont().deriveFont(24f));
+            g2d.setPaint(Color.BLACK);
+            g2d.drawString("FPS: " + Game.gfps + "  Tick: " + Game.gtick, Window.width - 165, 25);
         }
 
         if (Game.warning) drawWarning(g2d);

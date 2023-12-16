@@ -314,4 +314,5 @@ EXE file is made for every update documented here<br>
 ## 17/12/2023
 <ul>
     <li> * Fixed the automatic movement after stamina penalty expires</li>
+    <li> + Added FPS and Tick overlay</li>
 </li>
