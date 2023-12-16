@@ -65,6 +65,8 @@ public class Game implements Runnable {
     public static double dayNightTransitionSpeed = .0;                                                                                                                              // The value that is added to the night block
     public static float volumeTransitionSpeed = .0f;                                                                                                                                // The value that is added to the volume gain
     public static byte FPS_SET = 120;                                                                                                                                               // Frame-Rate cap
+    public static short gfps = 0;                                                                                                                                                    // The game current FPS rate
+    public static short gtick = 0;                                                                                                                                                   // The game current logic tick rate
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static boolean isRaining = false;                                                                                                                                       // Is the current weather raining
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
@@ -841,6 +843,8 @@ public class Game implements Runnable {
                 }
 
                 // Resets the FPS counter each second
+                gfps = fps;
+                gtick = tick;
                 fps = 0;
                 tick = 0;
                 seconds++;

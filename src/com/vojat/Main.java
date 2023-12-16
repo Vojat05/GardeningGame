@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 
 import com.vojat.Data.JSONEditor;
 import com.vojat.garden.Game;
+import com.vojat.garden.GamePanel;
 import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Window;
 
@@ -62,6 +63,7 @@ public class Main {
             Game.setNightLasts(Integer.parseInt(jsonEditor.readData("Night-Lasts")));
             Game.dayNightTransitionSpeed = Double.parseDouble(jsonEditor.readData("Cycle-Transition-Value"));
             Game.volumeTransitionSpeed = Float.parseFloat(jsonEditor.readData("Volume-Transition-Value"));
+            GamePanel.overlay = Boolean.parseBoolean(jsonEditor.readData("Enable-Overlay"));
 
             Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("../../res/" + Game.texturePack + "/Fonts/customFont.ttf"));
 
