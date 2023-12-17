@@ -858,7 +858,7 @@ public class Game implements Runnable {
                  * --------------------------------------------------------------------------------
                  */
 
-                if ((gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) && gamePanel.dad.canMove()) gamePanel.dad.tire(5);
+                if ((gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) && gamePanel.dad.canMove() && !gamePanel.dad.isSitting) gamePanel.dad.tire(5);
                 else gamePanel.dad.tire(-10);
 
                 /*
@@ -873,7 +873,7 @@ public class Game implements Runnable {
                     gamePanel.dad.setMove(false);
                     error("Out of stamina", 3);
 
-                } else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100) {
+                } else if (!gamePanel.dad.canMove() && gamePanel.dad.stamina == 100 && !gamePanel.dad.isSitting) {
 
                     gamePanel.dad.outOfStamina = false;
                     gamePanel.dad.setTexture("Player/Dad_Texture_" + (gamePanel.dad.VECTORX > 0 ? "R" : "L") + gamePanel.dad.getTextureModifier() + ".png");
