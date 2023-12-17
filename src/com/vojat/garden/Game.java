@@ -984,7 +984,7 @@ public class Game implements Runnable {
 
                 for (int j=0; j<value.length(); j++) {
 
-                    map.write(num, j, (int) value.charAt(j) - 48);
+                    map.write(j, num, value.charAt(j));
 
                 }
 

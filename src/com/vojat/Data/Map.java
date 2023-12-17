@@ -5,9 +5,7 @@ import java.util.ArrayList;
 public class Map {
     private char[][] map;
 
-    public Map(char[][] map) {
-        this.map = map;
-    }
+    public Map(char[][] map) { this.map = map; }
 
     /**
      * Clears a 2D character map.
@@ -50,10 +48,7 @@ public class Map {
      * @return This map.
      * 
      */
-    public char[][] getMap() {
-
-        return this.map;
-    }
+    public char[][] getMap() { return this.map; }
 
     /**
      * Writes data into map.
@@ -63,11 +58,7 @@ public class Map {
      * @return The char writen into the map.
      * 
      */
-    public char write(int x, int y, int value) {
-
-        return this.map[y][x] = (char) (48 + value);
-
-    }
+    public char write(int x, int y, int value) { return this.map[y][x] = (char) (48 + value); }
 
     /**
      * Writes data into map.
@@ -77,11 +68,7 @@ public class Map {
      * @return The char writen into the map.
      * 
      */
-    public char write(int x, int y, char value) {
-
-        return this.map[y][x] = value;
-
-    }
+    public char write(int x, int y, char value) { return this.map[y][x] = value; }
 
     /**
      * Reads the data stored in this 2D array.
@@ -90,11 +77,7 @@ public class Map {
      * @return The value stored at the coordinates.
      * 
      */
-    public char read(int x, int y) {
-
-        return this.map[y][x];
-
-    }
+    public char read(int x, int y) { return this.map[y][x]; }
 
     /**
      * Gets the date from the map as a string.
