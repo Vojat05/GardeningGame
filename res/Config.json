@@ -6,7 +6,7 @@
     "Version":"Dev-Build 0.7.3",
     "FPS":"120",
     "Day-Lasts":"60",
-    "Night-Lasts":"60",
+    "Night-Lasts":"30",
     "Cycle-Transition-Value":"0.2",
     "Volume-Transition-Value":"0.025",
     "Player-Reach":"1",

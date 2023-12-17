@@ -277,6 +277,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         } else if (controlVariableX == 2 && controlVariableY == 2) return;
 
                         Game.map.write(controlVariableX, controlVariableY, '6');
+                        Game.playSound("../../res/" + Game.texturePack + "/Audio/Brick.wav");
 
                     } else if (gamePanel.dad.selectedItem > gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && gamePanel.dad.selectedItem <= Game.flowerTypes.length + gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && controlVariableY != 7) {
 
