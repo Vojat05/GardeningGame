@@ -33,7 +33,7 @@ public class KeyboardInput implements KeyListener {
 
     private Player dad;                                                                     // The player
     private GamePanel gamePanel;                                                            // Game panel
-    private boolean up = true, down = true, left = true, right = true;                      // Determines wheather the player's texture should be repainted in a specific direction
+    private boolean up = false, down = false, left = false, right = false;                      // Determines wheather the player is moving in set direction
     private Settings settings;                                                              // Settings panel used for the change key response
     private JButton button;                                                                 // Button for the settings change key
     private JLabel label;                                                                   // The label to be repainted after the key is changed
@@ -144,10 +144,10 @@ public class KeyboardInput implements KeyListener {
             
             }
 
-            up = true;
-            down = true;
-            left = true;
-            right = true;
+            up = false;
+            down = false;
+            left = false;
+            right = false;
 
             gamePanel.dad.setMove(true);
         }
@@ -156,10 +156,10 @@ public class KeyboardInput implements KeyListener {
 
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("up"))) {
 
-            if (up) {
+            if (!up) {
 
                 dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_B" + dad.getTextureModifier() + ".png");
-                up = false;
+                up = true;
                 
             }
             
@@ -167,10 +167,10 @@ public class KeyboardInput implements KeyListener {
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("down"))) {
 
-            if (down) {
+            if (!down) {
 
                 dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + dad.getTextureModifier() + ".png");
-                down = false;
+                down = true;
                 
             }
             
@@ -178,10 +178,10 @@ public class KeyboardInput implements KeyListener {
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("left"))) {
 
-            if (left) {
+            if (!left) {
 
                 dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_L" + dad.getTextureModifier() + ".png");
-                left = false;
+                left = true;
                 
             }
             
@@ -189,10 +189,10 @@ public class KeyboardInput implements KeyListener {
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("right"))) {
 
-            if (right) {
+            if (!right) {
 
                 dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_R" + dad.getTextureModifier() + ".png");
-                right = false;
+                right = true;
                 
             }
             
@@ -216,29 +216,29 @@ public class KeyboardInput implements KeyListener {
     public void keyReleased(KeyEvent e) {
 
         if (dad == null || dad.HP == 0 || !dad.canMove()) return;
-        if (up && down && left && right) { gamePanel.dad.VECTORX = 0; gamePanel.dad.VECTORY = 0; }
+        if (!up && !down && !left && !right) { gamePanel.dad.VECTORX = 0; gamePanel.dad.VECTORY = 0; }
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("up"))) {
 
-            up = true;
-            if (down) dad.VECTORY = .0;
+            up = false;
+            if (!down) dad.VECTORY = .0;
             else if (dad.VECTORY < 0) dad.VECTORY = dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("down"))) {
 
-            down = true;
-            if (up) dad.VECTORY = .0;
+            down = false;
+            if (!up) dad.VECTORY = .0;
             else if (dad.VECTORY > 0) dad.VECTORY = -dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("left"))) {
 
-            left = true;
-            if (right) dad.VECTORX = .0;
+            left = false;
+            if (!right) dad.VECTORX = .0;
             else if (dad.VECTORX < 0) dad.VECTORX = dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("right"))) {
 
-            right = true;
-            if (left) dad.VECTORX = .0;
+            right = false;
+            if (!left) dad.VECTORX = .0;
             else if (dad.VECTORX > 0) dad.VECTORX = -dad.speed;
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
@@ -318,10 +318,10 @@ public class KeyboardInput implements KeyListener {
 
     public void resetMovement() {
 
-        up = true;
-        down = true;
-        left = true;
-        right = true;
+        up = false;
+        down = false;
+        left = false;
+        right = false;
         
     }
 }
