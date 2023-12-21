@@ -51,6 +51,7 @@ public class GamePanel extends JPanel {
     private KeyboardInput keyboardInput = new KeyboardInput(this, dad);                     // The keyboard input class
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
     private HashMap<String, Image> textures = new HashMap<String, Image>();                 // A Hash Map containing all ground textures | structure: <Key:path | Value:image>
+    private int blockWidth = 0;                                                             // The width of blocks to be rendered | For FullHD = 128
 
     /*
      * --------------------------------------------------------------------------------
@@ -160,6 +161,9 @@ public class GamePanel extends JPanel {
             e.printStackTrace();
 
         }
+
+        // Calculate the block width size
+        this.blockWidth = (int) (Window.width * Math.pow(Game.map.getColumns(), -1));
     }
 
     // Sets the inventory panel field (just for the repaint method to be functional in the listener)
@@ -294,7 +298,7 @@ public class GamePanel extends JPanel {
 
                 for (int j=0; j<Game.houseMap.getMap()[0].length; j++) {
     
-                    g.drawImage(textures.get(Game.groundTextures[0]), 128*j, 128*i, 128, 128, null);
+                    g.drawImage(textures.get(Game.groundTextures[0]), blockWidth*j, blockWidth*i, blockWidth, blockWidth, null);
     
                 }
             }
@@ -304,7 +308,7 @@ public class GamePanel extends JPanel {
 
                 for (int j=1; j<9; j++) {
     
-                    g.drawImage(new ImageIcon(textures.get(Game.houseTextures[0])).getImage(), 128*j, 128*i, 128, 128, null);
+                    g.drawImage(new ImageIcon(textures.get(Game.houseTextures[0])).getImage(), blockWidth*j, blockWidth*i, blockWidth, blockWidth, null);
     
                 }
             }
@@ -317,32 +321,32 @@ public class GamePanel extends JPanel {
 
                 if (i == 0) {
 
-                    g.drawImage(textures.get("cornerTL.png"), 128*i, 0, 128, 128, null);
-                    g.drawImage(textures.get("cornerBL.png"), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(textures.get("cornerTL.png"), blockWidth*i, 0, blockWidth, blockWidth, null);
+                    g.drawImage(textures.get("cornerBL.png"), blockWidth*i, blockWidth*7, blockWidth, blockWidth, null);
                     continue;
 
                 } else if (i == 2) {
 
-                    g.drawImage(textures.get("window.png"), 128*i, 128*7, 128, 128, null);
-                    g.drawImage(textures.get("wallT.png"), 128*i, 0, 128, 128, null);
+                    g.drawImage(textures.get("window.png"), blockWidth*i, blockWidth*7, blockWidth, blockWidth, null);
+                    g.drawImage(textures.get("wallT.png"), blockWidth*i, 0, blockWidth, blockWidth, null);
                     continue;
 
                 } else if (i == 5) {
 
-                    g.drawImage(textures.get("door.png"), 128*i, 128*7, 128, 128, null);
-                    g.drawImage(textures.get("wallT.png"), 128*i, 0, 128, 128, null);
+                    g.drawImage(textures.get("door.png"), blockWidth*i, blockWidth*7, blockWidth, blockWidth, null);
+                    g.drawImage(textures.get("wallT.png"), blockWidth*i, 0, blockWidth, blockWidth, null);
                     continue;
 
                 } else if (i == 9) {
 
-                    g.drawImage(textures.get("cornerTR.png"), 128*i, 0, 128, 128, null);
-                    g.drawImage(textures.get("cornerBR.png"), 128*i, 128*7, 128, 128, null);
+                    g.drawImage(textures.get("cornerTR.png"), blockWidth*i, 0, blockWidth, blockWidth, null);
+                    g.drawImage(textures.get("cornerBR.png"), blockWidth*i, blockWidth*7, blockWidth, blockWidth, null);
                     continue;
 
                 }
 
-                g.drawImage(textures.get("wallB.png"), 128*i, 128*7, 128, 128, null);
-                g.drawImage(textures.get("wallT.png"), 128*i, 0, 128, 128, null);
+                g.drawImage(textures.get("wallB.png"), blockWidth*i, blockWidth*7, blockWidth, blockWidth, null);
+                g.drawImage(textures.get("wallT.png"), blockWidth*i, 0, blockWidth, blockWidth, null);
 
             }
 
@@ -351,8 +355,8 @@ public class GamePanel extends JPanel {
                 Game.houseMap.write(0, i, '2');
                 Game.houseMap.write(9, i, '2');
 
-                g.drawImage(textures.get("wallL.png"), 0, 128*i, 128, 128, null);
-                g.drawImage(textures.get("wallR.png"), 128*9, 128*i, 128, 128, null);
+                g.drawImage(textures.get("wallL.png"), 0, blockWidth*i, blockWidth, blockWidth, null);
+                g.drawImage(textures.get("wallR.png"), blockWidth*9, blockWidth*i, blockWidth, blockWidth, null);
 
             }
 
@@ -366,27 +370,27 @@ public class GamePanel extends JPanel {
                         if (map.read(j, i) == '8') {
 
                             // The TV - wall offset
-                            g.drawImage(textures.get(Game.houseTextures[(int) map.read(j, i) - 48]), 128*j, 128*i-30, 128, 128, null);
+                            g.drawImage(textures.get(Game.houseTextures[(int) map.read(j, i) - 48]), blockWidth*j, blockWidth*i-30, blockWidth, blockWidth, null);
 
                         } else if (i == 5 && ( j == 1 || j == 4 )) {
 
                             // Draws the chairs with their respective orientation
-                            if (j == 1) g.drawImage(textures.get((Game.houseTextures[(int) map.read(j, i) - 48]).substring(0, 5) + "_left.png"), 128*j+60, 128*i+20, 128, 128, null);
-                            else g.drawImage(textures.get((Game.houseTextures[(int) map.read(j, i) - 48]).substring(0, 5) + "_right.png"), 128*j-40, 128*i+20, 128, 128, null);
+                            if (j == 1) g.drawImage(textures.get((Game.houseTextures[(int) map.read(j, i) - 48]).substring(0, 5) + "_left.png"), blockWidth*j+60, blockWidth*i+20, blockWidth, blockWidth, null);
+                            else g.drawImage(textures.get((Game.houseTextures[(int) map.read(j, i) - 48]).substring(0, 5) + "_right.png"), blockWidth*j-40, blockWidth*i+20, blockWidth, blockWidth, null);
 
                         } else if (map.read(j, i) == '6') {
 
                             // The table resizing
-                            g.drawImage(textures.get(Game.houseTextures[(int) map.read(j, i) - 48]), 128*j, 128*i-52, 256, 256, null);
+                            g.drawImage(textures.get(Game.houseTextures[(int) map.read(j, i) - 48]), blockWidth*j, blockWidth*i-52, blockWidth * 2, blockWidth * 2, null);
 
                         } else if (map.read(j, i) == '5') {
 
                             // The wardrobe - wall offset
-                            g.drawImage(textures.get(Game.houseTextures[(int) map.read(j, i) - 48]), 128*j+40, 128*i-30, 128, 128, null);
+                            g.drawImage(textures.get(Game.houseTextures[(int) map.read(j, i) - 48]), blockWidth*j+40, blockWidth*i-30, blockWidth, blockWidth, null);
 
                         } else {
     
-                            g.drawImage(textures.get(Game.houseTextures[(int) map.read(j, i) - 48]), 128*j, 128*i, 128, 128, null);
+                            g.drawImage(textures.get(Game.houseTextures[(int) map.read(j, i) - 48]), blockWidth*j, blockWidth*i, blockWidth, blockWidth, null);
     
                         }
                     }
@@ -418,20 +422,20 @@ public class GamePanel extends JPanel {
 
                             if (map.read(j, i) == '6') {
 
-                                g.drawImage(textures.get(Game.groundTextures[0]), 128*j, 128*i, 128, 128, null);
-                                g.drawImage(textures.get(Game.groundTextures[6]), 128*j, 128*i, 128, 128, null);
+                                g.drawImage(textures.get(Game.groundTextures[0]), blockWidth*j, blockWidth*i, blockWidth, blockWidth, null);
+                                g.drawImage(textures.get(Game.groundTextures[6]), blockWidth*j, blockWidth*i, blockWidth, blockWidth, null);
                                 continue;
 
                             }
 
-                            g.drawImage(textures.get(Game.groundTextures[(int) map.read(j, i) - 48]), 128*j, 128*i, 128, 128, null);
+                            g.drawImage(textures.get(Game.groundTextures[(int) map.read(j, i) - 48]), blockWidth*j, blockWidth*i, blockWidth, blockWidth, null);
 
                         }
                     }
                 }
                 
                 // Draw the house itself
-                g.drawImage(textures.get(Game.groundTextures[(int) map.read(1, 0) - 48]), 128, 0, 256, 256, null);
+                g.drawImage(textures.get(Game.groundTextures[(int) map.read(1, 0) - 48]), blockWidth, 0, blockWidth * 2, blockWidth * 2, null);
                 changeGrass = false;
 
                 // Drawing all the placed plants by a for loop to allow editing the plants
@@ -440,8 +444,8 @@ public class GamePanel extends JPanel {
                     Flower plant = Game.flowers.get(i);
 
                     // Draw the flowers
-                    g.drawImage(plant.baseTexture, plant.LOCATION_X * 128, plant.LOCATION_Y * 128, 128, 128, null);
-                    g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X * 128, plant.LOCATION_Y * 128, 128, 128, null);
+                    g.drawImage(plant.baseTexture, plant.LOCATION_X * blockWidth, plant.LOCATION_Y * blockWidth, blockWidth, blockWidth, null);
+                    g.drawImage(plant.CURRENT_TEXTURE, plant.LOCATION_X * blockWidth, plant.LOCATION_Y * blockWidth, blockWidth, blockWidth, null);
                 }
 
                 // Drawing the side fence poles
@@ -830,7 +834,7 @@ public class GamePanel extends JPanel {
         if (dad.level == 0) drawBirdShit(g2d);
 
         // Drawing the player character in 128 x 128
-        g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, 128, 128, null);
+        g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, blockWidth, blockWidth, null);
 
         if (Game.isRaining()) {
 
