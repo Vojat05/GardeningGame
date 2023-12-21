@@ -136,6 +136,19 @@ public class Map {
     }
 
     /**
+     * Gets the number of columns that is located in the Map. The number of positions in the X direction.
+     * @return Number of columns in the Map.
+     */
+    public int getColumns() { return map[0].length; }
+
+
+    /**
+     * Gets the number of rows that is located in the Map. The number of positions in the Y direction.
+     * @return Number of rows in the Map.
+     */
+    public int getRows() { return map.length; }
+
+    /**
      * Gets the theoretical X location in the map
      * @param posX
      * @return Integer value of a horizontal position translated into the map
