@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 	
 	}
 
-	// ./../../res/jdk-17/bin/java.exe
+	// Test for integrated java path: "./../../res/jdk-17/bin/java.exe"
 
 	return 0;
 }
