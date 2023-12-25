@@ -31,7 +31,7 @@ public class MenuPanel extends JPanel{
 
         // This is the entire main menu background
         setBackground(Color.DARK_GRAY);
-        setPreferredSize(new Dimension(Main.sizeX, Main.sizeY));
+        setPreferredSize(new Dimension(Main.width, Main.height));
 
 
         JPanel buttonPanel = new JPanel();
@@ -39,12 +39,12 @@ public class MenuPanel extends JPanel{
         // Creates a spacer used for the button panel offset
         JPanel spacer = new JPanel();
         {
-            spacer.setPreferredSize(new Dimension(Main.sizeX-250, 100));
+            spacer.setPreferredSize(new Dimension(Main.width-250, 100));
             spacer.setBackground(null);
         }
 
-        settings = new Settings(Main.sizeX, Main.sizeY, buttonPanel, spacer, this);
-        loadMenu = new Load(Main.sizeX, Main.sizeY, buttonPanel, spacer);
+        settings = new Settings(Main.width, Main.height, buttonPanel, spacer, this);
+        loadMenu = new Load(Main.width, Main.height, buttonPanel, spacer);
         
         // Create the start new game button
         JButton start = new JButton(InventoryPanel.createIcon("../../res/" + Game.texturePack + "/Pics/Buttons/New.png", 150, 40));
@@ -130,8 +130,8 @@ public class MenuPanel extends JPanel{
      * --------------------------------------------------------------------------------
      */
 
-    public static void buttonSetup(JButton button, int sizeX, int sizeY, Boolean border) {
-        button.setPreferredSize(new Dimension(sizeX, sizeY));
+    public static void buttonSetup(JButton button, int width, int height, Boolean border) {
+        button.setPreferredSize(new Dimension(width, height));
         button.setFocusPainted(false);
         button.setFocusable(false);
         if (border) button.setBorder(null);

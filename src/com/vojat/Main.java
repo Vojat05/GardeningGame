@@ -3,8 +3,8 @@ package com.vojat;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,7 +20,8 @@ import com.vojat.menu.Window;
 
 public class Main {
     public static boolean debug = false;
-    public static final int sizeX = 1920, sizeY = 1080;
+    public static int width = 1920, height = 1080;
+    public static int sizeX, sizeY;
     public static boolean maximize = false;
     public static Window window;
     private static int[] resolution;
@@ -32,19 +33,21 @@ public class Main {
          * --------------------------------------------------------------------------------
          */
 
-        GraphicsDevice gDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        Dimension sSize = Toolkit.getDefaultToolkit().getScreenSize();
+        sizeX = (int) sSize.getWidth();
+        sizeY = (int) sSize.getHeight();
 
         // Calculate the resolution to perfectly fit the game map
-        resolution = calculateResolution(sizeX, sizeY, 15, 8);
+        resolution = calculateResolution(width, height, 15, 8);
 
-        if (gDevice.getDisplayMode().getWidth() < sizeX || gDevice.getDisplayMode().getHeight() < sizeY) {
+        if (sizeX < 1920 || sizeY < 1080) {
 
-            error("Your display resolution is too low, FullHD ( 1920x1080 ) is minimum");
+            buildError("Your display resolution is too low, FullHD ( 1920x1080 ) is minimum");
 
             System.out.println("Your display resolution is too low // FullHD ( 1920x1080 ) is minimum");
             return;
             
-        } else if (gDevice.getDisplayMode().getWidth() == 1920 && gDevice.getDisplayMode().getHeight() == 1080) maximize = true;
+        } else if (sizeX == 1920 && sizeY == 1080) maximize = true;
 
         /*
          * --------------------------------------------------------------------------------
@@ -74,7 +77,7 @@ public class Main {
         } catch (FontFormatException | IOException e) {
             
             e.printStackTrace();
-            error("Config.json file not found");
+            buildError("Config.json file not found");
 
         }
 
@@ -84,7 +87,7 @@ public class Main {
 
     }
 
-    private static void error(String message) {
+    private static void buildError(String message) {
 
         JFrame lowResFrame = new JFrame("ERROR::");
         lowResFrame.setSize(500, 300);
