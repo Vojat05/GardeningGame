@@ -316,3 +316,9 @@ EXE file is made for every update documented here<br>
     <li> * Fixed the automatic movement after stamina penalty expires</li>
     <li> + Added FPS and Tick overlay</li>
 </li>
+
+## 26/12/2023
+<ul>
+    <li> * Player speed value config modification fixed</li>
+    <li> + Window resolution is not hard locked on FulHD, has to be unlocked in config.json (isn't fully finished)</li>
+</ul>

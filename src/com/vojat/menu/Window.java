@@ -75,4 +75,27 @@ public class Window extends JFrame {
             }
         }
     }
+
+    /**
+     * Recursive function to calculate the screen resolution to match a specified ratio.
+     * @param width The starting screen width input.
+     * @param height The starting screen height input.
+     * @param ratioX From <code>X : Y</code> the value of <code>X</code>.
+     * @param ratioY From <code>X : Y</code> the value of <code>Y</code>.
+     * @return An integer array containing <code>{ width, height }</code>.
+     */
+    public static int[] calculateResolution(int width, int height, int ratioX, int ratioY) {
+        // Fail break condition
+        if (width == 0 || height == 0) System.exit(1);
+
+        // Second break condition
+        if (width % ratioX == 0 && height % ratioY == 0) {
+            int[] resolution = new int[2];
+            resolution[0] = width;
+            resolution[1] = height;
+            return resolution;
+        }
+
+        return calculateResolution(width % ratioX == 0 ? width : (width - 1), height % ratioY == 0 ? height : (height - 1), ratioX, ratioY);
+    }
 }

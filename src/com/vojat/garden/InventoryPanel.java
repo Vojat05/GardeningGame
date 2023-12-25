@@ -37,7 +37,7 @@ public class InventoryPanel extends JPanel{
      * --------------------------------------------------------------------------------
      */
 
-    public InventoryPanel(int windowWidth, int windowHeight, GamePanel gamePanel, Player dad) {
+    public InventoryPanel(GamePanel gamePanel, Player dad) {
         this.dad = dad;
 
         {

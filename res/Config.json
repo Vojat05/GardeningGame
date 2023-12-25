@@ -11,5 +11,6 @@
     "Volume-Transition-Value":"0.025",
     "Player-Reach":"1",
     "Player-Default-Speed":"1",
-    "Enable-Overlay":"true"
+    "Enable-Overlay":"true",
+    "Only-FullHD":"true"
 }

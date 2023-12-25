@@ -19,7 +19,7 @@ import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Window;
 
 public class Main {
-    public static boolean debug = false;
+    public static boolean debug = false, onlyFHD = true; // REMOVE TEST AFTER DONE TESTING
     public static int width = 1920, height = 1080;
     public static int sizeX, sizeY;
     public static boolean maximize = false;
@@ -36,9 +36,6 @@ public class Main {
         Dimension sSize = Toolkit.getDefaultToolkit().getScreenSize();
         sizeX = (int) sSize.getWidth();
         sizeY = (int) sSize.getHeight();
-
-        // Calculate the resolution to perfectly fit the game map
-        resolution = calculateResolution(width, height, 15, 8);
 
         if (sizeX < 1920 || sizeY < 1080) {
 
@@ -60,6 +57,7 @@ public class Main {
             JSONEditor jsonEditor = new JSONEditor("../../res/Config.json");
             
             Main.debug = Boolean.parseBoolean(jsonEditor.readData("Debugging"));
+            Main.onlyFHD = !Boolean.parseBoolean(jsonEditor.readData("Only-FullHD"));
 
             Game.firstStart = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
             Game.langFileName = jsonEditor.readData("Language");
@@ -80,6 +78,15 @@ public class Main {
             buildError("Config.json file not found");
 
         }
+
+        // Plugging in the calculated values
+        if (onlyFHD) {
+            width = sizeX;
+            height = sizeY;
+        }
+
+        // Calculate the resolution to perfectly fit the game map
+        resolution = Window.calculateResolution(width, height, 15, 8);
 
         Window frame = new Window(resolution[0], resolution[1]);
         window = frame;
@@ -102,28 +109,5 @@ public class Main {
         lowResFrame.setLocationRelativeTo(null);
         lowResFrame.setVisible(true);
 
-    }
-
-    /**
-     * Recursive function to calculate the screen resolution to match a specified ratio.
-     * @param width The starting screen width input.
-     * @param height The starting screen height input.
-     * @param ratioX From <code>X : Y</code> the value of <code>X</code>.
-     * @param ratioY From <code>X : Y</code> the value of <code>Y</code>.
-     * @return An integer array containing <code>{ width, height }</code>.
-     */
-    public static int[] calculateResolution(int width, int height, int ratioX, int ratioY) {
-        // The break condition
-        if (width == 0 || height == 0) System.exit(1);
-
-        // Second break condition
-        if (width % ratioX == 0 && height % ratioY == 0) {
-            int[] resolution = new int[2];
-            resolution[0] = width;
-            resolution[1] = height;
-            return resolution;
-        }
-
-        return calculateResolution(width % ratioX == 0 ? width : (width - 1), height % ratioY == 0 ? height : (height - 1), ratioX, ratioY);
     }
 }
