@@ -40,7 +40,7 @@ public class Window extends JFrame {
         setIconImage(new ImageIcon("../../res/" + Game.texturePack + "/Pics/Icons/tulip.png").getImage());
 
         pack();
-        setSize(new Dimension(Main.sizeX, Main.sizeY));
+        setSize(new Dimension(Main.width, Main.height));
 
         if (Main.maximize) setExtendedState(JFrame.MAXIMIZED_BOTH);
 
