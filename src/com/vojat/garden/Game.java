@@ -199,8 +199,8 @@ public class Game implements Runnable {
          * --------------------------------------------------------------------------------
          */
 
-        gamePanel = new GamePanel(panelWidth, panelHeight, window);
-        InventoryPanel inventoryPanel = new InventoryPanel(panelWidth, panelHeight, gamePanel, gamePanel.dad);
+        gamePanel = new GamePanel(window);
+        InventoryPanel inventoryPanel = new InventoryPanel(gamePanel, gamePanel.dad);
         MainPanel mainPanel = new MainPanel(gamePanel, inventoryPanel);
         window.setElements(mainPanel);
 

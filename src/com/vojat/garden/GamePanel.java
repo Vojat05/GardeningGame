@@ -60,8 +60,8 @@ public class GamePanel extends JPanel {
      */
 
     // width == window width & height == window height
-    public GamePanel(int windowWidth, int windowHeight, Window window) {
-        dad.setLimit(windowWidth, windowHeight-50);
+    public GamePanel(Window window) {
+        dad.setLimit(Window.width, Window.height-50);
         setFocusable(true);         // Sets the JPanel focusable, it is later packed into the JFrame
 
         /*
@@ -71,8 +71,8 @@ public class GamePanel extends JPanel {
          */
 
         {
-            setBounds(0, 0, windowWidth, windowHeight-50);
-            setPreferredSize(new Dimension(windowWidth, windowHeight-50));
+            setBounds(0, 0, Window.width, Window.height-50);
+            setPreferredSize(new Dimension(Window.width, Window.height-50));
             setBackground(null);
             setBorder(new LineBorder(Color.BLACK));
         }
@@ -98,7 +98,7 @@ public class GamePanel extends JPanel {
         
         {
             fullInv.setBorder(new LineBorder(Color.BLACK));
-            fullInv.setPreferredSize(new Dimension(windowWidth - 20, 80));
+            fullInv.setPreferredSize(new Dimension(Window.width - 20, 80));
             fullInv.setBackground(new Color(0, 0, 0, 50));
 
             for (int i=0; i<dad.inventory.size(); i++) {
