@@ -120,9 +120,11 @@ public class GamePanel extends JPanel {
          */
 
         {
+            textures.put("Missing.png", new ImageIcon("../com/vojat/Data/Missing.png").getImage());
             for (int i=0; i < Game.groundTextures.length; i++) { 
                 
                 if (Game.groundTextures[i].equals("")) { continue; }
+                if (!(new File("../../res/" + Game.texturePack + "/Pics/Garden/" + Game.groundTextures[i]).exists())) { textures.put(Game.groundTextures[i], new ImageIcon("../com/vojat/Data/Missing.png").getImage()); continue; }
                 textures.put(Game.groundTextures[i], new ImageIcon("../../res/" + Game.texturePack + "/Pics/Garden/" + Game.groundTextures[i]).getImage()); 
             
             }
@@ -132,18 +134,33 @@ public class GamePanel extends JPanel {
                 if (Game.houseTextures[i].equals("")) { continue; }
                 else if (Game.houseTextures[i].equals("chair.png")) {
 
-                    textures.put("chair_left.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").getImage());
-                    textures.put("chair_right.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_right.png").getImage());
+                    if (!(new File("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").exists())) textures.put("chair_left.png", new ImageIcon("../com/vojat/Data/Missing.png").getImage());
+                    else textures.put("chair_left.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").getImage());textures.put("chair_left.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").getImage());
+                    
+                    if (!(new File("../../res/" + Game.texturePack + "/Pics/House/chair_right.png").exists())) textures.put("chair_right.png", new ImageIcon("../com/vojat/Data/Missing.png").getImage());
+                    else textures.put("chair_right.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_right.png").getImage());
 
                 }
 
+                if (!(new File("../../res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[i]).exists())) { textures.put(Game.houseTextures[i], new ImageIcon("../com/vojat/Data/Missing.png").getImage()); continue; }
                 textures.put(Game.houseTextures[i], new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[i]).getImage()); 
             
             }
 
             String[] textureNames = {"cornerTL", "cornerBL", "window", "wallT", "wallB", "wallL", "wallR", "cornerTR", "cornerBR", "door"};
 
-            for (String texture : textureNames) { textures.put(texture + ".png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png").getImage()); }
+            for (String texture : textureNames) {
+                
+                if ((new File("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png")).exists()) {
+
+                    textures.put(texture + ".png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png").getImage());
+
+                } else {
+
+                    textures.put(texture + ".png", new ImageIcon("../com/vojat/Data/Missing.png").getImage());
+                    
+                }
+            }
         }
 
         /*
@@ -154,6 +171,7 @@ public class GamePanel extends JPanel {
 
         try {
 
+            rainBase = ImageIO.read(new File("../com/vojat/Data/Missing.png"));
             rainBase = ImageIO.read(new File("../../res/" + Game.texturePack + "/Pics/Rain.png"));
 
         } catch (IOException e) {
