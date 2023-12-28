@@ -22,7 +22,6 @@ public class Main {
     public static boolean debug = false, onlyFHD = true; // REMOVE TEST AFTER DONE TESTING
     public static int width = 1920, height = 1080;
     public static int sizeX, sizeY;
-    public static boolean maximize = false;
     public static Window window;
     private static int[] resolution;
     public static void main(String[] args) {
@@ -44,7 +43,7 @@ public class Main {
             System.out.println("Your display resolution is too low // FullHD ( 1920x1080 ) is minimum");
             return;
             
-        } else if (sizeX == 1920 && sizeY == 1080) maximize = true;
+        }
 
         /*
          * --------------------------------------------------------------------------------
@@ -91,6 +90,9 @@ public class Main {
         resolution = Window.calculateResolution(width, height, 15, 8);
 
         Window frame = new Window(resolution[0], resolution[1]);
+
+        if (resolution[0] == sizeX && resolution[1] == sizeY) frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         window = frame;
         new MenuPanel(window);
 
