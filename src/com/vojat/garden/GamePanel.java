@@ -737,8 +737,8 @@ public class GamePanel extends JPanel {
     private void drawHelpScreen(Graphics2D g2d) {
         // Drawing the Help screen inside the house if it's started for the first time
         int x, y;
-        x = blockWidth * 10;
-        y = 50;
+        x = Game.tutorial.getX();
+        y = Game.tutorial.getY();
 
         // The first block // White
         g2d.setPaint(new Color(245, 245, 245, 245));
