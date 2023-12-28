@@ -888,7 +888,7 @@ public class GamePanel extends JPanel {
         }
 
         // Drawing the help menu box
-        if (dad.level == 1 && Game.firstStart) { drawHelpScreen(g2d); }
+        if (dad.level == 1 && Game.firstStart || Game.tutorial.isVisible()) { drawHelpScreen(g2d); }
 
         // Drawing the death screen
         if (dad.HP == 0) {
