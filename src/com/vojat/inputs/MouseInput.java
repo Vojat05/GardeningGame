@@ -112,6 +112,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
             }
 
+            // Alert box
             if ( (e.getX() >= 802 && e.getX() <= 852) && (e.getY() >= 636 && e.getY() <= 685) ) {
                 
                 // Accept button
@@ -150,7 +151,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         // The save box options
                         Game.saveGame("../com/vojat/Data/Saves/Save" + gamePanel.getSaveNumber() + ".json", gamePanel.dad, (byte) gamePanel.getSaveNumber());
                         gamePanel.hideSaveMenu();
-                        gamePanel.dad.LOCATION_X = 208;
+                        gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2;
                         gamePanel.dad.LOCATION_Y = 120;
                         gamePanel.dad.setMove(true);
                         Game.alertMessage = "None";
@@ -185,7 +186,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 } else if (gamePanel.saveMenuOpen) {
 
                     gamePanel.hideSaveMenu();
-                    gamePanel.dad.LOCATION_X = 208;
+                    gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2;
                     gamePanel.dad.LOCATION_Y = 120;
                     gamePanel.dad.setMove(true);
                     Game.alertMessage = "None";
