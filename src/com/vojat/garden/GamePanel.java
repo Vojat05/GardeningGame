@@ -35,6 +35,7 @@ public class GamePanel extends JPanel {
      */
 
     public static Boolean overlay;                                                          // The FPS & Tick overlay
+    public static int blockWidth = 0;                                                       // The width of blocks to be rendered | For FullHD = 128
     public Player dad = new Player(this, 240, 200);                                         // The player instance
     public InventoryPanel inventoryPanel;                                                   // Inventory panel used to display selected item
     public JPanel fullInv = new JPanel();                                                   // Player inventory panel visible after pressing "T"
@@ -51,7 +52,6 @@ public class GamePanel extends JPanel {
     private KeyboardInput keyboardInput = new KeyboardInput(this, dad);                     // The keyboard input class
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
     private HashMap<String, Image> textures = new HashMap<String, Image>();                 // A Hash Map containing all ground textures | structure: <Key:path | Value:image>
-    private int blockWidth = 0;                                                             // The width of blocks to be rendered | For FullHD = 128
 
     /*
      * --------------------------------------------------------------------------------
@@ -61,6 +61,10 @@ public class GamePanel extends JPanel {
 
     // width == window width & height == window height
     public GamePanel(Window window) {
+
+        // Calculate the block width size
+        blockWidth = (int) (Window.width * Math.pow(Game.map.getColumns(), -1));
+        
         dad.setLimit(Window.width, Window.height-50);
         setFocusable(true);         // Sets the JPanel focusable, it is later packed into the JFrame
 
@@ -179,9 +183,6 @@ public class GamePanel extends JPanel {
             e.printStackTrace();
 
         }
-
-        // Calculate the block width size
-        this.blockWidth = (int) (Window.width * Math.pow(Game.map.getColumns(), -1));
     }
 
     // Sets the inventory panel field (just for the repaint method to be functional in the listener)

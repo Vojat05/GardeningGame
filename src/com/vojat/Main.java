@@ -79,11 +79,13 @@ public class Main {
 
         }
 
-        // Plugging in the calculated values
+        // Plugging in the resolution calculated values
         if (onlyFHD) {
             width = sizeX;
             height = sizeY;
         }
+
+        System.out.println("Width: " + width + "\nHeight: " + height);
 
         // Calculate the resolution to perfectly fit the game map
         resolution = Window.calculateResolution(width, height, 15, 8);

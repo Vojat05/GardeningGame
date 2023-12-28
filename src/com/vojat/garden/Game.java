@@ -211,7 +211,7 @@ public class Game implements Runnable {
 
         // Set the player starting position
         gamePanel.dad.level = 1;
-        gamePanel.dad.LOCATION_X = 208;
+        gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2 - 60;
         gamePanel.dad.LOCATION_Y = 120;
     }
 
