@@ -173,6 +173,8 @@ public class Game implements Runnable {
             jsonEditor.setFile("../../res/Config.json");
             firstStart = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
             tutorial.setVisibility(firstStart);
+            tutorial.setX(GamePanel.blockWidth * 10 - 40);
+            tutorial.setY(50);
 
         } catch (IOException e) {
 

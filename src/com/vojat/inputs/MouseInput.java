@@ -211,9 +211,10 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
         if (Game.firstStart && gamePanel.dad.level == 1) {
             // Turns off the tutorial panel
 
-            if ( (e.getX() >= 1550 && e.getX() <= 1600) && (e.getY() <=923 && e.getY() >= 875) ) {
+            if ( (e.getX() >= Game.tutorial.getX() + 305 && e.getX() <= Game.tutorial.getX() + 355) && (e.getY() <= 923 && e.getY() >= 875) ) {
 
                 Game.firstStart = false;
+                Game.tutorial.setVisibility(false);
                 Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
 
             }

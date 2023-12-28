@@ -10,7 +10,7 @@
     "Cycle-Transition-Value":"0.2",
     "Volume-Transition-Value":"0.025",
     "Player-Reach":"1",
-    "Player-Default-Speed":"3",
+    "Player-Default-Speed":"1",
     "Enable-Overlay":"true",
     "Only-FullHD":"true"
 }
