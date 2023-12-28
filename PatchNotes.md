@@ -322,3 +322,8 @@ EXE file is made for every update documented here<br>
     <li> * Player speed value config modification fixed</li>
     <li> + Window resolution is not hard locked on FulHD, has to be unlocked in config.json (isn't fully finished)</li>
 </ul>
+
+## 28/12/2023
+<ul>
+    <li> + Added a missing texture for easier texture pack modifications</li>
+</ul>
