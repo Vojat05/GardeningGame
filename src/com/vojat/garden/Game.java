@@ -21,6 +21,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import com.vojat.Main;
 import com.vojat.Data.JSONEditor;
 import com.vojat.Data.Map;
+import com.vojat.Data.TutorialBox;
 import com.vojat.Enums.ErrorList;
 import com.vojat.menu.Window;
 
@@ -44,8 +45,7 @@ public class Game implements Runnable {
     public static Map houseMap = new Map(new char[8][15]);                                                                                                                          // [Y][X] coords
     public static String stage = "Day";                                                                                                                                             // Current stage of the game ( Night / Day )
     public static String version = "";                                                                                                                                              // Current game version
-    public static String tutorialStringPulledData = "";                                                                                                                             // Data to be displayed in the current tutorial screen box
-    public static ArrayList<String> tutorialStrings = new ArrayList<String>();                                                                                                      // Every element of this arraylist is a single line to be printed to the output box
+    public static TutorialBox tutorial = new TutorialBox(0, 0, false);                                                                                                              // The tutorial box                 
     public static boolean alert = false;                                                                                                                                            // Is some type of a alert up?
     public static boolean warning = false;                                                                                                                                          // Is some type of a warning up?
     public static byte errorTime = 0;                                                                                                                                               // Number of secodns for the latest error to be visible
@@ -65,8 +65,8 @@ public class Game implements Runnable {
     public static double dayNightTransitionSpeed = .0;                                                                                                                              // The value that is added to the night block
     public static float volumeTransitionSpeed = .0f;                                                                                                                                // The value that is added to the volume gain
     public static byte FPS_SET = 120;                                                                                                                                               // Frame-Rate cap
-    public static short gfps = 0;                                                                                                                                                    // The game current FPS rate
-    public static short gtick = 0;                                                                                                                                                   // The game current logic tick rate
+    public static short gfps = 0;                                                                                                                                                   // The game current FPS rate
+    public static short gtick = 0;                                                                                                                                                  // The game current logic tick rate
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static boolean isRaining = false;                                                                                                                                       // Is the current weather raining
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
@@ -74,7 +74,7 @@ public class Game implements Runnable {
     private static int nightLasts = 0;                                                                                                                                              // How long does the night last in seconds
     private static float dayNumber = 0;                                                                                                                                             // How many days have past since the game started
     private static Clip rainClip;                                                                                                                                                   // The rain audio
-    private static GamePanel gamePanel;                                                                                                                                                    // The panel that shows the game window
+    private static GamePanel gamePanel;                                                                                                                                             // The panel that shows the game window
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
     private int seconds = 0;                                                                                                                                                        // Seconds since the game started
     private float volumeGain = 0f;                                                                                                                                                  // The default music volume
@@ -150,51 +150,6 @@ public class Game implements Runnable {
 
         /*
          * --------------------------------------------------------------------------------
-         * Setting up the tutorial text
-         * --------------------------------------------------------------------------------
-         */
-        // Sets / Re-sets the tutorial box with every instance
-        try {
-
-            JSONEditor jsonEditor = new JSONEditor("../../res/Language/" + langFileName);
-            tutorialStringPulledData = jsonEditor.readData("Tutorial-Data");
-
-            jsonEditor.setFile("../../res/Config.json");
-            firstStart = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-        }
-
-        tutorialStrings.clear();
-
-        // Get the number of lines for the tutorial box to draw them
-        boolean sliced = false;
-        for (int i=0; i<tutorialStringPulledData.length(); i++) {
-
-            if (tutorialStringPulledData.charAt(i) == '\\' && tutorialStringPulledData.charAt(i + 1) == 'n' || i == tutorialStringPulledData.length()-1) {
-
-                if (sliced) {
-
-                    tutorialStrings.add(tutorialStringPulledData.substring(1, i));
-
-                } else {
-
-                    tutorialStrings.add(tutorialStringPulledData.substring(0, i));
-                    sliced = true;
-
-                }
-
-                tutorialStringPulledData = tutorialStringPulledData.substring(i+1, tutorialStringPulledData.length());
-                i = 0;
-
-            }
-        }
-
-        /*
-         * --------------------------------------------------------------------------------
          * Setting up the main in-game panels and player spawn
          * --------------------------------------------------------------------------------
          */
@@ -204,6 +159,54 @@ public class Game implements Runnable {
         MainPanel mainPanel = new MainPanel(gamePanel, inventoryPanel);
         window.setElements(mainPanel);
 
+        /*
+         * --------------------------------------------------------------------------------
+         * Setting up the tutorial text
+         * --------------------------------------------------------------------------------
+         */
+        // Sets / Re-sets the tutorial box with every instance
+        try {
+
+            JSONEditor jsonEditor = new JSONEditor("../../res/Language/" + langFileName);
+            tutorial.setRawData(jsonEditor.readData("Tutorial-Data"));
+
+            jsonEditor.setFile("../../res/Config.json");
+            firstStart = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
+            tutorial.setVisibility(firstStart);
+            tutorial.setX(GamePanel.blockWidth * 10 - 40);
+            tutorial.setY(50);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+        tutorial.clearLines();
+
+        // Get the number of lines for the tutorial box to draw them
+        boolean sliced = false;
+        for (int i=0; i<tutorial.getRawData().length(); i++) {
+
+            if (tutorial.getRawData().charAt(i) == '\\' && tutorial.getRawData().charAt(i + 1) == 'n' || i == tutorial.getRawData().length()-1) {
+
+                if (sliced) {
+
+                    tutorial.addLine(tutorial.getRawData().substring(1, i));
+
+                } else {
+
+                    tutorial.addLine(tutorial.getRawData().substring(0, i));
+                    sliced = true;
+
+                }
+
+                tutorial.setRawData(tutorial.getRawData().substring(i+1, tutorial.getRawData().length()));
+                i = 0;
+
+            }
+        }
+
         // Starts the game and requests focus
         startGame();
         gamePanel.requestFocusInWindow();
@@ -211,8 +214,8 @@ public class Game implements Runnable {
 
         // Set the player starting position
         gamePanel.dad.level = 1;
-        gamePanel.dad.LOCATION_X = 208;
-        gamePanel.dad.LOCATION_Y = 120;
+        gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2 - 60;
+        gamePanel.dad.LOCATION_Y = GamePanel.blockWidth * 1;
     }
 
     /*
@@ -603,8 +606,8 @@ public class Game implements Runnable {
 
             playSound("../../res/" + texturePack + "/Audio/DoorInteract.wav");
             gamePanel.dad.level = 1;
-            gamePanel.dad.LOCATION_X = 638;
-            gamePanel.dad.LOCATION_Y = 810;
+            gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 5;
+            gamePanel.dad.LOCATION_Y = GamePanel.blockWidth * 6;
             invisibleWalls.remove(invisibleWalls.indexOf('3'));
             invisibleWalls.add('6');
 
@@ -615,8 +618,8 @@ public class Game implements Runnable {
 
             playSound("../../res/" + texturePack +  "/Audio/DoorInteract.wav");
             gamePanel.dad.level = 0;
-            gamePanel.dad.LOCATION_X = 240;
-            gamePanel.dad.LOCATION_Y = 200;
+            gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2 - GamePanel.blockWidth * 0.1;
+            gamePanel.dad.LOCATION_Y = GamePanel.blockWidth * 2 - GamePanel.blockWidth * 0.4;
             invisibleWalls.add('3');
             invisibleWalls.remove(invisibleWalls.indexOf('6'));
 

@@ -2,6 +2,8 @@ package com.vojat.Data;
 
 import java.util.ArrayList;
 
+import com.vojat.garden.GamePanel;
+
 public class Map {
     private char[][] map;
 
@@ -154,7 +156,7 @@ public class Map {
      * @return Integer value of a horizontal position translated into the map
      * 
      */
-    public static int translateX(double posX) { return (int) (posX * .0078125); }
+    public static int translateX(double posX) { return (int) (posX * Math.pow(GamePanel.blockWidth, -1)); /* PosX / block width */ }
 
     /**
      * Gets the theoretical Y location in the map
@@ -162,7 +164,7 @@ public class Map {
      * @return Integer value of a vertical position translated into the map
      * 
      */
-    public static int translateY(double posY) { return (int) (posY * .0078125); }
+    public static int translateY(double posY) { return (int) (posY * Math.pow(GamePanel.blockWidth, -1)); /* PosY / block width */ }
 
     /**
      * Gets the object in located in the map at the specific location
