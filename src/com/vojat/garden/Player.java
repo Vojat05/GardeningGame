@@ -2,6 +2,7 @@ package com.vojat.garden;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 
 import com.vojat.Data.JSONEditor;
@@ -84,7 +85,8 @@ public class Player {
         windowLimitY = limitY-170;
 
         // Sets the default player texture on startup to look forward
-        currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + getTextureModifier() + ".png");
+        if (!(new File("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + getTextureModifier() + ".png").exists())) currentTexture = Game.setTexture("../com/vojat/Data/Missing.png");
+        else currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + getTextureModifier() + ".png");
 
     }
 

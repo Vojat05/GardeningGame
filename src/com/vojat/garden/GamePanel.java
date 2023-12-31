@@ -35,7 +35,8 @@ public class GamePanel extends JPanel {
      */
 
     public static Boolean overlay;                                                          // The FPS & Tick overlay
-    public Player dad = new Player(this, 240, 200);                                         // The player instance
+    public static int blockWidth = 0;                                                       // The width of blocks to be rendered | For FullHD = 128
+    public Player dad = new Player(this, 0, 0);                                             // The player instance
     public InventoryPanel inventoryPanel;                                                   // Inventory panel used to display selected item
     public JPanel fullInv = new JPanel();                                                   // Player inventory panel visible after pressing "T"
     public boolean changeGrass = true;                                                      // Determines wheather the grass should have a wind effect applied
@@ -51,7 +52,6 @@ public class GamePanel extends JPanel {
     private KeyboardInput keyboardInput = new KeyboardInput(this, dad);                     // The keyboard input class
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
     private HashMap<String, Image> textures = new HashMap<String, Image>();                 // A Hash Map containing all ground textures | structure: <Key:path | Value:image>
-    private int blockWidth = 0;                                                             // The width of blocks to be rendered | For FullHD = 128
 
     /*
      * --------------------------------------------------------------------------------
@@ -61,6 +61,10 @@ public class GamePanel extends JPanel {
 
     // width == window width & height == window height
     public GamePanel(Window window) {
+
+        // Calculate the block width size
+        blockWidth = (int) (Window.width * Math.pow(Game.map.getColumns(), -1));
+        
         dad.setLimit(Window.width, Window.height-50);
         setFocusable(true);         // Sets the JPanel focusable, it is later packed into the JFrame
 
@@ -120,9 +124,11 @@ public class GamePanel extends JPanel {
          */
 
         {
+            textures.put("Missing.png", new ImageIcon("../../res/Missing.png").getImage());
             for (int i=0; i < Game.groundTextures.length; i++) { 
                 
                 if (Game.groundTextures[i].equals("")) { continue; }
+                if (!(new File("../../res/" + Game.texturePack + "/Pics/Garden/" + Game.groundTextures[i]).exists())) { textures.put(Game.groundTextures[i], new ImageIcon("../../res/Missing.png").getImage()); continue; }
                 textures.put(Game.groundTextures[i], new ImageIcon("../../res/" + Game.texturePack + "/Pics/Garden/" + Game.groundTextures[i]).getImage()); 
             
             }
@@ -132,18 +138,33 @@ public class GamePanel extends JPanel {
                 if (Game.houseTextures[i].equals("")) { continue; }
                 else if (Game.houseTextures[i].equals("chair.png")) {
 
-                    textures.put("chair_left.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").getImage());
-                    textures.put("chair_right.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_right.png").getImage());
+                    if (!(new File("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").exists())) textures.put("chair_left.png", new ImageIcon("../../res/Missing.png").getImage());
+                    else textures.put("chair_left.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").getImage());textures.put("chair_left.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").getImage());
+                    
+                    if (!(new File("../../res/" + Game.texturePack + "/Pics/House/chair_right.png").exists())) textures.put("chair_right.png", new ImageIcon("../../res/Missing.png").getImage());
+                    else textures.put("chair_right.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_right.png").getImage());
 
                 }
 
+                if (!(new File("../../res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[i]).exists())) { textures.put(Game.houseTextures[i], new ImageIcon("../../res/Missing.png").getImage()); continue; }
                 textures.put(Game.houseTextures[i], new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[i]).getImage()); 
             
             }
 
             String[] textureNames = {"cornerTL", "cornerBL", "window", "wallT", "wallB", "wallL", "wallR", "cornerTR", "cornerBR", "door"};
 
-            for (String texture : textureNames) { textures.put(texture + ".png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png").getImage()); }
+            for (String texture : textureNames) {
+                
+                if ((new File("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png")).exists()) {
+
+                    textures.put(texture + ".png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png").getImage());
+
+                } else {
+
+                    textures.put(texture + ".png", new ImageIcon("../../res/Missing.png").getImage());
+                    
+                }
+            }
         }
 
         /*
@@ -154,6 +175,7 @@ public class GamePanel extends JPanel {
 
         try {
 
+            rainBase = ImageIO.read(new File("../../res/Missing.png"));
             rainBase = ImageIO.read(new File("../../res/" + Game.texturePack + "/Pics/Rain.png"));
 
         } catch (IOException e) {
@@ -161,9 +183,6 @@ public class GamePanel extends JPanel {
             e.printStackTrace();
 
         }
-
-        // Calculate the block width size
-        this.blockWidth = (int) (Window.width * Math.pow(Game.map.getColumns(), -1));
     }
 
     // Sets the inventory panel field (just for the repaint method to be functional in the listener)
@@ -717,36 +736,40 @@ public class GamePanel extends JPanel {
 
     private void drawHelpScreen(Graphics2D g2d) {
         // Drawing the Help screen inside the house if it's started for the first time
+        int x, y;
+        x = Game.tutorial.getX();
+        y = Game.tutorial.getY();
 
         // The first block // White
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillRect(1245, 50, 650, 100);
+        g2d.fillRect(x, y, 650, 100);
 
         // The second block // Gray
         g2d.setPaint(new Color(210, 210, 210, 245));
-        g2d.fillRect(1245, 150, 650, 700);
+        g2d.fillRect(x, y + 100, 650, 700);
 
         // The third block // White
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillRect(1245, 850, 650, 100);
+        g2d.fillRect(x, y + 800, 650, 100);
 
         // The Help text in the first white block
         g2d.setPaint(new Color(30, 30, 30, 240));
         g2d.setFont(Game.font.deriveFont(48f));
-        g2d.drawString("Tutorial", 1500, 120);
+        g2d.drawString("Tutorial", x + 255, y + 70);
 
         // Tutorial box content
         g2d.setFont(Game.font.deriveFont(24f));
 
-        for (int i=0; i<Game.tutorialStrings.size(); i++) {
+        for (int i=0; i<Game.tutorial.getLines(); i++) {
 
-            g2d.drawString(Game.tutorialStrings.get(i), 1275, 200 + 30*i);
+            g2d.drawString(Game.tutorial.getLine(i), x + 30, y + 150 + 30*i);
+
         }
 
-        g2d.drawString(Game.tutorialStringPulledData, 1275, 200);
+        g2d.drawString(Game.tutorial.getRawData(), x + 30, y + 150);
 
         // Rejct button
-        drawRejectButton(g2d, 1550, 875);
+        drawRejectButton(g2d, x + 305, y + 825);
 
     }
 
@@ -851,7 +874,7 @@ public class GamePanel extends JPanel {
 
             if (dad.selectedItem == 2) {
 
-                Point2D center = new Point2D.Float((float) (dad.LOCATION_X + 64), (float) (dad.LOCATION_Y + 64));
+                Point2D center = new Point2D.Float((float) (dad.LOCATION_X + GamePanel.blockWidth * .5), (float) (dad.LOCATION_Y + GamePanel.blockWidth * .5));
                 float radius = 150f;
                 float[] dist = {0.0f, 1.0f};
                 Color[] colors = {new Color(100, 80, 20, (int) (easeDayNight - easeDayNight * Math.pow(5, -1))), nightColor};
@@ -865,7 +888,7 @@ public class GamePanel extends JPanel {
         }
 
         // Drawing the help menu box
-        if (dad.level == 1 && Game.firstStart) { drawHelpScreen(g2d); }
+        if (dad.level == 1 && Game.firstStart || Game.tutorial.isVisible()) { drawHelpScreen(g2d); }
 
         // Drawing the death screen
         if (dad.HP == 0) {
