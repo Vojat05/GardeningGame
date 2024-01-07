@@ -760,6 +760,7 @@ public class Game implements Runnable {
                 deltaF--;
             }
 
+            // 20 times per second
             if (deltaT >= 1) {
                 
                 /*
@@ -936,9 +937,9 @@ public class Game implements Runnable {
 
     /**
      * Saves the game progress into a seperate JSON file
-     * @param saveFilePath string
+     * @param saveFilePath string path where the game should be saved
      * @param dad Player
-     * @param saveNumber byte
+     * @param saveNumber byte save number
      * @throws FileNotFoundException
      * 
      */
@@ -966,8 +967,8 @@ public class Game implements Runnable {
 
     /**
      * Loads the game progress from a given save
-     * @param saveFilePath string
-     * @param saveNumber byte
+     * @param saveFilePath string path to the save file
+     * @param saveNumber byte save number
      * @throws FileNotFoundException
      * 
      */
@@ -975,6 +976,7 @@ public class Game implements Runnable {
         
         // Loads the map
         firstStart = false;
+        tutorial.setVisibility(false);
         save = saveNumber;
         JSONEditor jEditor = new JSONEditor(saveFilePath);
         String[][] strMap = jEditor.read2DArr();
