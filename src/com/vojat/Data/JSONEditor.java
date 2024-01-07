@@ -23,6 +23,7 @@ public class JSONEditor {
     private File file;                                                                          // The JSON file which it writes to & reads from
     public ArrayList<JSONObject> JSONObjects = new ArrayList<JSONObject>();                     // ArrayList of all the JSON Objects in that JSON file
     private String jsonData = "";                                                               // The currently being edited contents of the JSON file
+    private String rawData = "";                                                                // The raw json string data
 
     /*
      * ----------------------------------------------------------------
@@ -34,6 +35,7 @@ public class JSONEditor {
     public JSONEditor(String filePath) throws FileNotFoundException {
 
         setFile(filePath);
+        readFile(false);
 
     }
 
@@ -93,6 +95,7 @@ public class JSONEditor {
             }
             
             reader.close();
+            rawData = jsonData;
 
             // Processes the Sting variable to make JSON Objects with name and content
             if (makeObject) makeObject(jsonData);
@@ -225,7 +228,8 @@ public class JSONEditor {
 
     public String readData(String request) throws FileNotFoundException{
 
-        readFile(false);
+        if (rawData == null || rawData.length() == 0) readFile(false);
+        jsonData = rawData;
         boolean write = false;
         boolean bKey = true;
         String key = "";

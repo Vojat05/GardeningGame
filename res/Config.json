@@ -5,7 +5,7 @@
     "Texture-Pack":"ProgrammerPack",
     "Version":"Dev-Build 0.8.1",
     "FPS":"120",
-    "Day-Lasts":"60",
+    "Day-Lasts":"120",
     "Night-Lasts":"30",
     "Cycle-Transition-Value":"0.2",
     "Volume-Transition-Value":"0.025",
