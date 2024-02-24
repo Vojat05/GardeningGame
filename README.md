@@ -13,7 +13,8 @@ Sometimes pigeons will come flying across the garden, you must try to dodge thei
 If you take too much damage, you'll die. And every time that happens, you will be forced to load your previous save file to continue playing.<br>
 
 # Modding
-To use a custom made texture pack, add the texture pack folder inside the res folder, then <br>
+Every modifiable game option can be modified in the <code>res/config.json</code> file.<br>
+To use a custom made texture pack, add the texture pack folder inside the <code>res</code> directory, then <br>
 change the <code>"Texture-Pack"</code> value in <code>Config.json</code>.
 
 # Controls
