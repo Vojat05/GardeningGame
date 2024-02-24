@@ -470,7 +470,7 @@ public class GamePanel extends JPanel {
                 // Drawing the side fence poles
                 for (int i=2; i<32; i++) {
 
-                    g.drawImage(textures.get(Game.groundTextures[7]), 1877, i*30, 22, 96, null);
+                    g.drawImage(textures.get(Game.groundTextures[7]), (int) (Window.width - blockWidth * 0.325), (int) (i * blockWidth * 0.235 + 5), (int) (blockWidth * 0.1718), (int) (blockWidth * 0.75), null);
 
                 }
 
@@ -872,6 +872,7 @@ public class GamePanel extends JPanel {
             Color nightColor = new Color(6, 10, 12, (int) easeDayNight);
             g2d.setPaint(nightColor);
 
+            // Draw the light circle gradient
             if (dad.selectedItem == 2) {
 
                 Point2D center = new Point2D.Float((float) (dad.LOCATION_X + GamePanel.blockWidth * .5), (float) (dad.LOCATION_Y + GamePanel.blockWidth * .5));

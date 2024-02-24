@@ -327,3 +327,9 @@ EXE file is made for every update documented here<br>
 <ul>
     <li> + Added a missing texture for easier texture pack modifications</li>
 </ul>
+
+## 24/2/2024
+<ul>
+    <li> + Added resolution override option into the configuration json file</li>
+    <li> * Fence is now displaying properly on varying resolution</li>
+</ul>
