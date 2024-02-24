@@ -657,8 +657,8 @@ public class Game implements Runnable {
         short fps = 0;
         short tick = 0;
         long lastCheck = System.currentTimeMillis();
-        double deltaF = 0;
-        double deltaT = 0;
+        float deltaF = 0F;
+        float deltaT = 0F;
         short animationTick = 100;
 
         // The in-game audio player
@@ -760,22 +760,20 @@ public class Game implements Runnable {
                 deltaF--;
             }
 
-            // 20 times per second
+            /*
+             * --------------------------------------------------------------------------------
+             * Game logic calculations
+             * --------------------------------------------------------------------------------
+             * 20 times per second
+             */
             if (deltaT >= 1) {
-                
-                /*
-                 * --------------------------------------------------------------------------------
-                 * Game logic calculations
-                 * --------------------------------------------------------------------------------
-                 */
-
                 gameTick();
 
                 tick++;
                 deltaT--;
             }
 
-            // Happens animationTick times per second ( default 100 / 10 )
+            // Animation tick | 10 times per second
             if (System.currentTimeMillis() - lastCheck >= animationTick) {
 
                 animationTick += 100;
@@ -996,11 +994,7 @@ public class Game implements Runnable {
                 value = "";
                 num++;
 
-            } else {
-
-                value += mapValues.charAt(i);
-
-            }
+            } else value += mapValues.charAt(i);
         }
 
         // Loads the flowers
@@ -1052,9 +1046,7 @@ public class Game implements Runnable {
                         break;
 
                 }
-
                 data = "";
-
             }
 
             flowers.add(new Flower(
@@ -1067,8 +1059,6 @@ public class Game implements Runnable {
             );
 
         }
-
         System.gc();
-
     }
 }

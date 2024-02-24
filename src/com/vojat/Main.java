@@ -19,7 +19,7 @@ import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Window;
 
 public class Main {
-    public static boolean debug = false, onlyFHD = true; // REMOVE TEST AFTER DONE TESTING
+    public static boolean debug = false, overrideResolution = true;
     public static int width = 1920, height = 1080;
     public static int sizeX, sizeY;
     public static Window window;
@@ -51,12 +51,15 @@ public class Main {
          * --------------------------------------------------------------------------------
          */
 
+        String configResRaw = "";
         try {
 
             JSONEditor jsonEditor = new JSONEditor("../../res/Config.json");
             
             Main.debug = Boolean.parseBoolean(jsonEditor.readData("Debugging"));
-            Main.onlyFHD = !Boolean.parseBoolean(jsonEditor.readData("Only-FullHD"));
+            Main.overrideResolution = Boolean.parseBoolean(jsonEditor.readData("Override-Resolution-Bool"));
+
+            if (overrideResolution) configResRaw = jsonEditor.readData("Override-Resolution");
 
             Game.firstStart = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
             Game.langFileName = jsonEditor.readData("Language");
@@ -79,7 +82,20 @@ public class Main {
         }
 
         // Plugging in the resolution calculated values
-        if (onlyFHD) {
+        if (overrideResolution) {
+            String widthString = "";
+            String heightString = "";
+            boolean write = true;
+
+            for (int i=0; i<configResRaw.length(); i++) {
+                if (configResRaw.charAt(i) == 'x') write = write ? false : true;
+                else if (write) widthString += configResRaw.charAt(i);
+                else heightString += configResRaw.charAt(i);
+            }
+
+            width = Integer.parseInt(widthString);
+            height = Integer.parseInt(heightString);
+        } else {
             width = sizeX;
             height = sizeY;
         }
