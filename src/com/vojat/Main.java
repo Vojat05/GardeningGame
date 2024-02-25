@@ -47,7 +47,7 @@ public class Main {
 
         /*
          * --------------------------------------------------------------------------------
-         * Getting the essential game settings from the config file
+         * Getting the essential game settings from the config.json file
          * --------------------------------------------------------------------------------
          */
 
