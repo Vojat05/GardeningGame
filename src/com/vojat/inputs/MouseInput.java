@@ -359,29 +359,27 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             // This is the mouse wheel button being pressed
             case MouseEvent.BUTTON2:
             
-            gamePanel.dad.hurt(10);
-            if (gamePanel.dad.level == 1) System.out.println("Interaction 2"); 
-            else {
+                gamePanel.dad.hurt(10);
+                if (gamePanel.dad.level == 1) System.out.println("Interaction 2"); 
+                else {
 
-                Game.map.getData("print");
+                    Game.map.getData("print");
 
-                if (Main.debug) {
+                    if (Main.debug) {
 
-                    try {
+                        try {
 
-                        Game.saveGame("../com/vojat/Data/Saves/Save3.json", gamePanel.dad, (byte) 3);
+                            Game.saveGame("../com/vojat/Data/Saves/Save3.json", gamePanel.dad, (byte) 3);
 
-                    } catch (FileNotFoundException f) {
+                        } catch (FileNotFoundException f) {
 
-                        System.err.println(ErrorList.ERR_404.message);
-                        Game.error("File not found", 3);
+                            System.err.println(ErrorList.ERR_404.message);
+                            Game.error("File not found", 3);
 
+                        }
                     }
                 }
-            }
-
-            break;
-
+                break;
         }
     }
 

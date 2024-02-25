@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.vojat.Data.JSONEditor;
+import com.vojat.menu.Window;
 
 public class Player {
 
@@ -49,7 +50,7 @@ public class Player {
 
             JSONEditor jEditor = new JSONEditor("../../res/Config.json");
             this.reach = Byte.parseByte(jEditor.readData("Player-Reach"));
-            this.dSpeed = Double.parseDouble(jEditor.readData("Player-Default-Speed"));
+            this.dSpeed = Window.width * 0.00052 * Double.parseDouble(jEditor.readData("Player-Default-Speed"));
 
         } catch (IOException e) {
 
