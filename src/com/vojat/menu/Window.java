@@ -35,6 +35,11 @@ public class Window extends JFrame {
         width = screenWidth;
         height = screenHeight;
         
+        if (width == Main.sizeX && height == Main.sizeY && Main.fullscreen) {
+            setUndecorated(true);
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
+
         setTitle("Dad The Gardener");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIconImage(new ImageIcon("../../res/" + Game.texturePack + "/Pics/Icons/tulip.png").getImage());

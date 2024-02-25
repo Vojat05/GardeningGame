@@ -12,6 +12,7 @@
     "Player-Reach":"1",
     "Player-Default-Speed":"1",
     "Enable-Overlay":"true",
-    "Override-Resolution-Bool":"true",
-    "Override-Resolution":"1920x1080"
+    "Override-Resolution-Bool":"false",
+    "Override-Resolution":"1920x1080",
+    "FullScreen":"true"
 }

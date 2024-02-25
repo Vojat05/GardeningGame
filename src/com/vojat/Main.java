@@ -19,8 +19,8 @@ import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Window;
 
 public class Main {
-    public static boolean debug = false, overrideResolution = true;
-    public static int width = 1920, height = 1080;
+    public static boolean debug = false, overrideResolution = true, fullscreen = true;
+    public static int width, height;
     public static int sizeX, sizeY;
     public static Window window;
     private static int[] resolution;
@@ -58,6 +58,7 @@ public class Main {
             
             Main.debug = Boolean.parseBoolean(jsonEditor.readData("Debugging"));
             Main.overrideResolution = Boolean.parseBoolean(jsonEditor.readData("Override-Resolution-Bool"));
+            Main.fullscreen = Boolean.parseBoolean(jsonEditor.readData("FullScreen"));
 
             if (overrideResolution) configResRaw = jsonEditor.readData("Override-Resolution");
 
@@ -103,13 +104,9 @@ public class Main {
         System.out.println("Width: " + width + "\nHeight: " + height);
 
         // Calculate the resolution to perfectly fit the game map
-        resolution = Window.calculateResolution(width, height, 15, 8);
+        resolution = Window.calculateResolution(width, height, 16, 9);
 
-        Window frame = new Window(resolution[0], resolution[1]);
-
-        if (resolution[0] == sizeX && resolution[1] == sizeY) frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        window = frame;
+        window = new Window(resolution[0], resolution[1]);
         new MenuPanel(window);
 
     }
