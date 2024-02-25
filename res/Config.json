@@ -3,14 +3,16 @@
     "Debugging":"false",
     "Show-Tutorial":"true",
     "Texture-Pack":"ProgrammerPack",
-    "Version":"Dev-Build 0.8.1",
+    "Version":"Dev-Build 0.8.2",
     "FPS":"120",
-    "Day-Lasts":"60",
-    "Night-Lasts":"30",
+    "Day-Lasts":"240",
+    "Night-Lasts":"60",
     "Cycle-Transition-Value":"0.2",
     "Volume-Transition-Value":"0.025",
     "Player-Reach":"1",
     "Player-Default-Speed":"1",
     "Enable-Overlay":"true",
-    "Only-FullHD":"true"
+    "Override-Resolution-Bool":"false",
+    "Override-Resolution":"1920x1080",
+    "FullScreen":"true"
 }

@@ -657,8 +657,8 @@ public class Game implements Runnable {
         short fps = 0;
         short tick = 0;
         long lastCheck = System.currentTimeMillis();
-        double deltaF = 0;
-        double deltaT = 0;
+        float deltaF = 0F;
+        float deltaT = 0F;
         short animationTick = 100;
 
         // The in-game audio player
@@ -760,21 +760,20 @@ public class Game implements Runnable {
                 deltaF--;
             }
 
+            /*
+             * --------------------------------------------------------------------------------
+             * Game logic calculations
+             * --------------------------------------------------------------------------------
+             * 20 times per second
+             */
             if (deltaT >= 1) {
-                
-                /*
-                 * --------------------------------------------------------------------------------
-                 * Game logic calculations
-                 * --------------------------------------------------------------------------------
-                 */
-
                 gameTick();
 
                 tick++;
                 deltaT--;
             }
 
-            // Happens animationTick times per second ( default 100 / 10 )
+            // Animation tick | 10 times per second
             if (System.currentTimeMillis() - lastCheck >= animationTick) {
 
                 animationTick += 100;
@@ -936,9 +935,9 @@ public class Game implements Runnable {
 
     /**
      * Saves the game progress into a seperate JSON file
-     * @param saveFilePath string
+     * @param saveFilePath string path where the game should be saved
      * @param dad Player
-     * @param saveNumber byte
+     * @param saveNumber byte save number
      * @throws FileNotFoundException
      * 
      */
@@ -966,8 +965,8 @@ public class Game implements Runnable {
 
     /**
      * Loads the game progress from a given save
-     * @param saveFilePath string
-     * @param saveNumber byte
+     * @param saveFilePath string path to the save file
+     * @param saveNumber byte save number
      * @throws FileNotFoundException
      * 
      */
@@ -975,6 +974,7 @@ public class Game implements Runnable {
         
         // Loads the map
         firstStart = false;
+        tutorial.setVisibility(false);
         save = saveNumber;
         JSONEditor jEditor = new JSONEditor(saveFilePath);
         String[][] strMap = jEditor.read2DArr();
@@ -994,11 +994,7 @@ public class Game implements Runnable {
                 value = "";
                 num++;
 
-            } else {
-
-                value += mapValues.charAt(i);
-
-            }
+            } else value += mapValues.charAt(i);
         }
 
         // Loads the flowers
@@ -1050,9 +1046,7 @@ public class Game implements Runnable {
                         break;
 
                 }
-
                 data = "";
-
             }
 
             flowers.add(new Flower(
@@ -1065,8 +1059,6 @@ public class Game implements Runnable {
             );
 
         }
-
         System.gc();
-
     }
 }

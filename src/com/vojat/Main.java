@@ -19,8 +19,8 @@ import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Window;
 
 public class Main {
-    public static boolean debug = false, onlyFHD = true; // REMOVE TEST AFTER DONE TESTING
-    public static int width = 1920, height = 1080;
+    public static boolean debug = false, overrideResolution = true, fullscreen = true;
+    public static int width, height;
     public static int sizeX, sizeY;
     public static Window window;
     private static int[] resolution;
@@ -47,16 +47,20 @@ public class Main {
 
         /*
          * --------------------------------------------------------------------------------
-         * Getting the essential game settings from the config file
+         * Getting the essential game settings from the config.json file
          * --------------------------------------------------------------------------------
          */
 
+        String configResRaw = "";
         try {
 
             JSONEditor jsonEditor = new JSONEditor("../../res/Config.json");
             
             Main.debug = Boolean.parseBoolean(jsonEditor.readData("Debugging"));
-            Main.onlyFHD = !Boolean.parseBoolean(jsonEditor.readData("Only-FullHD"));
+            Main.overrideResolution = Boolean.parseBoolean(jsonEditor.readData("Override-Resolution-Bool"));
+            Main.fullscreen = Boolean.parseBoolean(jsonEditor.readData("FullScreen"));
+
+            if (overrideResolution) configResRaw = jsonEditor.readData("Override-Resolution");
 
             Game.firstStart = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
             Game.langFileName = jsonEditor.readData("Language");
@@ -79,7 +83,20 @@ public class Main {
         }
 
         // Plugging in the resolution calculated values
-        if (onlyFHD) {
+        if (overrideResolution) {
+            String widthString = "";
+            String heightString = "";
+            boolean write = true;
+
+            for (int i=0; i<configResRaw.length(); i++) {
+                if (configResRaw.charAt(i) == 'x') write = write ? false : true;
+                else if (write) widthString += configResRaw.charAt(i);
+                else heightString += configResRaw.charAt(i);
+            }
+
+            width = Integer.parseInt(widthString);
+            height = Integer.parseInt(heightString);
+        } else {
             width = sizeX;
             height = sizeY;
         }
@@ -87,13 +104,9 @@ public class Main {
         System.out.println("Width: " + width + "\nHeight: " + height);
 
         // Calculate the resolution to perfectly fit the game map
-        resolution = Window.calculateResolution(width, height, 15, 8);
+        resolution = Window.calculateResolution(width, height, 16, 9);
 
-        Window frame = new Window(resolution[0], resolution[1]);
-
-        if (resolution[0] == sizeX && resolution[1] == sizeY) frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        window = frame;
+        window = new Window(resolution[0], resolution[1]);
         new MenuPanel(window);
 
     }
