@@ -468,9 +468,10 @@ public class GamePanel extends JPanel {
                 }
 
                 // Drawing the side fence poles
+                int posX = (int) (blockWidth * 14.67);
                 for (int i=2; i<32; i++) {
 
-                    g.drawImage(textures.get(Game.groundTextures[7]), (int) (Window.width - blockWidth * 0.325), (int) (i * blockWidth * 0.235 + 5), (int) (blockWidth * 0.1718), (int) (blockWidth * 0.75), null);
+                    g.drawImage(textures.get(Game.groundTextures[7]), posX, (int) (i * blockWidth * 0.235 + 4), (int) (blockWidth * 0.1718), (int) (blockWidth * 0.75), null);
 
                 }
 
