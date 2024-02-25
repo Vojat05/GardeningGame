@@ -333,3 +333,9 @@ EXE file is made for every update documented here<br>
     <li> + Added resolution override option into the configuration json file</li>
     <li> * Fence is now displaying properly on varying resolution</li>
 </ul>
+
+## 25/2/2024
+<ul>
+    <li> + Added fullscreen option into config.json</li>
+    <li> * Fixed player speed differing in other resolutions</li>
+</ul>

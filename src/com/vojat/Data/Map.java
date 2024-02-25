@@ -97,9 +97,7 @@ public class Map {
                 System.out.println("");
 
             }
-
             return "";
-
         } else {
 
             String value = "";
@@ -110,9 +108,7 @@ public class Map {
                 value += "!";
 
             }
-
             return value;
-
         }
     }
 
@@ -132,9 +128,7 @@ public class Map {
                 if (!values.contains(map[i][j])) { values.add(map[i][j]); }
             }
         }
-
         return values;
-
     }
 
     /**
