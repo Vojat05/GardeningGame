@@ -75,7 +75,6 @@ public class Game implements Runnable {
     private static int nightLasts = 0;                                                                                                                                              // How long does the night last in seconds
     private static float dayNumber = 0;                                                                                                                                             // How many days have past since the game started
     private static GamePanel gamePanel;                                                                                                                                             // The panel that shows the game window
-    private static Console console = new Console();                                                                                                                                 // Console for executing commands, both GUI and commands
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
     private int seconds = 0;                                                                                                                                                        // Seconds since the game started
     private float volumeGain = 0f;                                                                                                                                                  // The default music volume
@@ -255,7 +254,7 @@ public class Game implements Runnable {
     /**
      * Pauses the game
      */
-    public static void pauseGame() {
+    public static void togglePauseGame() {
 
         try {
 
@@ -665,15 +664,19 @@ public class Game implements Runnable {
             }
 
             // Execute console commands
-            if (console.getCommandList().size() != 0) {
+            if (Console.getCommandList().size() > 0) {
 
-                ArrayList<String> commands = console.getCommandList();
+                ArrayList<String> cArgs = Console.getArgsAsList();
     
-                for (int i=0; i<commands.size(); i++) {
-                    switch (console.commandTranslate(console.commandPop())) {
+                for (int i=0; i<Console.getCommandList().size(); i++) {
+
+                    String command = Console.commandPop();
+                    switch (Console.commandTranslate(command)) {
     
                         // Teleport
                         case 0:
+                            gamePanel.dad.LOCATION_X = GamePanel.blockWidth * Integer.parseInt(cArgs.get(0));
+                            gamePanel.dad.LOCATION_Y = GamePanel.blockWidth * Integer.parseInt(cArgs.get(1));
                             break;
                         
                         default:

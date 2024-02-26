@@ -98,14 +98,14 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     // The accept button
                     gamePanel.dad.setTextureModifier((char) (gamePanel.selectedSkinSlot + 48));
                     gamePanel.skinMenuOpen = false;
-                    Game.pauseGame();
+                    Game.togglePauseGame();
                     Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
 
                 } else if ((e.getX() >= 1152 && e.getX() <= 1202) && (e.getY() >= 736 && e.getY() <= 786)) {
 
                     // The reject button
                     gamePanel.skinMenuOpen = false;
-                    Game.pauseGame();
+                    Game.togglePauseGame();
                     Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
 
                 }
@@ -144,7 +144,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     } else if (Game.alertMessage.equals("Do you want to change your clothes?")) {
 
                         gamePanel.dad.setTextureModifier(gamePanel.dad.getTextureModifier() == '3' ? '0' : (char) (gamePanel.dad.getTextureModifier() + 1));
-                        Game.pauseGame();
+                        Game.togglePauseGame();
                         Game.alert = false;
                         gamePanel.skinMenuOpen = false;
 
@@ -157,7 +157,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         gamePanel.dad.LOCATION_Y = 120;
                         gamePanel.dad.setMove(true);
                         Game.alertMessage = "None";
-                        Game.pauseGame();
+                        Game.togglePauseGame();
 
                     } else {
 
@@ -192,11 +192,11 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     gamePanel.dad.LOCATION_Y = 120;
                     gamePanel.dad.setMove(true);
                     Game.alertMessage = "None";
-                    Game.pauseGame();
+                    Game.togglePauseGame();
 
                 } else {
                     
-                    Game.pauseGame();
+                    Game.togglePauseGame();
                     Game.alert = false;
                     Game.alertMessage = "None";
                     
@@ -494,7 +494,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 gamePanel.showSaveMenu();
                 Game.alertMessage = "";
                 Game.playSound("../../res/" + Game.texturePack + "/Audio/BedSqueak.wav");
-                Game.pauseGame();
+                Game.togglePauseGame();
                 break;
             
             case 5:
@@ -515,7 +515,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 }
 
                 // Game.alert("Do you want to change your clothes?");
-                Game.pauseGame();
+                Game.togglePauseGame();
                 gamePanel.skinMenuOpen = true;
                 gamePanel.selectedSkinSlot = (int) gamePanel.dad.getTextureModifier() - 48;
                 break;

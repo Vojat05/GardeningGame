@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import com.vojat.Main;
 import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
+import com.vojat.garden.Console;
 import com.vojat.garden.Game;
 import com.vojat.garden.GamePanel;
 import com.vojat.garden.Player;
@@ -93,6 +94,35 @@ public class KeyboardInput implements KeyListener {
 
         if (dad == null || dad.HP == 0) return;
 
+        // Toggle the console
+        if (e.getKeyCode() == KeyEvent.VK_F1) {
+            Console.toggleShow();
+            return;
+        }
+
+        // Entering the console command
+        if (Console.isVisible()) {
+
+            // Execute the command if ENTER is pressed
+            if (e.getKeyCode() == KeyEvent.VK_ENTER && Console.commandPrompt.contains(";")) {
+                Console.addCommand(Console.commandPrompt);
+                return;
+            }
+
+            // Delete the last character if BACKSPACE is pressed
+            if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && Console.commandPrompt.length() > 0) {
+                Console.commandPrompt = Console.commandPrompt.substring(0, Console.commandPrompt.length() - 1);
+                return;
+            }
+
+            // ASCII check if the entered value is in the allowed range
+            char c = e.getKeyChar();
+            if ((c == 0x20 || c == 0x3B) || (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A)) Console.commandPrompt += c;
+            
+            return;
+        }
+
+        // Exit the current alert or other window
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("exit"))) {
 
             if (gamePanel.saveMenuOpen) {
@@ -101,28 +131,28 @@ public class KeyboardInput implements KeyListener {
                 dad.LOCATION_X = 208;
                 dad.LOCATION_Y = 120;
                 Game.alertMessage = "None";
-                Game.pauseGame();
+                Game.togglePauseGame();
 
             } else if (gamePanel.skinMenuOpen) {
 
                 gamePanel.skinMenuOpen = false;
-                Game.pauseGame();
+                Game.togglePauseGame();
 
             } else if (!Game.pause && !Game.alert) {
 
-                Game.pauseGame();
+                Game.togglePauseGame();
                 Game.alert("Are you sure you want to quit?");
 
             } else if (Game.pause && Game.alert) {
 
-                Game.pauseGame();
+                Game.togglePauseGame();
                 Game.alert = false;
 
             } else if (Game.pause && !Game.alert) Game.alert("Are you sure you want to quit?");
 
         } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("pause"))) {
 
-            if (!Game.alert) Game.pauseGame();
+            if (!Game.alert) Game.togglePauseGame();
 
         }
 
@@ -198,7 +228,8 @@ public class KeyboardInput implements KeyListener {
             
             dad.VECTORX = dad.speed;
 
-        } else {
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
+        else {
 
             for (byte i=0; i<10; i++) {
 
@@ -241,7 +272,7 @@ public class KeyboardInput implements KeyListener {
             if (!left) dad.VECTORX = .0;
             else if (dad.VECTORX > 0) dad.VECTORX = -dad.speed;
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
+        }
 
         if (dad.VECTORX != .0 || dad.VECTORY != .0) {
 
