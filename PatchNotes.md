@@ -343,4 +343,5 @@ EXE file is made for every update documented here<br>
 ## 26/2/2024
 <ul>
     <li> * Fixed save slots file not found error</li>
+    <li> + Added documentation</li>
 </ul>
