@@ -66,12 +66,14 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
             if (gamePanel.saveMenuOpen) {
                 // Save menu interaction
+                int middleX = (int) (gamePanel.getWidth() * 0.5);
+                int middleY = (int) (gamePanel.getHeight() * 0.5);
 
-                if ( !(e.getX() >= 772 && e.getX() <= 1132) ) return;
+                if ( !(e.getX() >= middleX - 188 && e.getX() <= middleX + 172) ) return;
 
                 for (int i=1; i<=6; i++) {
                     
-                    if (e.getY() >= 185 + i * 60 && e.getY() <= 235 + i * 60) {
+                    if (e.getY() >= middleY - 355 + i * 60 && e.getY() <= middleY - 305 + i * 60) {
                         
                         gamePanel.setSaveNumber(i);
                         Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");

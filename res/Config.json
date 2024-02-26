@@ -14,5 +14,6 @@
     "Enable-Overlay":"true",
     "Override-Resolution-Bool":"false",
     "Override-Resolution":"1920x1080",
-    "FullScreen":"true"
+    "FullScreen":"true",
+    "Music-Volume":"100"
 }

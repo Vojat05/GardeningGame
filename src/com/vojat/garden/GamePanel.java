@@ -52,6 +52,7 @@ public class GamePanel extends JPanel {
     private KeyboardInput keyboardInput = new KeyboardInput(this, dad);                     // The keyboard input class
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
     private HashMap<String, Image> textures = new HashMap<String, Image>();                 // A Hash Map containing all ground textures | structure: <Key:path | Value:image>
+    private byte hudScale = 1;                                                              // HUD Scale used for calculating the GUI objects size
 
     /*
      * --------------------------------------------------------------------------------
@@ -185,41 +186,6 @@ public class GamePanel extends JPanel {
         }
     }
 
-    // Sets the inventory panel field (just for the repaint method to be functional in the listener)
-    public void setIPanel(InventoryPanel iPanel) {
-
-        this.inventoryPanel = iPanel;
-
-    }
-
-    // Adds a flower to flowers ArrayList
-    public void summonFlower(Flower flower) {
-
-        Game.flowers.add(flower);
-
-    }
-
-    // Changes the visibility of an inventory table
-    public void changeVisibility(JPanel panel) {
-
-        panel.setVisible(panel.isVisible() ? false : true);
-
-    }
-
-    // Changes the save menu box visibility to true
-    public void showSaveMenu() {
-
-        this.saveMenuOpen = true;
-
-    }
-
-    // Changes the save menu box visibility to false
-    public void hideSaveMenu() {
-
-        this.saveMenuOpen = false;
-
-    }
-
     // Sets the save slot number
     public void setSaveNumber(int value) {
 
@@ -228,53 +194,46 @@ public class GamePanel extends JPanel {
 
     }
 
+    // Sets the inventory panel field (just for the repaint method to be functional in the listener)
+    public void setIPanel(InventoryPanel iPanel) { this.inventoryPanel = iPanel; }
+
+    // Adds a flower to flowers ArrayList
+    public void summonFlower(Flower flower) { Game.flowers.add(flower); }
+
+    // Changes the visibility of an inventory table
+    public void changeVisibility(JPanel panel) { panel.setVisible(panel.isVisible() ? false : true); }
+
+    // Changes the save menu box visibility to true
+    public void showSaveMenu() { this.saveMenuOpen = true; }
+
+    // Changes the save menu box visibility to false
+    public void hideSaveMenu() { this.saveMenuOpen = false; }
+
     // Returns the save slot number
-    public int getSaveNumber() {
-
-        return this.selectedSaveSlotNumber;
-
-    }
+    public int getSaveNumber() { return this.selectedSaveSlotNumber; }
 
     // Sets the save slot number that is in mouse hover
-    public void setHoverSaveNumber(int value) {
-
-        this.hoverSaveSlotNumber = value;
-
-    }
+    public void setHoverSaveNumber(int value) { this.hoverSaveSlotNumber = value; }
 
     // Sets the skin slot number that is in mouse hover
-    public void setHoverSkinNumber(int value) {
-
-        this.hoverSkinSlot = value;
-
-    }
+    public void setHoverSkinNumber(int value) { this.hoverSkinSlot = value; }
 
     // Sets the skin slot number
-    public void setSelectedSkinNumber(int value) {
-        
-        this.selectedSkinSlot = value;
-
-    }
+    public void setSelectedSkinNumber(int value) { this.selectedSkinSlot = value; }
 
     // Gets the slot number that is in mouse hover
-    public int getHoverSaveNumber() {
-        
-        return this.hoverSaveSlotNumber;
+    public int getHoverSaveNumber() { return this.hoverSaveSlotNumber; }
 
-    }
+    // Sets the HUD scaling factor
+    public byte setHUDscale(byte value) { return this.hudScale = value; }
+    
+    // Gets the HUD scaling factor
+    public byte getHUDscale() { return this.hudScale; }
 
     // Gets the mouseInput used in this panel
-    public MouseInput getMouseInput() {
+    public MouseInput getMouseInput() { return this.mouseInput; }
 
-        return this.mouseInput;
-
-    }
-
-    public KeyboardInput getKeyboardInput() {
-
-        return this.keyboardInput;
-
-    }
+    public KeyboardInput getKeyboardInput() { return this.keyboardInput; }
 
     // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
     public void waterFlower(Flower flower) {

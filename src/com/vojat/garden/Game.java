@@ -67,14 +67,15 @@ public class Game implements Runnable {
     public static byte FPS_SET = 120;                                                                                                                                               // Frame-Rate cap
     public static short gfps = 0;                                                                                                                                                   // The game current FPS rate
     public static short gtick = 0;                                                                                                                                                  // The game current logic tick rate
+    private static Clip rainClip;                                                                                                                                                   // The rain audio
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static boolean isRaining = false;                                                                                                                                       // Is the current weather raining
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
     private static int dayLasts = 0;                                                                                                                                                // How long does the day last in seconds
     private static int nightLasts = 0;                                                                                                                                              // How long does the night last in seconds
     private static float dayNumber = 0;                                                                                                                                             // How many days have past since the game started
-    private static Clip rainClip;                                                                                                                                                   // The rain audio
     private static GamePanel gamePanel;                                                                                                                                             // The panel that shows the game window
+    private static Console console = new Console();                                                                                                                                 // Console for executing commands, both GUI and commands
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
     private int seconds = 0;                                                                                                                                                        // Seconds since the game started
     private float volumeGain = 0f;                                                                                                                                                  // The default music volume
@@ -211,6 +212,7 @@ public class Game implements Runnable {
         startGame();
         gamePanel.requestFocusInWindow();
         gamePanel.setIPanel(inventoryPanel);
+        setClipVolume(clip, Main.musicVolume);
 
         // Set the player starting position
         gamePanel.dad.level = 1;
@@ -314,11 +316,7 @@ public class Game implements Runnable {
      * @return The number of seconds a day lasts
      * 
      */
-    public static int dayLasts() {
-
-        return dayLasts;
-
-    }
+    public static int dayLasts() { return dayLasts; }
 
     /**
      * Sets how long the day should last in seconds
@@ -326,22 +324,14 @@ public class Game implements Runnable {
      * @return The new number of seconds a day lasts
      * 
      */
-    public static int setDayLasts(int value) {
-
-        return dayLasts = value;
-
-    }
+    public static int setDayLasts(int value) { return dayLasts = value; }
 
     /**
      * Gets how long the night should last in seconds
      * @return The number of seconds the night lasts
      * 
      */
-    public static int nightLasts() {
-
-        return nightLasts;
-
-    }
+    public static int nightLasts() { return nightLasts; }
 
     /**
      * Sets how long the night should last in seconds
@@ -349,22 +339,14 @@ public class Game implements Runnable {
      * @return The new number of seconds the night lasts
      * 
      */
-    public static int setNightLasts(int value) {
-
-        return nightLasts = value;
-
-    }
+    public static int setNightLasts(int value) { return nightLasts = value; }
 
     /**
      * Gets the number of days passed since the game started
      * @return The number of days that have passed
      * 
      */
-    public static int getDay() {
-
-        return (int) dayNumber;
-
-    }
+    public static int getDay() { return (int) dayNumber; }
 
     /**
      * Adds a number to the number of days passed the game started
@@ -372,11 +354,7 @@ public class Game implements Runnable {
      * @return The number of days that have passed so far
      * 
      */
-    public static int addDays(int value) {
-
-        return (int) (dayNumber += value);
-
-    }
+    public static int addDays(int value) { return (int) (dayNumber += value); }
 
     /**
      * Sets the number of days passed since the game started to a select value
@@ -384,11 +362,7 @@ public class Game implements Runnable {
      * @return The number of days that have passed so far
      * 
      */
-    public static int setDays(int value) {
-
-        return (int) (dayNumber = value);
-
-    }
+    public static int setDays(int value) { return (int) (dayNumber = value); }
 
     /**
      * Allows an error to be displayed for a certian amount of time
@@ -510,11 +484,7 @@ public class Game implements Runnable {
      * @param clip
      * 
      */
-    public static void stopClip(Clip clip) {
-
-        clip.stop();
-
-    }
+    public static void stopClip(Clip clip) { clip.stop(); }
 
     /**
      * Sets the volume of a given clip
@@ -691,6 +661,24 @@ public class Game implements Runnable {
                 if (deltaT >= 1) deltaT--;
                 continue;
                 
+            }
+
+            // Execute console commands
+            if (console.getCommandList().size() != 0) {
+
+                ArrayList<String> commands = console.getCommandList();
+    
+                for (int i=0; i<commands.size(); i++) {
+                    switch (console.commandTranslate(console.commandPop())) {
+    
+                        // Teleport
+                        case 0:
+                            break;
+                        
+                        default:
+                            break;
+                    }
+                }
             }
 
             now = System.nanoTime();
