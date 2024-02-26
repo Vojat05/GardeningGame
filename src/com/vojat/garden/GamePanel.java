@@ -136,19 +136,19 @@ public class GamePanel extends JPanel {
 
             for (int i=0; i < Game.houseTextures.length; i++) { 
                 
-                if (Game.houseTextures[i].equals("")) { continue; }
+                if (Game.houseTextures[i].equals("")) continue;
                 else if (Game.houseTextures[i].equals("chair.png")) {
 
                     if (!(new File("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").exists())) textures.put("chair_left.png", new ImageIcon("../../res/Missing.png").getImage());
-                    else textures.put("chair_left.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").getImage());textures.put("chair_left.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").getImage());
+                    else textures.put("chair_left.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_left.png").getImage());
                     
                     if (!(new File("../../res/" + Game.texturePack + "/Pics/House/chair_right.png").exists())) textures.put("chair_right.png", new ImageIcon("../../res/Missing.png").getImage());
                     else textures.put("chair_right.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/chair_right.png").getImage());
 
                 }
 
-                if (!(new File("../../res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[i]).exists())) { textures.put(Game.houseTextures[i], new ImageIcon("../../res/Missing.png").getImage()); continue; }
-                textures.put(Game.houseTextures[i], new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[i]).getImage()); 
+                if (!(new File("../../res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[i]).exists())) textures.put(Game.houseTextures[i], new ImageIcon("../../res/Missing.png").getImage());
+                else textures.put(Game.houseTextures[i], new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + Game.houseTextures[i]).getImage()); 
             
             }
 
@@ -156,15 +156,8 @@ public class GamePanel extends JPanel {
 
             for (String texture : textureNames) {
                 
-                if ((new File("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png")).exists()) {
-
-                    textures.put(texture + ".png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png").getImage());
-
-                } else {
-
-                    textures.put(texture + ".png", new ImageIcon("../../res/Missing.png").getImage());
-                    
-                }
+                if ((new File("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png")).exists()) textures.put(texture + ".png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png").getImage());
+                else textures.put(texture + ".png", new ImageIcon("../../res/Missing.png").getImage());
             }
         }
 

@@ -410,6 +410,7 @@ public class Game implements Runnable {
 
         try {
 
+            if (!new File(path).exists()) return ImageIO.read(new FileInputStream("../../res/Missing.png"));
             return ImageIO.read(new FileInputStream(path));
 
         } catch (IOException ioe) {
