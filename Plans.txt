@@ -1,6 +1,11 @@
 TODO: Put this into order of the most > least difficult & needed changes
 
+- Complete the console command execution
+- Create development documentation
+- Save player information into the save file
+- Fix the GUI interactions in fullscreen
 - Make flower info stick that behaves like bino in ARK
+- Add a dog / cat (some garden NPCs other than birds)
 - Make a single space in map 9 spaces
 - Redesign the options menu
 - Add a shovel which will on click force the flower to enter the next stage ( It effectively kills the flower on 3 clicks )

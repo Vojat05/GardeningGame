@@ -344,4 +344,5 @@ EXE file is made for every update documented here<br>
 <ul>
     <li> * Fixed save slots file not found error</li>
     <li> + Added documentation</li>
+    <li> + Added game console</li>
 </ul>

@@ -774,7 +774,6 @@ public class GamePanel extends JPanel {
         }
 
         // Action buttons
-
         // Agree button
         drawAgreeButton(g2d, middleX - 250, (int) (middleY - middleY * 0.5) + 495);
 
@@ -782,6 +781,43 @@ public class GamePanel extends JPanel {
         drawRejectButton(g2d, middleX + 200, (int) (middleY - middleY * 0.5) + 495);
 
         if (this.hasFocus()) this.repaint();
+
+    }
+
+    private void drawConsole(Graphics2D g2d) {
+
+        int middleX = (int) (this.getWidth() * 0.5);
+        int middleY = (int) (this.getHeight() * 0.5);
+
+        // Draw the upper white rectangle
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(middleX - 400, middleY - 300, 800, 100);
+
+        // Draw the middle gray rectangle
+        g2d.setPaint(new Color(210, 210, 210, 245));
+        g2d.fillRect(middleX - 400, middleY - 200, 800, 400);
+
+        // Draw the bottom white rectangle
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(middleX - 400, middleY + 200, 800, 100);
+
+        // Draw the console label
+        g2d.setFont(Game.font.deriveFont(48f));
+        g2d.setPaint(new Color(30, 30, 30, 240));
+        g2d.drawString("Console", middleX - 50, middleY - 235);
+
+        // Draw the command prompt design
+        g2d.setPaint(new Color(50, 50, 50, 240));
+        g2d.setStroke(new BasicStroke(2));
+        g2d.drawLine(middleX - 350, middleY + 270, middleX + 350, middleY + 270);
+
+        // Draw the >> prompt symbol before the entered command
+        g2d.setFont(Game.font.deriveFont(24f));
+        g2d.drawString(">>", middleX - 375, middleY + 260);
+
+        // Draw the entered text prompt
+        g2d.setPaint(new Color(30, 30, 30, 240));
+        g2d.drawString(Console.commandPrompt, middleX - 345, middleY + 260);
 
     }
 
@@ -849,7 +885,6 @@ public class GamePanel extends JPanel {
 
             drawWarning(g2d);
             drawAlert(g2d);
-            return;
 
         }
 
@@ -866,5 +901,6 @@ public class GamePanel extends JPanel {
         else if (saveMenuOpen) drawSaveBox(g2d, 10);
         else if (skinMenuOpen) drawSkinBox(g2d);
 
+        if (Console.isVisible()) drawConsole(g2d);
     }
 }
