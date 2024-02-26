@@ -40,5 +40,5 @@ P - Pauses the game
 
 # Credits
 Programming - <a href="https://github.com/Vojat05">@Vojat05</a><br>
-Textures - <a href="https://github.com/Vojat05">@Vojat05</a>, Mateoz<br>
+Textures - <a href="https://github.com/Vojat05">@Vojat05</a>, Mateoz, <a href="https://github.com/k-hyblova">@Katyusha</a><br>
 Audio - <a href="https://github.com/Vojat05">@Vojat05</a><br>
