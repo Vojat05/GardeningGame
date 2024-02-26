@@ -20,8 +20,8 @@ import com.vojat.menu.Window;
 
 public class Main {
     public static boolean debug = false, overrideResolution = true, fullscreen = true;
-    public static int width, height;
-    public static int sizeX, sizeY;
+    public static int width, height, sizeX, sizeY;
+    public static float musicVolume;
     public static Window window;
     private static int[] resolution;
     public static void main(String[] args) {
@@ -59,6 +59,7 @@ public class Main {
             Main.debug = Boolean.parseBoolean(jsonEditor.readData("Debugging"));
             Main.overrideResolution = Boolean.parseBoolean(jsonEditor.readData("Override-Resolution-Bool"));
             Main.fullscreen = Boolean.parseBoolean(jsonEditor.readData("FullScreen"));
+            Main.musicVolume = Integer.parseInt(jsonEditor.readData("Music-Volume")) * 0.01f;
 
             if (overrideResolution) configResRaw = jsonEditor.readData("Override-Resolution");
 
