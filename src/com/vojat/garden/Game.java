@@ -929,7 +929,7 @@ public class Game implements Runnable {
      * @throws FileNotFoundException
      * 
      */
-    public static void saveGame(String saveFilePath, Player dad, byte saveNumber) throws FileNotFoundException {
+    public static void saveGame(String saveFilePath, Player dad, byte saveNumber) throws FileNotFoundException, IOException {
         save = saveNumber;
         String mapData = "\"map\":\"" + map.getData("") + "\"";
         String value = "";
@@ -941,14 +941,11 @@ public class Game implements Runnable {
 
         }
 
+        if (!new File(saveFilePath).exists()) JSONEditor.createFile(saveFilePath);
         JSONEditor jEditor = new JSONEditor(saveFilePath);
         jEditor.write(mapData + value);
 
         if (Main.debug) System.out.println("Game saved succesfully into \"" + saveFilePath + "\"");
-
-        // Move player out of the bed
-        dad.LOCATION_X = 208;
-        dad.LOCATION_Y = 120;
     }
 
     /**

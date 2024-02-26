@@ -3,7 +3,7 @@
     "Debugging":"false",
     "Show-Tutorial":"true",
     "Texture-Pack":"ProgrammerPack",
-    "Version":"Dev-Build 0.8.3",
+    "Version":"Dev-Build 0.8.4",
     "FPS":"120",
     "Day-Lasts":"240",
     "Night-Lasts":"60",
@@ -12,7 +12,7 @@
     "Player-Reach":"1",
     "Player-Default-Speed":"1",
     "Enable-Overlay":"true",
-    "Override-Resolution-Bool":"false",
+    "Override-Resolution-Bool":"true",
     "Override-Resolution":"1920x1080",
     "FullScreen":"true",
     "Music-Volume":"100"

@@ -339,3 +339,8 @@ EXE file is made for every update documented here<br>
     <li> + Added fullscreen option into config.json</li>
     <li> * Fixed player speed differing in other resolutions</li>
 </ul>
+
+## 26/2/2024
+<ul>
+    <li> * Fixed save slots file not found error</li>
+</ul>
