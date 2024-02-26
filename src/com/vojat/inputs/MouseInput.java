@@ -5,7 +5,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import com.vojat.Main;
 import com.vojat.Data.Map;
@@ -167,7 +167,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                     Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
 
-                } catch (FileNotFoundException fne) {
+                } catch (IOException fne) {
                     
                     System.err.println("File not found");
 
@@ -373,7 +373,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                             Game.saveGame("../com/vojat/Data/Saves/Save3.json", gamePanel.dad, (byte) 3);
 
-                        } catch (FileNotFoundException f) {
+                        } catch (IOException f) {
 
                             System.err.println(ErrorList.ERR_404.message);
                             Game.error("File not found", 3);
