@@ -346,3 +346,10 @@ EXE file is made for every update documented here<br>
     <li> + Added documentation</li>
     <li> + Added game console</li>
 </ul>
+
+## 5/3/2024
+<ul>
+    <li> + Added console teleport command for pixel location</li>
+    <li> + Added console teleport command for coordinate location</li>
+    <li> + Added console kill command</li>
+</ul>

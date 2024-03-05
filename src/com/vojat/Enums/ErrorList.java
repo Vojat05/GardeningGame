@@ -12,12 +12,14 @@ public enum ErrorList {
     ERR_WATER("You do not have any water"),
     ERR_WELL("You are not standing near a well"), 
     ERR_RANGE_FAR("This is out of your reach"),
-    ERR_RANGE_CLOSE("This is too close")
+    ERR_RANGE_CLOSE("This is too close"),
+    ERR_X_TOO_FAR("The X coordinate is too far"),
+    ERR_Y_TOO_FAR("The Y coordinate is too far")
     ;
 
     public final String message;
 
     ErrorList(String mesage) {
-        this.message = Game.ANSI_RED + mesage + Game.ANSI_RESET;
+        this.message = Game.ANSI_RED + "ERROR:: " + mesage + Game.ANSI_RESET;
     }
 }
