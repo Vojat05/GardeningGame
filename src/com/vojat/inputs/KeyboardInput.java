@@ -91,14 +91,16 @@ public class KeyboardInput implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         if (settings != null) settings.setKey(KeyEvent.getKeyText(e.getKeyCode()), button, this, label);
-
-        if (dad == null || dad.HP == 0) return;
+        if (dad == null) return;
 
         // Toggle the console
         if (e.getKeyCode() == KeyEvent.VK_F1) {
             Console.toggleShow();
             return;
         }
+
+        // Quit if player has 0 HP
+        if (dad.HP == 0) return;
 
         // Entering the console command
         if (Console.isVisible()) {

@@ -67,6 +67,7 @@ public class Game implements Runnable {
     public static byte FPS_SET = 120;                                                                                                                                               // Frame-Rate cap
     public static short gfps = 0;                                                                                                                                                   // The game current FPS rate
     public static short gtick = 0;                                                                                                                                                  // The game current logic tick rate
+    public static GamePanel gamePanel;                                                                                                                                             // The panel that shows the game window
     private static Clip rainClip;                                                                                                                                                   // The rain audio
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static boolean isRaining = false;                                                                                                                                       // Is the current weather raining
@@ -74,7 +75,6 @@ public class Game implements Runnable {
     private static int dayLasts = 0;                                                                                                                                                // How long does the day last in seconds
     private static int nightLasts = 0;                                                                                                                                              // How long does the night last in seconds
     private static float dayNumber = 0;                                                                                                                                             // How many days have past since the game started
-    private static GamePanel gamePanel;                                                                                                                                             // The panel that shows the game window
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
     private int seconds = 0;                                                                                                                                                        // Seconds since the game started
     private float volumeGain = 0f;                                                                                                                                                  // The default music volume
@@ -664,26 +664,7 @@ public class Game implements Runnable {
             }
 
             // Execute console commands
-            if (Console.getCommandList().size() > 0) {
-
-                ArrayList<String> cArgs = Console.getArgsAsList();
-    
-                for (int i=0; i<Console.getCommandList().size(); i++) {
-
-                    String command = Console.commandPop();
-                    switch (Console.commandTranslate(command)) {
-    
-                        // Teleport
-                        case 0:
-                            gamePanel.dad.LOCATION_X = GamePanel.blockWidth * Integer.parseInt(cArgs.get(0));
-                            gamePanel.dad.LOCATION_Y = GamePanel.blockWidth * Integer.parseInt(cArgs.get(1));
-                            break;
-                        
-                        default:
-                            break;
-                    }
-                }
-            }
+            Console.execChain();
 
             now = System.nanoTime();
             deltaF += (now - previousTime) * Math.pow(timePerFrame, -1);

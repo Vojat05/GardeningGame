@@ -3,6 +3,8 @@ package com.vojat.garden;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.vojat.Enums.ErrorList;
+
 public class Console {
     
     /*
@@ -62,7 +64,7 @@ public class Console {
     }
 
     // Translates the command and creates it's arguments
-    public static int commandTranslate(String command) {
+    public static String getCommand(String command) {
         
         commandArgs.clear();
         String parsedCommand = "";
@@ -93,8 +95,50 @@ public class Console {
             else argument += command.charAt(i++);
             
         }
-        System.out.println("posX: " + commandArgs.get(0) + " | posY: " + commandArgs.get(1) + " | command: " + parsedCommand);
-        return commandDecoder.get(parsedCommand);
+        return parsedCommand;
+    }
+
+    public static void execChain() {
+        if (Console.getCommandList().size() > 0) {
+
+                ArrayList<String> cArgs = Console.getArgsAsList();
+    
+                for (int i=0; i<Console.getCommandList().size(); i++) {
+
+                    String command = Console.commandPop();
+                    switch (Console.getCommand(command).toUpperCase()) {
+    
+                        // Teleport
+                        case "TPA":
+                            if (Integer.parseInt(cArgs.get(0)) > Game.map.getColumns()) {
+
+                                System.err.println(Game.ANSI_RED + ErrorList.ERR_X_TOO_FAR.message + Game.ANSI_RESET);
+                                break;
+
+                            } else if (Integer.parseInt(cArgs.get(1)) > Game.map.getRows()) {
+
+                                System.err.println(Game.ANSI_RED + ErrorList.ERR_Y_TOO_FAR.message + Game.ANSI_RESET);
+                                break;
+
+                            }
+                            Game.gamePanel.dad.LOCATION_X = GamePanel.blockWidth * Integer.parseInt(cArgs.get(0));
+                            Game.gamePanel.dad.LOCATION_Y = GamePanel.blockWidth * Integer.parseInt(cArgs.get(1));
+                            break;
+
+                        case "TP":
+                            Game.gamePanel.dad.LOCATION_X = Integer.parseInt(cArgs.get(0));
+                            Game.gamePanel.dad.LOCATION_Y = Integer.parseInt(cArgs.get(1));
+                            break;
+
+                        case "KILL":
+                            Game.gamePanel.dad.kill();
+                            break;
+                        
+                        default:
+                            break;
+                    }
+                }
+            }
     }
 
     // Gets the argument array list
