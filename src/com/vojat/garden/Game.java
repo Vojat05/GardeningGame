@@ -206,11 +206,13 @@ public class Game implements Runnable {
             }
         }
 
+        // Set the volume
+        volumeGain = Main.musicVolume - 100.0f;
+
         // Starts the game and requests focus
         startGame();
         gamePanel.requestFocusInWindow();
         gamePanel.setIPanel(inventoryPanel);
-        setClipVolume(gameMusic, Main.musicVolume);
 
         // Set the player starting position
         gamePanel.dad.level = 1;
@@ -642,6 +644,7 @@ public class Game implements Runnable {
             gameMusic = AudioSystem.getClip();
             gameMusic.open(audioStream);
             gameMusic.setFramePosition(0);
+            setClipVolume(gameMusic, volumeGain);
             gameMusic.start();
 
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
