@@ -130,10 +130,24 @@ public class Console {
                             Game.gamePanel.dad.LOCATION_Y = Integer.parseInt(cArgs.get(1));
                             break;
 
-                        case "KILL":
+                        case "KILL", "SUICIDE", "DIE":
                             Game.gamePanel.dad.kill();
                             break;
                         
+                        case "SETSKIN":
+                            if (cArgs.size() == 0) break;
+                            if (cArgs.size() > 1) break;
+                            if (cArgs.get(0).charAt(0) < 48 && cArgs.get(0).charAt(0) > 51) break;
+                            Game.gamePanel.dad.setTextureModifier(cArgs.get(0).charAt(0));
+                            break;
+
+                        case "REVIVE":
+                            Game.gamePanel.dad.setHealth(100);
+                            Game.gamePanel.dad.setTexture("Player/Dad_Texture_F" + Game.gamePanel.dad.getTextureModifier() + ".png");
+                            Game.warning = false;
+                            Game.alert = false;
+                            break;
+
                         default:
                             break;
                     }

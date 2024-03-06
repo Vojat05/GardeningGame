@@ -19,7 +19,7 @@ import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Window;
 
 public class Main {
-    public static boolean debug = false, overrideResolution = true, fullscreen = true;
+    public static boolean debug = false, overrideResolution = true, fullscreen = true, tutorial;
     public static int width, height, sizeX, sizeY;
     public static float musicVolume;
     public static Window window;
@@ -60,10 +60,10 @@ public class Main {
             Main.overrideResolution = Boolean.parseBoolean(jsonEditor.readData("Override-Resolution-Bool"));
             Main.fullscreen = Boolean.parseBoolean(jsonEditor.readData("FullScreen"));
             Main.musicVolume = Integer.parseInt(jsonEditor.readData("Music-Volume")) * 0.01f;
+            Main.tutorial = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
 
             if (overrideResolution) configResRaw = jsonEditor.readData("Override-Resolution");
 
-            Game.firstStart = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
             Game.langFileName = jsonEditor.readData("Language");
             Game.texturePack = jsonEditor.readData("Texture-Pack");
             Game.version = jsonEditor.readData("Version");

@@ -146,12 +146,10 @@ public class Player {
         this.VECTORY = .0;
         this.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Grave.png");
 
-        Game.alert = true;
-        Game.alertMessage = "Do you want to reload your last save?";
-        Game.warning = true;
-        Game.warningMessage = "You are dead";
+        Game.alert("Do you want to reload your last save?");
+        Game.warn("You are dead");
 
-        Game.clip.stop();
+        Game.gameMusic.stop();
         Game.playSound("../../res/" + Game.texturePack + "/Audio/Death.wav");
         if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
 
@@ -179,11 +177,7 @@ public class Player {
     }
 
     // Returns the currently used texture modifier for selecting player texture
-    public char getTextureModifier() {
-
-        return this.textureModifier;
-
-    }
+    public char getTextureModifier() { return this.textureModifier; }
 
     /**
      * Sets the player texture modifier
@@ -200,11 +194,7 @@ public class Player {
      * Sets the player texture to the texture at the specified path.
      * @param path file path from the <code>../../res/{TexturePack}/Pics/</code> point.
      */
-    public void setTexture(String path) {
-        
-        this.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/" + path);
-
-    }
+    public void setTexture(String path) { this.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/" + path); }
 
     /**
      * Determines wheather the player can move or not
