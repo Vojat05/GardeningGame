@@ -361,4 +361,5 @@ EXE file is made for every update documented here<br>
     <li> + Added a revive command</li>
     <li> * Now it's possible to type into the console even after death</li>
     <li> * Tutorial window not showing fixed</li>
+    <li> * Fixed the audio option in config.json</li>
 </ul>

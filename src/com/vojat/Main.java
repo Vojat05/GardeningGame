@@ -59,7 +59,7 @@ public class Main {
             Main.debug = Boolean.parseBoolean(jsonEditor.readData("Debugging"));
             Main.overrideResolution = Boolean.parseBoolean(jsonEditor.readData("Override-Resolution-Bool"));
             Main.fullscreen = Boolean.parseBoolean(jsonEditor.readData("FullScreen"));
-            Main.musicVolume = Integer.parseInt(jsonEditor.readData("Music-Volume")) * 0.01f;
+            Main.musicVolume = Float.parseFloat(jsonEditor.readData("Music-Volume"));
             Main.tutorial = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
 
             if (overrideResolution) configResRaw = jsonEditor.readData("Override-Resolution");
