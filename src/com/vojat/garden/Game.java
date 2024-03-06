@@ -55,7 +55,7 @@ public class Game implements Runnable {
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
     public static ArrayList<Character> invisibleWalls = new ArrayList<Character>();                                                                                                 // ArrayList of map objects that are collidable
     public static ArrayList<Bird> birdList = new ArrayList<Bird>();                                                                                                                 // The list of birds currently in game for drawing
-    public static Clip clip;                                                                                                                                                        // The clip for playing audio and sound effects
+    public static Clip gameMusic;                                                                                                                                                   // The clip for playing the game music
     public static boolean pause = false;                                                                                                                                            // Determines wheather the game should be paused or not
     public static byte save = -1;                                                                                                                                                   // The current game save number to be plugged into the respawn
     public static boolean firstStart = true;                                                                                                                                        // Is this the first time the game instance is played? // Shows the tutorial menu inside the house
@@ -169,10 +169,9 @@ public class Game implements Runnable {
 
             JSONEditor jsonEditor = new JSONEditor("../../res/Language/" + langFileName);
             tutorial.setRawData(jsonEditor.readData("Tutorial-Data"));
-
-            jsonEditor.setFile("../../res/Config.json");
-            firstStart = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
-            tutorial.setVisibility(firstStart);
+            
+            Game.firstStart = Main.tutorial;
+            tutorial.setVisibility(Game.firstStart);
             tutorial.setX(GamePanel.blockWidth * 10 - 40);
             tutorial.setY(50);
 
@@ -211,7 +210,7 @@ public class Game implements Runnable {
         startGame();
         gamePanel.requestFocusInWindow();
         gamePanel.setIPanel(inventoryPanel);
-        setClipVolume(clip, Main.musicVolume);
+        setClipVolume(gameMusic, Main.musicVolume);
 
         // Set the player starting position
         gamePanel.dad.level = 1;
@@ -246,7 +245,7 @@ public class Game implements Runnable {
     public static void killGame() {
 
         run = false;
-        clip.stop();
+        gameMusic.stop();
         rainClip.stop();
 
     }
@@ -271,12 +270,12 @@ public class Game implements Runnable {
         // Pauses the game music
         if (pause) {
 
-            stopClip(clip);
+            stopClip(gameMusic);
             stopClip(rainClip);
 
         } else {
 
-            clip.start();
+            gameMusic.start();
             if (isRaining()) rainClip.start();
 
         }
@@ -424,25 +423,30 @@ public class Game implements Runnable {
     /**
      * Updates the alert that is currently shown
      * @param message the new message string
-     * @param gamePanel GamePanel to be repainted (scene)
      * 
      */
-    public static void alertUpdate(String message) {
-
-        alertMessage = message;
-
-    }
+    public static void alertUpdate(String message) { alertMessage = message; }
 
     /**
      * Shows a game alert and repaints the scene
      * @param message string
-     * @param gamePanel GamePanel to be repainted (scene)
      * 
      */
     public static void alert(String message) {
 
         alert = true;
         alertMessage = message;
+
+    }
+
+    /**
+     * Shows a game warning
+     * @param message string
+     */
+    public static void warn(String message) {
+
+        warning = true;
+        warningMessage = message;
 
     }
 
@@ -635,10 +639,10 @@ public class Game implements Runnable {
         try {
 
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("../../res/" + texturePack + "/Audio/GameMusic.wav"));
-            clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clip.setFramePosition(0);
-            clip.start();
+            gameMusic = AudioSystem.getClip();
+            gameMusic.open(audioStream);
+            gameMusic.setFramePosition(0);
+            gameMusic.start();
 
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 
@@ -702,7 +706,7 @@ public class Game implements Runnable {
                     if (volumeGain > -15.0f) {
                     
                         volumeGain -= volumeTransitionSpeed;
-                        setClipVolume(clip, volumeGain);
+                        setClipVolume(gameMusic, volumeGain);
                     
                     }
                 }
@@ -714,7 +718,7 @@ public class Game implements Runnable {
                     if (volumeGain < 0.0f) {
                     
                         volumeGain += volumeTransitionSpeed;
-                        setClipVolume(clip, volumeGain);
+                        setClipVolume(gameMusic, volumeGain);
                     
                     }
                 }
@@ -776,10 +780,10 @@ public class Game implements Runnable {
                 }
                 
                 // Replays the in-game music if it had reached the end.
-                if (!clip.isRunning() && gamePanel.dad.HP != 0) {
+                if (!gameMusic.isRunning() && gamePanel.dad.HP != 0) {
 
-                    clip.setFramePosition(0);
-                    clip.start();
+                    gameMusic.setFramePosition(0);
+                    gameMusic.start();
 
                 }
 
@@ -895,9 +899,7 @@ public class Game implements Runnable {
 
             }
         }
-
-        clip.stop();
-        
+        gameMusic.stop();
     }
 
     /*

@@ -842,12 +842,14 @@ public class GamePanel extends JPanel {
         rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_DEFAULT);
         g2d.setRenderingHints(rh);
         
+        // Drawing the terrain
         drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g2d);
         if (dad.level == 0) drawBirdShit(g2d);
 
         // Drawing the player character in 128 x 128
         g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, blockWidth, blockWidth, null);
 
+        // Drawing the rain
         if (Game.isRaining()) {
 
             BufferedImage raingImg = rainBase.getSubimage(0, (int) rainPositionY, 384, 216);

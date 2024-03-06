@@ -353,3 +353,12 @@ EXE file is made for every update documented here<br>
     <li> + Added console teleport command for coordinate location</li>
     <li> + Added console kill command</li>
 </ul>
+
+## 6/3/2024
+<ul>
+    <li> + Added aliases to the kill command</li>
+    <li> + Added setskin command to change the player texture modifier</li>
+    <li> + Added a revive command</li>
+    <li> * Now it's possible to type into the console even after death</li>
+    <li> * Tutorial window not showing fixed</li>
+</ul>

@@ -99,9 +99,6 @@ public class KeyboardInput implements KeyListener {
             return;
         }
 
-        // Quit if player has 0 HP
-        if (dad.HP == 0) return;
-
         // Entering the console command
         if (Console.isVisible()) {
 
@@ -123,6 +120,9 @@ public class KeyboardInput implements KeyListener {
             
             return;
         }
+
+        // Quit if player has 0 HP
+        if (dad.HP == 0) return;
 
         // Exit the current alert or other window
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("exit"))) {
