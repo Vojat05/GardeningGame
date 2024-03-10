@@ -204,7 +204,7 @@ EXE file is made for every update documented here<br>
     <li> * All currently accessible flowers have all 3 textures</li>
     <li> * The wardrobe texture changed to better fit into the perspective</li>
     <li> * The save menu was updated to fit the current alert design</li>
-<ul>
+</ul>
 
 ## 25/9/2023
 <ul>
@@ -315,7 +315,7 @@ EXE file is made for every update documented here<br>
 <ul>
     <li> * Fixed the automatic movement after stamina penalty expires</li>
     <li> + Added FPS and Tick overlay</li>
-</li>
+</ul>
 
 ## 26/12/2023
 <ul>
