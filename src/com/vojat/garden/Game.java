@@ -393,10 +393,10 @@ public class Game implements Runnable {
     /**
      * Spawns a bird
      */
-    public void spawnBird() {
+    public static void spawnBird() {
 
         System.out.println("Spawn Birb");
-        birdList.add(new Bird(-1, gamePanel.dad.LOCATION_Y - 200 - random.nextInt(100)));
+        birdList.add(new Bird(-1, (float) gamePanel.dad.LOCATION_Y - 200 - random.nextInt(100)));
 
     }
 
@@ -758,6 +758,18 @@ public class Game implements Runnable {
 
                 animationTick += 100;
 
+                /*
+                 * --------------------------------------------------------------------------------
+                 * Stamina depleeting logic
+                 * --------------------------------------------------------------------------------
+                 */
+
+                if (animationTick % 200 == 0) {
+
+                    if ((gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) && gamePanel.dad.canMove() && !gamePanel.dad.isSitting) gamePanel.dad.tire(1);
+                    else gamePanel.dad.tire(-1);
+
+                }
             }
 
             // The FPS counter. This occures ever second
@@ -832,16 +844,7 @@ public class Game implements Runnable {
                 seconds++;
                 animationTick = 100;
                 if (errorTime != 0) errorTime--;
-                if (errorTime == 0) errorMessage = "";
-
-                /*
-                 * --------------------------------------------------------------------------------
-                 * Stamina depleeting logic
-                 * --------------------------------------------------------------------------------
-                 */
-
-                if ((gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) && gamePanel.dad.canMove() && !gamePanel.dad.isSitting) gamePanel.dad.tire(5);
-                else gamePanel.dad.tire(-10);
+                if (errorTime == 0) errorMessage = "";                
 
                 /*
                  * --------------------------------------------------------------------------------

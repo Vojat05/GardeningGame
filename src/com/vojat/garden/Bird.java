@@ -13,7 +13,7 @@ public class Bird {
      * --------------------------------------------------------------------------------
      */
 
-    public double vectorX = .0, positionY = 0, positionX = Window.width, shitPositionX = 0, shitPositionY = 0;                       // Birds location and velocity data
+    public float vectorX = 0f, positionY = 0f, positionX = Window.width, shitPositionX = 0f, shitPositionY = 0f;                     // Birds location and velocity data
     public boolean drawShit = false, splat = false, audio = false;                                                                   // Has the bird shat yet?
     public BufferedImage texture = Game.setTexture("../../res/" + Game.texturePack + "/pics/Pigeon1.png");                           // Bird texture
     public long timeToCleanShit = 0;                                                                                                 // Time at which the shit should be cleaned
@@ -24,7 +24,7 @@ public class Bird {
      * --------------------------------------------------------------------------------
      */
 
-    public Bird(int velocity, double positionY) {
+    public Bird(int velocity, float positionY) {
 
         this.vectorX = velocity;
         this.positionY = positionY;
@@ -36,11 +36,12 @@ public class Bird {
      */
     public void shit() {
 
+        // Returns if the bird already shat
         if (drawShit) return;
 
         this.drawShit = true;
-        this.shitPositionX = Map.translateX(this.positionX) * 128 + 59;
-        this.shitPositionY = this.positionY + 32;
+        this.shitPositionX = Map.translateX(this.positionX) * GamePanel.blockWidth + GamePanel.blockWidth * 0.5f;
+        this.shitPositionY = this.positionY + GamePanel.blockWidth * 0.2f;
         this.timeToCleanShit = System.currentTimeMillis() + 10_000;
         this.vectorX = -2;
         Game.playSound("../../res/" + Game.texturePack + "/Audio/BirdShit.wav");

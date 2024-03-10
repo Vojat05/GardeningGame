@@ -431,7 +431,7 @@ public class GamePanel extends JPanel {
                 for (int i=0; i<Game.birdList.size(); i++) {
 
                     Bird bird = Game.birdList.get(i);
-                    g.drawImage(bird.texture, (int) bird.positionX, (int) bird.positionY, 76, 71, null);
+                    g.drawImage(bird.texture, (int) bird.positionX, (int) bird.positionY, (int) (blockWidth * 0.59375), (int) (blockWidth * 0.5546875), null);
 
                 }
             }
@@ -583,39 +583,39 @@ public class GamePanel extends JPanel {
 
         int middleX = (int) (this.getWidth() * 0.5);
         int middleY = (int) (this.getHeight() * 0.5);
+        int y = (int) (middleY - middleY * 0.5);
 
         // The upper white rectangle
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillRect(middleX - 200, (int) (middleY - middleY * 0.5) + 180, 400, 80);
+        g2d.fillRect(middleX - 200, y + 180, 400, 80);
 
         // The middle gray rectangle
         g2d.setPaint(new Color(210, 210, 210, 245));
-        g2d.fillRect(middleX - 200, (int) (middleY - middleY * 0.5) + 260, 400, 120);
+        g2d.fillRect(middleX - 200, y + 260, 400, 120);
         
         // The bottom white rectangle
         g2d.setPaint(new Color(245, 245, 245, 245));
-        g2d.fillRect(middleX - 200, (int) (middleY - middleY * 0.5) + 380, 400, 80);
+        g2d.fillRect(middleX - 200, y + 380, 400, 80);
         
 
         // Alert box title
         g2d.setFont(Game.font.deriveFont(42f));
         g2d.setPaint(new Color(30, 30, 30, 240));
-        g2d.drawString("Alert", middleX - 35, (int) (middleY - middleY * 0.5) + 240);
+        g2d.drawString("Alert", middleX - 35, y + 240);
 
         g2d.setFont(Game.font.deriveFont(24f));
-        g2d.drawString(Game.alertMessage, middleX - Game.alertMessage.length() * 4, (int) (middleY - middleY * 0.5) + 330);
+        g2d.drawString(Game.alertMessage, middleX - Game.alertMessage.length() * 4, y + 330);
 
 
         // The selection buttons
 
         // Agree button
-        drawAgreeButton(g2d, middleX - 133, (int) (middleY - middleY * 0.5) + 395);
+        drawAgreeButton(g2d, middleX - 133, y + 395);
 
         // Rejct button
-        drawRejectButton(g2d, middleX + 100, (int) (middleY - middleY * 0.5) + 395);
+        drawRejectButton(g2d, middleX + 100, y + 395);
 
         if (this.hasFocus()) this.repaint();
-
     }
 
 
@@ -649,15 +649,16 @@ public class GamePanel extends JPanel {
         g2d.setPaint(new Color(30, 30, 30, 240));
         g2d.drawString("Save", middleX - 35, (int) (middleY - middleY * 0.5) - 40);
 
+        int y = (int) (middleY - middleY * 0.5);
         // The save slots
         for (int i=1; i<=6; i++) {
 
             // Drawing the box
             g2d.setPaint(new Color(30, 30, 30, 240));
             g2d.setStroke(new BasicStroke(1));
-            g2d.drawRect(middleX - 180, (int) (middleY - middleY * 0.5) - 65 + ( 60 * i + marginTopPx ), 360, 50);
+            g2d.drawRect(middleX - 180, y - 65 + 60 * i + marginTopPx, 360, 50);
             g2d.setPaint(i == hoverSaveSlotNumber ? new Color(255, 217, 29) : i == selectedSaveSlotNumber ? new Color(48, 222, 17) : new Color(245, 245, 245, 245));
-            g2d.fillRect(middleX - 179, (int) (middleY - middleY * 0.5) - 64 + ( 60 * i + marginTopPx ), 358, 48);
+            g2d.fillRect(middleX - 179, y - 64 + 60 * i + marginTopPx, 358, 48);
             
             // Drawing the slot text
             g2d.setFont(Game.font.deriveFont(36f));
@@ -670,10 +671,10 @@ public class GamePanel extends JPanel {
         // The selection buttons
 
         // Agree button
-        drawAgreeButton(g2d, middleX - 150, (int) (middleY - middleY * 0.5) + 395);
+        drawAgreeButton(g2d, middleX - 150, y + 395);
 
         // Rejct button
-        drawRejectButton(g2d, middleX + 100, (int) (middleY - middleY * 0.5) + 395);
+        drawRejectButton(g2d, middleX + 100, y + 395);
 
         if (this.hasFocus()) this.repaint();
 
@@ -688,10 +689,10 @@ public class GamePanel extends JPanel {
 
 
     private void drawHelpScreen(Graphics2D g2d) {
+
         // Drawing the Help screen inside the house if it's started for the first time
-        int x, y;
-        x = Game.tutorial.getX();
-        y = Game.tutorial.getY();
+        int x = Game.tutorial.getX();
+        int y = Game.tutorial.getY();
 
         // The first block // White
         g2d.setPaint(new Color(245, 245, 245, 245));
@@ -761,7 +762,7 @@ public class GamePanel extends JPanel {
         for (int i=0; i<4; i++) {
 
             int x = (int) ((i % 2 == 0 ? 300 : 150) * Math.pow(-1, i + 1));
-            int y2 = (int) (middleY - middleY * 0.5) + (i < 2 ? 100 : 300);
+            int y2 = y + (i < 2 ? 100 : 300);
 
             g2d.drawImage(new ImageIcon("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + i + ".png").getImage(), middleX + x, y2, 160, 160, null);
             if (i == selectedSkinSlot || i == hoverSkinSlot) {
@@ -775,10 +776,10 @@ public class GamePanel extends JPanel {
 
         // Action buttons
         // Agree button
-        drawAgreeButton(g2d, middleX - 250, (int) (middleY - middleY * 0.5) + 495);
+        drawAgreeButton(g2d, middleX - 250, y + 495);
 
         // Rejct button
-        drawRejectButton(g2d, middleX + 200, (int) (middleY - middleY * 0.5) + 495);
+        drawRejectButton(g2d, middleX + 200, y + 495);
 
         if (this.hasFocus()) this.repaint();
 

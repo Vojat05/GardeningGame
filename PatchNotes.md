@@ -363,3 +363,15 @@ EXE file is made for every update documented here<br>
     <li> * Tutorial window not showing fixed</li>
     <li> * Fixed the audio option in config.json</li>
 </ul>
+
+## 10/3/2024
+<ul>
+    <li> + Added a game quit command</li>
+    <li> + Added stamina and health modification commands</li>
+    <li> + Added save command</li>
+    <li> + Added summoning command</li>
+    <li> + Added entity clear command</li>
+    <li> * Fixed the button hit boxes on different resolutions</li>
+    <li> * Stamina depleeting is now smoother</li>
+    <li> * Fixed the version label positioning</li>
+</ul>

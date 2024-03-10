@@ -1,9 +1,7 @@
 TODO: Put this into order of the most > least difficult & needed changes
 
-- Complete the console command execution
 - Create development documentation
 - Save player information into the save file
-- Fix the GUI interactions in fullscreen
 - Make flower info stick that behaves like bino in ARK
 - Add a dog / cat (some garden NPCs other than birds)
 - Make a single space in map 9 spaces
@@ -17,8 +15,8 @@ TODO: Put this into order of the most > least difficult & needed changes
 - Dying flower will 10 seconds before dying become highlighted ( red ) and sound a sound effect
 - If in the flower planting mode, add a block outline to the block the mouse is currently hovering over
 - Make a better wardrobe texture
-- Add a gardener level ( each flower alive will give you 1 point, and each flower death fill subtract 50 )
-- Add gardener lever rewards ( movable fater storage system )
+- Add a gardener level ( each flower alive will give you 1 point, and each flower dying fill subtract 50 )
+- Add gardener lever rewards ( movable water storage system )
 - Add more flowers based on the gardener level
 - Add a computer inside the house which shows the character stats window ( Same design as the alert / save menu )
 - The dad will say that the night is closing in and you should go hide
