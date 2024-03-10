@@ -187,6 +187,16 @@ public class GamePanel extends JPanel {
 
     }
 
+    // Changes the texture of an already created texture
+    public void changeTexture(String item, String texturePath) {
+
+        if (new File(texturePath).exists()) {
+        
+            textures.put(item + ".png", new ImageIcon(texturePath).getImage());
+            
+        } else textures.put(item + ".png", new ImageIcon("../../res/Missing.png").getImage()); 
+    }
+
     // Sets the inventory panel field (just for the repaint method to be functional in the listener)
     public void setIPanel(InventoryPanel iPanel) { this.inventoryPanel = iPanel; }
 
@@ -226,6 +236,7 @@ public class GamePanel extends JPanel {
     // Gets the mouseInput used in this panel
     public MouseInput getMouseInput() { return this.mouseInput; }
 
+    // Gets the keyboard input listener
     public KeyboardInput getKeyboardInput() { return this.keyboardInput; }
 
     // Finds the plant in the flowers ArrayList and runs checks if it's dead or not, if passed, restores texture and resets death timer
