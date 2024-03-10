@@ -635,7 +635,7 @@ public class Game implements Runnable {
         long lastCheck = System.currentTimeMillis();
         float deltaF = 0F;
         float deltaT = 0F;
-        short animationTick = 100;
+        short animationTick = 0;
 
         // The in-game audio player
         try {
@@ -756,7 +756,8 @@ public class Game implements Runnable {
             // Animation tick | 10 times per second
             if (System.currentTimeMillis() - lastCheck >= animationTick) {
 
-                animationTick += 100;
+                // Console command prompt cursor line
+                if (animationTick % 300 == 0) Console.cursor = Console.cursor == '|' ? ' ' : '|';
 
                 /*
                  * --------------------------------------------------------------------------------
@@ -770,6 +771,8 @@ public class Game implements Runnable {
                     else gamePanel.dad.tire(-1);
 
                 }
+
+                animationTick += 100;
             }
 
             // The FPS counter. This occures ever second

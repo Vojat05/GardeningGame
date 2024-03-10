@@ -15,6 +15,7 @@ public class Console {
      */
     
     public static String commandPrompt = "";                                                                            // The command that is being entered to the command prompt
+    public static char cursor = '|';                                                                                    // Cursor shown at the end of the command prompt
     private static boolean show = false;                                                                                // Should the console JPanel be drawn?
     private static ArrayList<String> commandList = new ArrayList<>();                                                   // The comand queue
     private static ArrayList<String> commandArgs = new ArrayList<>();                                                   // The command arguments for the command that's to be executed
@@ -197,7 +198,7 @@ public class Console {
                             if (cArgs.size() == 0) break;
                             if (cArgs.get(0).toUpperCase().equals("CLEAR")) Game.birdList.clear();
                             break;
-                            
+
                         default:
                             break;
                     }

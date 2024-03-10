@@ -498,7 +498,6 @@ public class GamePanel extends JPanel {
      * --------------------------------------------------------------------------------
      */
 
-
     private void drawAgreeButton(Graphics2D g2d, int x, int y) {
 
         g2d.setPaint(new Color(10, 126, 236, 250));
@@ -521,7 +520,6 @@ public class GamePanel extends JPanel {
      * --------------------------------------------------------------------------------
      */
 
-
     private void drawRejectButton(Graphics2D g2d, int x, int y) {
 
         g2d.setPaint(new Color(236, 9, 68, 250));
@@ -543,7 +541,6 @@ public class GamePanel extends JPanel {
      * Drawing the warning panel
      * --------------------------------------------------------------------------------
      */
-
 
     private void drawWarning(Graphics2D g2d) {
 
@@ -577,7 +574,6 @@ public class GamePanel extends JPanel {
      * Drawing the alert panel
      * --------------------------------------------------------------------------------
      */
-
 
     private void drawAlert(Graphics2D g2d) {
 
@@ -624,7 +620,6 @@ public class GamePanel extends JPanel {
      * Drawing the save panel
      * --------------------------------------------------------------------------------
      */
-
 
     private void drawSaveBox(Graphics2D g2d, int marginTopPx) {
         
@@ -687,7 +682,6 @@ public class GamePanel extends JPanel {
      * --------------------------------------------------------------------------------
      */
 
-
     private void drawHelpScreen(Graphics2D g2d) {
 
         // Drawing the Help screen inside the house if it's started for the first time
@@ -733,7 +727,6 @@ public class GamePanel extends JPanel {
      * Drawing the skin selection panel
      * --------------------------------------------------------------------------------
      */
-
 
     private void drawSkinBox(Graphics2D g2d) {
 
@@ -785,6 +778,13 @@ public class GamePanel extends JPanel {
 
     }
 
+
+    /*
+     * --------------------------------------------------------------------------------
+     * Drawing the tutorial panel
+     * --------------------------------------------------------------------------------
+     */
+
     private void drawConsole(Graphics2D g2d) {
 
         int middleX = (int) (this.getWidth() * 0.5);
@@ -818,8 +818,7 @@ public class GamePanel extends JPanel {
 
         // Draw the entered text prompt
         g2d.setPaint(new Color(30, 30, 30, 240));
-        g2d.drawString(Console.commandPrompt, middleX - 345, middleY + 260);
-
+        g2d.drawString(Console.commandPrompt + Console.cursor, middleX - 345, middleY + 260);
     }
 
 
