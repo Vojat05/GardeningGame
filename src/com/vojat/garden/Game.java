@@ -19,6 +19,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.vojat.Main;
+import com.vojat.Mod;
 import com.vojat.Data.JSONEditor;
 import com.vojat.Data.Map;
 import com.vojat.Data.TutorialBox;
@@ -43,6 +44,7 @@ public class Game implements Runnable {
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
     public static Map map = new Map(new char[8][15]);                                                                                                                               // [Y][X] coords
     public static Map houseMap = new Map(new char[8][15]);                                                                                                                          // [Y][X] coords
+    public static ArrayList<String> mods = new ArrayList<>();                                                                                                                       // The string array of mod names that are loaded
     public static String stage = "Day";                                                                                                                                             // Current stage of the game ( Night / Day )
     public static String version = "";                                                                                                                                              // Current game version
     public static TutorialBox tutorial = new TutorialBox(0, 0, false);                                                                                                              // The tutorial box                 
@@ -204,6 +206,22 @@ public class Game implements Runnable {
                 i = 0;
 
             }
+        }
+
+        // Getting all the mod .jar files into a mod list
+        String[] modsNames = new File("../../Mods").list();
+        if (modsNames.length > 1) {
+
+            for (int i=0; i<modsNames.length; i++) {
+                
+                String mod = modsNames[i];
+                if (!mod.substring(mod.length() - 5).equals(".jar")) continue;
+    
+                mods.add(mod);
+            }
+    
+            // Calling the setup method of each mod
+            for (int i=0; i<mods.size(); i++) new Mod(mods.get(i)).setup();
         }
 
         // Set the volume
