@@ -173,7 +173,16 @@ public class Player {
         if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
 
         return this.stamina;
+    }
 
+    // Sets the player stamina to a certian value
+    public int setStamina(int value) {
+
+        if (value < 0) this.stamina = 0;
+        if (value > 100) this.stamina = 100;
+        else this.stamina = value;
+
+        return this.stamina;
     }
 
     // Returns the currently used texture modifier for selecting player texture

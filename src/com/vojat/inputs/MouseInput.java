@@ -64,36 +64,39 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
         // Alert button interaction
         if (Game.alert || gamePanel.saveMenuOpen || gamePanel.skinMenuOpen) {
 
-            if (gamePanel.saveMenuOpen) {
-                // Save menu interaction
-                int middleX = (int) (gamePanel.getWidth() * 0.5);
-                int middleY = (int) (gamePanel.getHeight() * 0.5);
+            int middleX = (int) (gamePanel.getWidth() * 0.5);
+            int middleY = (int) (gamePanel.getHeight() * 0.5);
+            int y = (int) (middleY - middleY * 0.5);
 
-                if ( !(e.getX() >= middleX - 188 && e.getX() <= middleX + 172) ) return;
+            if (gamePanel.saveMenuOpen) {
+
+                // Save menu interaction
+                if (!(e.getX() >= middleX - 180 && e.getX() <= middleX + 180)) return;
 
                 for (int i=1; i<=6; i++) {
                     
-                    if (e.getY() >= middleY - 355 + i * 60 && e.getY() <= middleY - 305 + i * 60) {
+                    if (e.getY() >= y - 55 + 60 * i && e.getY() <= y - 5 + 60 * i) {
                         
                         gamePanel.setSaveNumber(i);
                         Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
                         break;
                     
                     }
-
                 }
             }
 
             if (gamePanel.skinMenuOpen) {
 
-                // Selecting a skin in the menu
-                if ((mouseX >= 655 && mouseX <= 808) && (mouseY >= 345 && mouseY <= 497)) { gamePanel.setSelectedSkinNumber(0); }
-                else if ((mouseX >= 1106 && mouseX <= 1257) && (mouseY >= 345 && mouseY <= 497)) { gamePanel.setSelectedSkinNumber(1); }
-                else if ((mouseX >= 655 && mouseX <= 808) && (mouseY >= 545 && mouseY <= 697)) { gamePanel.setSelectedSkinNumber(2); }
-                else if ((mouseX >= 1106 && mouseX <= 1257) && (mouseY >= 545 && mouseY <= 697)) { gamePanel.setSelectedSkinNumber(3); }
+                for (int i = 0; i < 4; i++) {
 
-                // Reaction buttons
-                if ((e.getX() >= 702 && e.getX() <= 752) && (e.getY() >= 736 && e.getY() <= 786)) {
+                    int posX = (int) (middleX + (i % 2 == 0 ? 300 : 150) * Math.pow(-1, i + 1));
+                    int posY = (int) (middleY - middleY * 0.5) + (i < 2 ? 100 : 300);
+
+                    if (mouseX >= posX && mouseX <= posX + 160 && mouseY >= posY && mouseY <= posY + 160) gamePanel.setSelectedSkinNumber(i);
+                }
+
+                // Buttons
+                if ((e.getX() >= middleX - 270 && e.getX() <= middleX - 220) && (e.getY() >= y + 495 && e.getY() <= y + 545)) {
                     
                     // The accept button
                     gamePanel.dad.setTextureModifier((char) (gamePanel.selectedSkinSlot + 48));
@@ -101,7 +104,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     Game.togglePauseGame();
                     Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
 
-                } else if ((e.getX() >= 1152 && e.getX() <= 1202) && (e.getY() >= 736 && e.getY() <= 786)) {
+                } else if ((e.getX() >= middleX + 200 && e.getX() <= middleX + 250) && (e.getY() >= y + 495 && e.getY() <= y + 545)) {
 
                     // The reject button
                     gamePanel.skinMenuOpen = false;
@@ -109,16 +112,13 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
 
                 }
-
                 return;
-
             }
 
             // Alert box
-            if ( (e.getX() >= 802 && e.getX() <= 852) && (e.getY() >= 636 && e.getY() <= 685) ) {
+            if ( (e.getX() >= middleX - 150 && e.getX() <= middleX - 100) && (e.getY() >= y + 395 && e.getY() <= y + 445) ) {
                 
                 // Accept button
-
                 try {
                     
                     if (Game.save != -1 && Game.alertMessage.equals("Do you want to reload your last save?")) {
@@ -153,30 +153,20 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         // The save box options
                         Game.saveGame("../com/vojat/Data/Saves/Save" + gamePanel.getSaveNumber() + ".json", gamePanel.dad, (byte) gamePanel.getSaveNumber());
                         gamePanel.hideSaveMenu();
-                        gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2;
-                        gamePanel.dad.LOCATION_Y = 120;
+                        gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2 - 10;
+                        gamePanel.dad.LOCATION_Y = GamePanel.blockWidth;
                         gamePanel.dad.setMove(true);
                         Game.alertMessage = "None";
                         Game.togglePauseGame();
 
-                    } else {
-
-                        Game.alertUpdate("Save not found, return to main menu.");
-
-                    }
+                    } else Game.alertUpdate("Save not found, return to main menu.");
 
                     Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
 
-                } catch (IOException fne) {
-                    
-                    System.err.println("File not found");
-
-                }
-            }
-            else if((e.getX() >= 1052 && e.getX() <= 1101) && (e.getY() >= 636 && e.getY() <= 685)) {
+                } catch (IOException fne) { System.err.println("File not found"); }
+            } else if((e.getX() >= middleX + 100 && e.getX() <= middleX + 150) && (e.getY() >= y + 395 && e.getY() <= y + 445)) {
                 
                 // Reject button
-                
                 if (gamePanel.dad.HP == 0) {
 
                     Main.window.setElements(new MenuPanel(Main.window));
@@ -188,8 +178,8 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 } else if (gamePanel.saveMenuOpen) {
 
                     gamePanel.hideSaveMenu();
-                    gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2;
-                    gamePanel.dad.LOCATION_Y = 120;
+                    gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2 - 10;
+                    gamePanel.dad.LOCATION_Y = GamePanel.blockWidth;
                     gamePanel.dad.setMove(true);
                     Game.alertMessage = "None";
                     Game.togglePauseGame();
@@ -205,15 +195,13 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
 
             }
-
             return;
-
         }
 
         if (Game.firstStart && gamePanel.dad.level == 1) {
+            
             // Turns off the tutorial panel
-
-            if ( (e.getX() >= Game.tutorial.getX() + 305 && e.getX() <= Game.tutorial.getX() + 355) && (e.getY() <= 923 && e.getY() >= 875) ) {
+            if ( (e.getX() >= Game.tutorial.getX() + 305 && e.getX() <= Game.tutorial.getX() + 355) && (e.getY() <= Game.tutorial.getY() + 875 && e.getY() >= Game.tutorial.getY() + 825) ) {
 
                 Game.firstStart = false;
                 Game.tutorial.setVisibility(false);
@@ -560,16 +548,14 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
     // Highlites the save slot blocks on hover
     public void saveHoverEffect() {
 
-        if ( !(mouseX >= 772 && mouseX <= 1132) ) { gamePanel.setHoverSaveNumber(0); return; }
+        int middleX = (int) (gamePanel.getWidth() * 0.5);
+        int middleY = (int) (gamePanel.getHeight() * 0.5);
+        int y = (int) (middleY - middleY * 0.5);
 
-        for (int i=1; i<=6; i++) {
-            
-            if (mouseY >= 185 + i * 60 && mouseY <= 235 + i * 60) gamePanel.setHoverSaveNumber(i);
+        if ( !(mouseX >= middleX - 180 && mouseX <= middleX + 180) ) { gamePanel.setHoverSaveNumber(0); return; }
+        if (mouseY < y + 4 || mouseY > y + 355) { gamePanel.setHoverSaveNumber(0); return; }
 
-        }
-
-        if (mouseY < 245 || mouseY > 595) gamePanel.setHoverSaveNumber(0);
-
+        for (int i=1; i<=6; i++) if (mouseY >= y - 55 + 60 * i && mouseY <= y - 5 + i * 60) gamePanel.setHoverSaveNumber(i);
     }
 
     // Highlites the skin slot blocks on hover

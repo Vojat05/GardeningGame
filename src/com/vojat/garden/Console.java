@@ -1,5 +1,6 @@
 package com.vojat.garden;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -143,11 +144,60 @@ public class Console {
 
                         case "REVIVE":
                             Game.gamePanel.dad.setHealth(100);
+                            Game.gamePanel.dad.tire(-100);
                             Game.gamePanel.dad.setTexture("Player/Dad_Texture_F" + Game.gamePanel.dad.getTextureModifier() + ".png");
                             Game.warning = false;
                             Game.alert = false;
+                            if (Game.gamePanel.dad.outOfStamina) {
+                                
+                                Game.gamePanel.dad.outOfStamina = false;
+                                Game.gamePanel.dad.setTexture("Player/Dad_Texture_" + (Game.gamePanel.dad.VECTORX > 0 ? "R" : "L") + Game.gamePanel.dad.getTextureModifier() + ".png");
+                                Game.gamePanel.dad.setMove(true);
+                                Game.gamePanel.getKeyboardInput().resetMovement();
+                                Game.gamePanel.dad.VECTORX = 0;
+                                Game.gamePanel.dad.VECTORY = 0;
+                            
+                            }
                             break;
 
+                        case "QUIT":
+                            System.exit(0);
+                            break;
+                        
+                        case "SETHP":
+                            Game.gamePanel.dad.setHealth(Integer.parseInt(cArgs.get(0)));
+                            break;
+                        
+                        case "SETSTAMINA":
+                            Game.gamePanel.dad.setStamina(Integer.parseInt(cArgs.get(0)));
+                            break;
+
+                        case "SAVE":
+                            try {
+                            
+                                Game.saveGame("../com/vojat/Data/Saves/Save" + cArgs.get(0) + ".json", Game.gamePanel.dad, Byte.parseByte(cArgs.get(0)));
+                            
+                            } catch (IOException ioe) {
+
+                                System.err.println(ErrorList.ERR_IO.message);
+                            
+                            }
+                            break;
+
+                        case "SUMMON":
+                            if (cArgs.get(0).toUpperCase().equals("BIRD")) {
+
+                                if (cArgs.size() == 2) for (int j=0; j<Integer.parseInt(cArgs.get(1)); j++) Game.spawnBird();
+                                else Game.spawnBird();
+
+                            }
+                            break;
+
+                        case "ENTITY":
+                            if (cArgs.size() == 0) break;
+                            if (cArgs.get(0).toUpperCase().equals("CLEAR")) Game.birdList.clear();
+                            break;
+                            
                         default:
                             break;
                     }
