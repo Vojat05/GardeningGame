@@ -25,8 +25,8 @@ public class Player {
     public byte selectedItem = 0;                                           // Index of a specific item from the inventory
     public byte reach = 1;                                                  // Player reach
     public byte level = 1;                                                  // Level on which the player is located  0 == outside ; 1 == inside house
-    public double speed = 1;                                                // Player's movement speed
-    public double dSpeed = 1;                                               // Player's default movement speed
+    public float speed = 1;                                                 // Player's movement speed
+    public float dSpeed = 1;                                                // Player's default movement speed
     public int HP = 100;                                                    // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
     public int stamina = 100;                                               // Player stamina for the player to run on the tiles
     public boolean outOfStamina = false;                                    // Does the player have a 0 stamina penalty ( tells the bar to change color as it regenerates )
@@ -50,7 +50,7 @@ public class Player {
 
             JSONEditor jEditor = new JSONEditor("../../res/Config.json");
             this.reach = Byte.parseByte(jEditor.readData("Player-Reach"));
-            this.dSpeed = Window.width * 0.00052 * Double.parseDouble(jEditor.readData("Player-Default-Speed"));
+            this.dSpeed = Window.width * 0.00052f * Float.parseFloat(jEditor.readData("Player-Default-Speed"));
 
         } catch (IOException e) {
 
@@ -92,18 +92,10 @@ public class Player {
     }
 
     // Plants the given flower
-    public void plant(Flower flower) {
-
-        gamePanel.summonFlower(flower);
-
-    }
+    public void plant(Flower flower) { gamePanel.summonFlower(flower); }
 
     // Waters the given flower at a given position
-    public void water(Flower flower) {
-
-        gamePanel.waterFlower(flower);
-
-    }
+    public void water(Flower flower) { gamePanel.waterFlower(flower); }
 
     // Refills the water bucket
     public void waterRefill() {
@@ -123,15 +115,8 @@ public class Player {
             // Kills the player
             kill();
 
-        } else if (this.HP - dmg > 100) {
-
-            this.HP = 100;
-
-        } else {
-
-            this.HP -= dmg;
-
-        }
+        } else if (this.HP - dmg > 100) this.HP = 100;
+        else this.HP -= dmg;
 
         if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
         return this.HP;

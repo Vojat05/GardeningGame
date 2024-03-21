@@ -68,8 +68,8 @@ public class Main {
             Game.texturePack = jsonEditor.readData("Texture-Pack");
             Game.version = jsonEditor.readData("Version");
             Game.FPS_SET = Byte.parseByte(jsonEditor.readData("FPS"));
-            Game.setDayLasts(Integer.parseInt(jsonEditor.readData("Day-Lasts")));
-            Game.setNightLasts(Integer.parseInt(jsonEditor.readData("Night-Lasts")));
+            Game.setDayLasts(Short.parseShort(jsonEditor.readData("Day-Lasts")));
+            Game.setNightLasts(Short.parseShort(jsonEditor.readData("Night-Lasts")));
             Game.dayNightTransitionSpeed = Double.parseDouble(jsonEditor.readData("Cycle-Transition-Value"));
             Game.volumeTransitionSpeed = Float.parseFloat(jsonEditor.readData("Volume-Transition-Value"));
             GamePanel.overlay = Boolean.parseBoolean(jsonEditor.readData("Enable-Overlay"));

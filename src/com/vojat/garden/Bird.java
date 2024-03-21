@@ -1,7 +1,5 @@
 package com.vojat.garden;
 
-import java.awt.image.BufferedImage;
-
 import com.vojat.Data.Map;
 import com.vojat.menu.Window;
 
@@ -15,7 +13,6 @@ public class Bird {
 
     public float vectorX = 0f, positionY = 0f, positionX = Window.width, shitPositionX = 0f, shitPositionY = 0f;                     // Birds location and velocity data
     public boolean drawShit = false, splat = false, audio = false;                                                                   // Has the bird shat yet?
-    public BufferedImage texture = Game.setTexture("../../res/" + Game.texturePack + "/pics/Pigeon1.png");                           // Bird texture
     public long timeToCleanShit = 0;                                                                                                 // Time at which the shit should be cleaned
 
     /*
