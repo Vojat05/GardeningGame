@@ -74,8 +74,8 @@ public class Game implements Runnable {
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static boolean isRaining = false;                                                                                                                                       // Is the current weather raining
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
-    private static int dayLasts = 0;                                                                                                                                                // How long does the day last in seconds
-    private static int nightLasts = 0;                                                                                                                                              // How long does the night last in seconds
+    private static Short dayLasts = 0;                                                                                                                                                // How long does the day last in seconds
+    private static Short nightLasts = 0;                                                                                                                                              // How long does the night last in seconds
     private static float dayNumber = 0;                                                                                                                                             // How many days have past since the game started
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
     private int seconds = 0;                                                                                                                                                        // Seconds since the game started
@@ -342,7 +342,7 @@ public class Game implements Runnable {
      * @return The new number of seconds a day lasts
      * 
      */
-    public static int setDayLasts(int value) { return dayLasts = value; }
+    public static int setDayLasts(Short value) { return dayLasts = value; }
 
     /**
      * Gets how long the night should last in seconds
@@ -357,7 +357,7 @@ public class Game implements Runnable {
      * @return The new number of seconds the night lasts
      * 
      */
-    public static int setNightLasts(int value) { return nightLasts = value; }
+    public static int setNightLasts(Short value) { return nightLasts = value; }
 
     /**
      * Gets the number of days passed since the game started
@@ -553,17 +553,6 @@ public class Game implements Runnable {
 
             Bird bird = birdList.get(i);
 
-            // Bird flapping wings
-            if (Map.translateX(bird.positionX) % 2 == 0) {
-
-                bird.texture = setTexture("../../res/" + texturePack + "/Pics/Pigeon1.png");
-
-            } else {
-
-                bird.texture = setTexture("../../res/" + texturePack + "/Pics/Pigeon2.png");
-
-            }
-
             // Bird shit detection
             if (bird.drawShit && Map.translateY(bird.shitPositionY - 30) == Map.translateY(gamePanel.dad.LOCATION_Y + 64) && Map.translateX(bird.shitPositionX) == Map.translateX(gamePanel.dad.LOCATION_X + 64)) {
 
@@ -631,7 +620,7 @@ public class Game implements Runnable {
         if (gamePanel.dad.VECTORY > 0) gamePanel.dad.VECTORY = gamePanel.dad.speed;
         else if (gamePanel.dad.VECTORY < 0) gamePanel.dad.VECTORY = -gamePanel.dad.speed;
         
-        if (map.read(Map.translateX(gamePanel.dad.LOCATION_X + 64), Map.translateY(gamePanel.dad.LOCATION_Y + 100)) == '6' && gamePanel.dad.level == 0) gamePanel.dad.speed = gamePanel.dad.dSpeed + .5;
+        if (map.read(Map.translateX(gamePanel.dad.LOCATION_X + 64), Map.translateY(gamePanel.dad.LOCATION_Y + 100)) == '6' && gamePanel.dad.level == 0) gamePanel.dad.speed = gamePanel.dad.dSpeed * 1.5f;
         else gamePanel.dad.speed = gamePanel.dad.dSpeed;
     } 
 

@@ -199,6 +199,10 @@ public class Console {
                             if (cArgs.get(0).toUpperCase().equals("CLEAR")) Game.birdList.clear();
                             break;
 
+                        case "SETSPEED":
+                            Game.gamePanel.dad.dSpeed = Float.parseFloat(cArgs.get(0));
+                            break;
+
                         default:
                             break;
                     }

@@ -159,6 +159,13 @@ public class GamePanel extends JPanel {
                 if ((new File("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png")).exists()) textures.put(texture + ".png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/House/" + texture + ".png").getImage());
                 else textures.put(texture + ".png", new ImageIcon("../../res/Missing.png").getImage());
             }
+
+            // Bird texture
+            if ((new File("../../res/" + Game.texturePack + "/Pics/Pigeon1.png")).exists()) textures.put("Pigeon1.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/Pigeon1.png").getImage());
+            else textures.put("Pigeon1.png", new ImageIcon("../../res/Missing.png").getImage());
+
+            if ((new File("../../res/" + Game.texturePack + "/Pics/Pigeon2.png")).exists()) textures.put("Pigeon2.png", new ImageIcon("../../res/" + Game.texturePack + "/Pics/Pigeon2.png").getImage());
+            else textures.put("Pigeon2.png", new ImageIcon("../../res/Missing.png").getImage());
         }
 
         /*
@@ -442,7 +449,7 @@ public class GamePanel extends JPanel {
                 for (int i=0; i<Game.birdList.size(); i++) {
 
                     Bird bird = Game.birdList.get(i);
-                    g.drawImage(bird.texture, (int) bird.positionX, (int) bird.positionY, (int) (blockWidth * 0.59375), (int) (blockWidth * 0.5546875), null);
+                    g.drawImage(textures.get("Pigeon" + (Map.translateX(bird.positionX) % 2 == 0 ? "1" : "2") + ".png"), (int) bird.positionX, (int) bird.positionY, (int) (blockWidth * 0.59375), (int) (blockWidth * 0.5546875), null);
 
                 }
             }
