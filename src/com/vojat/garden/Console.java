@@ -144,8 +144,8 @@ public class Console {
                             break;
 
                         case "REVIVE":
-                            Game.gamePanel.dad.setHealth(100);
-                            Game.gamePanel.dad.tire(-100);
+                            Game.gamePanel.dad.setHealth((byte) 100);
+                            Game.gamePanel.dad.tire((byte) -100);
                             Game.gamePanel.dad.setTexture("Player/Dad_Texture_F" + Game.gamePanel.dad.getTextureModifier() + ".png");
                             Game.warning = false;
                             Game.alert = false;
@@ -166,11 +166,11 @@ public class Console {
                             break;
                         
                         case "SETHP":
-                            Game.gamePanel.dad.setHealth(Integer.parseInt(cArgs.get(0)));
+                            Game.gamePanel.dad.setHealth(Byte.parseByte(cArgs.get(0)));
                             break;
                         
                         case "SETSTAMINA":
-                            Game.gamePanel.dad.setStamina(Integer.parseInt(cArgs.get(0)));
+                            Game.gamePanel.dad.setStamina(Byte.parseByte(cArgs.get(0)));
                             break;
 
                         case "SAVE":

@@ -69,13 +69,13 @@ public class Game implements Runnable {
     public static byte FPS_SET = 120;                                                                                                                                               // Frame-Rate cap
     public static short gfps = 0;                                                                                                                                                   // The game current FPS rate
     public static short gtick = 0;                                                                                                                                                  // The game current logic tick rate
-    public static GamePanel gamePanel;                                                                                                                                             // The panel that shows the game window
+    public static GamePanel gamePanel;                                                                                                                                              // The panel that shows the game window
     private static Clip rainClip;                                                                                                                                                   // The rain audio
     private static boolean run = true;                                                                                                                                              // Determines wheather the game-loop should still run
     private static boolean isRaining = false;                                                                                                                                       // Is the current weather raining
     private static ArrayList<Long> dieTimes = new ArrayList<Long>();                                                                                                                // ArrayList for flower die times used when pausing the game
-    private static Short dayLasts = 0;                                                                                                                                                // How long does the day last in seconds
-    private static Short nightLasts = 0;                                                                                                                                              // How long does the night last in seconds
+    private static Short dayLasts = 0;                                                                                                                                              // How long does the day last in seconds
+    private static Short nightLasts = 0;                                                                                                                                            // How long does the night last in seconds
     private static float dayNumber = 0;                                                                                                                                             // How many days have past since the game started
     private Thread gameLoop;                                                                                                                                                        // The game loop itself
     private int seconds = 0;                                                                                                                                                        // Seconds since the game started
@@ -233,7 +233,7 @@ public class Game implements Runnable {
         gamePanel.setIPanel(inventoryPanel);
 
         // Set the player starting position
-        gamePanel.dad.level = 1;
+        gamePanel.dad.setLevel((byte) 1);
         gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2 - 60;
         gamePanel.dad.LOCATION_Y = GamePanel.blockWidth * 1;
     }
@@ -505,7 +505,7 @@ public class Game implements Runnable {
 
     /**
      * Stops a provided clip
-     * @param clip
+     * @param clip to be stopped
      * 
      */
     public static void stopClip(Clip clip) { clip.stop(); }
@@ -574,8 +574,7 @@ public class Game implements Runnable {
 
             }
 
-            if (bird.positionX + 1000 < 0) birdList.remove(i);
-
+            if (bird.positionX + 500 < 0) birdList.remove(i);
         }
 
         /*
@@ -585,10 +584,10 @@ public class Game implements Runnable {
          */
 
         // Enter house logic
-        if (gamePanel.dad.level == 0 && Map.translateX(gamePanel.dad.LOCATION_X + 64) == 2 && Map.translateY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
+        if ((gamePanel.dad.reachLevel & 0xf) == 0 && Map.translateX(gamePanel.dad.LOCATION_X + 64) == 2 && Map.translateY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 1) {
 
             playSound("../../res/" + texturePack + "/Audio/DoorInteract.wav");
-            gamePanel.dad.level = 1;
+            gamePanel.dad.setLevel((byte) 1);
             gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 5;
             gamePanel.dad.LOCATION_Y = GamePanel.blockWidth * 6;
             invisibleWalls.remove(invisibleWalls.indexOf('3'));
@@ -597,10 +596,10 @@ public class Game implements Runnable {
         }
 
         // Exit house logic
-        if (gamePanel.dad.level == 1 && Map.translateX(gamePanel.dad.LOCATION_X + 64) == 5 && Map.translateY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
+        if ((gamePanel.dad.reachLevel & 0xf) == 1 && Map.translateX(gamePanel.dad.LOCATION_X + 64) == 5 && Map.translateY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY) == 7) {
 
             playSound("../../res/" + texturePack +  "/Audio/DoorInteract.wav");
-            gamePanel.dad.level = 0;
+            gamePanel.dad.setLevel((byte) 0);
             gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2 - GamePanel.blockWidth * 0.1;
             gamePanel.dad.LOCATION_Y = GamePanel.blockWidth * 2 - GamePanel.blockWidth * 0.4;
             invisibleWalls.add('3');
@@ -620,7 +619,7 @@ public class Game implements Runnable {
         if (gamePanel.dad.VECTORY > 0) gamePanel.dad.VECTORY = gamePanel.dad.speed;
         else if (gamePanel.dad.VECTORY < 0) gamePanel.dad.VECTORY = -gamePanel.dad.speed;
         
-        if (map.read(Map.translateX(gamePanel.dad.LOCATION_X + 64), Map.translateY(gamePanel.dad.LOCATION_Y + 100)) == '6' && gamePanel.dad.level == 0) gamePanel.dad.speed = gamePanel.dad.dSpeed * 1.5f;
+        if (map.read(Map.translateX(gamePanel.dad.LOCATION_X + 64), Map.translateY(gamePanel.dad.LOCATION_Y + 100)) == '6' && (gamePanel.dad.reachLevel & 0xf) == 0) gamePanel.dad.speed = gamePanel.dad.dSpeed * 1.5f;
         else gamePanel.dad.speed = gamePanel.dad.dSpeed;
     } 
 
@@ -695,10 +694,10 @@ public class Game implements Runnable {
                  */
                 
                 // Y coordinate colision logic
-                if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains((char) (Map.translate(Map.translateX(gamePanel.dad.LOCATION_X + 64), Map.translateY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.canMove() ? gamePanel.dad.VECTORY : 0;
+                if (!(gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY < 0 || gamePanel.dad.LOCATION_Y + gamePanel.dad.VECTORY > Player.windowLimitY || invisibleWalls.contains((char) (Map.translate(Map.translateX(gamePanel.dad.LOCATION_X + 64), Map.translateY(gamePanel.dad.LOCATION_Y + 80 + gamePanel.dad.VECTORY), (gamePanel.dad.reachLevel & 0xf) == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_Y += gamePanel.dad.canMove() ? gamePanel.dad.VECTORY : 0;
                         
                 // X coordinate colision logic
-                if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains((char) (Map.translate(Map.translateX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), Map.translateY(gamePanel.dad.LOCATION_Y + 80), gamePanel.dad.level == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_X += gamePanel.dad.canMove() ? gamePanel.dad.VECTORX : 0;
+                if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains((char) (Map.translate(Map.translateX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), Map.translateY(gamePanel.dad.LOCATION_Y + 80), (gamePanel.dad.reachLevel & 0xf) == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_X += gamePanel.dad.canMove() ? gamePanel.dad.VECTORX : 0;
 
                 // Bird & shit flight logic
                 for (Bird bird : birdList) { bird.positionX += bird.vectorX; if (bird.shitPositionY < bird.positionY + 500) bird.shitPositionY += 2; }
@@ -774,8 +773,8 @@ public class Game implements Runnable {
 
                 if (animationTick % 200 == 0) {
 
-                    if ((gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) && gamePanel.dad.canMove() && !gamePanel.dad.isSitting) gamePanel.dad.tire(1);
-                    else gamePanel.dad.tire(-1);
+                    if ((gamePanel.dad.VECTORX != 0 || gamePanel.dad.VECTORY != 0) && gamePanel.dad.canMove() && !gamePanel.dad.isSitting) gamePanel.dad.tire((byte) 1);
+                    else gamePanel.dad.tire((byte) -1);
 
                 }
 
@@ -791,17 +790,16 @@ public class Game implements Runnable {
                 if (Main.debug) System.out.println("LOCATION:\n\tX: " + gamePanel.dad.LOCATION_X + "\n\tY: " + gamePanel.dad.LOCATION_Y + "\nSPEED:\n\tX: " + gamePanel.dad.VECTORX + "\n\tY: " + gamePanel.dad.VECTORY + "\nNo. Birds: " + birdList.size());
                 
                 // Checks if the player is on level 0 "outside"
-                if (gamePanel.dad.level == 0) gamePanel.changeGrass = true;
+                if ((gamePanel.dad.reachLevel & 0xf) == 0) gamePanel.changeGrass = true;
 
                 // Spawns the birb
-                if (gamePanel.dad.level == 0 && random.nextInt(100) == 0) spawnBird();
+                if ((gamePanel.dad.reachLevel & 0xf) == 0 && random.nextInt(100) == 0) spawnBird();
 
                 // Bird shitting logic
                 for (int i=0; i<birdList.size(); i++) {
 
                     Bird bird = birdList.get(i);
-                    if (gamePanel.dad.level == 0 && Map.translateX(bird.positionX) == Map.translateX(gamePanel.dad.LOCATION_X + 64)) bird.shit();
-
+                    if ((gamePanel.dad.reachLevel & 0xf) == 0 && Map.translateX(bird.positionX) == Map.translateX(gamePanel.dad.LOCATION_X + 64)) bird.shit();
                 }
                 
                 // Replays the in-game music if it had reached the end.

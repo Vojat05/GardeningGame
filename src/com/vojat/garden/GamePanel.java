@@ -280,7 +280,7 @@ public class GamePanel extends JPanel {
     private void drawTerrain(Map map, Graphics2D g) {
 
         // Draws the interior of the house
-        if (dad.level == 1) {
+        if ((dad.reachLevel & 0xf) == 1) {
 
             // Drawing the grass background
             for (int i=0; i<Game.houseMap.getMap().length; i++) {
@@ -390,7 +390,7 @@ public class GamePanel extends JPanel {
 
         try {
 
-            if (dad.level == 0) {
+            if ((dad.reachLevel & 0xf) == 0) {
 
                 // Drawing the grass textures and other static objects (well, house, etc.)
                 for (int i=0; i<map.getMap().length; i++) {
@@ -861,8 +861,8 @@ public class GamePanel extends JPanel {
         g2d.setRenderingHints(rh);
         
         // Drawing the terrain
-        drawTerrain(dad.level == 0 ? Game.map : Game.houseMap, g2d);
-        if (dad.level == 0) drawBirdShit(g2d);
+        drawTerrain((dad.reachLevel & 0xf) == 0 ? Game.map : Game.houseMap, g2d);
+        if ((dad.reachLevel & 0xf) == 0) drawBirdShit(g2d);
 
         // Drawing the player character in 128 x 128
         g2d.drawImage(dad.currentTexture, (int) dad.LOCATION_X, (int) dad.LOCATION_Y, blockWidth, blockWidth, null);
@@ -871,7 +871,7 @@ public class GamePanel extends JPanel {
         if (Game.isRaining()) {
 
             BufferedImage raingImg = rainBase.getSubimage(0, (int) rainPositionY, 384, 216);
-            g2d.drawImage(raingImg, dad.level == 0 ? 0 : 1200, 0, 1920, 1080, null);
+            g2d.drawImage(raingImg, (dad.reachLevel & 0xf) == 0 ? 0 : 1200, 0, 1920, 1080, null);
 
         }
 
@@ -898,7 +898,7 @@ public class GamePanel extends JPanel {
         }
 
         // Drawing the help menu box
-        if (dad.level == 1 && Game.firstStart || Game.tutorial.isVisible()) { drawHelpScreen(g2d); }
+        if ((dad.reachLevel & 0xf) == 1 && Game.firstStart || Game.tutorial.isVisible()) { drawHelpScreen(g2d); }
 
         // Drawing the death screen
         if (dad.HP == 0) {

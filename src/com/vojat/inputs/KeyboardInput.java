@@ -161,7 +161,7 @@ public class KeyboardInput implements KeyListener {
         // Exit couch via using a shift key
         if (e.getKeyCode() == KeyEvent.VK_SHIFT && !gamePanel.dad.canMove()) {
 
-            if (gamePanel.dad.level == 0) return;
+            if ((gamePanel.dad.reachLevel & 0xf) == 0) return;
 
             if (gamePanel.dad.LOCATION_X == 894) {
                             
