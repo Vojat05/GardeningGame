@@ -23,12 +23,11 @@ public class Player {
     public BufferedImage currentTexture;                                    // Player's current texture {front, back, left, right}
     public ArrayList<String> inventory = new ArrayList<String>();           // Player inventory with all object he holds
     public byte selectedItem = 0;                                           // Index of a specific item from the inventory
-    public byte reach = 1;                                                  // Player reach
-    public byte level = 1;                                                  // Level on which the player is located  0 == outside ; 1 == inside house
+    public byte reachLevel = 0x11;                                          // 4 bits == reach & 4 bits == level
     public float speed = 1;                                                 // Player's movement speed
     public float dSpeed = 1;                                                // Player's default movement speed
-    public int HP = 100;                                                    // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
-    public int stamina = 100;                                               // Player stamina for the player to run on the tiles
+    public byte HP = 100;                                                    // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
+    public byte stamina = 100;                                               // Player stamina for the player to run on the tiles
     public boolean outOfStamina = false;                                    // Does the player have a 0 stamina penalty ( tells the bar to change color as it regenerates )
     public boolean isSitting = false;                                       // Is the player character sitting?
     private boolean canMove = true;                                         // Can player can move around or not?
@@ -49,7 +48,7 @@ public class Player {
         try {
 
             JSONEditor jEditor = new JSONEditor("../../res/Config.json");
-            this.reach = Byte.parseByte(jEditor.readData("Player-Reach"));
+            this.reachLevel = (byte) ((Byte.parseByte(jEditor.readData("Player-Reach")) << 4) + 1);
             this.dSpeed = Window.width * 0.00052f * Float.parseFloat(jEditor.readData("Player-Default-Speed"));
 
         } catch (IOException e) {
@@ -97,6 +96,9 @@ public class Player {
     // Waters the given flower at a given position
     public void water(Flower flower) { gamePanel.waterFlower(flower); }
 
+    // Sets the player level
+    public void setLevel(byte level) { this.reachLevel = (byte) ((this.reachLevel & 0xf0) + level); }
+
     // Refills the water bucket
     public void waterRefill() {
 
@@ -141,7 +143,7 @@ public class Player {
     }
 
     // Sets the player health to a certian value
-    public int setHealth(int HP) {
+    public int setHealth(byte HP) {
 
         if (HP == 0) kill();
         if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
@@ -150,18 +152,18 @@ public class Player {
     }
 
     // Removes the player stamina tiring him // The same as hurt, just for stamina
-    public int tire(int value) {
+    public int tire(byte value) {
 
         if (this.stamina - value <= 0) this.stamina = 0;
         else if (this.stamina - value >= 100) this.stamina = 100;
-        else this.stamina = this.stamina - value;
+        else this.stamina = (byte) (this.stamina - value);
         if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
 
         return this.stamina;
     }
 
     // Sets the player stamina to a certian value
-    public int setStamina(int value) {
+    public int setStamina(byte value) {
 
         if (value < 0) this.stamina = 0;
         if (value > 100) this.stamina = 100;

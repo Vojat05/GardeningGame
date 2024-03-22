@@ -198,7 +198,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             return;
         }
 
-        if (Game.firstStart && gamePanel.dad.level == 1) {
+        if (Game.firstStart && (gamePanel.dad.reachLevel & 0xf) == 1) {
             
             // Turns off the tutorial panel
             if ( (e.getX() >= Game.tutorial.getX() + 305 && e.getX() <= Game.tutorial.getX() + 355) && (e.getY() <= Game.tutorial.getY() + 875 && e.getY() >= Game.tutorial.getY() + 825) ) {
@@ -219,7 +219,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             case MouseEvent.BUTTON1:
 
                 // Player level check  |  0 == outside & 1 == inside
-                if (gamePanel.dad.level == 1) {
+                if ((gamePanel.dad.reachLevel & 0xf) == 1) {
 
                     interact((int) Game.houseMap.read(controlVariableX, controlVariableY) - 48);
 
@@ -229,7 +229,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     if (Game.map.read(controlVariableX, controlVariableY) == '4') {
 
                         // Distance check
-                        if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+                        if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
                             
                             System.err.println(ErrorList.ERR_RANGE_FAR.message);
                             Game.error("Out of reach", 3);
@@ -252,7 +252,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                         // The tile placement
                         // Distance checks
-                        if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+                        if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
 
                             System.err.println(ErrorList.ERR_RANGE_FAR.message);
                             Game.error("Out of reach", 3);
@@ -274,7 +274,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     } else if (gamePanel.dad.selectedItem > gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && gamePanel.dad.selectedItem <= Game.flowerTypes.length + gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && controlVariableY != 7) {
 
                         // Distance checks
-                        if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+                        if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
 
                             System.err.println(ErrorList.ERR_RANGE_FAR.message);
                             Game.error("Out of reach", 3);
@@ -310,7 +310,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                             if (!(Game.map.read(controlVariableX, controlVariableY) == '2')) return;
                             // Distance check
-                            if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+                            if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
 
                                 System.err.println(ErrorList.ERR_RANGE_FAR.message);
                                 Game.error("Out of reach", 3);
@@ -350,7 +350,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             case MouseEvent.BUTTON2:
             
                 gamePanel.dad.hurt(10);
-                if (gamePanel.dad.level == 1) System.out.println("Interaction 2"); 
+                if ((gamePanel.dad.reachLevel & 0xf) == 1) System.out.println("Interaction 2"); 
                 else {
 
                     Game.map.getData("print");
@@ -462,7 +462,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             case 4:
 
                 // The bed interaction
-                if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+                if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
 
                     System.err.println(ErrorList.ERR_RANGE_FAR.message);
                     Game.error("Out of reach", 3);
@@ -488,7 +488,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             case 5:
 
                 // The closet interaction
-                if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+                if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
 
                     System.err.println(ErrorList.ERR_RANGE_FAR.message);
                     Game.error("Out of reach", 3);
@@ -511,7 +511,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             case 9:
 
                 // The couch interaction
-                if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > gamePanel.dad.reach || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > gamePanel.dad.reach) {
+                if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
 
                     System.err.println(ErrorList.ERR_RANGE_FAR.message);
                     Game.error("Out of reach", 3);

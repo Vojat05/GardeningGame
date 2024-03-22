@@ -20,7 +20,7 @@ import com.vojat.menu.Window;
 
 public class Main {
     public static boolean debug = false, overrideResolution = true, fullscreen = true, tutorial;
-    public static int width, height, sizeX, sizeY;
+    public static short width, height, sizeX, sizeY;
     public static float musicVolume;
     public static Window window;
     private static int[] resolution;
@@ -33,8 +33,8 @@ public class Main {
          */
 
         Dimension sSize = Toolkit.getDefaultToolkit().getScreenSize();
-        sizeX = (int) sSize.getWidth();
-        sizeY = (int) sSize.getHeight();
+        sizeX = (short) sSize.getWidth();
+        sizeY = (short) sSize.getHeight();
 
         if (sizeX < 1920 || sizeY < 1080) {
 
@@ -95,8 +95,8 @@ public class Main {
                 else heightString += configResRaw.charAt(i);
             }
 
-            width = Integer.parseInt(widthString);
-            height = Integer.parseInt(heightString);
+            width = Short.parseShort(widthString);
+            height = Short.parseShort(heightString);
         } else {
             width = sizeX;
             height = sizeY;
