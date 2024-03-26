@@ -621,6 +621,8 @@ public class Game implements Runnable {
         
         if (map.read(Map.translateX(gamePanel.dad.LOCATION_X + 64), Map.translateY(gamePanel.dad.LOCATION_Y + 100)) == '6' && (gamePanel.dad.reachLevel & 0xf) == 0) gamePanel.dad.speed = gamePanel.dad.dSpeed * 1.5f;
         else gamePanel.dad.speed = gamePanel.dad.dSpeed;
+
+        if (gamePanel.infoFlower != null && gamePanel.dad.selectedItem != 3 && Map.translate(gamePanel.infoFlower.LOCATION_X, gamePanel.infoFlower.LOCATION_Y, map) != '2') gamePanel.infoFlower = null;
     } 
 
     /*
@@ -787,7 +789,7 @@ public class Game implements Runnable {
                 lastCheck = System.currentTimeMillis();
                 System.out.println(ANSI_GREEN + "FPS: " + fps + " | TICK: " + tick + ANSI_RESET + "\nSecs < " + seconds + " >");
 
-                if (Main.debug) System.out.println("LOCATION:\n\tX: " + gamePanel.dad.LOCATION_X + "\n\tY: " + gamePanel.dad.LOCATION_Y + "\nSPEED:\n\tX: " + gamePanel.dad.VECTORX + "\n\tY: " + gamePanel.dad.VECTORY + "\nNo. Birds: " + birdList.size());
+                if (Main.debug) System.out.println("LOCATION:\n\tX: " + gamePanel.dad.LOCATION_X + "\n\tY: " + gamePanel.dad.LOCATION_Y + "\nSPEED:\n\tX: " + gamePanel.dad.VECTORX + "\n\tY: " + gamePanel.dad.VECTORY + "\nNo. Birds: " + birdList.size() + "\nFlower: " + gamePanel.infoFlower);
                 
                 // Checks if the player is on level 0 "outside"
                 if ((gamePanel.dad.reachLevel & 0xf) == 0) gamePanel.changeGrass = true;

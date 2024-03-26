@@ -42,6 +42,7 @@ public class GamePanel extends JPanel {
     public boolean changeGrass = true;                                                      // Determines wheather the grass should have a wind effect applied
     public boolean saveMenuOpen = false;                                                    // Should the save menu be shown
     public boolean skinMenuOpen = false;                                                    // Determines if the wardrobe is open
+    public Flower infoFlower;                                                               // The flower to show in info
     public double easeDayNight = .0;                                                        // Makes the Day -> Night cycle more fluent
     public float rainPositionY = 432f;                                                      // Vertical position of the rain
     public int selectedSkinSlot = 0;                                                        // The number of a selected skin slot
@@ -377,11 +378,7 @@ public class GamePanel extends JPanel {
                             // The wardrobe - wall offset
                             g.drawImage(textures.get(Game.houseTextures[(int) map.read(j, i) - 48]), blockWidth*j+40, blockWidth*i-30, blockWidth, blockWidth, null);
 
-                        } else {
-    
-                            g.drawImage(textures.get(Game.houseTextures[(int) map.read(j, i) - 48]), blockWidth*j, blockWidth*i, blockWidth, blockWidth, null);
-    
-                        }
+                        } else g.drawImage(textures.get(Game.houseTextures[(int) map.read(j, i) - 48]), blockWidth*j, blockWidth*i, blockWidth, blockWidth, null);
                     }
                 }
             }
@@ -840,6 +837,50 @@ public class GamePanel extends JPanel {
     }
 
 
+    /*
+     * --------------------------------------------------------------------------------
+     * Drawing the tutorial panel
+     * --------------------------------------------------------------------------------
+     */
+
+    public void drawFlowerInfo(Graphics2D g2d) {
+
+        int posX = this.getWidth() - 450 - (dad.LOCATION_X > this.getWidth() - 500 ? 500 : 0), posY = (int) (this.getHeight() * 0.5) - 350;
+
+        // Draw the upper white rectangle
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(posX, posY, 400, 100);
+
+        // Draw the middle gray rectangle
+        g2d.setPaint(new Color(210, 210, 210, 245));
+        g2d.fillRect(posX, posY + 100, 400, 500);
+
+        // Draw the bottom white rectangle
+        g2d.setPaint(new Color(245, 245, 245, 245));
+        g2d.fillRect(posX, posY + 600, 400, 100);
+
+        // Draw the magnifying glass text
+        g2d.setFont(Game.font.deriveFont(42f));
+        g2d.setPaint(new Color(50, 50, 50, 240));
+        g2d.drawString("Flower Information", posX + 70, posY + 65);
+
+        // Draw the flower picture
+        g2d.setStroke(new BasicStroke(3));
+        g2d.drawRect(posX + 50, posY + 120, 300, 300);
+        g2d.drawImage(infoFlower.baseTexture, posX + 50, posY + 120, 300, 300, null);
+        g2d.drawImage(infoFlower.CURRENT_TEXTURE, posX + 50, posY + 120, 300, 300, null);
+
+        // Draw the flower information
+        int time = (int) ((infoFlower.TIME_TO_DIE - System.currentTimeMillis()) * .001);
+        g2d.setFont(Game.font.deriveFont(24f));
+        g2d.setStroke(new BasicStroke());
+        g2d.drawString("Status: " + infoFlower.STATUS, posX + 140, posY + 475);
+        g2d.drawString("Time until death: " + (time < 0 ? 0 : time) + "s", posX + 69, posY + 500);
+        g2d.drawString("Number: " + infoFlower.PLANT_NUMBER, posX + 136, posY + 525);
+        g2d.drawString("Type: " + (char) (infoFlower.TYPE.charAt(0) > 'Z' ? infoFlower.TYPE.charAt(0) - 32 : infoFlower.TYPE.charAt(0)) + infoFlower.TYPE.substring(1), posX + 158, posY + 550);
+    }
+
+
     
 
 
@@ -915,6 +956,8 @@ public class GamePanel extends JPanel {
             g2d.setPaint(Color.BLACK);
             g2d.drawString("FPS: " + Game.gfps + "  Tick: " + Game.gtick, Window.width - 165, 25);
         }
+
+        if (infoFlower != null) drawFlowerInfo(g2d);
 
         if (Game.warning) drawWarning(g2d);
         else if (Game.alert) drawAlert(g2d);

@@ -161,7 +161,7 @@ public class Console {
                             }
                             break;
 
-                        case "QUIT":
+                        case "QUIT", "EXIT":
                             System.exit(0);
                             break;
                         

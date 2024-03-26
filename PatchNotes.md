@@ -375,3 +375,8 @@ EXE file is made for every update documented here<br>
     <li> * Stamina depleeting is now smoother</li>
     <li> * Fixed the version label positioning</li>
 </ul>
+
+## 26/3/2024
+<ul>
+    <li> + Added a magnifying glass to check flower information</li>
+</ul>
