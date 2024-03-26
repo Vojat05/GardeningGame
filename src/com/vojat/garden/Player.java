@@ -26,8 +26,8 @@ public class Player {
     public byte reachLevel = 0x11;                                          // 4 bits == reach & 4 bits == level
     public float speed = 1;                                                 // Player's movement speed
     public float dSpeed = 1;                                                // Player's default movement speed
-    public byte HP = 100;                                                    // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
-    public byte stamina = 100;                                               // Player stamina for the player to run on the tiles
+    public byte HP = 100;                                                   // Player hit points number < 100 - 60 Green | 60 - 20 Orange | 20 - 0 Red >
+    public byte stamina = 100;                                              // Player stamina for the player to run on the tiles
     public boolean outOfStamina = false;                                    // Does the player have a 0 stamina penalty ( tells the bar to change color as it regenerates )
     public boolean isSitting = false;                                       // Is the player character sitting?
     private boolean canMove = true;                                         // Can player can move around or not?
@@ -56,17 +56,11 @@ public class Player {
             e.printStackTrace();
             
         }
-
         inventorySetup();
-
     }
 
     // With this constructor, the player doesn't have the access to his abilities
-    public Player() {
-
-        inventorySetup();
-
-    }
+    public Player() { inventorySetup(); }
 
     // Fills up the starting inventory
     private void inventorySetup() {
@@ -74,6 +68,7 @@ public class Player {
         this.inventory.add("water9");
         this.inventory.add("Tiles");
         this.inventory.add("Light");
+        this.inventory.add("Magnifying_glass");
 
         for (int i=0; i<Game.flowerTypes.length; i++) this.inventory.add(Game.flowerTypes[i][0]);
 

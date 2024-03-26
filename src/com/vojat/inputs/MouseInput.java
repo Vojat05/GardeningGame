@@ -271,6 +271,19 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         Game.map.write(controlVariableX, controlVariableY, '6');
                         Game.playSound("../../res/" + Game.texturePack + "/Audio/Brick.wav");
 
+                    } else if (gamePanel.dad.selectedItem == 3) {
+
+                        // The magnifying glass
+                        for (int i=0; i<Game.flowers.size(); i++) {
+                            
+                            Flower flower = Game.flowers.get(i);
+                            if (flower.LOCATION_X == controlVariableX && flower.LOCATION_Y == controlVariableY) {
+
+                                gamePanel.infoFlower = flower;
+                                break;
+
+                            }
+                        }
                     } else if (gamePanel.dad.selectedItem > gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && gamePanel.dad.selectedItem <= Game.flowerTypes.length + gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && controlVariableY != 7) {
 
                         // Distance checks
@@ -438,14 +451,14 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
     // Center the click location into a grid place for X
     private Short gardenerX(MouseEvent e) {
 
-        return Short.parseShort(Integer.toString(Map.translateX(e.getX())));
+        return Short.parseShort("" + Map.translateX(e.getX()));
 
     }
 
     // Center the click location into a grid place for Y
     private Short gardenerY(MouseEvent e) {
 
-        return Short.parseShort(Integer.toString(Map.translateY(e.getY())));
+        return Short.parseShort("" + Map.translateY(e.getY()));
 
     }
 
