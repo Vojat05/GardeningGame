@@ -380,3 +380,8 @@ EXE file is made for every update documented here<br>
 <ul>
     <li> + Added a magnifying glass to check flower information</li>
 </ul>
+
+## 27/3/2024
+<ul>
+    <li> + Added a shovel to remove plants and tiles</li>
+</ul>
