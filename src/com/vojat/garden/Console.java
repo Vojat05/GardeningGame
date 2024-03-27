@@ -1,5 +1,6 @@
 package com.vojat.garden;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -171,6 +172,7 @@ public class Console {
                         
                         case "SETSTAMINA":
                             Game.gamePanel.dad.setStamina(Byte.parseByte(cArgs.get(0)));
+                            Game.gamePanel.inventoryPanel.SColor = new Color(0xfadc05);
                             break;
 
                         case "SAVE":

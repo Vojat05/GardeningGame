@@ -266,12 +266,47 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                             Game.error("Area occupied", 3);
                             return;
 
-                        } else if (controlVariableX == 2 && controlVariableY == 2) return;
+                        }
 
                         Game.map.write(controlVariableX, controlVariableY, '6');
                         Game.playSound("../../res/" + Game.texturePack + "/Audio/Brick.wav");
 
                     } else if (gamePanel.dad.selectedItem == 3) {
+
+                        // Distance checks
+                        if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+
+                            System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                            Game.error("Out of reach", 3);
+                            return;
+
+                        }
+
+                        // Removing tiles
+                        if (Game.map.read(controlVariableX, controlVariableY) == '6') {
+
+                            Game.map.write(controlVariableX, controlVariableY, '0');
+                            Game.playSound("../../res/" + Game.texturePack + "/Audio/Shovel.wav");
+                            return;
+
+                        }
+
+                        // Select the flower to be removed
+                        Flower flower = null;
+                        for (int i=0; i<Game.flowers.size(); i++) {
+
+                            Flower plant = Game.flowers.get(i);
+                            if (plant.LOCATION_X == controlVariableX && plant.LOCATION_Y == controlVariableY) { flower = plant; break; }
+                        
+                        }
+
+                        // Remove selected flower if it exists
+                        if (flower == null) return;
+                        Game.flowers.remove(flower);
+                        Game.map.write(flower.LOCATION_X, flower.LOCATION_Y, '0');
+                        Game.playSound("../../res/" + Game.texturePack + "/Audio/Shovel.wav");
+
+                    } else if (gamePanel.dad.selectedItem == 4) {
 
                         // The magnifying glass
                         for (int i=0; i<Game.flowers.size(); i++) {

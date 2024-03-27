@@ -228,7 +228,7 @@ public class InventoryPanel extends JPanel{
             }
 
             g2d.drawRect((int) (Window.width*.5) - 300 + 60*i, 10, 60, 60);
-            if (i < dad.inventory.size()) g2d.drawImage(new ImageIcon("../../res/" + Game.texturePack + "/Pics/" + (i == 0 || i == 3 ? "Player" : "Icons") + "/" + dad.inventory.get(i) + ".png").getImage(), (int) (Window.width*.5) - 300 + 60*i, 10, 60, 60, null);
+            if (i < dad.inventory.size()) g2d.drawImage(new ImageIcon("../../res/" + Game.texturePack + "/Pics/" + (i == 0 || i == 3 || i == 4 ? "Player" : "Icons") + "/" + dad.inventory.get(i) + ".png").getImage(), (int) (Window.width*.5) - 300 + 60*i, 10, 60, 60, null);
         }
 
         /*
@@ -263,21 +263,21 @@ public class InventoryPanel extends JPanel{
 
         g2d.fillPolygon(iconBlockXS, iconBlockYS, iconBlockXS.length);
 
-        // The HP bar background
+        // The stamina bar background
         int[] barBgXS = {Window.width - 56, Window.width - 412, Window.width - 392, Window.width - 272, Window.width - 270, Window.width - 270, Window.width - 56};
         Collections.reverse(Arrays.asList(barBgXS));
         int[] barBgYS = {15, 15, 49, 49, 51, 63, 63};
 
         g2d.fillPolygon(barBgXS, barBgYS, barBgXS.length);
 
-        // The HP bar sloped edge smoothening
+        // The stamina bar sloped edge smoothening
         g2d.setPaint(new Color(239, 244, 245, 100));
         g2d.drawLine(Window.width - 412, 15, Window.width - 392, 48);
 
         g2d.setPaint(new Color(239, 244, 245, 50));
         g2d.drawLine(Window.width - 412, 16, Window.width - 393, 47);
 
-        // The HP bar value
+        // The stamina bar value
         if (dad.stamina != 0) {
 
             g2d.setPaint(SColor);
