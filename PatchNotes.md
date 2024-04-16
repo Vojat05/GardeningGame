@@ -389,4 +389,5 @@ EXE file is made for every update documented here<br>
 ## 16/4/2024
 <ul>
     <li> + Added a console output window</li>
+    <li> + Added console clear command</li>
 </ul>
