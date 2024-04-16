@@ -424,12 +424,15 @@ public class Game implements Runnable {
      * @return BufferedImage of the texture
      * 
      */
+    @SuppressWarnings("resource")
     public static BufferedImage setTexture(String path) {
-
+        
+        BufferedImage img;
         try {
-
+            
             if (!new File(path).exists()) return ImageIO.read(new FileInputStream("../../res/Missing.png"));
-            return ImageIO.read(new FileInputStream(path));
+            img = ImageIO.read(new FileInputStream(path));
+            return img;
 
         } catch (IOException ioe) {
 
