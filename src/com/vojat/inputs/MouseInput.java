@@ -308,6 +308,12 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                     } else if (gamePanel.dad.selectedItem == 4) {
 
+                        if (Game.map.read(controlVariableX, controlVariableY) != '2') {
+
+                            gamePanel.infoFlower = null;
+                            break;
+                            
+                        }
                         // The magnifying glass
                         for (int i=0; i<Game.flowers.size(); i++) {
                             
