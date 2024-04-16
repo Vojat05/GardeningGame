@@ -424,7 +424,7 @@ public class Game implements Runnable {
      * @return BufferedImage of the texture
      * 
      */
-    @SuppressWarnings("resource")
+    @SuppressWarnings("Resource")
     public static BufferedImage setTexture(String path) {
         
         BufferedImage img;
