@@ -385,3 +385,8 @@ EXE file is made for every update documented here<br>
 <ul>
     <li> + Added a shovel to remove plants and tiles</li>
 </ul>
+
+## 16/4/2024
+<ul>
+    <li> + Added a console output window</li>
+</ul>

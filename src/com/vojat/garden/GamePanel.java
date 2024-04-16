@@ -834,6 +834,10 @@ public class GamePanel extends JPanel {
         // Draw the entered text prompt
         g2d.setPaint(new Color(30, 30, 30, 240));
         g2d.drawString(Console.commandPrompt + Console.cursor, middleX - 345, middleY + 260);
+
+        // Draw the command output text
+        String[] output = Console.getOutput();
+        for (int i=0; i<output.length; i++) g2d.drawString((output[i] == null ? "" : (">> " + output[i])), middleX - 350, middleY + (180 - i * 30));
     }
 
 

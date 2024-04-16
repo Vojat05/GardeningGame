@@ -1,9 +1,9 @@
 {
     "Language":"lang-en.json",
     "Debugging":"false",
-    "Show-Tutorial":"true",
+    "Show-Tutorial":"false",
     "Texture-Pack":"ProgrammerPack",
-    "Version":"Dev-Build 0.9.1",
+    "Version":"Dev-Build 0.9.2",
     "FPS":"120",
     "Day-Lasts":"240",
     "Night-Lasts":"60",
@@ -12,7 +12,7 @@
     "Player-Reach":"1",
     "Player-Default-Speed":"1",
     "Enable-Overlay":"true",
-    "Override-Resolution-Bool":"false",
+    "Override-Resolution-Bool":"true",
     "Override-Resolution":"1920x1080",
     "FullScreen":"true",
     "Music-Volume":"100"
