@@ -1,4 +1,84 @@
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff/*, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073*/;
+    }
+    to {
+        text-shadow: 0 0 10px #fff, 0 0 15px #ff4da6,/* 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6*/;
+    }
+}
+
 body {
-    background-color: #3d4040;
+    background-color: #000;
     text-align: center;
+    background-image: url("no-pokemon.gif");
+    background-size: contain;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+}
+
+nav > div {
+    border-radius: 0px 0px 5em 5em;
+    margin-top: -2.5cap;
+    padding-top: 2.8em;
+    padding-bottom: 2em;
+    display: flex;
+    justify-content: space-evenly;
+    width: 80%;
+    background-color: #066108;
+
+    border: 0.2em solid #2ACC2D;
+    transition-duration: 1.5s;
+}
+
+nav > div > a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 4ch;
+    font-family: 'Helvetica', 'Arial';
+
+    transition-duration: 500ms;
+}
+
+nav > div > a:hover {
+    margin-top: -0.3em;
+    border-bottom: 0.075em solid #fff;
+    color: #fff;
+
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+nav > div:hover {
+    box-shadow: 0 0 15px 5px #08da12;
+}
+
+p {
+    color: #fff;
+}
+
+h1 {
+    color: #fff;
+}
+
+.side {
+    overflow: hidden;
+    z-index: -1;
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    width: 15%;
+    background-color: transparent;
+    border: 0px solid black;
+}
+
+.leftside {
+    left: 0px;
+}
+
+.rightside {
+    right: 0px;
 }
