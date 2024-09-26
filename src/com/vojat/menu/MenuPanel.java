@@ -1,10 +1,14 @@
 package com.vojat.menu;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -87,6 +91,20 @@ public class MenuPanel extends JPanel{
             buttonSetup(exit, 150, 40, true);
         }
 
+        JButton donate = new JButton(InventoryPanel.createIcon("../../res/" + Game.texturePack + "/Pics/Buttons/Donate.png", 150, 40));
+        {
+            donate.addActionListener((e) -> {
+                try {
+
+                    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) Desktop.getDesktop().browse(new URI("https://buymeacoffee.com/Vojat"));
+                    else Runtime.getRuntime().exec("xdg-open https://buymeacoffee.com/Vojat");
+                } catch (IOException | URISyntaxException fe) {
+                    System.out.println("Seems like I can't open your browser, so here's the link instead: https://buymeacoffee.com/Vojat");
+                }
+            });
+            buttonSetup(donate, 150, 40, true);
+        }
+
         /*
          * --------------------------------------------------------------------------------
          * Bundeling all the emelents together
@@ -113,6 +131,7 @@ public class MenuPanel extends JPanel{
             buttonPanel.add(start);
             buttonPanel.add(load);
             buttonPanel.add(options);
+            if (Main.donate) buttonPanel.add(donate);
             buttonPanel.add(exit);
         }
 
