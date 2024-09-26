@@ -15,5 +15,6 @@
     "Override-Resolution-Bool":"false",
     "Override-Resolution":"1920x1080",
     "FullScreen":"true",
-    "Music-Volume":"100"
+    "Music-Volume":"100",
+    "Donate":"true"
 }

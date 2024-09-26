@@ -19,7 +19,7 @@ import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Window;
 
 public class Main {
-    public static boolean debug = false, overrideResolution = true, fullscreen = true, tutorial;
+    public static boolean debug = false, overrideResolution = true, fullscreen = true, tutorial, donate = true;
     public static short width, height, sizeX, sizeY;
     public static float musicVolume;
     public static Window window;
@@ -61,6 +61,7 @@ public class Main {
             Main.fullscreen = Boolean.parseBoolean(jsonEditor.readData("FullScreen"));
             Main.musicVolume = Float.parseFloat(jsonEditor.readData("Music-Volume"));
             Main.tutorial = Boolean.parseBoolean(jsonEditor.readData("Show-Tutorial"));
+            Main.donate = Boolean.parseBoolean(jsonEditor.readData("Donate"));
 
             if (overrideResolution) configResRaw = jsonEditor.readData("Override-Resolution");
 
