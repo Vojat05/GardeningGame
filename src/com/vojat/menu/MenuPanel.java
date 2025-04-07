@@ -53,9 +53,7 @@ public class MenuPanel extends JPanel{
         // Create the start new game button
         JButton start = new JButton(InventoryPanel.createIcon("../../res/" + Game.texturePack + "/Pics/Buttons/New.png", 150, 40));
         {
-            start.addActionListener((e) -> {
-                new Game(1920, 1075, window);
-            });
+            start.addActionListener((e) -> { new Game(1920, 1075, window); });
             buttonSetup(start, 150, 40, true);
         }
 

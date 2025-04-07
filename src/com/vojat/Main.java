@@ -73,6 +73,7 @@ public class Main {
             Game.setNightLasts(Short.parseShort(jsonEditor.readData("Night-Lasts")));
             Game.dayNightTransitionSpeed = Double.parseDouble(jsonEditor.readData("Cycle-Transition-Value"));
             Game.volumeTransitionSpeed = Float.parseFloat(jsonEditor.readData("Volume-Transition-Value"));
+            Game.flowerChange = Integer.parseInt(jsonEditor.readData("Flower-Thirsty-Time"));
             GamePanel.overlay = Boolean.parseBoolean(jsonEditor.readData("Enable-Overlay"));
 
             Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("../../res/" + Game.texturePack + "/Fonts/customFont.ttf"));
@@ -90,7 +91,7 @@ public class Main {
             String heightString = "";
             boolean write = true;
 
-            for (int i=0; i<configResRaw.length(); i++) {
+            for (int i = 0; i < configResRaw.length(); i++) {
                 if (configResRaw.charAt(i) == 'x') write = write ? false : true;
                 else if (write) widthString += configResRaw.charAt(i);
                 else heightString += configResRaw.charAt(i);

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define _WIN64_WINNT 0x0500
+#define _WIN64_WINNT 0x500
 
 #ifdef _WIN32
 #include <windows.h>

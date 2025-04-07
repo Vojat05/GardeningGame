@@ -396,3 +396,8 @@ EXE file is made for every update documented here<br>
 <ul>
     <li> + Added a donate button to Buy Me a Coffee link</li>
 </ul>
+
+## 4/7/2025
+<ul>
+    <li> * Changed command structure</li>
+</ul>

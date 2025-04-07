@@ -25,7 +25,6 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
      */
 
     private GamePanel gamePanel;                                                        // Game panel
-    private Settings settings;                                                          // Settings panel
     private short controlVariableX;                                                     // Theoretical mouse X coordinate in the game map 
     private short controlVariableY;                                                     // Theoretical mouse Y coordiante in the game map
     private Flower flower;                                                              // Flower object that's set on each click on some flower
@@ -41,12 +40,6 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
     public MouseInput(GamePanel gamePanel) {
 
         this.gamePanel = gamePanel;
-
-    }
-
-    public MouseInput(Settings settings) {
-
-        this.settings = settings;
 
     }
 
@@ -248,84 +241,127 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         
                     }
 
-                    if (gamePanel.dad.selectedItem == 1) {
+                    switch (gamePanel.dad.selectedItem) {
+                        case 0:
+                            if (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
 
-                        // The tile placement
-                        // Distance checks
-                        if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+                                if (!(Game.map.read(controlVariableX, controlVariableY) == '2')) return;
+                                // Distance check
+                                if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
 
-                            System.err.println(ErrorList.ERR_RANGE_FAR.message);
-                            Game.error("Out of reach", 3);
-                            return;
+                                    System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                                    Game.error("Out of reach", 3);
+                                    return;
 
-                        } else if (Game.map.read(controlVariableX, controlVariableY) == '4') return;
-                        else if (Game.map.read(controlVariableX, controlVariableY) >= '2') {
-                            
-                            // Checks if the desired area is occupied or not
-                            System.err.println(ErrorList.ERR_CANTPLANT.message);
-                            Game.error("Area occupied", 3);
-                            return;
+                                }
 
-                        }
+                                Game.playSound("../../res/" + Game.texturePack + "/Audio/WaterPlant.wav");
 
-                        Game.map.write(controlVariableX, controlVariableY, '6');
-                        Game.playSound("../../res/" + Game.texturePack + "/Audio/Brick.wav");
+                                // Checks & selects the plant based on clicked location
+                                for (Flower plant : Game.flowers) {
 
-                    } else if (gamePanel.dad.selectedItem == 3) {
+                                    if (plant.LOCATION_X == controlVariableX && plant.LOCATION_Y == controlVariableY) {
 
-                        // Distance checks
-                        if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+                                        flower = plant;
+                                        break;
 
-                            System.err.println(ErrorList.ERR_RANGE_FAR.message);
-                            Game.error("Out of reach", 3);
-                            return;
+                                    }
+                                }
 
-                        }
+                                gamePanel.dad.water(flower);
+                                gamePanel.dad.inventory.set(0, "water" + (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1));
 
-                        // Removing tiles
-                        if (Game.map.read(controlVariableX, controlVariableY) == '6') {
+                            } else {
 
-                            Game.map.write(controlVariableX, controlVariableY, '0');
-                            Game.playSound("../../res/" + Game.texturePack + "/Audio/Shovel.wav");
-                            return;
+                                System.err.println(ErrorList.ERR_WATER.message);
+                                Game.error("Out of Water", 3);
 
-                        }
-
-                        // Select the flower to be removed
-                        Flower flower = null;
-                        for (int i=0; i<Game.flowers.size(); i++) {
-
-                            Flower plant = Game.flowers.get(i);
-                            if (plant.LOCATION_X == controlVariableX && plant.LOCATION_Y == controlVariableY) { flower = plant; break; }
-                        
-                        }
-
-                        // Remove selected flower if it exists
-                        if (flower == null) return;
-                        Game.flowers.remove(flower);
-                        Game.map.write(flower.LOCATION_X, flower.LOCATION_Y, '0');
-                        Game.playSound("../../res/" + Game.texturePack + "/Audio/Shovel.wav");
-
-                    } else if (gamePanel.dad.selectedItem == 4) {
-
-                        if (Game.map.read(controlVariableX, controlVariableY) != '2') {
-
-                            gamePanel.infoFlower = null;
+                            }
                             break;
                             
-                        }
-                        // The magnifying glass
-                        for (int i=0; i<Game.flowers.size(); i++) {
-                            
-                            Flower flower = Game.flowers.get(i);
-                            if (flower.LOCATION_X == controlVariableX && flower.LOCATION_Y == controlVariableY) {
+                        case 1:
+                            // The tile placement
+                            // Distance checks
+                            if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
 
-                                gamePanel.infoFlower = flower;
+                                System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                                Game.error("Out of reach", 3);
+                                return;
+
+                            } else if (Game.map.read(controlVariableX, controlVariableY) == '4') return;
+                            else if (Game.map.read(controlVariableX, controlVariableY) >= '2') {
+
+                                // Checks if the desired area is occupied or not
+                                System.err.println(ErrorList.ERR_CANTPLANT.message);
+                                Game.error("Area occupied", 3);
+                                return;
+
+                            }
+
+                            Game.map.write(controlVariableX, controlVariableY, '6');
+                            Game.playSound("../../res/" + Game.texturePack + "/Audio/Brick.wav");
+                            break;
+
+                        case 3:
+                            // Distance checks
+                            if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+
+                                System.err.println(ErrorList.ERR_RANGE_FAR.message);
+                                Game.error("Out of reach", 3);
+                                return;
+
+                            }
+
+                            // Removing tiles
+                            if (Game.map.read(controlVariableX, controlVariableY) == '6') {
+
+                                Game.map.write(controlVariableX, controlVariableY, '0');
+                                Game.playSound("../../res/" + Game.texturePack + "/Audio/Shovel.wav");
+                                return;
+
+                            }
+
+                            // Select the flower to be removed
+                            Flower flower = null;
+                            for (int i=0; i<Game.flowers.size(); i++) {
+
+                                Flower plant = Game.flowers.get(i);
+                                if (plant.LOCATION_X == controlVariableX && plant.LOCATION_Y == controlVariableY) { flower = plant; break; }
+                            
+                            }
+
+                            // Remove selected flower if it exists
+                            if (flower == null) return;
+                            Game.flowers.remove(flower);
+                            Game.map.write(flower.LOCATION_X, flower.LOCATION_Y, '0');
+                            Game.playSound("../../res/" + Game.texturePack + "/Audio/Shovel.wav");
+                            break;
+
+                        case 4:
+                            if (Game.map.read(controlVariableX, controlVariableY) != '2') {
+
+                                gamePanel.infoFlower = null;
                                 break;
 
                             }
-                        }
-                    } else if (gamePanel.dad.selectedItem > gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && gamePanel.dad.selectedItem <= Game.flowerTypes.length + gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && controlVariableY != 7) {
+                            // The magnifying glass
+                            for (int i = 0; i<Game.flowers.size(); i++) {
+
+                                flower = Game.flowers.get(i);
+                                if (flower.LOCATION_X == controlVariableX && flower.LOCATION_Y == controlVariableY) {
+
+                                    gamePanel.infoFlower = flower;
+                                    break;
+
+                                }
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+                    
+                    if (gamePanel.dad.selectedItem > gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && gamePanel.dad.selectedItem <= Game.flowerTypes.length + gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && controlVariableY != 7) {
 
                         // Distance checks
                         if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
@@ -356,44 +392,8 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         gamePanel.dad.plant(flower);
 
                         // Writes it's value into map
-                        Game.map.write(controlVariableX, controlVariableY, 2);
+                        Game.map.write(controlVariableX, controlVariableY, '2');
 
-                    } else if(gamePanel.dad.selectedItem == 0) {
-
-                        if (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
-
-                            if (!(Game.map.read(controlVariableX, controlVariableY) == '2')) return;
-                            // Distance check
-                            if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
-
-                                System.err.println(ErrorList.ERR_RANGE_FAR.message);
-                                Game.error("Out of reach", 3);
-                                return;
-
-                            }
-
-                            Game.playSound("../../res/" + Game.texturePack + "/Audio/WaterPlant.wav");
-
-                            // Checks & selects the plant based on clicked location
-                            for (Flower plant : Game.flowers) {
-
-                                if (plant.LOCATION_X == controlVariableX && plant.LOCATION_Y == controlVariableY) {
-
-                                    flower = plant;
-                                    break;
-
-                                }
-                            }
-
-                            gamePanel.dad.water(flower);
-                            gamePanel.dad.inventory.set(0, "water" + (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1));
-
-                        } else {
-
-                            System.err.println(ErrorList.ERR_WATER.message);
-                            Game.error("Out of Water", 3);
-
-                        }
                     }
                 }
 

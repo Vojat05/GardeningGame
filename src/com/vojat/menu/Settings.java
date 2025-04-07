@@ -18,7 +18,6 @@ import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Game;
 import com.vojat.inputs.KeyboardInput;
-import com.vojat.inputs.MouseInput;
 
 public class Settings extends JPanel {
 
@@ -70,13 +69,9 @@ public class Settings extends JPanel {
     public Settings(int sizeX, int sizeY, JPanel buttonPanel, JPanel spacer, MenuPanel manuPanel) {
         menuPanel = manuPanel;
 
-        MouseInput mi = new MouseInput(this);
         setBackground(null);
         setVisible(visible);
         setFocusable(true);
-        addMouseWheelListener(mi);
-        addMouseMotionListener(mi);
-        addMouseListener(mi);
 
         try {
             jEditor = new JSONEditor("../com/vojat/Data/Controls.json");
@@ -311,7 +306,7 @@ public class Settings extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
+        //Graphics2D g2d = (Graphics2D) g;
         
     }
 }

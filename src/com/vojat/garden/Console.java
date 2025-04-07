@@ -79,33 +79,28 @@ public class Console {
         
         commandArgs.clear();
         String parsedCommand = "";
-        int i = 0;
         boolean writeCommand = true;
         String argument = "";
 
-        while (true) {
-
-            // Parsing the command into the command itself and it's arguments
-            if (command.charAt(i) == ';') {
-                commandArgs.add(argument);
-                argument = "";
-                break;
-            }
+        // Parsing the command into the command itself and it's arguments
+        for (int i = 0; i < command.length(); i++) {
 
             if (command.charAt(i) == ' ') {
 
                 if (!writeCommand) commandArgs.add(argument);
                 argument = "";
                 writeCommand = false;
-                i++;
                 continue;
                 
             }
 
-            if (writeCommand) parsedCommand += command.charAt(i++);
-            else argument += command.charAt(i++);
+            if (writeCommand) parsedCommand += command.charAt(i);
+            else argument += command.charAt(i);
             
         }
+
+        // Add the last argument and return
+        commandArgs.add(argument);
         return parsedCommand;
     }
 
@@ -114,7 +109,7 @@ public class Console {
 
             ArrayList<String> cArgs = Console.getArgsAsList();
 
-            for (int i=0; i<Console.getCommandList().size(); i++) {
+            for (int i = 0; i < Console.getCommandList().size(); i++) {
                 String command = Console.commandPop();
                 switch (Console.getCommand(command).toUpperCase()) {
 
@@ -190,15 +185,12 @@ public class Console {
                         break;
                     
                     case "SUMMON":
-                        if (cArgs.get(0).toUpperCase().equals("BIRD")) {
-                            if (cArgs.size() == 2) for (int j=0; j<Integer.parseInt(cArgs.get(1)); j++) Game.spawnBird();
-                            else Game.spawnBird();
-                        }
+                        if (cArgs.size() == 2) for (int j = 0; j < Integer.parseInt(cArgs.get(1)); j++) Game.summon(cArgs.get(0).toUpperCase());
                         break;
                     
                     case "ENTITY":
                         if (cArgs.size() == 0) break;
-                        if (cArgs.get(0).toUpperCase().equals("CLEAR")) Game.birdList.clear();
+                        if (cArgs.get(0).toUpperCase().equals("CLEAR")) Game.entities.clear();
                         break;
 
                     case "CLEAR", "CLS":
@@ -220,11 +212,11 @@ public class Console {
 
         // Shift all command output by 1 row
         String[] helper = new String[outputStack.length - 1];
-        for (int i=0; i<helper.length; i++) helper[i] = outputStack[i];
+        for (int i = 0; i < helper.length; i++) helper[i] = outputStack[i];
 
         // output Write through
         outputStack[0] = line;
-        for (int i=1; i<outputStack.length; i++) outputStack[i] = helper[i - 1];
+        for (int i = 1; i < outputStack.length; i++) outputStack[i] = helper[i - 1];
     }
 
     // Gets the argument array list

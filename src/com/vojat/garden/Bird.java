@@ -1,9 +1,10 @@
 package com.vojat.garden;
 
 import com.vojat.Data.Map;
+import com.vojat.Interface.IEntity;
 import com.vojat.menu.Window;
 
-public class Bird {
+public class Bird implements IEntity {
 
     /*
      * --------------------------------------------------------------------------------
@@ -43,5 +44,27 @@ public class Bird {
         this.vectorX = -2;
         Game.playSound("../../res/" + Game.texturePack + "/Audio/BirdShit.wav");
 
+    }
+
+    /**
+     * Moves the bird
+     */
+    public void action() {
+        // Bird shit detection
+        if (drawShit && Map.translateY(shitPositionY - 30) == Map.translateY(Game.gamePanel.dad.LOCATION_Y + 64) && Map.translateX(shitPositionX) == Map.translateX(Game.gamePanel.dad.LOCATION_X + 64)) {
+
+            if (Game.gamePanel.dad.HP == 0) Game.gamePanel.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/GraveShit.png");
+            if (Game.gamePanel.dad.HP != 0) Game.gamePanel.dad.hurt(5);
+            shitPositionY = Window.height;
+        }
+
+        // Bird shit movement and bird removal after out of map
+        if (shitPositionY >= positionY + 500) {
+            if (!splat) audio = true;
+            drawShit = false;
+            splat = true;
+        }
+
+        if (positionX + 500 < 0) Game.entities.remove(this);
     }
 }

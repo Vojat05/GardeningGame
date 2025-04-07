@@ -24,6 +24,7 @@ import com.vojat.Data.JSONEditor;
 import com.vojat.Data.Map;
 import com.vojat.Data.TutorialBox;
 import com.vojat.Enums.ErrorList;
+import com.vojat.Interface.IEntity;
 import com.vojat.menu.Window;
 
 public class Game implements Runnable {
@@ -40,8 +41,8 @@ public class Game implements Runnable {
     public static final String[] groundTextures = {"Grass1.png", "Grass2.png", "" , "House.png", "Well.png", "Fence.png", "Tiles.png", "FencePole.png"};                            // Texture array for outside
     public static final String[] houseTextures = {"Plank.png", "", "", "doormat.png", "bed.png", "Wardrobe.png", "table.png", "chair.png", "tv.png", "couch.png"};                  // Texture array for the inside of the house
     public static final String[][] flowerTypes = {{"tulip", "120000"}, {"rose", "155000"}, {"tentacle", "240000"}, {"Cactus", "400000"}};                                           // {"flower type", "time for it to die in millis"}
-    public static final int flowerChange = 60000;                                                                                                                                   // The time each flower has for being thirsty before they die
     public static final Random random = new Random();                                                                                                                               // A Random object to be used throughout the entire game
+    public static int flowerChange = 60000;                                                                                                                                         // The time each flower has for being thirsty before they die
     public static Map map = new Map(new char[8][15]);                                                                                                                               // [Y][X] coords
     public static Map houseMap = new Map(new char[8][15]);                                                                                                                          // [Y][X] coords
     public static ArrayList<String> mods = new ArrayList<>();                                                                                                                       // The string array of mod names that are loaded
@@ -56,7 +57,7 @@ public class Game implements Runnable {
     public static String errorMessage = "";                                                                                                                                         // The lastet error message
     public static ArrayList<Flower> flowers = new ArrayList<>();                                                                                                                    // ArrayList for all the flowers present in-game at a time
     public static ArrayList<Character> invisibleWalls = new ArrayList<Character>();                                                                                                 // ArrayList of map objects that are collidable
-    public static ArrayList<Bird> birdList = new ArrayList<Bird>();                                                                                                                 // The list of birds currently in game for drawing
+    public static ArrayList<IEntity> entities = new ArrayList<IEntity>();                                                                                                                 // The list of birds currently in game for drawing
     public static Clip gameMusic;                                                                                                                                                   // The clip for playing the game music
     public static boolean pause = false;                                                                                                                                            // Determines wheather the game should be paused or not
     public static byte save = -1;                                                                                                                                                   // The current game save number to be plugged into the respawn
@@ -92,7 +93,7 @@ public class Game implements Runnable {
 
         /*
          * --------------------------------------------------------------------------------
-         * Clear old data from previsou game instances
+         * Clear old data from previous game instances
          * --------------------------------------------------------------------------------
          */
 
@@ -110,7 +111,7 @@ public class Game implements Runnable {
          */
 
         // Building the fence around the garden
-        for (int i=0; i<map.getMap()[0].length; i++) {
+        for (int i = 0; i < map.getMap()[0].length; i++) {
 
             if (i == 0) map.write(i, 0, '5');
             if (i >= 3) map.write(i, 0, '5');
@@ -143,7 +144,7 @@ public class Game implements Runnable {
          * --------------------------------------------------------------------------------
          */
 
-        for (int i=2; i<( houseTextures.length > groundTextures.length ? houseTextures.length : groundTextures.length ); i++) {
+        for (int i = 2; i < ( houseTextures.length > groundTextures.length ? houseTextures.length : groundTextures.length ); i++) {
             
             if (i == 8 || i == 7 || i == 3) continue;
             invisibleWalls.add((char) (i + 48));
@@ -187,7 +188,7 @@ public class Game implements Runnable {
 
         // Get the number of lines for the tutorial box to draw them
         boolean sliced = false;
-        for (int i=0; i<tutorial.getRawData().length(); i++) {
+        for (int i = 0; i < tutorial.getRawData().length(); i++) {
 
             if (tutorial.getRawData().charAt(i) == '\\' && tutorial.getRawData().charAt(i + 1) == 'n' || i == tutorial.getRawData().length()-1) {
 
@@ -212,7 +213,7 @@ public class Game implements Runnable {
         String[] modsNames = new File("../../Mods").list();
         if (modsNames.length > 1) {
 
-            for (int i=0; i<modsNames.length; i++) {
+            for (int i = 0; i < modsNames.length; i++) {
                 
                 String mod = modsNames[i];
                 if (!mod.substring(mod.length() - 5).equals(".jar")) continue;
@@ -221,7 +222,7 @@ public class Game implements Runnable {
             }
     
             // Calling the setup method of each mod
-            for (int i=0; i<mods.size(); i++) new Mod(mods.get(i)).setup();
+            for (int i = 0; i < mods.size(); i++) new Mod(mods.get(i)).setup();
         }
 
         // Set the volume
@@ -293,28 +294,32 @@ public class Game implements Runnable {
             stopClip(gameMusic);
             stopClip(rainClip);
 
-        } else {
+            // Saves the flower death times into the array list if paused and resets the die times when resumed
+            for (Flower plant : flowers) dieTimes.add(plant.TIME_TO_DIE - System.currentTimeMillis());
 
+            // Add the bird shit delete times to the dieTimes arraylist
+            for (IEntity bird : entities) dieTimes.add(((Bird) bird).timeToCleanShit - System.currentTimeMillis());
+            warn("Game Paused");
+
+        } else {
+            // Resumes the game
             gameMusic.start();
             if (isRaining()) rainClip.start();
 
-        }
-
-        // Saves the flower death times into the array list if paused and resets the die times when resumed
-        if (pause) {
-
-            for (Flower plant : flowers) dieTimes.add(plant.TIME_TO_DIE - System.currentTimeMillis());
-
-        } else {
-
-            for (int i=0; i<flowers.size(); i++) {
+            // Resume the flower time information
+            for (int i = 0; i < flowers.size(); i++) {
 
                 flowers.get(i).TIME_TO_DIE = dieTimes.get(i) + System.currentTimeMillis();
                 flowers.get(i).TIME_TO_DISSAPEAR = flowers.get(i).TIME_TO_DIE + 5000;
 
             }
 
+            // Resume the bird shit clean time
+            for (int i = 0; i < entities.size(); i++)
+                ((Bird) entities.get(i)).timeToCleanShit = dieTimes.get(i + flowers.size()) + System.currentTimeMillis();
+
             dieTimes.clear();
+            supressWarn();
 
         }
     }
@@ -411,11 +416,17 @@ public class Game implements Runnable {
     /**
      * Spawns a bird
      */
-    public static void spawnBird() {
+    public static void summon(String entity) {
 
-        System.out.println("Spawn Birb");
-        birdList.add(new Bird(-1, (float) gamePanel.dad.LOCATION_Y - 200 - random.nextInt(100)));
-
+        switch (entity) {
+            case "BIRD":
+                System.out.println("Spawn Birb");
+                entities.add(new Bird(-1, (float) gamePanel.dad.LOCATION_Y - 200 - random.nextInt(100)));
+                break;
+        
+            default:
+                break;
+        }
     }
 
     /**
@@ -463,6 +474,15 @@ public class Game implements Runnable {
     }
 
     /**
+     * Supresses the alert, it is no longer displayed
+     */
+    public static void supressAlert() {
+
+        alert = false;
+
+    }
+
+    /**
      * Shows a game warning
      * @param message string
      */
@@ -470,6 +490,15 @@ public class Game implements Runnable {
 
         warning = true;
         warningMessage = message;
+
+    }
+
+    /**
+     * Supresses the warning, it is no longer shown
+     */
+    public static void supressWarn() {
+
+        warning = false;
 
     }
 
@@ -548,37 +577,12 @@ public class Game implements Runnable {
 
         /*
          * --------------------------------------------------------------------------------
-         * Bird flight logic
+         * Entity actions
          * --------------------------------------------------------------------------------
          */
 
-        for (int i=0; i<birdList.size(); i++) {
-
-            Bird bird = birdList.get(i);
-
-            // Bird shit detection
-            if (bird.drawShit && Map.translateY(bird.shitPositionY - 30) == Map.translateY(gamePanel.dad.LOCATION_Y + 64) && Map.translateX(bird.shitPositionX) == Map.translateX(gamePanel.dad.LOCATION_X + 64)) {
-
-                if (gamePanel.dad.HP == 0) gamePanel.dad.currentTexture = setTexture("../../res/" + texturePack + "/Pics/Player/GraveShit.png");
-                if (gamePanel.dad.HP != 0) gamePanel.dad.hurt(5);
-
-                bird.shitPositionY = Window.height;
-                continue;
-
-            }
-
-            // Bird shit movement and bird removal after out of map
-            if (bird.shitPositionY >= bird.positionY + 500) {
-
-                if (!bird.splat) bird.audio = true;
-
-                bird.drawShit = false;
-                bird.splat = true;
-
-            }
-
-            if (bird.positionX + 500 < 0) birdList.remove(i);
-        }
+        for (IEntity entity : entities)
+            entity.action();
 
         /*
          * --------------------------------------------------------------------------------
@@ -705,7 +709,7 @@ public class Game implements Runnable {
                 if (!(gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX < 0 || gamePanel.dad.LOCATION_X + gamePanel.dad.VECTORX > Player.windowLimitX || invisibleWalls.contains((char) (Map.translate(Map.translateX(gamePanel.dad.LOCATION_X + 64 + gamePanel.dad.VECTORX), Map.translateY(gamePanel.dad.LOCATION_Y + 80), (gamePanel.dad.reachLevel & 0xf) == 0 ? map : houseMap) + 48)))) gamePanel.dad.LOCATION_X += gamePanel.dad.canMove() ? gamePanel.dad.VECTORX : 0;
 
                 // Bird & shit flight logic
-                for (Bird bird : birdList) { bird.positionX += bird.vectorX; if (bird.shitPositionY < bird.positionY + 500) bird.shitPositionY += 2; }
+                for (IEntity bird : entities) { ((Bird) bird).positionX += ((Bird) bird).vectorX; if (((Bird) bird).shitPositionY < ((Bird) bird).positionY + 500) ((Bird) bird).shitPositionY += 2; }
 
                 /*
                  * --------------------------------------------------------------------------------
@@ -740,8 +744,8 @@ public class Game implements Runnable {
                 // Move the rain img
                 if (isRaining()) {
 
-                    gamePanel.rainPositionY -= .5f;
-                    if ((int) gamePanel.rainPositionY <= 0) gamePanel.rainPositionY = 432f;
+                    gamePanel.rainPositionY--;
+                    if ((int) gamePanel.rainPositionY <= 0) gamePanel.rainPositionY = 432;
 
                 }
 
@@ -792,18 +796,18 @@ public class Game implements Runnable {
                 lastCheck = System.currentTimeMillis();
                 System.out.println(ANSI_GREEN + "FPS: " + fps + " | TICK: " + tick + ANSI_RESET + "\nSecs < " + seconds + " >");
 
-                if (Main.debug) System.out.println("LOCATION:\n\tX: " + gamePanel.dad.LOCATION_X + "\n\tY: " + gamePanel.dad.LOCATION_Y + "\nSPEED:\n\tX: " + gamePanel.dad.VECTORX + "\n\tY: " + gamePanel.dad.VECTORY + "\nNo. Birds: " + birdList.size() + "\nFlower: " + gamePanel.infoFlower);
+                if (Main.debug) System.out.println("LOCATION:\n\tX: " + gamePanel.dad.LOCATION_X + "\n\tY: " + gamePanel.dad.LOCATION_Y + "\nSPEED:\n\tX: " + gamePanel.dad.VECTORX + "\n\tY: " + gamePanel.dad.VECTORY + "\nNo. Birds: " + entities.size() + "\nFlower: " + gamePanel.infoFlower);
                 
                 // Checks if the player is on level 0 "outside"
                 if ((gamePanel.dad.reachLevel & 0xf) == 0) gamePanel.changeGrass = true;
 
                 // Spawns the birb
-                if ((gamePanel.dad.reachLevel & 0xf) == 0 && random.nextInt(100) == 0) spawnBird();
+                if ((gamePanel.dad.reachLevel & 0xf) == 0 && random.nextInt(100) == 0) summon("BIRD");
 
                 // Bird shitting logic
-                for (int i=0; i<birdList.size(); i++) {
+                for (int i = 0; i < entities.size(); i++) {
 
-                    Bird bird = birdList.get(i);
+                    Bird bird = (Bird) entities.get(i);
                     if ((gamePanel.dad.reachLevel & 0xf) == 0 && Map.translateX(bird.positionX) == Map.translateX(gamePanel.dad.LOCATION_X + 64)) bird.shit();
                 }
                 

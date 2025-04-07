@@ -16,5 +16,6 @@
     "Override-Resolution":"1920x1080",
     "FullScreen":"true",
     "Music-Volume":"100",
-    "Donate":"true"
+    "Donate":"true",
+    "Flower-Thirsty-Time":"60000"
 }

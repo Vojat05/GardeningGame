@@ -103,7 +103,7 @@ public class KeyboardInput implements KeyListener {
         if (Console.isVisible()) {
 
             // Execute the command if ENTER is pressed
-            if (e.getKeyCode() == KeyEvent.VK_ENTER && Console.commandPrompt.contains(";")) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 Console.addCommand(Console.commandPrompt);
                 return;
             }
@@ -148,7 +148,7 @@ public class KeyboardInput implements KeyListener {
             } else if (Game.pause && Game.alert) {
 
                 Game.togglePauseGame();
-                Game.alert = false;
+                Game.supressAlert();
 
             } else if (Game.pause && !Game.alert) Game.alert("Are you sure you want to quit?");
 
@@ -299,7 +299,7 @@ public class KeyboardInput implements KeyListener {
      */
 
     @Override
-    public void keyTyped(KeyEvent e) {;}
+    public void keyTyped(KeyEvent e) {}
 
     public void loadKeys() throws FileNotFoundException {
 

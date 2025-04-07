@@ -36,6 +36,7 @@ public class GamePanel extends JPanel {
 
     public static Boolean overlay;                                                          // The FPS & Tick overlay
     public static int blockWidth = 0;                                                       // The width of blocks to be rendered | For FullHD = 128
+    private static BufferedImage rainBase;                                                  // A base image for the rain to create a subimage from
     public Player dad = new Player(this, 0, 0);                                             // The player instance
     public InventoryPanel inventoryPanel;                                                   // Inventory panel used to display selected item
     public JPanel fullInv = new JPanel();                                                   // Player inventory panel visible after pressing "T"
@@ -44,9 +45,8 @@ public class GamePanel extends JPanel {
     public boolean skinMenuOpen = false;                                                    // Determines if the wardrobe is open
     public Flower infoFlower;                                                               // The flower to show in info
     public double easeDayNight = .0;                                                        // Makes the Day -> Night cycle more fluent
-    public float rainPositionY = 432f;                                                      // Vertical position of the rain
+    public int rainPositionY = 432;                                                         // Vertical position of the rain
     public int selectedSkinSlot = 0;                                                        // The number of a selected skin slot
-    private static BufferedImage rainBase;                                                  // A base image for the rain to create a subimage from
     private int hoverSaveSlotNumber = 0;                                                    // Number of a save slot that is currently in hover
     private int hoverSkinSlot = 0;                                                          // Number of a skin slot that is currently in hover
     private MouseInput mouseInput = new MouseInput(this);                                   // The mouse input class ( Used for the save box hover effect )
@@ -390,9 +390,8 @@ public class GamePanel extends JPanel {
             if ((dad.reachLevel & 0xf) == 0) {
 
                 // Drawing the grass textures and other static objects (well, house, etc.)
-                for (int i=0; i<map.getMap().length; i++) {
-
-                    for (int j=0; j<map.getMap()[0].length; j++) {
+                for (int i = 0; i < map.getMap().length; i++) {
+                    for (int j = 0; j < map.getMap()[0].length; j++) {
 
                         // Interaction with map done via ASCII table values | 49 == '1'
                         if ((int) map.read(j, i) - 48 <= 1 && changeGrass) {
@@ -408,13 +407,13 @@ public class GamePanel extends JPanel {
 
                             if (map.read(j, i) == '6') {
 
-                                g.drawImage(textures.get(Game.groundTextures[0]), blockWidth*j, blockWidth*i, blockWidth, blockWidth, null);
-                                g.drawImage(textures.get(Game.groundTextures[6]), blockWidth*j, blockWidth*i, blockWidth, blockWidth, null);
+                                g.drawImage(textures.get(Game.groundTextures[0]), blockWidth * j, blockWidth * i, blockWidth, blockWidth, null);
+                                g.drawImage(textures.get(Game.groundTextures[6]), blockWidth * j, blockWidth * i, blockWidth, blockWidth, null);
                                 continue;
 
                             }
 
-                            g.drawImage(textures.get(Game.groundTextures[(int) map.read(j, i) - 48]), blockWidth*j, blockWidth*i, blockWidth, blockWidth, null);
+                            g.drawImage(textures.get(Game.groundTextures[(int) map.read(j, i) - 48]), blockWidth * j, blockWidth * i, blockWidth, blockWidth, null);
 
                         }
                     }
@@ -443,9 +442,9 @@ public class GamePanel extends JPanel {
                 }
 
                 // Drawing the birds
-                for (int i=0; i<Game.birdList.size(); i++) {
+                for (int i=0; i<Game.entities.size(); i++) {
 
-                    Bird bird = Game.birdList.get(i);
+                    Bird bird = (Bird) Game.entities.get(i);
                     g.drawImage(textures.get("Pigeon" + (Map.translateX(bird.positionX) % 2 == 0 ? "1" : "2") + ".png"), (int) bird.positionX, (int) bird.positionY, (int) (blockWidth * 0.59375), (int) (blockWidth * 0.5546875), null);
 
                 }
@@ -474,9 +473,9 @@ public class GamePanel extends JPanel {
 
     private void drawBirdShit(Graphics2D g) {
 
-        for (int i=0; i<Game.birdList.size(); i++) {
+        for (int i = 0; i < Game.entities.size(); i++) {
 
-            Bird bird = Game.birdList.get(i);
+            Bird bird = (Bird) Game.entities.get(i);
             if (!bird.drawShit && !bird.splat) continue;
 
             // Drawing the bird shit splat on the ground
@@ -697,7 +696,7 @@ public class GamePanel extends JPanel {
      * --------------------------------------------------------------------------------
      */
 
-    private void drawHelpScreen(Graphics2D g2d) {
+    private void drawTutorialScreen(Graphics2D g2d) {
 
         // Drawing the Help screen inside the house if it's started for the first time
         int x = Game.tutorial.getX();
@@ -767,7 +766,7 @@ public class GamePanel extends JPanel {
         g2d.drawString("Select Skin", middleX - 80, (int) (middleY - middleY * 0.5 + 60));
 
         // The skin previews to be selected
-        for (int i=0; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
 
             int x = (int) ((i % 2 == 0 ? 300 : 150) * Math.pow(-1, i + 1));
             int y2 = y + (i < 2 ? 100 : 300);
@@ -837,7 +836,7 @@ public class GamePanel extends JPanel {
 
         // Draw the command output text
         String[] output = Console.getOutput();
-        for (int i=0; i<output.length; i++) g2d.drawString((output[i] == null ? "" : (">> " + output[i])), middleX - 350, middleY + (180 - i * 30));
+        for (int i = 0; i < output.length; i++) g2d.drawString((output[i] == null ? "" : (">> " + output[i])), middleX - 350, middleY + (180 - i * 30));
     }
 
 
@@ -943,7 +942,7 @@ public class GamePanel extends JPanel {
         }
 
         // Drawing the help menu box
-        if ((dad.reachLevel & 0xf) == 1 && Game.firstStart || Game.tutorial.isVisible()) { drawHelpScreen(g2d); }
+        if ((dad.reachLevel & 0xf) == 1 && Game.firstStart || Game.tutorial.isVisible()) { drawTutorialScreen(g2d); }
 
         // Drawing the death screen
         if (dad.HP == 0) {
@@ -963,10 +962,10 @@ public class GamePanel extends JPanel {
 
         if (infoFlower != null) drawFlowerInfo(g2d);
 
-        if (Game.warning) drawWarning(g2d);
-        else if (Game.alert) drawAlert(g2d);
-        else if (saveMenuOpen) drawSaveBox(g2d, 10);
+        if (saveMenuOpen) drawSaveBox(g2d, 10);
         else if (skinMenuOpen) drawSkinBox(g2d);
+        else if (Game.alert) drawAlert(g2d);
+        else if (Game.warning) drawWarning(g2d);
 
         if (Console.isVisible()) drawConsole(g2d);
     }
