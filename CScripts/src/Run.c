@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "Build.h"
+#include "Build.c"
 
 #define _WIN64_WINNT 0x500
 
