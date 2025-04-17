@@ -122,40 +122,40 @@ public class Console {
                             System.err.println(Game.ANSI_RED + ErrorList.ERR_Y_TOO_FAR.message + Game.ANSI_RESET);
                             break;
                         }
-                        Game.gamePanel.dad.LOCATION_X = GamePanel.blockWidth * Integer.parseInt(cArgs.get(0));
-                        Game.gamePanel.dad.LOCATION_Y = GamePanel.blockWidth * Integer.parseInt(cArgs.get(1));
+                        Game.render.dad.LOCATION_X = Render.blockWidth * Integer.parseInt(cArgs.get(0));
+                        Game.render.dad.LOCATION_Y = Render.blockWidth * Integer.parseInt(cArgs.get(1));
                         break;
                     
                     case "TP":
-                        Game.gamePanel.dad.LOCATION_X = Integer.parseInt(cArgs.get(0));
-                        Game.gamePanel.dad.LOCATION_Y = Integer.parseInt(cArgs.get(1));
+                        Game.render.dad.LOCATION_X = Integer.parseInt(cArgs.get(0));
+                        Game.render.dad.LOCATION_Y = Integer.parseInt(cArgs.get(1));
                         break;
                     
                         case "KILL", "SUICIDE", "DIE":
-                        Game.gamePanel.dad.kill();
+                        Game.render.dad.kill();
                         break;
                     
                     case "SETSKIN":
                         if (cArgs.size() == 0) break;
                         if (cArgs.size() > 1) break;
                         if (cArgs.get(0).charAt(0) < 48 && cArgs.get(0).charAt(0) > 51) break;
-                        Game.gamePanel.dad.setTextureModifier(cArgs.get(0).charAt(0));
+                        Game.render.dad.setTextureModifier(cArgs.get(0).charAt(0));
                         break;
                     
                     case "REVIVE":
-                        Game.gamePanel.dad.setHealth((byte) 100);
-                        Game.gamePanel.dad.tire((byte) -100);
-                        Game.gamePanel.dad.setTexture("Player/Dad_Texture_F" + Game.gamePanel.dad.getTextureModifier() + ".png");
+                        Game.render.dad.setHealth((byte) 100);
+                        Game.render.dad.tire((byte) -100);
+                        Game.render.dad.setTexture("Player/Dad_Texture_F" + Game.render.dad.getTextureModifier() + ".png");
                         Game.warning = false;
                         Game.alert = false;
-                        if (Game.gamePanel.dad.outOfStamina) {
+                        if (Game.render.dad.outOfStamina) {
                             
-                            Game.gamePanel.dad.outOfStamina = false;
-                            Game.gamePanel.dad.setTexture("Player/Dad_Texture_" + (Game.gamePanel.dad.VECTORX > 0 ? "R" : "L") + Game.gamePanel.dad.getTextureModifier() + ".png");
-                            Game.gamePanel.dad.setMove(true);
-                            Game.gamePanel.getKeyboardInput().resetMovement();
-                            Game.gamePanel.dad.VECTORX = 0;
-                            Game.gamePanel.dad.VECTORY = 0;
+                            Game.render.dad.outOfStamina = false;
+                            Game.render.dad.setTexture("Player/Dad_Texture_" + (Game.render.dad.VECTORX > 0 ? "R" : "L") + Game.render.dad.getTextureModifier() + ".png");
+                            Game.render.dad.setMove(true);
+                            Game.render.getKeyboardInput().resetMovement();
+                            Game.render.dad.VECTORX = 0;
+                            Game.render.dad.VECTORY = 0;
                         
                         }
                         break;
@@ -165,18 +165,18 @@ public class Console {
                         break;
                     
                     case "SETHP":
-                        Game.gamePanel.dad.setHealth(Byte.parseByte(cArgs.get(0)));
+                        Game.render.dad.setHealth(Byte.parseByte(cArgs.get(0)));
                         break;
                     
                     case "SETSTAMINA":
-                        Game.gamePanel.dad.setStamina(Byte.parseByte(cArgs.get(0)));
-                        Game.gamePanel.inventoryPanel.SColor = new Color(0xfadc05);
+                        Game.render.dad.setStamina(Byte.parseByte(cArgs.get(0)));
+                        Game.render.inventoryPanel.SColor = new Color(0xfadc05);
                         break;
                     
                     case "SAVE":
                         try {
                         
-                            Game.saveGame("../com/vojat/Data/Saves/Save" + cArgs.get(0) + ".json", Game.gamePanel.dad, Byte.parseByte(cArgs.get(0)));
+                            Game.saveGame("../com/vojat/Data/Saves/Save" + cArgs.get(0) + ".json", Game.render.dad, Byte.parseByte(cArgs.get(0)));
                         
                         } catch (IOException ioe) {
                             System.err.println(ErrorList.ERR_IO.message);
@@ -198,7 +198,7 @@ public class Console {
                         continue;
                     
                     case "SETSPEED":
-                        Game.gamePanel.dad.dSpeed = Float.parseFloat(cArgs.get(0));
+                        Game.render.dad.dSpeed = Float.parseFloat(cArgs.get(0));
                         break;
                     
                     default: break;

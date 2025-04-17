@@ -38,8 +38,8 @@ public class Bird implements IEntity {
         if (drawShit) return;
 
         this.drawShit = true;
-        this.shitPositionX = Map.translateX(this.positionX) * GamePanel.blockWidth + GamePanel.blockWidth * 0.5f;
-        this.shitPositionY = this.positionY + GamePanel.blockWidth * 0.2f;
+        this.shitPositionX = Map.translateX(this.positionX) * Render.blockWidth + Render.blockWidth * 0.5f;
+        this.shitPositionY = this.positionY + Render.blockWidth * 0.2f;
         this.timeToCleanShit = System.currentTimeMillis() + 10_000;
         this.vectorX = -2;
         Game.playSound("../../res/" + Game.texturePack + "/Audio/BirdShit.wav");
@@ -51,10 +51,10 @@ public class Bird implements IEntity {
      */
     public void action() {
         // Bird shit detection
-        if (drawShit && Map.translateY(shitPositionY - 30) == Map.translateY(Game.gamePanel.dad.LOCATION_Y + 64) && Map.translateX(shitPositionX) == Map.translateX(Game.gamePanel.dad.LOCATION_X + 64)) {
+        if (drawShit && Map.translateY(shitPositionY - 30) == Map.translateY(Game.render.dad.LOCATION_Y + 64) && Map.translateX(shitPositionX) == Map.translateX(Game.render.dad.LOCATION_X + 64)) {
 
-            if (Game.gamePanel.dad.HP == 0) Game.gamePanel.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/GraveShit.png");
-            if (Game.gamePanel.dad.HP != 0) Game.gamePanel.dad.hurt(5);
+            if (Game.render.dad.HP == 0) Game.render.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/GraveShit.png");
+            if (Game.render.dad.HP != 0) Game.render.dad.hurt(5);
             shitPositionY = Window.height;
         }
 

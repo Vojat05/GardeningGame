@@ -12,7 +12,7 @@ import com.vojat.Data.Map;
 import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Flower;
 import com.vojat.garden.Game;
-import com.vojat.garden.GamePanel;
+import com.vojat.garden.Render;
 import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Settings;
 
@@ -24,7 +24,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
      * --------------------------------------------------------------------------------
      */
 
-    private GamePanel gamePanel;                                                        // Game panel
+    private Render render;                                                              // Render object
     private short controlVariableX;                                                     // Theoretical mouse X coordinate in the game map 
     private short controlVariableY;                                                     // Theoretical mouse Y coordiante in the game map
     private Flower flower;                                                              // Flower object that's set on each click on some flower
@@ -37,9 +37,9 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
      * --------------------------------------------------------------------------------
      */
 
-    public MouseInput(GamePanel gamePanel) {
+    public MouseInput(Render render) {
 
-        this.gamePanel = gamePanel;
+        this.render = render;
 
     }
 
@@ -49,19 +49,19 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
     @Override
     public void mousePressed(MouseEvent e) {
 
-        if (gamePanel == null) return;
+        if (render == null) return;
         
         controlVariableX = gardenerX(e);
         controlVariableY = gardenerY(e);
 
         // Alert button interaction
-        if (Game.alert || gamePanel.saveMenuOpen || gamePanel.skinMenuOpen) {
+        if (Game.alert || render.saveMenuOpen || render.skinMenuOpen) {
 
-            int middleX = (int) (gamePanel.getWidth() * 0.5);
-            int middleY = (int) (gamePanel.getHeight() * 0.5);
+            int middleX = (int) (render.getWidth() * 0.5);
+            int middleY = (int) (render.getHeight() * 0.5);
             int y = (int) (middleY - middleY * 0.5);
 
-            if (gamePanel.saveMenuOpen) {
+            if (render.saveMenuOpen) {
 
                 // Save menu interaction
                 if (!(e.getX() >= middleX - 180 && e.getX() <= middleX + 180)) return;
@@ -70,7 +70,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     
                     if (e.getY() >= y - 55 + 60 * i && e.getY() <= y - 5 + 60 * i) {
                         
-                        gamePanel.setSaveNumber(i);
+                        render.setSaveNumber(i);
                         Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
                         break;
                     
@@ -78,29 +78,29 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 }
             }
 
-            if (gamePanel.skinMenuOpen) {
+            if (render.skinMenuOpen) {
 
                 for (int i = 0; i < 4; i++) {
 
                     int posX = (int) (middleX + (i % 2 == 0 ? 300 : 150) * Math.pow(-1, i + 1));
                     int posY = (int) (middleY - middleY * 0.5) + (i < 2 ? 100 : 300);
 
-                    if (mouseX >= posX && mouseX <= posX + 160 && mouseY >= posY && mouseY <= posY + 160) gamePanel.setSelectedSkinNumber(i);
+                    if (mouseX >= posX && mouseX <= posX + 160 && mouseY >= posY && mouseY <= posY + 160) render.setSelectedSkinNumber(i);
                 }
 
                 // Buttons
                 if ((e.getX() >= middleX - 270 && e.getX() <= middleX - 220) && (e.getY() >= y + 495 && e.getY() <= y + 545)) {
                     
                     // The accept button
-                    gamePanel.dad.setTextureModifier((char) (gamePanel.selectedSkinSlot + 48));
-                    gamePanel.skinMenuOpen = false;
+                    render.dad.setTextureModifier((char) (render.selectedSkinSlot + 48));
+                    render.skinMenuOpen = false;
                     Game.togglePauseGame();
                     Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
 
                 } else if ((e.getX() >= middleX + 200 && e.getX() <= middleX + 250) && (e.getY() >= y + 495 && e.getY() <= y + 545)) {
 
                     // The reject button
-                    gamePanel.skinMenuOpen = false;
+                    render.skinMenuOpen = false;
                     Game.togglePauseGame();
                     Game.playSound("../../res/" + Game.texturePack + "/Audio/Button.wav");
 
@@ -136,19 +136,19 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                     } else if (Game.alertMessage.equals("Do you want to change your clothes?")) {
 
-                        gamePanel.dad.setTextureModifier(gamePanel.dad.getTextureModifier() == '3' ? '0' : (char) (gamePanel.dad.getTextureModifier() + 1));
+                        render.dad.setTextureModifier(render.dad.getTextureModifier() == '3' ? '0' : (char) (render.dad.getTextureModifier() + 1));
                         Game.togglePauseGame();
                         Game.alert = false;
-                        gamePanel.skinMenuOpen = false;
+                        render.skinMenuOpen = false;
 
                     } else if (Game.alertMessage.equals("")) {
 
                         // The save box options
-                        Game.saveGame("../com/vojat/Data/Saves/Save" + gamePanel.getSaveNumber() + ".json", gamePanel.dad, (byte) gamePanel.getSaveNumber());
-                        gamePanel.hideSaveMenu();
-                        gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2 - 10;
-                        gamePanel.dad.LOCATION_Y = GamePanel.blockWidth;
-                        gamePanel.dad.setMove(true);
+                        Game.saveGame("../com/vojat/Data/Saves/Save" + render.getSaveNumber() + ".json", render.dad, (byte) render.getSaveNumber());
+                        render.hideSaveMenu();
+                        render.dad.LOCATION_X = Render.blockWidth * 2 - 10;
+                        render.dad.LOCATION_Y = Render.blockWidth;
+                        render.dad.setMove(true);
                         Game.alertMessage = "None";
                         Game.togglePauseGame();
 
@@ -160,7 +160,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             } else if((e.getX() >= middleX + 100 && e.getX() <= middleX + 150) && (e.getY() >= y + 395 && e.getY() <= y + 445)) {
                 
                 // Reject button
-                if (gamePanel.dad.HP == 0) {
+                if (render.dad.HP == 0) {
 
                     Main.window.setElements(new MenuPanel(Main.window));
                     Game.killGame();
@@ -168,12 +168,12 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     Game.alertMessage = "None";
                     Game.warning = false;
                     
-                } else if (gamePanel.saveMenuOpen) {
+                } else if (render.saveMenuOpen) {
 
-                    gamePanel.hideSaveMenu();
-                    gamePanel.dad.LOCATION_X = GamePanel.blockWidth * 2 - 10;
-                    gamePanel.dad.LOCATION_Y = GamePanel.blockWidth;
-                    gamePanel.dad.setMove(true);
+                    render.hideSaveMenu();
+                    render.dad.LOCATION_X = Render.blockWidth * 2 - 10;
+                    render.dad.LOCATION_Y = Render.blockWidth;
+                    render.dad.setMove(true);
                     Game.alertMessage = "None";
                     Game.togglePauseGame();
 
@@ -191,7 +191,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             return;
         }
 
-        if (Game.firstStart && (gamePanel.dad.reachLevel & 0xf) == 1) {
+        if (Game.firstStart && (render.dad.reachLevel & 0xf) == 1) {
             
             // Turns off the tutorial panel
             if ( (e.getX() >= Game.tutorial.getX() + 305 && e.getX() <= Game.tutorial.getX() + 355) && (e.getY() <= Game.tutorial.getY() + 875 && e.getY() >= Game.tutorial.getY() + 825) ) {
@@ -204,7 +204,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
         }
 
         // Pause intercation protection
-        if (Game.pause || gamePanel.dad.HP == 0 || gamePanel.dad.selectedItem > gamePanel.dad.inventory.size()-1) return;
+        if (Game.pause || render.dad.HP == 0 || render.dad.selectedItem > render.dad.inventory.size()-1) return;
 
         switch (e.getButton()) {
 
@@ -212,7 +212,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             case MouseEvent.BUTTON1:
 
                 // Player level check  |  0 == outside & 1 == inside
-                if ((gamePanel.dad.reachLevel & 0xf) == 1) {
+                if ((render.dad.reachLevel & 0xf) == 1) {
 
                     interact((int) Game.houseMap.read(controlVariableX, controlVariableY) - 48);
 
@@ -222,13 +222,13 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                     if (Game.map.read(controlVariableX, controlVariableY) == '4') {
 
                         // Distance check
-                        if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+                        if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) > ((render.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+64)) > ((render.dad.reachLevel & 0xf0) >> 4)) {
                             
                             System.err.println(ErrorList.ERR_RANGE_FAR.message);
                             Game.error("Out of reach", 3);
                             return;
 
-                        } else if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+                        } else if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+64)) == 0) {
                         
                             System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
                             Game.error("Too close", 3);
@@ -236,18 +236,18 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         
                         }
 
-                        gamePanel.dad.waterRefill();
+                        render.dad.waterRefill();
                         Game.playSound("../../res/" + Game.texturePack + "/Audio/WaterPour.wav");
                         
                     }
 
-                    switch (gamePanel.dad.selectedItem) {
+                    switch (render.dad.selectedItem) {
                         case 0:
-                            if (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
+                            if (Integer.parseInt(render.dad.inventory.get(0).substring(5, 6))-1 >= 0) {
 
                                 if (!(Game.map.read(controlVariableX, controlVariableY) == '2')) return;
                                 // Distance check
-                                if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+                                if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) > ((render.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+64)) > ((render.dad.reachLevel & 0xf0) >> 4)) {
 
                                     System.err.println(ErrorList.ERR_RANGE_FAR.message);
                                     Game.error("Out of reach", 3);
@@ -268,8 +268,8 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                                     }
                                 }
 
-                                gamePanel.dad.water(flower);
-                                gamePanel.dad.inventory.set(0, "water" + (Integer.parseInt(gamePanel.dad.inventory.get(0).substring(5, 6))-1));
+                                render.dad.water(flower);
+                                render.dad.inventory.set(0, "water" + (Integer.parseInt(render.dad.inventory.get(0).substring(5, 6))-1));
 
                             } else {
 
@@ -282,7 +282,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         case 1:
                             // The tile placement
                             // Distance checks
-                            if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+                            if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) > ((render.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+64)) > ((render.dad.reachLevel & 0xf0) >> 4)) {
 
                                 System.err.println(ErrorList.ERR_RANGE_FAR.message);
                                 Game.error("Out of reach", 3);
@@ -304,7 +304,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                         case 3:
                             // Distance checks
-                            if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+                            if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) > ((render.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+64)) > ((render.dad.reachLevel & 0xf0) >> 4)) {
 
                                 System.err.println(ErrorList.ERR_RANGE_FAR.message);
                                 Game.error("Out of reach", 3);
@@ -340,7 +340,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                         case 4:
                             if (Game.map.read(controlVariableX, controlVariableY) != '2') {
 
-                                gamePanel.infoFlower = null;
+                                render.infoFlower = null;
                                 break;
 
                             }
@@ -350,7 +350,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                                 flower = Game.flowers.get(i);
                                 if (flower.LOCATION_X == controlVariableX && flower.LOCATION_Y == controlVariableY) {
 
-                                    gamePanel.infoFlower = flower;
+                                    render.infoFlower = flower;
                                     break;
 
                                 }
@@ -361,16 +361,16 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                             break;
                     }
                     
-                    if (gamePanel.dad.selectedItem > gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && gamePanel.dad.selectedItem <= Game.flowerTypes.length + gamePanel.dad.inventory.size() - Game.flowerTypes.length - 1 && controlVariableY != 7) {
+                    if (render.dad.selectedItem > render.dad.inventory.size() - Game.flowerTypes.length - 1 && render.dad.selectedItem <= Game.flowerTypes.length + render.dad.inventory.size() - Game.flowerTypes.length - 1 && controlVariableY != 7) {
 
                         // Distance checks
-                        if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+                        if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) > ((render.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+64)) > ((render.dad.reachLevel & 0xf0) >> 4)) {
 
                             System.err.println(ErrorList.ERR_RANGE_FAR.message);
                             Game.error("Out of reach", 3);
                             return;
 
-                        } else if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+80)) == 0) {
+                        } else if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+80)) == 0) {
                         
                             System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
                             Game.error("Too close", 3);
@@ -388,8 +388,8 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                         // Creates a flower object if the area isn't being occupied or out of reach
                         Game.playSound("../../res/" + Game.texturePack + "/Audio/Plant.wav");
-                        flower = new Flower(gamePanel.dad.inventory.get(gamePanel.dad.selectedItem), controlVariableX, controlVariableY, "Alive", Game.flowers.size());
-                        gamePanel.dad.plant(flower);
+                        flower = new Flower(render.dad.inventory.get(render.dad.selectedItem), controlVariableX, controlVariableY, "Alive", Game.flowers.size());
+                        render.dad.plant(flower);
 
                         // Writes it's value into map
                         Game.map.write(controlVariableX, controlVariableY, '2');
@@ -403,8 +403,8 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             // This is the mouse wheel button being pressed
             case MouseEvent.BUTTON2:
             
-                gamePanel.dad.hurt(10);
-                if ((gamePanel.dad.reachLevel & 0xf) == 1) System.out.println("Interaction 2"); 
+                render.dad.hurt(10);
+                if ((render.dad.reachLevel & 0xf) == 1) System.out.println("Interaction 2"); 
                 else {
 
                     Game.map.getData("print");
@@ -413,7 +413,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                         try {
 
-                            Game.saveGame("../com/vojat/Data/Saves/Save3.json", gamePanel.dad, (byte) 3);
+                            Game.saveGame("../com/vojat/Data/Saves/Save3.json", render.dad, (byte) 3);
 
                         } catch (IOException f) {
 
@@ -445,10 +445,10 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
         mouseX = e.getX();
         mouseY = e.getY();
 
-        if (gamePanel != null) {
+        if (render != null) {
 
-            if (gamePanel.skinMenuOpen) skinHoverEffect();
-            else if (gamePanel.saveMenuOpen) saveHoverEffect();
+            if (render.skinMenuOpen) skinHoverEffect();
+            else if (render.saveMenuOpen) saveHoverEffect();
 
             return;
 
@@ -471,21 +471,21 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             return;
         }
 
-        if (gamePanel == null) return;
+        if (render == null) return;
 
         if (e.getWheelRotation() > 0) {
 
-            if (gamePanel.dad.selectedItem+1 < 10) gamePanel.dad.selectedItem++; 
-            else gamePanel.dad.selectedItem = 0;
+            if (render.dad.selectedItem+1 < 10) render.dad.selectedItem++; 
+            else render.dad.selectedItem = 0;
 
         } else {
 
-            if (gamePanel.dad.selectedItem == 0) gamePanel.dad.selectedItem = 9;
-            else gamePanel.dad.selectedItem--;
+            if (render.dad.selectedItem == 0) render.dad.selectedItem = 9;
+            else render.dad.selectedItem--;
 
         }
 
-        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
+        if (render.hasFocus()) render.inventoryPanel.repaint();
 
     }
 
@@ -516,13 +516,13 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             case 4:
 
                 // The bed interaction
-                if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+                if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) > ((render.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+64)) > ((render.dad.reachLevel & 0xf0) >> 4)) {
 
                     System.err.println(ErrorList.ERR_RANGE_FAR.message);
                     Game.error("Out of reach", 3);
                     return;
 
-                } else if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+                } else if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+64)) == 0) {
 
                     System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
                     Game.error("Too close", 3);
@@ -530,10 +530,10 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                 }
 
-                gamePanel.dad.LOCATION_X = 118;
-                gamePanel.dad.LOCATION_Y = 120;
-                gamePanel.dad.setMove(false);
-                gamePanel.showSaveMenu();
+                render.dad.LOCATION_X = 118;
+                render.dad.LOCATION_Y = 120;
+                render.dad.setMove(false);
+                render.showSaveMenu();
                 Game.alertMessage = "";
                 Game.playSound("../../res/" + Game.texturePack + "/Audio/BedSqueak.wav");
                 Game.togglePauseGame();
@@ -542,13 +542,13 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
             case 5:
 
                 // The closet interaction
-                if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+                if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) > ((render.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+64)) > ((render.dad.reachLevel & 0xf0) >> 4)) {
 
                     System.err.println(ErrorList.ERR_RANGE_FAR.message);
                     Game.error("Out of reach", 3);
                     return;
                     
-                } else if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) == 0) {
+                } else if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) == 0 && Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+64)) == 0) {
 
                     System.err.println(ErrorList.ERR_RANGE_CLOSE.message);
                     Game.error("Too close", 3);
@@ -558,14 +558,14 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
 
                 // Game.alert("Do you want to change your clothes?");
                 Game.togglePauseGame();
-                gamePanel.skinMenuOpen = true;
-                gamePanel.selectedSkinSlot = (int) gamePanel.dad.getTextureModifier() - 48;
+                render.skinMenuOpen = true;
+                render.selectedSkinSlot = (int) render.dad.getTextureModifier() - 48;
                 break;
 
             case 9:
 
                 // The couch interaction
-                if (Math.abs(controlVariableX - Map.translateX(gamePanel.dad.LOCATION_X+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(gamePanel.dad.LOCATION_Y+64)) > ((gamePanel.dad.reachLevel & 0xf0) >> 4)) {
+                if (Math.abs(controlVariableX - Map.translateX(render.dad.LOCATION_X+64)) > ((render.dad.reachLevel & 0xf0) >> 4) || Math.abs(controlVariableY - Map.translateY(render.dad.LOCATION_Y+64)) > ((render.dad.reachLevel & 0xf0) >> 4)) {
 
                     System.err.println(ErrorList.ERR_RANGE_FAR.message);
                     Game.error("Out of reach", 3);
@@ -574,22 +574,22 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
                 }
 
                 Game.playSound("../../res/" + Game.texturePack + "/Audio/BedSqueak.wav");
-                gamePanel.dad.isSitting = true;
+                render.dad.isSitting = true;
 
-                if (gamePanel.dad.LOCATION_X < 845) {
+                if (render.dad.LOCATION_X < 845) {
 
-                    gamePanel.dad.LOCATION_X = 894;
-                    gamePanel.dad.LOCATION_Y = 255;
+                    render.dad.LOCATION_X = 894;
+                    render.dad.LOCATION_Y = 255;
 
                 } else {
 
-                    gamePanel.dad.LOCATION_X = 896;
-                    gamePanel.dad.LOCATION_Y = 256;
+                    render.dad.LOCATION_X = 896;
+                    render.dad.LOCATION_Y = 256;
 
                 }
 
-                gamePanel.dad.setMove(false);
-                gamePanel.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_Sitting.png");
+                render.dad.setMove(false);
+                render.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_Sitting.png");
                 break;
             
             default:
@@ -602,23 +602,23 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
     // Highlites the save slot blocks on hover
     public void saveHoverEffect() {
 
-        int middleX = (int) (gamePanel.getWidth() * 0.5);
-        int middleY = (int) (gamePanel.getHeight() * 0.5);
+        int middleX = (int) (render.getWidth() * 0.5);
+        int middleY = (int) (render.getHeight() * 0.5);
         int y = (int) (middleY - middleY * 0.5);
 
-        if ( !(mouseX >= middleX - 180 && mouseX <= middleX + 180) ) { gamePanel.setHoverSaveNumber(0); return; }
-        if (mouseY < y + 4 || mouseY > y + 355) { gamePanel.setHoverSaveNumber(0); return; }
+        if ( !(mouseX >= middleX - 180 && mouseX <= middleX + 180) ) { render.setHoverSaveNumber(0); return; }
+        if (mouseY < y + 4 || mouseY > y + 355) { render.setHoverSaveNumber(0); return; }
 
-        for (int i=1; i<=6; i++) if (mouseY >= y - 55 + 60 * i && mouseY <= y - 5 + i * 60) gamePanel.setHoverSaveNumber(i);
+        for (int i=1; i<=6; i++) if (mouseY >= y - 55 + 60 * i && mouseY <= y - 5 + i * 60) render.setHoverSaveNumber(i);
     }
 
     // Highlites the skin slot blocks on hover
     public void skinHoverEffect() {
 
-        if ((mouseX >= 655 && mouseX <= 808) && (mouseY >= 345 && mouseY <= 497)) { gamePanel.setHoverSkinNumber(0); }
-        else if ((mouseX >= 1106 && mouseX <= 1257) && (mouseY >= 345 && mouseY <= 497)) { gamePanel.setHoverSkinNumber(1); }
-        else if ((mouseX >= 655 && mouseX <= 808) && (mouseY >= 545 && mouseY <= 697)) { gamePanel.setHoverSkinNumber(2); }
-        else if ((mouseX >= 1106 && mouseX <= 1257) && (mouseY >= 545 && mouseY <= 697)) { gamePanel.setHoverSkinNumber(3); }
+        if ((mouseX >= 655 && mouseX <= 808) && (mouseY >= 345 && mouseY <= 497)) { render.setHoverSkinNumber(0); }
+        else if ((mouseX >= 1106 && mouseX <= 1257) && (mouseY >= 345 && mouseY <= 497)) { render.setHoverSkinNumber(1); }
+        else if ((mouseX >= 655 && mouseX <= 808) && (mouseY >= 545 && mouseY <= 697)) { render.setHoverSkinNumber(2); }
+        else if ((mouseX >= 1106 && mouseX <= 1257) && (mouseY >= 545 && mouseY <= 697)) { render.setHoverSkinNumber(3); }
 
     }
 }

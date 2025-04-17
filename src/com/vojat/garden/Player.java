@@ -17,7 +17,7 @@ public class Player {
      */
 
     public static int windowLimitX, windowLimitY;                           // Coordinate limits for the player to move in
-    public GamePanel gamePanel;                                             // Panel on which the player is
+    public Render render;                                                   // Panel on which the player is
     public double LOCATION_X = .0, LOCATION_Y = .0;                         // Position of the player
     public double VECTORX = .0, VECTORY = .0;                               // Player's movement vectors
     public BufferedImage currentTexture;                                    // Player's current texture {front, back, left, right}
@@ -39,9 +39,9 @@ public class Player {
      * --------------------------------------------------------------------------------
      */
 
-    public Player(GamePanel gamepanel, int positionX, int positionY) {
+    public Player(Render render, int positionX, int positionY) {
 
-        this.gamePanel = gamepanel;
+        this.render = render;
         this.LOCATION_X = positionX;
         this.LOCATION_Y = positionY;
         
@@ -87,10 +87,10 @@ public class Player {
     }
 
     // Plants the given flower
-    public void plant(Flower flower) { gamePanel.summonFlower(flower); }
+    public void plant(Flower flower) { render.summonFlower(flower); }
 
     // Waters the given flower at a given position
-    public void water(Flower flower) { gamePanel.waterFlower(flower); }
+    public void water(Flower flower) { render.waterFlower(flower); }
 
     // Sets the player level
     public void setLevel(byte level) { this.reachLevel = (byte) ((this.reachLevel & 0xf0) + level); }
@@ -99,7 +99,7 @@ public class Player {
     public void waterRefill() {
 
         inventory.set(0, "water9");
-        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
+        if (render.hasFocus()) render.inventoryPanel.repaint();
 
     }
 
@@ -116,7 +116,7 @@ public class Player {
         } else if (this.HP - dmg > 100) this.HP = 100;
         else this.HP -= dmg;
 
-        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
+        if (render.hasFocus()) render.inventoryPanel.repaint();
         return this.HP;
 
     }
@@ -134,7 +134,7 @@ public class Player {
 
         Game.gameMusic.stop();
         Game.playSound("../../res/" + Game.texturePack + "/Audio/Death.wav");
-        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
+        if (render.hasFocus()) render.inventoryPanel.repaint();
 
     }
 
@@ -142,7 +142,7 @@ public class Player {
     public int setHealth(byte HP) {
 
         if (HP == 0) kill();
-        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
+        if (render.hasFocus()) render.inventoryPanel.repaint();
         return this.HP = HP;
 
     }
@@ -153,7 +153,7 @@ public class Player {
         if (this.stamina - value <= 0) this.stamina = 0;
         else if (this.stamina - value >= 100) this.stamina = 100;
         else this.stamina = (byte) (this.stamina - value);
-        if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
+        if (render.hasFocus()) render.inventoryPanel.repaint();
 
         return this.stamina;
     }

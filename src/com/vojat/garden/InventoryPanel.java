@@ -37,11 +37,11 @@ public class InventoryPanel extends JPanel{
      * --------------------------------------------------------------------------------
      */
 
-    public InventoryPanel(GamePanel gamePanel, Player dad) {
+    public InventoryPanel(Render render, Player dad) {
         this.dad = dad;
 
         {
-            addMouseWheelListener(gamePanel.getMouseInput());
+            addMouseWheelListener(render.getMouseInput());
             setBackground(new Color(40, 40, 40));
             setBounds(0, Window.height-75, Window.width, 80);
         }

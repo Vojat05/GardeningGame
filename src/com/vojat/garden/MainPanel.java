@@ -8,11 +8,11 @@ import javax.swing.JPanel;
 
 
 public class MainPanel extends JPanel {
-    public MainPanel(GamePanel gamePanel, InventoryPanel inventoryPanel) {
+    public MainPanel(Render render, InventoryPanel inventoryPanel) {
         {
             setBackground(new Color(40, 40, 40));
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-            add(gamePanel);
+            add(render);
             add(inventoryPanel);
         }
     }

@@ -26,7 +26,7 @@ import com.vojat.Enums.ErrorList;
 import com.vojat.inputs.*;
 import com.vojat.menu.Window;
 
-public class GamePanel extends JPanel {
+public class Render extends JPanel {
 
     /*
      * --------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ public class GamePanel extends JPanel {
      */
 
     // width == window width & height == window height
-    public GamePanel(Window window) {
+    public Render(Window window) {
 
         // Calculate the block width size
         blockWidth = (int) (Window.width * Math.pow(Game.map.getColumns(), -1));
@@ -928,7 +928,7 @@ public class GamePanel extends JPanel {
             // Draw the light circle gradient
             if (dad.selectedItem == 2) {
 
-                Point2D center = new Point2D.Float((float) (dad.LOCATION_X + GamePanel.blockWidth * .5), (float) (dad.LOCATION_Y + GamePanel.blockWidth * .5));
+                Point2D center = new Point2D.Float((float) (dad.LOCATION_X + Render.blockWidth * .5), (float) (dad.LOCATION_Y + Render.blockWidth * .5));
                 float radius = 150f;
                 float[] dist = {0.0f, 1.0f};
                 Color[] colors = {new Color(100, 80, 20, (int) (easeDayNight - easeDayNight * Math.pow(5, -1))), nightColor};
@@ -953,7 +953,7 @@ public class GamePanel extends JPanel {
         }
 
         // Drawing the overlay
-        if (GamePanel.overlay) {
+        if (Render.overlay) {
 
             g2d.setFont(g2d.getFont().deriveFont(24f));
             g2d.setPaint(Color.BLACK);

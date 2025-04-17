@@ -14,7 +14,7 @@ import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
 import com.vojat.garden.Console;
 import com.vojat.garden.Game;
-import com.vojat.garden.GamePanel;
+import com.vojat.garden.Render;
 import com.vojat.garden.Player;
 import com.vojat.menu.Settings;
 
@@ -33,8 +33,8 @@ public class KeyboardInput implements KeyListener {
      */
 
     private Player dad;                                                                     // The player
-    private GamePanel gamePanel;                                                            // Game panel
-    private boolean up = false, down = false, left = false, right = false;                      // Determines wheather the player is moving in set direction
+    private Render render;                                                                  // Game panel
+    private boolean up = false, down = false, left = false, right = false;                  // Determines wheather the player is moving in set direction
     private Settings settings;                                                              // Settings panel used for the change key response
     private JButton button;                                                                 // Button for the settings change key
     private JLabel label;                                                                   // The label to be repainted after the key is changed
@@ -47,9 +47,9 @@ public class KeyboardInput implements KeyListener {
      * --------------------------------------------------------------------------------
      */
 
-    public KeyboardInput(GamePanel gamePanel, Player dad) {
+    public KeyboardInput(Render render, Player dad) {
 
-        this.gamePanel = gamePanel;
+        this.render = render;
         this.dad = dad;
 
         try {
@@ -127,17 +127,17 @@ public class KeyboardInput implements KeyListener {
         // Exit the current alert or other window
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("exit"))) {
 
-            if (gamePanel.saveMenuOpen) {
+            if (render.saveMenuOpen) {
 
-                gamePanel.hideSaveMenu();
+                render.hideSaveMenu();
                 dad.LOCATION_X = 208;
                 dad.LOCATION_Y = 120;
                 Game.alertMessage = "None";
                 Game.togglePauseGame();
 
-            } else if (gamePanel.skinMenuOpen) {
+            } else if (render.skinMenuOpen) {
 
-                gamePanel.skinMenuOpen = false;
+                render.skinMenuOpen = false;
                 Game.togglePauseGame();
 
             } else if (!Game.pause && !Game.alert) {
@@ -159,20 +159,20 @@ public class KeyboardInput implements KeyListener {
         }
 
         // Exit couch via using a shift key
-        if (e.getKeyCode() == KeyEvent.VK_SHIFT && !gamePanel.dad.canMove()) {
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT && !render.dad.canMove()) {
 
-            if ((gamePanel.dad.reachLevel & 0xf) == 0) return;
+            if ((render.dad.reachLevel & 0xf) == 0) return;
 
-            if (gamePanel.dad.LOCATION_X == 894) {
+            if (render.dad.LOCATION_X == 894) {
                             
-                gamePanel.dad.LOCATION_X = 825;
-                gamePanel.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_L" + gamePanel.dad.getTextureModifier() + ".png");
+                render.dad.LOCATION_X = 825;
+                render.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_L" + render.dad.getTextureModifier() + ".png");
             
             }
             else {
                 
-                gamePanel.dad.LOCATION_Y = 335;
-                gamePanel.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + gamePanel.dad.getTextureModifier() + ".png");
+                render.dad.LOCATION_Y = 335;
+                render.dad.currentTexture = Game.setTexture("../../res/" + Game.texturePack + "/Pics/Player/Dad_Texture_F" + render.dad.getTextureModifier() + ".png");
             
             }
 
@@ -181,7 +181,7 @@ public class KeyboardInput implements KeyListener {
             left = false;
             right = false;
 
-            gamePanel.dad.setMove(true);
+            render.dad.setMove(true);
         }
 
         if (!dad.canMove()) return;
@@ -230,7 +230,7 @@ public class KeyboardInput implements KeyListener {
             
             dad.VECTORX = dad.speed;
 
-        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("open")) && !Game.pause) gamePanel.changeVisibility(gamePanel.fullInv);
+        } else if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("open")) && !Game.pause) render.changeVisibility(render.fullInv);
         else {
 
             for (byte i=0; i<10; i++) {
@@ -238,7 +238,7 @@ public class KeyboardInput implements KeyListener {
                 if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("slot" + i))) {
 
                     dad.selectedItem = i;
-                    if (gamePanel.hasFocus()) gamePanel.inventoryPanel.repaint();
+                    if (render.hasFocus()) render.inventoryPanel.repaint();
 
                 }
             }
@@ -249,7 +249,7 @@ public class KeyboardInput implements KeyListener {
     public void keyReleased(KeyEvent e) {
 
         if (dad == null || dad.HP == 0 || !dad.canMove()) return;
-        if (!up && !down && !left && !right) { gamePanel.dad.VECTORX = 0; gamePanel.dad.VECTORY = 0; }
+        if (!up && !down && !left && !right) { render.dad.VECTORX = 0; render.dad.VECTORY = 0; }
         if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyMap.get("up"))) {
 
             up = false;
