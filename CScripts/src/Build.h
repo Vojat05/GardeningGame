@@ -1,0 +1,1 @@
+int java_build(void);
