@@ -5,7 +5,7 @@
 	int java_build(void) {
 		int error;
 		printf("\nBuilding Java!");
-		error = system("cd src & javac -cp \".;Libs/*\" com/vojat/Main.java -d ./Build & cd ..");
+		error = system("cd src & javac -cp \".;Libs/lwjgl-lib/*\" -d Build com/vojat/Main.java & cd ..");
 		printf("\nBuild compleated!\n");
 		return error;
 	}

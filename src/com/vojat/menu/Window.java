@@ -7,6 +7,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import org.lwjgl.*;
+
 import com.vojat.Main;
 import com.vojat.garden.Game;
 import com.vojat.garden.MainPanel;

@@ -24,7 +24,7 @@
 
 		// Windows
 		printf("Running java ...\n");
-		error = system("cd src/Build & java com/vojat/Main & cd ../..");
+		error = system("cd src/Build & java -cp \"../../out;../../src/Libs/lwjgl-lib/*;.\" com.vojat.Main & cd ../..");
 
 		if (error == 0) printf("Program stopped successfully\n");
 		else printf("Program stopped with code %d\n", error);
