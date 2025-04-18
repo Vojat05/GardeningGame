@@ -186,7 +186,9 @@ public class Console {
                         break;
                     
                     case "SUMMON":
-                        if (cArgs.size() == 2) for (int j = 0; j < Integer.parseInt(cArgs.get(1)); j++) Game.summon(cArgs.get(0).toUpperCase());
+                        
+                        try {if (cArgs.size() == 2) for (int j = 0; j < Integer.parseInt(cArgs.get(1)); j++) Game.summon(cArgs.get(0).toUpperCase());}
+                        catch (NumberFormatException nfe) {}
                         break;
                     
                     case "ENTITY":

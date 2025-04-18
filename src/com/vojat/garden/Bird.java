@@ -38,8 +38,8 @@ public class Bird implements IEntity {
         if (drawShit) return;
 
         this.drawShit = true;
-        this.shitPositionX = Map.translateX(this.positionX) * Render.blockWidth + Render.blockWidth * 0.5f;
-        this.shitPositionY = this.positionY + Render.blockWidth * 0.2f;
+        this.shitPositionX = this.positionX + Render.blockWidth * 0.25f;
+        this.shitPositionY = this.positionY + Render.blockWidth * 0.25f;
         this.timeToCleanShit = System.currentTimeMillis() + 10_000;
         this.vectorX = -2;
         Game.playSound("../../res/" + Game.texturePack + "/Audio/BirdShit.wav");
