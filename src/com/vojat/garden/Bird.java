@@ -2,6 +2,7 @@ package com.vojat.garden;
 
 import com.vojat.Data.Map;
 import com.vojat.Interface.IEntity;
+import com.vojat.Rendering.Render;
 import com.vojat.menu.Window;
 
 public class Bird implements IEntity {

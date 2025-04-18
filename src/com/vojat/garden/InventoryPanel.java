@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import com.vojat.Rendering.Render;
 import com.vojat.menu.Window;
 
 public class InventoryPanel extends JPanel{

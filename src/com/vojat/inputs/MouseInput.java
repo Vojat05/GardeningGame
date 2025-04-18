@@ -10,9 +10,9 @@ import java.io.IOException;
 import com.vojat.Main;
 import com.vojat.Data.Map;
 import com.vojat.Enums.ErrorList;
+import com.vojat.Rendering.Render;
 import com.vojat.garden.Flower;
 import com.vojat.garden.Game;
-import com.vojat.garden.Render;
 import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Settings;
 

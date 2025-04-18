@@ -13,8 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import com.vojat.Data.JSONEditor;
+import com.vojat.Rendering.Render;
 import com.vojat.garden.Game;
-import com.vojat.garden.Render;
 import com.vojat.menu.MenuPanel;
 import com.vojat.menu.Window;
 
@@ -77,7 +77,7 @@ public class Main {
             Game.flowerChange = Integer.parseInt(jsonEditor.readData("Flower-Thirsty-Time"));
             Render.overlay = Boolean.parseBoolean(jsonEditor.readData("Enable-Overlay"));
 
-            Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("../../res/" + Game.texturePack + "/Fonts/customFont.ttf"));
+            Game.font = Font.createFont(Font.TRUETYPE_FONT, new File("../../res/" + Game.texturePack + "/Fonts/default.ttf"));
 
         } catch (FontFormatException | IOException e) {
             
@@ -106,6 +106,8 @@ public class Main {
         }
 
         System.out.println("Width: " + width + "\nHeight: " + height);
+        Window.width = width;
+        Window.height = height;
 
         // Calculate the resolution to perfectly fit the game map
         resolution = Window.calculateResolution(width, height, 16, 9);

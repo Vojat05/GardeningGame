@@ -12,9 +12,9 @@ import java.awt.event.KeyEvent;
 import com.vojat.Main;
 import com.vojat.Data.JSONEditor;
 import com.vojat.Enums.ErrorList;
+import com.vojat.Rendering.Render;
 import com.vojat.garden.Console;
 import com.vojat.garden.Game;
-import com.vojat.garden.Render;
 import com.vojat.garden.Player;
 import com.vojat.menu.Settings;
 

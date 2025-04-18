@@ -1,4 +1,4 @@
-package com.vojat.garden;
+package com.vojat.Rendering;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -21,11 +22,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import org.lwjgl.opengl.GL;
+import org.lwjgl.nanovg.NVGColor;
+
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.nanovg.NanoVG.*;
 
 import com.vojat.Data.Map;
 import com.vojat.Enums.ErrorList;
+import com.vojat.garden.Bird;
+import com.vojat.garden.Console;
+import com.vojat.garden.Flower;
+import com.vojat.garden.Game;
+import com.vojat.garden.InventoryPanel;
+import com.vojat.garden.Player;
 import com.vojat.inputs.*;
 import com.vojat.menu.Window;
 
@@ -57,6 +66,14 @@ public class Render extends JPanel {
     private int selectedSaveSlotNumber = 1;                                                 // Number of a save slot into which the game should be saved
     private HashMap<String, Image> textures = new HashMap<String, Image>();                 // A Hash Map containing all ground textures | structure: <Key:path | Value:image>
     private byte hudScale = 1;                                                              // HUD Scale used for calculating the GUI objects size
+
+    // GLFW experimantel variables
+    public static HashMap<String, Integer> glfw_textures = new HashMap<String, Integer>();
+    public static ArrayList<String> glfw_fonts = new ArrayList<String>();
+    public static short textureSizePX = 256;
+    public static int FPS = 0;
+    public static int font_size = 10;
+    public static final long optimal_frame_nano = 1_000_000_000L / Game.FPS_CAP;
 
     /*
      * --------------------------------------------------------------------------------
@@ -110,7 +127,7 @@ public class Render extends JPanel {
             fullInv.setPreferredSize(new Dimension(Window.width - 20, 80));
             fullInv.setBackground(new Color(0, 0, 0, 50));
 
-            for (int i=0; i<dad.inventory.size(); i++) {
+            for (int i = 0; i < dad.inventory.size(); i++) {
 
                 JLabel item = new JLabel();
                 InventoryPanel.repaintItem(i, item, dad);
@@ -130,7 +147,7 @@ public class Render extends JPanel {
 
         {
             textures.put("Missing.png", new ImageIcon("../../res/Missing.png").getImage());
-            for (int i=0; i < Game.groundTextures.length; i++) { 
+            for (int i = 0; i < Game.groundTextures.length; i++) { 
                 
                 if (Game.groundTextures[i].equals("")) { continue; }
                 if (!(new File("../../res/" + Game.texturePack + "/Pics/Garden/" + Game.groundTextures[i]).exists())) { textures.put(Game.groundTextures[i], new ImageIcon("../../res/Missing.png").getImage()); continue; }
@@ -138,7 +155,7 @@ public class Render extends JPanel {
             
             }
 
-            for (int i=0; i < Game.houseTextures.length; i++) { 
+            for (int i = 0; i < Game.houseTextures.length; i++) { 
                 
                 if (Game.houseTextures[i].equals("")) continue;
                 else if (Game.houseTextures[i].equals("chair.png")) {
@@ -190,22 +207,96 @@ public class Render extends JPanel {
         }
     }
 
+    /*
+     * --------------------------------------------------------------------------------
+     * GLFW
+     * --------------------------------------------------------------------------------
+     */
     public static void startGLFW() {
         Window.glfw_init(Window.width, Window.height);
-        GL.createCapabilities();
 
         // Clears the color
         glClearColor(0.25f, 0.25f, 0.25f, 0.0f);
 
-        Window.glfw_maximize();
+        // Load all the textures into memory
+        VRAM.loadTexture("../../res/" + Game.texturePack + "/Pics/Game_Logo.png", "GameLogo");
+        VRAM.loadFont("default", "../../res/" + Game.texturePack + "/Fonts/default.ttf");
 
+        /*
+         * --------------------------------------------------------------------------------
+         * GLFW rendering loop
+         * --------------------------------------------------------------------------------
+         */
         while (!Window.windowShouldClose()) {
+            long start_frame = System.nanoTime();
+            
             Window.update();
+            FPS++;
+
+            // Sleep the remander of the time to hit the optimal time per frame
+            long sleep_nano = optimal_frame_nano - System.nanoTime() + start_frame;
+            if (sleep_nano > 0) {
+                long sleepMillis = sleep_nano / 1_000_000L;
+                int sleepNano = (int) (sleep_nano % 1_000_000L);
+                try { Thread.sleep(sleepMillis, sleepNano); }
+                catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+            }
+            // Else we are too slow and aren't hitting the FPS cap
         }
 
-        // Cleanup after the window is supposed to close
+        // Cleanup after the window closes
         Window.glfw_destroy();
+        NanoVGContext.destroy();
+        System.out.println("Freed all GLFW resources");
     }
+
+    public static void paintFrame() {
+        // Reset any previous model transformations
+        glLoadIdentity();
+        int centerX = (int) (Window.width * .5);
+        int centerY = (int) (Window.height * .5);
+
+        // Painting the frame
+        // Textures
+        drawImage2D(centerX - textureSizePX * .5f, centerY - textureSizePX * .5f, "GameLogo");
+        
+        nvgBeginFrame(NanoVGContext.vg, Window.width, Window.height, 1);
+        drawText("Dad The Gardener", centerX - 160, centerY + textureSizePX, 48);
+        nvgEndFrame(NanoVGContext.vg);
+    }
+
+    public static void drawImage2D(float x, float y, String textureID) {
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, Render.glfw_textures.get(textureID));
+
+        glBegin(GL_QUADS);
+        glTexCoord2f(0, 0); glVertex2f(x, y);
+        glTexCoord2f(1, 0); glVertex2f(x + Render.textureSizePX, y);
+        glTexCoord2f(1, 1); glVertex2f(x + Render.textureSizePX, y + Render.textureSizePX);
+        glTexCoord2f(0, 1); glVertex2f(x, y + Render.textureSizePX);
+        glEnd();
+
+        glDisable(GL_TEXTURE_2D);
+    }
+
+    public static void drawText(String text, float x, float y, float size) {
+        long vg = NanoVGContext.vg;
+        NVGColor color = NVGColor.calloc();
+
+        nvgFontSize(vg, size);
+        nvgFontFace(vg, "default");
+        nvgFillColor(vg, nvgRGBA((byte) 255, (byte) 255, (byte) 255, (byte) 255, color));
+        nvgTextAlign(vg, NVG_ALIGN_LEFT | NVG_ALIGN_TOP);
+        nvgText(vg, x, y, text);
+
+        color.free();
+    }
+
+    /*
+     * --------------------------------------------------------------------------------
+     * JPanel
+     * --------------------------------------------------------------------------------
+     */
 
     // Sets the save slot number
     public void setSaveNumber(int value) {

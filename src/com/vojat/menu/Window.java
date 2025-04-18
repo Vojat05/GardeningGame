@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import org.lwjgl.glfw.*;
+import org.lwjgl.opengl.GL;
 import org.lwjgl.system.*;
 
 import java.nio.*;
@@ -18,6 +19,8 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import com.vojat.Main;
+import com.vojat.Rendering.NanoVGContext;
+import com.vojat.Rendering.Render;
 import com.vojat.garden.Game;
 import com.vojat.garden.MainPanel;
 import com.vojat.garden.Player;
@@ -73,9 +76,15 @@ public class Window extends JFrame {
         glfwDefaultWindowHints(); // Optional, the current is already default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // The window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // The window is resizable
+        glfwWindowHint(GLFW_DECORATED, GLFW_FALSE); // Removes the title bar and all contained buttons
 
         // Create a GLFW window
-        handle = glfwCreateWindow(width, height, title, NULL, NULL);
+        // Set the window fullscreen if desired size is the same as monitor size
+        // Get the primary monitor VidMode
+        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        long monitor = glfwGetPrimaryMonitor();
+        vidmode = glfwGetVideoMode(monitor);
+        handle = glfwCreateWindow(width, height, title, (width + height == vidmode.width() + vidmode.height() ? monitor : NULL), NULL);
         if (handle == NULL) throw new RuntimeException("Failed to create a GLFW window");
 
         // Setup a key callback, it will be called every time a key is pressed, repeated or released
@@ -91,9 +100,6 @@ public class Window extends JFrame {
             // Get window size passed to glfwCreateWindow
             glfwGetWindowSize(handle, pWidth, pHeight);
 
-            // Get the resolution of main monitor
-            GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
             // Center the window
             glfwSetWindowPos(handle, (int) ((vidmode.width() - pWidth.get(0)) * .5), (int) ((vidmode.height() - pHeight.get(0)) * .5));
         }
@@ -104,16 +110,25 @@ public class Window extends JFrame {
         // Enable V-Synch
         glfwSwapInterval(1);
 
-        // GL flags
-        //glEnable(GL_CULL_FACE);
-        //glEnable(GL_BACK);
+        // Creates the capabilities to be able to set the projection
+        GL.createCapabilities();
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0.1f);
+        
+        // Used for text rendering
+        NanoVGContext.init();
+
+        // Set orthographic projection for 2D
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, width, height, 0, -1, 1); // (left, right, bottom, top, near, far)
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
 
         // Make the window visible
         glfwShowWindow(handle);
-    }
-
-    public static void glfw_maximize() {
-        glfwMaximizeWindow(handle);
     }
 
     public static void glfw_destroy() {
@@ -124,6 +139,9 @@ public class Window extends JFrame {
     public static void update() {
         // Clear the frame buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // Construct the frame
+        Render.paintFrame();
 
         // Swap the color buffers
         glfwSwapBuffers(handle);

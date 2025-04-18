@@ -25,13 +25,14 @@ import com.vojat.Data.Map;
 import com.vojat.Data.TutorialBox;
 import com.vojat.Enums.ErrorList;
 import com.vojat.Interface.IEntity;
+import com.vojat.Rendering.Render;
 import com.vojat.menu.Window;
 
 public class Game implements Runnable {
 
     /*
      * --------------------------------------------------------------------------------
-     * Here are all the important game variables
+     * Here are all the important global and local game variables
      * --------------------------------------------------------------------------------
      */
 
@@ -855,6 +856,7 @@ public class Game implements Runnable {
                 }
 
                 // Resets the FPS counter each second
+                Render.FPS = 0;
                 gfps = fps;
                 gtick = tick;
                 fps = 0;

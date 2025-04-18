@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.vojat.Data.JSONEditor;
+import com.vojat.Rendering.Render;
 import com.vojat.menu.Window;
 
 public class Player {

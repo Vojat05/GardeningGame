@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import com.vojat.Main;
 import com.vojat.Enums.ErrorList;
+import com.vojat.Rendering.Render;
 
 public class Console {
     

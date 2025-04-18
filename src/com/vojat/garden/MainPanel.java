@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import com.vojat.Rendering.Render;
+
 
 public class MainPanel extends JPanel {
     public MainPanel(Render render, InventoryPanel inventoryPanel) {

@@ -2,7 +2,7 @@ package com.vojat.Data;
 
 import java.util.ArrayList;
 
-import com.vojat.garden.Render;
+import com.vojat.Rendering.Render;
 
 public class Map {
     private char[][] map;
