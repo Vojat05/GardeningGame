@@ -82,10 +82,7 @@ public class MenuPanel extends JPanel{
         // Exit button
         JButton exit = new JButton(InventoryPanel.createIcon("../../res/" + Game.texturePack + "/Pics/Buttons/Exit.png", 150, 40));
         {
-            exit.addActionListener((e) -> {
-                window.dispose();
-                System.exit(0);
-            });
+            exit.addActionListener((e) -> Main.exit(0));
             buttonSetup(exit, 150, 40, true);
         }
 

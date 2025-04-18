@@ -21,6 +21,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import org.lwjgl.opengl.GL;
+import static org.lwjgl.opengl.GL11.*;
+
 import com.vojat.Data.Map;
 import com.vojat.Enums.ErrorList;
 import com.vojat.inputs.*;
@@ -187,6 +190,23 @@ public class Render extends JPanel {
         }
     }
 
+    public static void startGLFW() {
+        Window.glfw_init(Window.width, Window.height);
+        GL.createCapabilities();
+
+        // Clears the color
+        glClearColor(0.25f, 0.25f, 0.25f, 0.0f);
+
+        Window.glfw_maximize();
+
+        while (!Window.windowShouldClose()) {
+            Window.update();
+        }
+
+        // Cleanup after the window is supposed to close
+        Window.glfw_destroy();
+    }
+
     // Sets the save slot number
     public void setSaveNumber(int value) {
 
@@ -269,7 +289,6 @@ public class Render extends JPanel {
 
         // Resets the flower texture
         flower.CURRENT_TEXTURE = flower.setTexture(flower.ALIVE_TEXTURE);
-        if (this.hasFocus()) this.inventoryPanel.repaint();
     }
 
     /*
@@ -953,7 +972,7 @@ public class Render extends JPanel {
         }
 
         // Drawing the overlay
-        if (Render.overlay) {
+        if (overlay) {
 
             g2d.setFont(g2d.getFont().deriveFont(24f));
             g2d.setPaint(Color.BLACK);

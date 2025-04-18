@@ -67,7 +67,8 @@ public class Game implements Runnable {
     public static Font font;                                                                                                                                                        // The custom font used in the game
     public static double dayNightTransitionSpeed = .0;                                                                                                                              // The value that is added to the night block
     public static float volumeTransitionSpeed = .0f;                                                                                                                                // The value that is added to the volume gain
-    public static byte FPS_SET = 120;                                                                                                                                               // Frame-Rate cap
+    public static short FPS_CAP = 120;                                                                                                                                              // Frame-Rate cap
+    public static short TICK_CAP = 20;                                                                                                                                              // Game tick-rate cap
     public static short gfps = 0;                                                                                                                                                   // The game current FPS rate
     public static short gtick = 0;                                                                                                                                                  // The game current logic tick rate
     public static Render render;                                                                                                                                                    // The panel that shows the game window
@@ -581,8 +582,8 @@ public class Game implements Runnable {
          * --------------------------------------------------------------------------------
          */
 
-        for (IEntity entity : entities)
-            entity.action();
+        for (int i = 0; i < entities.size(); i++)
+            entities.get(i).action();
 
         /*
          * --------------------------------------------------------------------------------
@@ -641,8 +642,8 @@ public class Game implements Runnable {
     @Override
     public void run() {
 
-        double timePerFrame = 1_000_000_000.0 / FPS_SET;
-        double timePerTick = 1_000_000_000.0 / 20;
+        double timePerFrame = 1_000_000_000.0 / FPS_CAP;
+        double timePerTick = 1_000_000_000.0 / TICK_CAP;
         long now;
         long previousTime = System.nanoTime();
         short fps = 0;

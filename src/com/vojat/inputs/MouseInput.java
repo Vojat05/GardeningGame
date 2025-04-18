@@ -612,6 +612,7 @@ public class MouseInput implements MouseListener, MouseMotionListener, MouseWhee
         for (int i=1; i<=6; i++) if (mouseY >= y - 55 + 60 * i && mouseY <= y - 5 + i * 60) render.setHoverSaveNumber(i);
     }
 
+    // TODO: Rework this awful thing to make each skin a block that's an object
     // Highlites the skin slot blocks on hover
     public void skinHoverEffect() {
 

@@ -7,7 +7,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import org.lwjgl.*;
+import org.lwjgl.glfw.*;
+import org.lwjgl.system.*;
+
+import java.nio.*;
+
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryStack.*;
+import static org.lwjgl.system.MemoryUtil.*;
 
 import com.vojat.Main;
 import com.vojat.garden.Game;
@@ -23,6 +31,8 @@ public class Window extends JFrame {
      */
 
     public static int width, height;                                                        // The device screen width and height in pixels
+    private static long handle;                                                             // OpenGL GLFW window handle
+    public static String title = "Dad The Gardener";                                        // Window title
     private MainPanel mainPanel;                                                            // The main menu panel
     private Player dad;                                                                     // The player character
     private ArrayList<JComponent> components = new ArrayList<JComponent>();                 // Arraylist of all of it's components
@@ -34,8 +44,8 @@ public class Window extends JFrame {
      */
 
     public Window(int screenWidth, int screenHeight) {
-        width = screenWidth;
-        height = screenHeight;
+        Window.width = screenWidth;
+        Window.height = screenHeight;
         
         if (width == Main.sizeX && height == Main.sizeY && Main.fullscreen) {
             setUndecorated(true);
@@ -52,6 +62,95 @@ public class Window extends JFrame {
         setResizable(false);
     }
 
+    public static void glfw_init(int width, int height) {
+        // Setup the error callback stream, every error will be printed using the System.err PrintStream
+        GLFWErrorCallback.createPrint(System.err).set();
+
+        // Initialize GLFW
+        if (!glfwInit()) throw new IllegalStateException("Failed to initialize the GLFW window");
+
+        // Configure GLFW window
+        glfwDefaultWindowHints(); // Optional, the current is already default
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // The window will stay hidden after creation
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // The window is resizable
+
+        // Create a GLFW window
+        handle = glfwCreateWindow(width, height, title, NULL, NULL);
+        if (handle == NULL) throw new RuntimeException("Failed to create a GLFW window");
+
+        // Setup a key callback, it will be called every time a key is pressed, repeated or released
+        glfwSetKeyCallback(handle, (handle, key, scancode, action, mods) -> {
+            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) glfwSetWindowShouldClose(handle, true); // Detected in the rendering loop
+        });
+
+        // The stack frame is popped automatically
+        try (MemoryStack stack = stackPush()) {
+            IntBuffer pWidth = stack.mallocInt(1); // int*
+            IntBuffer pHeight = stack.mallocInt(1); // int*
+
+            // Get window size passed to glfwCreateWindow
+            glfwGetWindowSize(handle, pWidth, pHeight);
+
+            // Get the resolution of main monitor
+            GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+            // Center the window
+            glfwSetWindowPos(handle, (int) ((vidmode.width() - pWidth.get(0)) * .5), (int) ((vidmode.height() - pHeight.get(0)) * .5));
+        }
+
+        // Make the OpenGL context current
+        glfwMakeContextCurrent(handle);
+
+        // Enable V-Synch
+        glfwSwapInterval(1);
+
+        // GL flags
+        //glEnable(GL_CULL_FACE);
+        //glEnable(GL_BACK);
+
+        // Make the window visible
+        glfwShowWindow(handle);
+    }
+
+    public static void glfw_maximize() {
+        glfwMaximizeWindow(handle);
+    }
+
+    public static void glfw_destroy() {
+        glfwDestroyWindow(handle);
+        glfwTerminate();
+    }
+
+    public static void update() {
+        // Clear the frame buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // Swap the color buffers
+        glfwSwapBuffers(handle);
+
+        // Poll for window events, the above key callback will only be invoked during this call
+        glfwPollEvents();
+    }
+
+    public static boolean keyPressed(int keycode) {
+        return glfwGetKey(handle, keycode) == GLFW_PRESS;
+    }
+
+    public static boolean windowShouldClose() {
+        return glfwWindowShouldClose(handle);
+    }
+
+    public static void glfwSetTitle(String title) {
+        Window.title = title;
+        glfwSetWindowTitle(handle, title);
+    }
+
+
+    /*
+     * --------------------------------------------------------------------------------
+     * JFrame methods
+     * --------------------------------------------------------------------------------
+     */
     public void setElements(JComponent arg) {
         for (JComponent component : components) {
             remove(component);

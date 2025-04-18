@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.vojat.Main;
 import com.vojat.Enums.ErrorList;
 
 public class Console {
@@ -161,7 +162,7 @@ public class Console {
                         break;
                     
                     case "QUIT", "EXIT":
-                        System.exit(0);
+                        Main.exit(0);
                         break;
                     
                     case "SETHP":
