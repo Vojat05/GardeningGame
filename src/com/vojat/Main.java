@@ -112,8 +112,8 @@ public class Main {
         // Calculate the resolution to perfectly fit the game map
         resolution = Window.calculateResolution(width, height, 16, 9);
 
-        //window = new Window(resolution[0], resolution[1]);
-        //new MenuPanel(window);
+        window = new Window(resolution[0], resolution[1]);
+        new MenuPanel(window);
 
         // Start the GLFW window on main thread
         Render.startGLFW();
