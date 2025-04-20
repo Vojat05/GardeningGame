@@ -140,8 +140,7 @@ public class Window extends JFrame {
         // Clear the frame buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Construct the frame
-        Render.paintFrame();
+        Render.paint();
 
         // Swap the color buffers
         glfwSwapBuffers(handle);

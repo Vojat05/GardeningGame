@@ -74,6 +74,8 @@ public class Render extends JPanel {
     public static int FPS = 0;
     public static int font_size = 10;
     public static final long optimal_frame_nano = 1_000_000_000L / Game.FPS_CAP;
+    public static volatile boolean finishedLoading = false;
+    public static ArrayList<String> pendingTextures = new ArrayList<String>();
 
     /*
      * --------------------------------------------------------------------------------
@@ -195,16 +197,8 @@ public class Render extends JPanel {
          * --------------------------------------------------------------------------------
          */
 
-        try {
-
-            rainBase = ImageIO.read(new File("../../res/Missing.png"));
-            rainBase = ImageIO.read(new File("../../res/" + Game.texturePack + "/Pics/Rain.png"));
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-        }
+        try { rainBase = ImageIO.read(new File("../../res/" + Game.texturePack + "/Pics/Rain.png")); }
+        catch (IOException e) { e.printStackTrace(); }
     }
 
     /*
@@ -218,18 +212,19 @@ public class Render extends JPanel {
         // Clears the color
         glClearColor(0.25f, 0.25f, 0.25f, 0.0f);
 
-        // Load all the textures into memory
-        VRAM.loadTexture("../../res/" + Game.texturePack + "/Pics/Game_Logo.png", "GameLogo");
-        VRAM.loadFont("default", "../../res/" + Game.texturePack + "/Fonts/default.ttf");
-
         /*
          * --------------------------------------------------------------------------------
          * GLFW rendering loop
          * --------------------------------------------------------------------------------
          */
+        
+        loadScene(0);
+        System.out.println("Loading done");
+
         while (!Window.windowShouldClose()) {
             long start_frame = System.nanoTime();
-            
+
+            // Construct the frame
             Window.update();
             FPS++;
 
@@ -250,6 +245,53 @@ public class Render extends JPanel {
         System.out.println("Freed all GLFW resources");
     }
 
+    public static void loadScene(int scene) {
+        finishedLoading = false;
+        // Load all the textures into memory
+        new Scene(scene);
+
+        // Load all textures needed for surrent scene
+        for (int i = 0; i < Scene.textures.size(); i++)
+            pendingTextures.add("../../res/" + Game.texturePack + "/Pics/" + Scene.textures.get(i) + ".png");
+
+        int index = 0;
+        while (!Window.windowShouldClose()) {
+            if (index == 0) {
+                VRAM.loadTexture("../../res/Missing.png", "Missing");
+                VRAM.loadFont("../../res/" + Game.texturePack + "/Fonts/default.ttf", "default");
+            }
+
+            // Exit if index is larger then the array of textures needed
+            if (index > pendingTextures.size() - 1) break;
+            VRAM.loadTexture(pendingTextures.get(index), Scene.textures.get(index));
+
+            // Render the loading animation
+            Window.update();
+
+            // Test sleep
+            try { Thread.sleep(2000); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+            index++;
+        }
+        finishedLoading = true;
+    }
+
+    public static void paint() {
+        if (!finishedLoading) paintLoading("Idk");
+        else paintFrame();
+    }
+
+    public static void paintLoading(String loadedObject) {
+        glLoadIdentity();
+        int centerX = (int) (Window.width * .5);
+        int centerY = (int) (Window.height * .5);
+
+        // Text rendering
+        nvgBeginFrame(NanoVGContext.vg, Window.width, Window.height, 1);
+        drawText("Now loading " + loadedObject, centerX - 160, centerY + textureSizePX, 48);
+        nvgEndFrame(NanoVGContext.vg);
+    }
+
     public static void paintFrame() {
         // Reset any previous model transformations
         glLoadIdentity();
@@ -258,8 +300,10 @@ public class Render extends JPanel {
 
         // Painting the frame
         // Textures
-        drawImage2D(centerX - textureSizePX * .5f, centerY - textureSizePX * .5f, "GameLogo");
         
+        drawImage2D(centerX - textureSizePX * .5f, centerY - textureSizePX * .5f, "Game_Logo");
+        
+        // Text rendering
         nvgBeginFrame(NanoVGContext.vg, Window.width, Window.height, 1);
         drawText("Dad The Gardener", centerX - 160, centerY + textureSizePX, 48);
         nvgEndFrame(NanoVGContext.vg);
@@ -267,7 +311,8 @@ public class Render extends JPanel {
 
     public static void drawImage2D(float x, float y, String textureID) {
         glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, Render.glfw_textures.get(textureID));
+        int texture = Render.glfw_textures.get(textureID) == null ? Render.glfw_textures.get("Missing") : Render.glfw_textures.get(textureID);
+        glBindTexture(GL_TEXTURE_2D, texture);
 
         glBegin(GL_QUADS);
         glTexCoord2f(0, 0); glVertex2f(x, y);

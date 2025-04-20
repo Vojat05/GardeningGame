@@ -19,7 +19,7 @@ public class VRAM {
     public static void loadTexture(String path, String name) {
         try {
             BufferedImage image = ImageIO.read(new File(path));
-            Render.glfw_textures.put(name, loadTextureFromIMG(image));
+            if (Render.glfw_textures.get(name) == null) Render.glfw_textures.put(name, loadTextureFromIMG(image));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,7 +67,7 @@ public class VRAM {
     }
 
     /** Loads TTF font to VRAM */
-    public static void loadFont(String name, String path) {
+    public static void loadFont(String path, String name) {
         int fontID = nvgCreateFont(NanoVGContext.vg, name, path);
         if (fontID == -1) throw new RuntimeException("Could not load font at " + path);
         Render.glfw_fonts.add(name);
